@@ -1,13 +1,10 @@
 <?php
-/**
- * class-rb-prestation.php
- * 
- * Project: wp-production2
- * User:    Félix Dion Robidoux
- * Date:    17/02/2015
- * Time:    9:35 AM
- */
 
+/**
+ * Class RB_Prestation
+ *
+ * Les prestations.
+ */
 class RB_Prestation extends RB_Section
 {
 	/** @const  String Le nom de la slug par défaut. */
@@ -37,7 +34,10 @@ class RB_Prestation extends RB_Section
 	 */
 	public function load_dependencies()
 	{
-
+		if ( $this->is_admin ) {
+			/** @noinspection PhpIncludeInspection */
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-prestation-admin.php';
+		}
 	}
 
 	/**
@@ -47,7 +47,13 @@ class RB_Prestation extends RB_Section
 	 */
 	protected function define_hooks( RB_Loader $loader )
 	{
-		// TODO: Implement define_hooks() method.
+		// Création du Custom post-type
+		$loader->queue_action( 'init', $this, 'create_post_type' );
+
+		// Utiliser les hooks du panneau d'administration.
+		if ($this->is_admin) {
+			$this->define_admin_hooks( $loader );
+		}
 	}
 
 	/**
@@ -65,5 +71,59 @@ class RB_Prestation extends RB_Section
 
 		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
 		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
+	}
+
+	public function create_post_type()
+	{
+		// Déclarer les labels du post-type.
+		$labels = array(
+			'name'                => _x( 'Prestations', 'Post Type General Name', '/langage' ),
+			'singular_name'       => _x( 'Prestation', 'Post Type Singular Name', '/langage' ),
+			'menu_name'           => __( 'Prestation', '/langage' ),
+			'parent_item_colon'   => __( 'Faisant parti du Spectacle: ', '/langage' ),
+			'all_items'           => __( 'Toutes les Prestations', '/langage' ),
+			'view_item'           => __( 'Voir les infos de la Prestation', '/langage' ),
+			'add_new_item'        => __( 'Ajouter une Prestation', '/langage' ),
+			'add_new'             => __( 'Ajouter', '/langage' ),
+			'edit_item'           => __( 'Éditer les infos de la Prestation', '/langage' ),
+			'update_item'         => __( 'Mettre à jour les infos de la Prestation', '/langage' ),
+			'search_items'        => __( 'Chercher une Prestation', '/langage' ),
+			'not_found'           => __( 'Non-trouvé', '/langage' ),
+			'not_found_in_trash'  => __( 'Non-trouvé dans la corbeille', '/langage' ),
+		);
+
+		// Déclarer les arguments du rewrite pour le post-type.
+		$rewrite = array(
+			'slug'                => 'prestation',
+			'with_front'          => true,
+			'pages'               => true,
+			'feeds'               => true,
+		);
+
+		// Déclarer les arguments principaux du post-type.
+		$args = array(
+			'label'               => __( 'prestation', '/langage' ),
+			'description'         => __( 'Une prestation.', '/langage' ),
+			'labels'              => $labels,
+			'supports'            => array( 'date' ),
+			'taxonomies'          => array( 'category' ),
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => true,
+			'show_in_admin_bar'   => true,
+			'menu_position'       => 25, // Sous les commentaires.
+			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
+			'can_export'          => true, // Pour faire des backups.
+			'has_archive'         => true, // Eh, why not?
+			'exclude_from_search' => false, // On veut être capable de les rechercher.
+			'publicly_queryable'  => true,
+			'rewrite'             => $rewrite,
+			'capability_type'     => 'page', // C'est pas vraiment un post.
+		);
+
+		// Enregistre le post-type à l'aide de la liste d'arguments.
+		register_post_type( 'spectacle', $args );
 	}
 }

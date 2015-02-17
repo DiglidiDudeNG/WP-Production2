@@ -1,12 +1,4 @@
 <?php
-/**
- * RB.php
- * 
- * Project: wp-production2
- * User:    Félix Dion Robidoux
- * Date:    16/02/2015
- * Time:    2:06 PM
- */
 
 /**
  * RB_Spectacle
@@ -72,8 +64,9 @@ class RB
 	 */
 	private function load_all_dependencies()
 	{
-		// Pogner l'interface de sections.
+		// Pogner les classes abstraites.
 		require_once plugin_dir_path( __FILE__ ) . 'generic/generic-rb-section.php'; // RB_Section
+		require_once plugin_dir_path( __FILE__ ) . 'generic/generic-rb-admin.php'; // RB_Admin
 
 		// Créer le Loader.
 		/** @noinspection PhpIncludeInspection */
