@@ -37,5 +37,21 @@ abstract class RB_Admin
 		// TODO faire un wp_dequeue_style durant la désactivation.
 	}
 
+	public function add_meta_box($title)
+	{
 
+	}
+
+	/**
+	 * Pogne le custom field depuis la boucle.
+	 *
+	 * TODO meilleur doc pour get_custom_field
+	 *
+	 * @param $field_name
+	 *
+	 * @return mixed
+	 */
+	function get_custom_field($field_name){
+		return get_post_meta(get_the_ID(),$field_name,'true');
+	}
 }
