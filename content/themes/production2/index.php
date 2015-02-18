@@ -67,32 +67,79 @@
 	<!-- Affichage des 10 spectacles à venir -->
 
 	<div class="spectacles-a-venir-container">
-		<h2>À venir</h2>
+		<h2>Spectacles à venir (ceci est le titre de la section)</h2>
 
 		<?php
 			wp_reset_postdata();						
 			$args = array(
-				'posts_per_page'	=> -1,
-				'post_type' 		=> 'spectacle',
+				'posts_per_page'	=> 10,
+				'post_type' 		=> 'prestation',
+				'order'				=> 'ACS',
+				'order_by'			=> 'meta_value',
+				'meta_key'       	=> 'rb_prestation_date'
 			);
-			$wp_query = new WP_Query($args);
+			$wp_query_prestations = new WP_Query($args);
 
 			if(have_posts())
 			{
 				while(have_posts())
 				{
 					the_post();
+
+					$prestation_title = "Le titre marche pas";
+					$prestation_spectacle_id = get_post_meta( $post->ID, 'rb_prestation_spectacle_id', true );
+					$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
+					$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
+					// $prestation_permalink = get_permalink();
+
+
+
+
+
+					/**
+					 * Query du spectacle
+					 */
+					wp_reset_postdata();
+					$wp_query_spectacles = new WP_Query(
+						array(
+							'post_type' => 'spectacle',
+						)
+					);
+
+					while ($wp_query_spectacles->have_posts())
+					{
+						$wp_query_spectacles->the_post();
+					
+						$spectacle_courant_id = $wp_query_spectacles->the_ID();
+
+						echo '<span>' . $prestation_spectacle_id . '</span>';
+
+
+
+
+						if($spectacle_courant_id == $prestation_spectacle_id)
+						{
+							$prestation_title = $wp_query_spectacles->the_title();
+						}
+						
+					}
+						
+
+					/**
+					 * Fin du query du spectacle
+					 */
 		?>
 					<div class="postContainer">
-						<a href="<?php the_permalink(); ?>">
-							<h3><?php the_title(); ?></h3>
+						<a href="<?php echo $prestation_permalink; ?>">
+							<h3><?php echo $prestation_title; ?></h3>
 							<?php
 								if(has_post_thumbnail())
 								{
 									the_post_thumbnail();
 								}
 							?>
-							<div class="date"><?php the_meta(); ?></div>
+							<p class="date"><?php echo $prestation_date; ?></div>
+							<p class="heure"><?php echo $prestation_heure; ?></div>
 						</a>
 					</div>
 		<?php
@@ -110,6 +157,6 @@
 	<!-- fin du contenu de la page index.php -->
 
 <?php
-	require_once('footer.php');
+	// require_once('footer.php');
 ?>
->>>>>>> origin/jm-theme-ajout_du_header
+
