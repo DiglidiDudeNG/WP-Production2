@@ -11,16 +11,16 @@ class RB_Prestation_Admin extends RB_Admin
 	 * TODO automatiser le rendu et la sauvegarde des metadata.
 	 */
 	private $metadatas = array(
-		"date" => array(
+		'date' => array(
+			'nope' => 'nope',
+		),
+		'' => array(
 
 		),
-		"" => array(
+		'd' => array(
 
 		),
-		"" => array(
-
-		),
-		"" => array(
+		'e' => array(
 
 		),
 	);
@@ -78,11 +78,16 @@ class RB_Prestation_Admin extends RB_Admin
 		);
 	}
 
+	/**
+	 * @param $prestation
+	 */
 	public function render_info_meta_box($prestation)
 	{
+		global $wpdb;
+
 		$prestation_date = get_post_meta( $prestation->ID, 'rb_prestation_date', true );
+		$prestation_heure = get_post_meta( $prestation->ID, 'rb_prestation_heure', true );
 		var_dump( $prestation );
-//		$prestation_heure = ;
 		?><table>
 	        <tr>
 	            <td style="width: auto"><label for="rb_prestation_date"></label>Date de la Prestation</td>
@@ -90,7 +95,7 @@ class RB_Prestation_Admin extends RB_Admin
 	        </tr>
             <tr>
 	            <td style="width: auto"><label for="rb_prestation_heure"></label>Date de la Prestation</td>
-	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $presation_heure; ?>" /></td>
+	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $prestation_heure; ?>" /></td>
 	        </tr>
 	        <tr>
 	            <td style="width: 150px"><label for="rb_prestation_spectacle_id">Spectacle</label></td>
@@ -113,16 +118,20 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	public function save_post_custom_meta( $prestation_id, $prestation )
 	{
-		// TODO effectuer la sauvegarde des metadata.
-
+		// Checker si c'est bien le post_type courant.
+		if ( $prestation->post_type == 'prestation' )
+		{
+			// Mettre la date si elle est valide.
+			if ( isset( $_POST['rb_prestation_date'] ) && !empty( $_POST['rb_prestation_date'] ) ) {
+				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+			}
+			// Mettre l'heure si elle est valide.
+			var_dump($_POST['rb_prestation_heure']);
+			if ( isset( $_POST['rb_prestation_heure'] ) && !empty( $_POST['rb_prestation_heure'] ) ) {
+				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+			}
+		}
 	}
-
-	//	public function add_artiste_meta_box()
-//	{
-//		$metabox_title = '<h1>Informations sur la Prestation'
-//		                 .'<span class="dashicons dashicons-shop icone-billets">'
-//		                 .'</span></h1>';
-//	}
 
 
 }
