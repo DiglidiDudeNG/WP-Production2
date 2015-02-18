@@ -1,12 +1,4 @@
 <?php
-/**
- * interface-rb-section.php
- * 
- * Project: wp-production2
- * User:    Félix Dion Robidoux
- * Date:    16/02/2015
- * Time:    2:20 PM
- */
 
 /**
  * Class RB_Section
