@@ -29,7 +29,7 @@
 	<section>
 
 	<?php
-    include_once("include/caroussel.php");
+    	include_once("include/caroussel.php");
     ?>
 
 	</section>
