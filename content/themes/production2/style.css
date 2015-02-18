@@ -1,7 +1,8 @@
 /**
- * Theme Name: Spectacle NOM PAS ENCORE CHOISI
+ * Theme Name: Salle Parenthèse
  * Author: Karine Boisvert, Sylvie Dubé, Jonathan Martin, Chloé Drolet-Tremblay, Félix Dion-Robidoux
  * Description: Le thème du projet de production 2.
+ * 	Version: 1.0
  */
 
 /* Fonts */
@@ -10,8 +11,4 @@
 
 /* liens vers les autres fichiers css */
 
-@import url('css/bootstrap.min.css');
-@import url("css/header.css");
-@import url("css/caroussel.css");
-@import url("css/spectaclesaccueil.css");
-@import url("css/footer.css");
+@import url("styles/css/style.css");
