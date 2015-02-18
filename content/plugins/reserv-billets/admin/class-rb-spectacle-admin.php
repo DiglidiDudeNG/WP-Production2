@@ -29,7 +29,7 @@ class RB_Spectacle_Admin extends RB_Admin
 	{
 		// Ajouter un dashicon dans le titre.
 		$metabox_title = '<h1>Billets pour le Spectacle '
-		                 .'<span class="dashicons dashicons-tickets-alt icone-billets">'
+		                 .'<span class="dashicons dashicons-store">'
 		                 .'</span></h1>';
 
 		// Ajouter la meta-box.
