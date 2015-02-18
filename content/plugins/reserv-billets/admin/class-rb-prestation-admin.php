@@ -88,17 +88,16 @@ class RB_Prestation_Admin extends RB_Admin
 		if ( ! current_user_can( 'edit_posts' ) )
 			return;
 
-		$selected = '';
-
-		var_dump( $prestation );
-
-		$prestation_date = get_post_meta( $prestation->ID, 'rb_prestation_date', true );
-		$prestation_heure = get_post_meta( $prestation->ID, 'rb_prestation_heure', true );
-		$prestation_spectacle_id = get_post_meta( $prestation->ID, 'rb_prestation_spectacle_id', true );
+		$prestation_metas = get_post_meta( $prestation->ID );
+		
+		if ( WP_DEBUG_DISPLAY ) :
+			var_dump( $prestation );
+			var_dump( $prestation_metas );
+		endif;
 
 		?><table width="100%">
 			<tr>
-				<td style="width: 20%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?></label></td>
+				<td style="width: 20%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?> :</label></td>
 				<td>
 					<select style="width: 40%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
 					<?php
@@ -106,23 +105,24 @@ class RB_Prestation_Admin extends RB_Admin
 					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle'] );
 
 					while ($loop_spectacles->have_posts()) :
-						$loop_spectacles->the_post();
-
-						/** @var String $selected */
-						$selected = intval($prestation_spectacle_id) == get_the_ID() ? 'selected' : ''; 
-						?>
-						<option value="<? the_ID(); ?>" <?=$selected?>><?php the_title(); ?></option>
+						$loop_spectacles->the_post(); ?>
+						<option value="<?php the_ID(); ?>" <?php 
+							selected( $prestation_metas['rb_prestation_spectacle_id'][0], get_the_ID() ); 
+						?>><?php the_title(); ?></option>
 					<?php endwhile; ?>
 					</select>
+				</td>
+				<td rowspan="3" width="50%" style="background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
+					
 				</td>
 			</tr>
 	        <tr>
 	            <td style="width: 20%"><label for="rb_prestation_date"></label><?=__('Date de la Prestation')?> :</td>
-	            <td><input type="date" id="rb_prestation_date" name="rb_prestation_date" value="<?php echo $prestation_date; ?>" /></td>
+	            <td><input type="date" id="rb_prestation_date" name="rb_prestation_date" value="<?=$prestation_metas['rb_prestation_date'][0]?>" /></td>
 	        </tr>
             <tr>
-	            <td style="width: 20%"><label for="rb_prestation_heure"></label><?php __('Heure de la Prestation') ?> :</td>
-	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $prestation_heure; ?>" /></td>
+	            <td style="width: 20%"><label for="rb_prestation_heure"></label><?=__('Heure de la Prestation')?> :</td>
+	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?=$prestation_metas['rb_prestation_heure'][0]?>" /></td>
 	        </tr>
 	    </table>
         <?php
@@ -142,35 +142,43 @@ class RB_Prestation_Admin extends RB_Admin
 	{
 		global $wpdb;
 		
-		if ( ! current_user_can( 'edit_posts' ) )
+		// Checks save status
+		$is_autosave = wp_is_post_autosave( $prestation_id );
+		$is_revision = wp_is_post_revision( $prestation_id );
+//		$is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
+		$is_valid_nonce = true;
+		
+		// S'en va du script dépendamment si ça passe ou non.
+		if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
 			return;
-
-		// Checker si c'est bien le post_type courant.
-		if ( $prestation->post_type == 'prestation' )
-		{
-			// Checker si on a toutes les valeurs requises pour la prestation.
-			if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST ) 
-			        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
-			{	
-				// Mettre l'ID du Spectacle si celui-ci est valide.
-				if ($this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) 
-				{				
-					// Updater le post_meta.
-					update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
-				}
-				
-				// Mettre la date si elle est valide.
-				if ( ! empty( $_POST['rb_prestation_date'] ) )
-				{
-					update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
-				}
-				
-				// Mettre l'heure si elle est valide.
-				if ( ! empty( $_POST['rb_prestation_heure'] ) )
-				{
-					update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
-				}
+		}
+		
+		// Checker si on a toutes les valeurs requises pour la prestation.
+		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST ) 
+		        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
+		{	
+			// Mettre l'ID du Spectacle si celui-ci est valide.
+			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) 
+			{				
+				// Updater le post_meta.
+				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
 			}
+			
+			// Mettre la date si elle est valide.
+			if ( ! empty( $_POST['rb_prestation_date'] ) )
+			{
+				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+			}
+			
+			// Mettre l'heure si elle est valide.
+			if ( ! empty( $_POST['rb_prestation_heure'] ) )
+			{
+				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
+			}
+		}
+		else
+		{
+			return;
 		}
 	}
 
@@ -232,6 +240,7 @@ class RB_Prestation_Admin extends RB_Admin
 			// La date de la prestation
 			case 'rb_date':
 				$date = self::date_string_format(get_post_meta( $post_id, 'rb_prestation_date', true ));
+				echo $date;
 				break;
 
 			// L'heure de la prestation.
@@ -287,6 +296,6 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	private function valider_spectacle_id( $id )
 	{
-		return ( get_post( $id ) == 'spectacle' ? true : false );
+		return ( get_post( $id )->post_type == 'spectacle' ? true : false );
 	}
 }
