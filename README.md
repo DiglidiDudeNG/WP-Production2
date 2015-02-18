@@ -68,3 +68,5 @@ Pour l'instant, référez-vous à `content/plugins/reserv-billets/README.md`
 ### Structure
 
 TO BE DECIDED
+
+END
