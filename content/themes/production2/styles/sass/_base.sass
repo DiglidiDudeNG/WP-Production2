@@ -1,0 +1,50 @@
+body
+	font: 100% $font-title
+	color: $color-red
+
+h1
+	font: 100% $font-title!important
+	color: $color-red!important
+	font-size: 63px!important
+	font-weight: $bold!important
+	text-transform: uppercase
+
+h2
+	font: 100% $font-title!important
+	color: $color-red!important
+	font-size: 30px!important
+	font-weight: $bold!important
+
+h3
+	font: 100% $font-title!important
+	color: $color-red!important
+	font-size: 25px!important
+	font-weight: $bold!important
+
+p
+	font-family: $font-text
+	color: $color-gris-fonce
+	font-size: 15px
+	line-height: $text-line-height
+
+=border-radius($radius)
+	-webkit-border-radius: $radius
+	-moz-border-radius:    $radius
+	-ms-border-radius:     $radius
+	border-radius:         $radius
+
+.btn-savoir
+	font: 100% $font-title!important
+	font-weight: $bold!important
+	background-color: $color-red
+	color: $color-white
+	padding: 20px 20px!important
+	font-size: 17px!important
+	text-transform: uppercase
+	letter-spacing: $title-letter-spacing
+	+border-radius(3px)
+
+.btn-savoir:hover
+	background-color: $color-red-hover
+	color: $color-white!important
+	transition: $transition
