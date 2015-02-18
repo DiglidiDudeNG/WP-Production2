@@ -11,16 +11,16 @@ class RB_Prestation_Admin extends RB_Admin
 	 * TODO automatiser le rendu et la sauvegarde des metadata.
 	 */
 	private $metadatas = array(
-		"date" => array(
+		'date' => array(
+			'nope' => 'nope',
+		),
+		'' => array(
 
 		),
-		"" => array(
+		'd' => array(
 
 		),
-		"" => array(
-
-		),
-		"" => array(
+		'e' => array(
 
 		),
 	);
@@ -78,29 +78,50 @@ class RB_Prestation_Admin extends RB_Admin
 		);
 	}
 
+	/**
+	 * @param WP_Post $prestation
+	 */
 	public function render_info_meta_box($prestation)
 	{
-		$prestation_date = get_post_meta( $prestation->ID, 'rb_prestation_date', true );
+		if ( ! current_user_can( 'edit_posts' ) )
+			return;
+
 		var_dump( $prestation );
-//		$prestation_heure = ;
-		?><table>
+
+		$prestation_date = get_post_meta( $prestation->ID, 'rb_prestation_date', true );
+		$prestation_heure = get_post_meta( $prestation->ID, 'rb_prestation_heure', true );
+
+		?><table width="100%">
+			<tr>
+				<td style="width: 20%"><label for="rb_prestation_spectacle_id">Spectacle :</label></td>
+				<td>
+					<select style="width: 40%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
+					<?php
+					/** @var WP_Query $loop_spectacles */
+					$loop_spectacles = new WP_Query(
+						array(
+							'post_type' => 'spectacle',
+						)
+					);
+
+					while ($loop_spectacles->have_posts()) :
+						$loop_spectacles->the_post();
+					?>
+						<option value="<?php the_ID(); ?>"><?php the_title(); ?></option>
+					<?php endwhile; ?>
+					</select>
+				</td>
+			</tr>
 	        <tr>
-	            <td style="width: auto"><label for="rb_prestation_date"></label>Date de la Prestation</td>
+	            <td style="width: 20%"><label for="rb_prestation_date"></label>Date de la Prestation :</td>
 	            <td><input type="date" id="rb_prestation_date" name="rb_prestation_date" value="<?php echo $prestation_date; ?>" /></td>
 	        </tr>
             <tr>
-	            <td style="width: auto"><label for="rb_prestation_heure"></label>Date de la Prestation</td>
-	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $presation_heure; ?>" /></td>
+	            <td style="width: 20%"><label for="rb_prestation_heure"></label>Heure de la Prestation :</td>
+	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $prestation_heure; ?>" /></td>
 	        </tr>
-	        <tr>
-	            <td style="width: 150px"><label for="rb_prestation_spectacle_id">Spectacle</label></td>
-	            <td>
-	                <select style="width: 100px" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
-	                    <option value="<?php /* echo $spectacle_id; */ ?>">Test</option>
-	                </select>
-	            </td>
-	        </tr>
-	    </table><?php
+	    </table>
+        <?php
 	}
 
 	/**
@@ -111,18 +132,111 @@ class RB_Prestation_Admin extends RB_Admin
 	 * @param int     $prestation_id    L'ID de la prestation.
 	 * @param WP_Post $prestation       Une instance de la prestation.
 	 */
-	public function save_post_custom_meta( $prestation_id, $prestation )
+	public function save_custom_post( $prestation_id, $prestation )
 	{
-		// TODO effectuer la sauvegarde des metadata.
+		if ( ! current_user_can( 'edit_posts' ) )
+			return;
 
+		// Checker si c'est bien le post_type courant.
+		if ( $prestation->post_type == 'prestation' )
+		{
+			// Mettre l'ID du Spectacle si celui-ci est valide.
+			if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST )
+			     && $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) )
+			{
+				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
+			}
+
+			// Mettre la date si elle est valide.
+			if ( array_key_exists( 'rb_prestation_date', $_POST ) && !empty( $_POST['rb_prestation_date'] ) )
+			{
+				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+			}
+
+			// Mettre l'heure si elle est valide.
+			if ( array_key_exists( 'rb_prestation_heure', $_POST ) && !empty( $_POST['rb_prestation_heure'] ) )
+			{
+				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
+			}
+		}
 	}
 
-	//	public function add_artiste_meta_box()
-//	{
-//		$metabox_title = '<h1>Informations sur la Prestation'
-//		                 .'<span class="dashicons dashicons-shop icone-billets">'
-//		                 .'</span></h1>';
-//	}
+	/**
+	 * Modifie les colonnes affichées dans la liste de prestations sur le panneau d'admin.
+	 *
+	 * @param array $columns Les colonnes.
+	 *
+	 * @return array La nouvelle liste de colonnes.
+	 */
+	public function set_post_list_columns($columns)
+	{
+		unset( $columns['date'], $columns['title'], $columns['categories'],
+			$columns['author'], $columns['tags'], $columns['comments'] );
+
+		return array_merge( $columns,
+			array(
+				'rb_spectacle' => __('Spectacle'),
+				'rb_date' => __('Date'),
+				'rb_heure' => __('Heure'),
+			)
+		);
+	}
+
+	public function display_custom_columns_data( $column, $post_id )
+	{
+		global $post;
+
+		switch ( $column )
+		{
+			case 'rb_spectacle':
+				echo get_post_meta( $post->id, 'rb_prestation_spectacle_id', true );
+				break;
+
+			case 'rb_date':
+				echo get_post_meta( $post->id, 'rb_prestation_date', true );
+				break;
+
+			case 'rb_heure':
+				echo get_post_meta( $post->id, 'rb_prestation_heure', true );
+				break;
+		}
+	}
+
+	/**
+	 * Valide la date entrée.
+	 *
+	 * @param $date
+	 *
+	 * @return bool Vrai si ça marche, faux si non.
+	 */
+	private function valider_date($date)
+	{
+		$valide = false;
+		$date = explode( '-', $date );
+		$dateAssoc = array();
+
+		for ( $i = 0; $i < count( $date ); $i ++ ) {
+			$date[ $i ] = intval( $date[ $i ] );
+		}
+
+		if ( $date[0] ) {
+
+		}
+
+		return $valide;
+	}
+
+	/**
+	 * Valider le
+	 *
+	 * @param $id
+	 */
+	private function valider_spectacle_id($id)
+	{
+		$valide = true;
 
 
+
+		return $valide;
+	}
 }
