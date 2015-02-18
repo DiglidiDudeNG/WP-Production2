@@ -76,7 +76,11 @@ class RB_Prestation extends RB_Section
 
 		$loader->queue_action( 'admin_init', $admin, 'add_info_meta_box' );
 
-		$loader->queue_action( 'save_post', $admin, 'save_post_custom_meta', 10, 2 );
+		$loader->queue_action( 'save_post', $admin, 'save_custom_post', 10, 2 );
+
+		$loader->queue_filter( 'manage_prestation_post_columns', $admin, 'set_post_list_columns', 10, 1 );
+
+		$loader->queue_action( 'manage_prestation_posts_custom_column', $admin, 'display_custom_columns_data' );
 
 //		$loader->queue_action( 'admin_init', $admin, 'add_artiste_meta_box' );
 	}
@@ -118,7 +122,7 @@ class RB_Prestation extends RB_Section
 			'description'         => __( 'Une prestation.', '/langage' ),
 			'labels'              => $labels,
 			'supports'            => array( '' ),
-			'taxonomies'          => array( 'category' ),
+			'taxonomies'          => array( '' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
