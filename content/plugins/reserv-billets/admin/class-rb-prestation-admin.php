@@ -85,15 +85,20 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	public function render_info_meta_box($prestation)
 	{
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
 		if ( ! current_user_can( 'edit_posts' ) )
 			return;
 
+		// Pogner toutes les metadonnées.
 		$prestation_metas = get_post_meta( $prestation->ID );
 		
+		// Afficher le debugger si on en a besoin.
 		if ( WP_DEBUG_DISPLAY ) :
 //			var_dump( $prestation );
 			var_dump( $prestation_metas );
-		endif; ?>
+		endif; 
+		
+		?>
 		<table width="100%">
 			<tr>
 				<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?> :</label></td>
@@ -161,19 +166,38 @@ class RB_Prestation_Admin extends RB_Admin
 			{				
 				// Updater le post_meta.
 				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
+			} 
+			else 
+			{
+				return;
 			}
 			
 			// Mettre la date si elle est valide.
 			if ( ! empty( $_POST['rb_prestation_date'] ) )
 			{
 				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+			} 
+			else 
+			{
+				return;
 			}
 			
 			// Mettre l'heure si elle est valide.
 			if ( ! empty( $_POST['rb_prestation_heure'] ) )
 			{
 				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
+			} 
+			else 
+			{
+				return;
 			}
+			
+			// Mettre le titre du post dans une variable.
+//			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
+			$titre = __("Prestation")." #".$prestation->ID;
+			
+			// Le titre.
+			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $prestation_id ) );
 		}
 		else // Sinon
 		{
@@ -217,36 +241,29 @@ class RB_Prestation_Admin extends RB_Admin
 	{
 		global $post;
 
-		switch ( $column )
-		{
+		switch ( $column ) {
 			// Le spectacle relié.
 			case 'rb_spectacle':
 				$spec_id = get_post_meta( $post_id, 'rb_prestation_spectacle_id', true );
 				
 				// Chercher le spectacle au ID spécifié.
-				$spectacle = get_the_title($spec_id);
+				$spectacle = get_the_title( $spec_id );
 				
 				// Checker si y'a un spectacle qui correspond.
-				if ( empty( $spectacle ) ) :
-					// Afficher que le message n'a pas été trouvé.
+				if ( empty( $spectacle ) ) // Afficher que le message n'a pas été trouvé.
 					echo __( 'Spectacle non-trouvé.' );
-				else :
-					// Afficher le titre du spectacle.
-					printf( $spectacle );
-				endif;
-				
+				else // Afficher le titre du spectacle.
+					print $spectacle;
 				break;
 
 			// La date de la prestation
 			case 'rb_date':
-				$date = self::date_string_format(get_post_meta( $post_id, 'rb_prestation_date', true ));
-				echo $date;
+				echo self::date_string_format(get_post_meta( $post_id, 'rb_prestation_date', true ));
 				break;
 
 			// L'heure de la prestation.
 			case 'rb_heure':
-				$heure = get_post_meta( $post_id, 'rb_prestation_heure', true );
-				echo $heure;
+				echo get_post_meta( $post_id, 'rb_prestation_heure', true );
 				break;
 		}
 	}
