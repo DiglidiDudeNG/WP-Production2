@@ -93,14 +93,10 @@ class RB_Prestation_Admin extends RB_Admin
 	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?php echo $presation_heure; ?>" /></td>
 	        </tr>
 	        <tr>
-	            <td style="width: 150px">Spectacle</td>
+	            <td style="width: 150px"><label for="rb_prestation_spectacle_id">Spectacle</label></td>
 	            <td>
-	                <select style="width: 100px" name="rb_prestation_spectacle_id">
-	                <?php
-	                // TODO changer ça pour une liste de spectacles.
-	                for ( $rating = 5; $rating >= 1; $rating -- ) { ?>
-		                <option value="<?php /* echo $spectacle_id; */ ?>" <?php echo /* selected( $rating, $movie_rating ); */ ?>>
-	                <?php echo $rating; ?> stars <?php } ?>
+	                <select style="width: 100px" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
+	                    <option value="<?php /* echo $spectacle_id; */ ?>">Test</option>
 	                </select>
 	            </td>
 	        </tr>
@@ -117,6 +113,7 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	public function save_post_custom_meta( $prestation_id, $prestation )
 	{
+		// TODO effectuer la sauvegarde des metadata.
 
 	}
 

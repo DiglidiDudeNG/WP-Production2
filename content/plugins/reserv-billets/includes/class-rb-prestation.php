@@ -76,7 +76,7 @@ class RB_Prestation extends RB_Section
 
 		$loader->queue_action( 'admin_init', $admin, 'add_info_meta_box' );
 
-		$loader->queue_action( 'save_post', $admin, 'save_post_custom_meta' );
+		$loader->queue_action( 'save_post', $admin, 'save_post_custom_meta', 10, 2 );
 
 //		$loader->queue_action( 'admin_init', $admin, 'add_artiste_meta_box' );
 	}
