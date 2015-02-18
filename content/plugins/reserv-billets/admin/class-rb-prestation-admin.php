@@ -86,10 +86,13 @@ class RB_Prestation_Admin extends RB_Admin
 		if ( ! current_user_can( 'edit_posts' ) )
 			return;
 
+		$selected = '';
+
 		var_dump( $prestation );
 
 		$prestation_date = get_post_meta( $prestation->ID, 'rb_prestation_date', true );
 		$prestation_heure = get_post_meta( $prestation->ID, 'rb_prestation_heure', true );
+		$prestation_spectacle_id = get_post_meta( $prestation->ID, 'rb_prestation_spectacle_id', true );
 
 		?><table width="100%">
 			<tr>
@@ -106,8 +109,11 @@ class RB_Prestation_Admin extends RB_Admin
 
 					while ($loop_spectacles->have_posts()) :
 						$loop_spectacles->the_post();
-					?>
-						<option value="<?php the_ID(); ?>"><?php the_title(); ?></option>
+
+						/** @var String $selected */
+						$selected = $prestation_spectacle_id == the_ID() ? "selected" : '';
+						?>
+						<option value="<?php the_ID(); ?>" <?=$selected?>><?php the_title(); ?></option>
 					<?php endwhile; ?>
 					</select>
 				</td>
@@ -182,6 +188,12 @@ class RB_Prestation_Admin extends RB_Admin
 		);
 	}
 
+	/**
+	 * Afficher les colonnes personnalisés qui montrent les données
+	 *
+	 * @param String $column    Le nom de la colonne.
+	 * @param int    $post_id   L'ID du post courant dans la loop d'affichage de la liste.
+	 */
 	public function display_custom_columns_data( $column, $post_id )
 	{
 		global $post;
@@ -227,15 +239,18 @@ class RB_Prestation_Admin extends RB_Admin
 	}
 
 	/**
-	 * Valider le
+	 * Valider l'ID du spectacle
 	 *
-	 * @param $id
+	 * @param int $id L'Id du spectacle.
+	 *
+	 * @return bool Vrai si l'ID du spectacle est correct,
+	 *              Faux sinon.
 	 */
 	private function valider_spectacle_id($id)
 	{
 		$valide = true;
 
-
+		// TODO valider l'ID du spectacle.
 
 		return $valide;
 	}
