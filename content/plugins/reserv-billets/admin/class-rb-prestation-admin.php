@@ -67,7 +67,7 @@ class RB_Prestation_Admin extends RB_Admin
 	public function add_info_meta_box()
 	{
 		// Ajouter un dashicon dans le titre.
-		$metabox_title = 'Informations <span class="dashicons dashicons-store"></span>';
+		$metabox_title = 'Informations sur la Prestation <span class="dashicons dashicons-tickets-alt"></span>';
 
 		// Ajouter la meta-box.
 		add_meta_box(
@@ -91,15 +91,14 @@ class RB_Prestation_Admin extends RB_Admin
 		$prestation_metas = get_post_meta( $prestation->ID );
 		
 		if ( WP_DEBUG_DISPLAY ) :
-			var_dump( $prestation );
+//			var_dump( $prestation );
 			var_dump( $prestation_metas );
-		endif;
-
-		?><table width="100%">
+		endif; ?>
+		<table width="100%">
 			<tr>
-				<td style="width: 20%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?> :</label></td>
+				<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?> :</label></td>
 				<td>
-					<select style="width: 40%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
+					<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
 					<?php
 					/** @var WP_Query $loop_spectacles */
 					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle'] );
@@ -112,16 +111,16 @@ class RB_Prestation_Admin extends RB_Admin
 					<?php endwhile; ?>
 					</select>
 				</td>
-				<td rowspan="3" width="50%" style="background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
+				<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
 					
 				</td>
 			</tr>
 	        <tr>
-	            <td style="width: 20%"><label for="rb_prestation_date"></label><?=__('Date de la Prestation')?> :</td>
+	            <td><label for="rb_prestation_date"></label><?=__('Date de la Prestation')?> :</td>
 	            <td><input type="date" id="rb_prestation_date" name="rb_prestation_date" value="<?=$prestation_metas['rb_prestation_date'][0]?>" /></td>
 	        </tr>
             <tr>
-	            <td style="width: 20%"><label for="rb_prestation_heure"></label><?=__('Heure de la Prestation')?> :</td>
+	            <td><label for="rb_prestation_heure"></label><?=__('Heure de la Prestation')?> :</td>
 	            <td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure" value="<?=$prestation_metas['rb_prestation_heure'][0]?>" /></td>
 	        </tr>
 	    </table>
@@ -158,7 +157,7 @@ class RB_Prestation_Admin extends RB_Admin
 		        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
 		{	
 			// Mettre l'ID du Spectacle si celui-ci est valide.
-			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) 
+			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) )
 			{				
 				// Updater le post_meta.
 				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
@@ -176,8 +175,9 @@ class RB_Prestation_Admin extends RB_Admin
 				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
 			}
 		}
-		else
+		else // Sinon
 		{
+			// Retourner sans 
 			return;
 		}
 	}
@@ -268,7 +268,7 @@ class RB_Prestation_Admin extends RB_Admin
 		}
 
 		if ( $date[0] ) {
-			
+			// TODO checker la date.
 		}
 
 		return $valide;
