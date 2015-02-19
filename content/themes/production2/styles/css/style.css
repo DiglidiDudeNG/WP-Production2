@@ -1,0 +1,83 @@
+.carousel-caption h2 {
+  text-transform: uppercase; }
+
+h2.carousel-heure {
+  margin-top: 10px;
+  margin-bottom: 50px; }
+
+button.btn-savoir {
+  margin-bottom: 112px; }
+
+.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before {
+  content: none; }
+
+body {
+  font: 100% "Quicksand", sans-serif;
+  color: #e82530; }
+
+h1 {
+  font: 100% "Quicksand", sans-serif !important;
+  color: #e82530 !important;
+  font-size: 63px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase; }
+
+h2 {
+  font: 100% "Quicksand", sans-serif !important;
+  color: #e82530 !important;
+  font-size: 30px !important;
+  font-weight: 700 !important; }
+
+h3 {
+  font: 100% "Quicksand", sans-serif !important;
+  color: #e82530 !important;
+  font-size: 25px !important;
+  font-weight: 700 !important; }
+
+p {
+  font-family: "Raleway", sans-serif;
+  color: #323232;
+  font-size: 15px;
+  line-height: 24px; }
+
+.btn-savoir {
+  font: 100% "Quicksand", sans-serif !important;
+  font-weight: 700 !important;
+  background-color: #e82530;
+  color: #fff;
+  padding: 20px 20px !important;
+  font-size: 17px !important;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px; }
+
+button {
+  border-style: none; }
+
+.btn-savoir:hover {
+  background-color: #651720;
+  color: #fff !important;
+  transition: all 0.2s linear; }
+
+#logo {
+  font: 100% "Quicksand", sans-serif;
+  font-size: 35px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: #fff; }
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 24px !important; }
+
+  h2 {
+    font-size: 14px !important; }
+
+  h3 {
+    font-size: 11px !important; }
+
+  p {
+    font-size: 10px; } }

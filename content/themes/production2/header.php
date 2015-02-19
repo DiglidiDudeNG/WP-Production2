@@ -24,16 +24,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php bloginfo('name'); ?> | <?php wp_title(); ?></title>
+	<!-- <title><?php// bloginfo('name'); ?> | <?php// wp_title(); ?></title> -->
 
 	<!-- Chargement de la feuille de style principale de WordPress -->
-	<link rel="stylesheet" type="text/css" href="<?php get_stylesheet_uri(); ?>">
+	<!-- <link rel="stylesheet" type="text/css" href="<?php// get_stylesheet_uri(); ?>"> -->
+	<link rel="stylesheet" href="style.css" />
   	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
 	<?php
 		// À VÉRIFIER L'UTILITÉ RÉELLE DE CE HOOK
-		wp_head();
+	//	wp_head();
 	?>
 </head>
 <body>
@@ -42,7 +43,7 @@
 			
 			<?php
 				// Insertion du menu de navigation principal
-				wp_nav_menu($menuPrincipal);
+//				wp_nav_menu($menuPrincipal);
 			?>
 
 		</div>
