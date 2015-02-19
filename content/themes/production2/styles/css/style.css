@@ -3,7 +3,8 @@
 
 body {
   font: 100% "Quicksand", sans-serif;
-  color: #e82530; }
+  color: #e82530;
+  margin-top: 104px !important; }
 
 h1 {
   font: 100% "Quicksand", sans-serif !important;
