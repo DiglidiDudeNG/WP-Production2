@@ -68,8 +68,13 @@ class RB_Prestation extends RB_Section
 	 */
 	protected function define_admin_hooks(RB_Loader $loader)
 	{
+		$args = array(
+			'version' => $this->get_version(),
+			'' => ''
+		);
+		
 		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new RB_Prestation_Admin( $this->get_version() );
+		$admin = new RB_Prestation_Admin( $args );
 
 		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
 		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );

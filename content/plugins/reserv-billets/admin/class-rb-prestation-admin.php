@@ -6,8 +6,6 @@
  */
 class RB_Prestation_Admin extends RB_Admin
 {
-	protected $css_handle_name = 'rb_prestation_admin';
-	
 	protected $dashicon = 'dashicons-store';
 	
 	/**

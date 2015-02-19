@@ -12,10 +12,6 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
-	protected $css_handle_name = 'rb-spectacle-admin';
-	
-	protected $css_file_name = 'css/rb-spectacle-metabox.css';
-	
 	/**
 	 * Constructeur. 'Nuff said.
 	 *
