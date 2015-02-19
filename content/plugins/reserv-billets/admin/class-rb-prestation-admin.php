@@ -114,7 +114,7 @@ class RB_Prestation_Admin extends RB_Admin
 					<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
 					<?php
 					/** @var WP_Query $loop_spectacles */
-					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle'] );
+					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle', 'posts_per_page' => -1] );
 
 					while ($loop_spectacles->have_posts()) :
 						$loop_spectacles->the_post(); ?>
