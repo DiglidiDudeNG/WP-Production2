@@ -10,8 +10,5 @@
 
 /* liens vers les autres fichiers css */
 
-@import url('css/bootstrap.min.css');
-@import url("css/header.css");
-@import url("css/caroussel.css");
-@import url("css/spectaclesaccueil.css");
-@import url("css/footer.css");
+@import url("styles/css/style.css");
+@import url('styles/css/bootstrap.min.css');

@@ -45,6 +45,7 @@
 				// Insertion du menu de navigation principal
 //				wp_nav_menu($menuPrincipal);
 			?>
+			<p> Ceci est le header </p>
 
 		</div>
 	</header>
