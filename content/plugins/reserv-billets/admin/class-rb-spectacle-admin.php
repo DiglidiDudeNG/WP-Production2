@@ -12,37 +12,19 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
-	
+	/**
+	 * Constructeur.
+	 *
+	 * @param string $post_type L'identifiant du Post-Type.
+	 * @param array  $args      Les arguments.
+	 */
 	public function __construct( $post_type, $args )
 	{
 		parent::__construct( $post_type, $args );
 	}
 
 	/**
-	 * Crée des metabox pour le panneau d'administration.
-	 */
-	public function add_meta_box()
-	{
-		// Ajouter un dashicon dans le titre.
-		$metabox_title = '<h1>Billets pour le Spectacle '
-		                 .'<span class="dashicons dashicons-store">'
-		                 .'</span></h1>';
-
-		// Ajouter la meta-box.
-		add_meta_box(
-			'rb-spectacle-admin',        // valeur de l'attribut « id » dans la balise.
-			$metabox_title, // Titre.
-			array( $this, 'render_meta_box' ), // Callback qui va echo l'affichage.
-			'spectacle',                 // L'écran où est affiché le meta-box.
-			'normal',                    // Le contexte. ex. "side", "normal" ou "advanced".
-			'core'                       // La priorité.
-		);
-
-		// TODO faire un remove_meta_box() durant la désactivation.
-	}
-
-	/**
-	 *
+	 * Ajoute un submenu dans le menu des Spectacles.
 	 */
 	public function add_option_menu_spectacle()
 	{
@@ -53,7 +35,8 @@ class RB_Spectacle_Admin extends RB_Admin
 			'Configurations', // Titre sur les menus
 			'manage_options', // Seulement accessible si le user peut changer les options.
 			'rb_spectacle_options', // Le slug de la page.
-			'my_admin_page_function', // La fonction reliée à
+			'my_admin_page_function', // La fonction reliée à l'affichage de la page.
+									  // TODO faire une fonction pour l'affichage de la page.
 			'none', // Aucune icône.
 			'25'
 		);

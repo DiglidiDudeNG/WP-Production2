@@ -87,7 +87,7 @@ class RB
 	 */
 	protected function define_hooks()
 	{
-//		$this->$loader->queue_action();
+		
 	}
 
 	/**

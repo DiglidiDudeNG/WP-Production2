@@ -10,6 +10,9 @@ abstract class RB_Section
 {
 	/** @const String Le nom de la slug par défaut. */
 	const SLUG_DEFAULT = 'rb-x-slug';
+	
+	/** @var String Le nom du post-type. */
+	public $post_type;
 
 	/** @var String L'identifiant de la slug */
 	protected $slug;
@@ -19,7 +22,7 @@ abstract class RB_Section
 
 	/** @var bool Détermine si l'utilisateur est admin. */
 	protected $is_admin;
-
+	
 	/**
 	 * Constructeur. Fais pas mal de choses!
 	 *
@@ -27,9 +30,11 @@ abstract class RB_Section
 	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
 	 *
 	 * @access public
+	 *
+	 * @param string         $post_type Le nom du post-type.
 	 * @param null|RB_Loader $loader Le loader qui va être appelé pour les hooks.
 	 */
-	public function __construct(RB_Loader $loader)
+	public function __construct( $post_type, RB_Loader $loader )
 	{
 		// Définir le nom de la slug, pour les URLs.
 		$this->slug = self::SLUG_DEFAULT;
