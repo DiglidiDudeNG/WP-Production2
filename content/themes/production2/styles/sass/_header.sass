@@ -1,0 +1,81 @@
+#logo
+	font: 100% $font-title
+	font-size: 20px
+	letter-spacing: $title-letter-spacing
+	font-weight: $bold
+	color: $color-white
+	height: 100%
+	padding: 21px
+	transition: $transition
+
+#logo:hover, #logo:active, #logo:focus
+	text-decoration: none
+
+#navbar-parenthese
+	font-family: $font-title
+	font-size: 15px
+	color: $color-white
+	font-weight: $bold
+	letter-spacing: $title-letter-spacing
+	width: 100%
+	border: none
+	margin-bottom: 0
+	border-bottom: 1px solid #e2e2e2
+	background-color: $color-red
+	.navbar-toggle
+		margin-top: 12px
+		margin-bottom: 12px
+		border-color: transparent
+		&:hover
+			background-color: transparent
+		.icon-bar
+			height: 3px
+			width: 31px
+		.icon-bar+.icon-bar
+			margin-top: 6px
+	div
+		#navbar
+			.menu-navigation
+				@media (min-width: $screen-sm-min)
+					margin-top: 17px
+				@media (min-width: $screen-md-min)
+					margin-top: 27px
+			#menu-menu-principal
+				.menu-item a
+					color: $color-white
+					transition: $transition
+					font-size: 14px
+					@media (min-width: $screen-sm-min)
+						font-size: 15px
+						letter-spacing: 2px
+						padding: 15px 11px
+					@media (min-width: $screen-md-min)
+						font-size: 18px
+					&:hover, &:focus, &:active
+						background-color: transparent!important
+						color: $color-red-hover
+.active
+	background-color: transparent!important
+
+.navbar-brand
+	height: inherit
+
+/* Extra small devices (phones, less than 768px) */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min)
+	#logo
+		font-size: 25px
+		padding: 25px
+
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min)
+	#logo
+		font-size: 33px
+		padding: 33px
+
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min)
+
