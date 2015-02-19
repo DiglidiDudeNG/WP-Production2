@@ -12,14 +12,10 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
-	/**
-	 * Constructeur. 'Nuff said.
-	 *
-	 * @param String $version Le numéro de version du plugin.
-	 */
-	public function __construct( $version )
+	
+	public function __construct( $post_type, $args )
 	{
-		parent::__construct( $version );
+		parent::__construct( $post_type, $args );
 	}
 
 	/**
@@ -29,7 +25,7 @@ class RB_Spectacle_Admin extends RB_Admin
 	{
 		// Ajouter un dashicon dans le titre.
 		$metabox_title = '<h1>Billets pour le Spectacle '
-		                 .'<span class="dashicons dashicons-tickets-alt icone-billets">'
+		                 .'<span class="dashicons dashicons-store">'
 		                 .'</span></h1>';
 
 		// Ajouter la meta-box.
@@ -76,17 +72,16 @@ class RB_Spectacle_Admin extends RB_Admin
 	 * @return bool|int|null     BOOLEAN si la valeur est pas valide.
 	 *                           INT     si on doit la changer manuellement.
 	 *                           NULL    si la valeur entrée est correcte.
+	 *                           
+	 * @deprecated
 	 */
 	public function update_spectacle_nb_billets( $null = null, $object_id, $meta_key, $meta_value, $prev_value )
 	{
-		var_dump($meta_key);
-
-		if ( $meta_key == "nb_billets" && empty( $meta_value ) )
-		{
-			return true;
-		}
-
-		return null;
+		if (WP_DEBUG)
+			var_dump($meta_key);
+		
+		// Retourner vrai si ça marche, null sinon.
+		return ( $meta_key == "nb_billets" && empty( $meta_value ) ) ? true : null;
 	}
 
 	/**
@@ -102,3 +97,4 @@ class RB_Spectacle_Admin extends RB_Admin
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'partials/rb-spectacle-metabox.php';
 	}
 }
+

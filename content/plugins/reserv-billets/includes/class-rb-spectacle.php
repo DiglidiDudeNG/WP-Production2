@@ -70,8 +70,12 @@ class RB_Spectacle extends RB_Section
 	 */
 	protected function define_admin_hooks(RB_Loader $loader)
 	{
+		$args = array(
+			'version' => $this->get_version(),
+		);
+		
 		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new RB_Spectacle_Admin( $this->get_version() );
+		$admin = new RB_Spectacle_Admin( 'spectacle', $args );
 
 		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
 		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
@@ -128,14 +132,14 @@ class RB_Spectacle extends RB_Section
 			'labels'              => $labels,
 			'supports'            => array( 'title', 'editor', 'thumbnail', ),
 			'taxonomies'          => array( 'category' ), // TODO être sûr s'il faut pas ajouter les "post_tags"
-			'hierarchical'        => true,
+			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 25, // Sous les commentaires.
-			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
+			'menu_icon'           => 'dashicons-store', // Icône bin sympa
 			'can_export'          => true, // Pour faire des backups.
 			'has_archive'         => true, // Eh, why not?
 			'exclude_from_search' => false, // On veut être capable de les rechercher.

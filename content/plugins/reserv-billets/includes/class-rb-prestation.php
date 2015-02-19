@@ -68,17 +68,36 @@ class RB_Prestation extends RB_Section
 	 */
 	protected function define_admin_hooks(RB_Loader $loader)
 	{
+		$args = array(
+			'version' => $this->get_version(),
+			'styles' => array(
+				array(
+					'handle' => $this->slug.'prestation_admin',
+					'filepath' => 'css/rb-prestation-admin.css',
+				)
+			),
+			
+		);
+		
 		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new RB_Prestation_Admin( $this->get_version() );
+		$admin = new RB_Prestation_Admin( 'prestation', $args );
 
 		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
 		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
 
 		$loader->queue_action( 'admin_init', $admin, 'add_info_meta_box' );
 
-		$loader->queue_action( 'save_post', $admin, 'save_post_custom_meta', 10, 2 );
+		$loader->queue_action( 'save_post', $admin, 'save_custom_post', 10, 2 );
 
-//		$loader->queue_action( 'admin_init', $admin, 'add_artiste_meta_box' );
+		$loader->queue_filter( 'manage_prestation_posts_columns', $admin, 'set_post_list_columns', 10, 1 );
+
+		$loader->queue_action( 'manage_prestation_posts_custom_column', $admin, 'display_custom_columns_data', 10, 2 );
+		
+		$loader->queue_filter( 'manage_edit-prestation_sortable_columns', $admin, 'sort_custom_columns' );
+		
+		$loader->queue_filter( 'request', $admin, 'orderby_custom_columns' );
+
+		//		$loader->queue_action( 'admin_init', $admin, 'add_artiste_meta_box' );
 	}
 
 	/* ################################ */
@@ -118,7 +137,7 @@ class RB_Prestation extends RB_Section
 			'description'         => __( 'Une prestation.', '/langage' ),
 			'labels'              => $labels,
 			'supports'            => array( '' ),
-			'taxonomies'          => array( 'category' ),
+			'taxonomies'          => array( '' ),
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
@@ -126,10 +145,10 @@ class RB_Prestation extends RB_Section
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 25, // Sous les commentaires.
-			'menu_icon'           => 'dashicons-store', // Icône bin sympa
+			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
 			'can_export'          => true, // Pour faire des backups.
 			'has_archive'         => true, // Eh, why not?
-			'exclude_from_search' => false, // On veut être capable de les rechercher.
+			'exclude_from_search' => true, // On veut être capable de les rechercher.
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'post', // C'est pas vraiment un post.

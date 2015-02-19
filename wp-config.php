@@ -54,7 +54,7 @@ define( 'WPLANG', '' );
 // Hide errors
 // ===========
 ini_set( 'display_errors', 1 );
-define( 'WP_DEBUG_DISPLAY', false );
+define( 'WP_DEBUG_DISPLAY', true );
 
 // =================================================================
 // Debug mode
@@ -81,3 +81,5 @@ define( 'STAGING_DOMAIN', '%%WP_STAGING_DOMAIN%%' ); // Does magic in WP Stack t
 if ( !defined( 'ABSPATH' ) )
 	define( 'ABSPATH', dirname( __FILE__ ) . '/wp/' );
 require_once( ABSPATH . 'wp-settings.php' );
+
+define( 'WP_DEBUG', true );
