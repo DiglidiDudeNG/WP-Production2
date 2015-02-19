@@ -1,13 +1,19 @@
 	<!-- début footer -->
 		<footer class="container-fluid">
-			
-			<div class="container">
-				
-				<?php
-	//				wp_nav_menu($menuPrincipal);
-				?>
-				<p> Ceci est le footer </p>
-				
+			<div>
+				<div>
+					<p>Salle { Parenthèse</p>
+					<p>987 avenue Cartier</p>
+					<p>Québec (Québec) G1F 5T6</p>
+					<p>info@salleparenthese.com</p>				
+				</div>
+				<div>
+					<i class="fa fa-facebook"></i>
+					<i class="fa fa-twitter"></i>
+				</div>
+			</div>
+			<div>
+				<p>Copyright © 2015 { Parenthèse</p>				
 			</div>
 		</footer>
 
