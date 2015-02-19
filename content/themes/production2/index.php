@@ -26,6 +26,7 @@ include_once("include/caroussel.php");
 		<p><a class="btn" href="#">View details &raquo;</a></p>
 	</div>
 </div>
+<p>dadada</p>
 <?php echo get_template_directory_uri(); ?>
 
 <?php get_footer(); ?>
