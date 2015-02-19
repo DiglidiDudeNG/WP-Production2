@@ -10,19 +10,24 @@ class RB_Prestation_Admin extends RB_Admin
 	 * @var array Une liste d'arrays.
 	 * TODO automatiser le rendu et la sauvegarde des metadata.
 	 */
-	private $metadatas = array(
-		'date' => array(
-			'nope' => 'nope',
-		),
-		'' => array(
-
-		),
-		'd' => array(
-
-		),
-		'e' => array(
-
-		),
+//	private $metadatas = array(
+//		'date' => array(
+//			'nope' => 'nope',
+//		),
+//		'' => array(
+//
+//		),
+//		'd' => array(
+//
+//		),
+//		'e' => array(
+//
+//		),
+//	);
+	private $metadatas = array( 
+		'rb_prestation_spectacle_id', 
+		'rb_prestation_date', 
+		'rb_prestation_heure' 
 	);
 
 	/**
@@ -40,11 +45,14 @@ class RB_Prestation_Admin extends RB_Admin
 	 *
 	 * @return array
 	 */
-	public function getMetadatas()
+	public function get_metadatas()
 	{
 		return $this->metadatas;
 	}
-
+	
+	/**
+	 * Ajoute les styles graphiques.
+	 */
 	public function enqueue_styles()
 	{
 		wp_enqueue_style(
@@ -85,15 +93,20 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	public function render_info_meta_box($prestation)
 	{
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
 		if ( ! current_user_can( 'edit_posts' ) )
 			return;
 
+		// Pogner toutes les metadonnées.
 		$prestation_metas = get_post_meta( $prestation->ID );
 		
+		// Afficher le debugger si on en a besoin.
 		if ( WP_DEBUG_DISPLAY ) :
 //			var_dump( $prestation );
 			var_dump( $prestation_metas );
-		endif; ?>
+		endif; 
+		
+		?>
 		<table width="100%">
 			<tr>
 				<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__('Spectacle')?> :</label></td>
@@ -157,27 +170,30 @@ class RB_Prestation_Admin extends RB_Admin
 		        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
 		{	
 			// Mettre l'ID du Spectacle si celui-ci est valide.
-			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) )
-			{				
-				// Updater le post_meta.
+			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
 				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
-			}
+			else return;
 			
 			// Mettre la date si elle est valide.
-			if ( ! empty( $_POST['rb_prestation_date'] ) )
-			{
+			if ( ! empty( $_POST['rb_prestation_date'] ) ) // Updater le post_meta.
 				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
-			}
+			else return;
 			
 			// Mettre l'heure si elle est valide.
-			if ( ! empty( $_POST['rb_prestation_heure'] ) )
-			{
+			if ( ! empty( $_POST['rb_prestation_heure'] ) ) // Updater le post_meta.
 				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
-			}
+			else return;
+			
+			// Mettre le titre du post dans une variable.
+//			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
+			$titre = __("Prestation")." #".$prestation->ID;
+			
+			// Le titre.
+			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $prestation_id ) );
 		}
 		else // Sinon
 		{
-			// Retourner sans 
+			// Retourner sans rien faire. Duh.
 			return;
 		}
 	}
@@ -217,38 +233,74 @@ class RB_Prestation_Admin extends RB_Admin
 	{
 		global $post;
 
-		switch ( $column )
-		{
+		switch ( $column ) {
 			// Le spectacle relié.
 			case 'rb_spectacle':
 				$spec_id = get_post_meta( $post_id, 'rb_prestation_spectacle_id', true );
 				
 				// Chercher le spectacle au ID spécifié.
-				$spectacle = get_the_title($spec_id);
+				$spectacle = get_the_title( $spec_id );
 				
 				// Checker si y'a un spectacle qui correspond.
-				if ( empty( $spectacle ) ) :
-					// Afficher que le message n'a pas été trouvé.
-					echo __( 'Spectacle non-trouvé.' );
-				else :
-					// Afficher le titre du spectacle.
-					printf( $spectacle );
-				endif;
-				
+				if ( empty( $spectacle ) ) // Afficher que le message n'a pas été trouvé.
+					echo __( 'SPECTACLE INCONNU' );
+				else // Afficher le titre du spectacle.
+					print $spectacle;
 				break;
 
 			// La date de la prestation
 			case 'rb_date':
-				$date = self::date_string_format(get_post_meta( $post_id, 'rb_prestation_date', true ));
-				echo $date;
+				echo self::date_string_format(get_post_meta( $post_id, 'rb_prestation_date', true ));
 				break;
 
 			// L'heure de la prestation.
 			case 'rb_heure':
-				$heure = get_post_meta( $post_id, 'rb_prestation_heure', true );
-				echo $heure;
+				echo get_post_meta( $post_id, 'rb_prestation_heure', true );
 				break;
 		}
+	}
+	
+	/**
+	 * Assigne la posibilité de trier des posts par rapport aux colonnes personnalisées.
+	 * 
+	 * @param Array $columns Les colonnes déjà triables.
+	 *                       
+	 * @return Array Les colonnes triables, incluant nos colonnes personnalisées.
+	 */
+	public function sort_custom_columns( $columns )
+	{
+		$columns['rb_prestation_spectacle_id'] = 'rb_prestation_spectacle_id';
+		$columns['rb_prestation_date'] = 'rb_prestation_date';
+		$columns['rb_prestation_heure'] = 'rb_prestation_heure';
+		
+		return $columns;
+	}
+	
+	/**
+	 * Ajoute la requête de triage pour chaque type.
+	 * 
+	 * @filter request
+	 * 
+	 * @param $vars
+	 *
+	 * @return array
+	 */
+	public function orderby_custom_columns( $vars )
+	{
+		foreach ( $this->get_metadatas() as $metadata )
+		{
+			if ( isset( $vars['orderby'] ) && $metadata == $vars['orderby'] ) {
+				
+				$args = array(
+					'meta_key' => $metadata,
+					'orderby' => 'meta_value_num'
+				);
+				
+				$vars = array_merge( $vars, $args );
+			}
+		}
+		
+		return $vars;
 	}
 
 	/**
