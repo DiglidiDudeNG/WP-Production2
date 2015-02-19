@@ -6,6 +6,10 @@
  */
 class RB_Prestation_Admin extends RB_Admin
 {
+	protected $css_handle_name = 'rb_prestation_admin';
+	
+	protected $dashicon = 'dashicons-store';
+	
 	/**
 	 * @var array Une liste d'arrays.
 	 * TODO automatiser le rendu et la sauvegarde des metadata.
@@ -29,17 +33,17 @@ class RB_Prestation_Admin extends RB_Admin
 		'rb_prestation_date', 
 		'rb_prestation_heure' 
 	);
-
+	
 	/**
-	 * Constructeur. 'Nuff said.
+	 * Constructeur.
 	 *
-	 * @param String $version Le numéro de version du plugin.
+	 * @param array $args Les arguments.
 	 */
-	public function __construct( $version )
+	public function __construct( array $args )
 	{
-		parent::__construct( $version );
+		parent::__construct( $args );
 	}
-
+	
 	/**
 	 * Retourne la liste des métadonnées assignées pour ce post-type.
 	 *
@@ -48,23 +52,6 @@ class RB_Prestation_Admin extends RB_Admin
 	public function get_metadatas()
 	{
 		return $this->metadatas;
-	}
-	
-	/**
-	 * Ajoute les styles graphiques.
-	 */
-	public function enqueue_styles()
-	{
-		wp_enqueue_style(
-			'rb-prestation-admin',   // Le nom de la feuille de style.
-			plugin_dir_url( __FILE__ ) . 'css/rb-prestation-metabox.css', // Source
-			array(),                /** Dépendances des handles de style.
-		 * @see WP_Dependencies::add() */
-			$this->version,         // Version
-			FALSE                   // Media query specification
-		);
-
-		// TODO faire un wp_dequeue_style durant la désactivation.
 	}
 
 	/**
@@ -157,7 +144,8 @@ class RB_Prestation_Admin extends RB_Admin
 		// Checks save status
 		$is_autosave = wp_is_post_autosave( $prestation_id );
 		$is_revision = wp_is_post_revision( $prestation_id );
-//		$is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
+		// TODO effectuer la validation par NOnce.
+		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
 		$is_valid_nonce = true;
 		
 		// S'en va du script dépendamment si ça passe ou non.
