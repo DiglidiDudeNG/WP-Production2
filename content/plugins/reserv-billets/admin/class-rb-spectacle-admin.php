@@ -12,14 +12,10 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
-	/**
-	 * Constructeur. 'Nuff said.
-	 *
-	 * @param String $version Le numéro de version du plugin.
-	 */
-	public function __construct( $version )
+	
+	public function __construct( $post_type, $args )
 	{
-		parent::__construct( $version );
+		parent::__construct( $post_type, $args );
 	}
 
 	/**

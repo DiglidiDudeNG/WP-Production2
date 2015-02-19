@@ -7,17 +7,26 @@
  */
 abstract class RB_Admin 
 {
-	/** @var String Le numéro de version du plugin. */
-	protected $version;
-	/** @var Array{String} La liste des fichiers CSS à enqueue. */
-	public $css;
-	/** @var String La classe pour le dashicon. */
-	public $dashicon;
+	/** @const BASE_SLUG Le début des slugs utilisés. 
+	 *  @note  Si cette classe est utilisée dans un autre plugin, il serait sage de changer cette variable !
+	 */
+	const BASE_SLUG = 'rb_';
 	
-	/** @var Array{String} Les données de la metabox. */
-	public $admin_metabox = array(
-		'title' => 'Billets pour le Spectacle'
-	);
+	/** @var string Le nom du post-type. */
+	protected $post_type;
+	
+	/* --- DÉBUT DES ARGS --- */
+	
+	/** @var string Le numéro de version du plugin. */
+	protected $version;
+	/** @var Array{object} La liste des fichiers CSS à enqueue, en objets. */
+	public $styles;
+	/** @var string La classe pour le dashicon. */
+	public $dashicon;
+	/** @var Array{object} La liste des metaboxes, en objets. */
+	public $metaboxes;
+	
+	/** @noinspection PhpDocSignatureInspection */
 	
 	/**
 	 * Constructeur. 'Nuff said.
@@ -25,95 +34,223 @@ abstract class RB_Admin
 	 * Inspiré de la méthode « register_post_type() » de WordPress, cette méthode permettra 
 	 * une abstraction à couper le souffle! (Si, si!)
 	 * 
-	 * @param array $args {
+	 * @global $wp_version La version courante de WP.
+	 * 
+	 * @param string $post_type L'identifiant du post type. Doit être sans le slug du plugin. // TODO décider s'il faut inclure le slug.
+	 * @param array  $args      {
 	 *      Les arguments pour la création des options du panneau d'administration.
-	 *      
+	 *
 	 *      @type string        $version            La version du plugin.
-	 *      @type array|null    $styles             {
+	 *      @type string|null   $dashicon           La classe du dashicon à utiliser. Vide ou null si on ne veux pas de dashicon.
+	 *      @type array|null    $styles             { --- ARRAY ---
 	 *          Les styles à « enqueuer » dans la section admin.
 	 *          
-	 *          @type string $handle       Le nom du handle du style. Doit être unique.
-	 *          @type string $filepath     Le chemin vers le fichier CSS par rapport à la position du fichier de la classe.
-	 *                                     TODO vérifier si ça va pogner la bonne path malgré l'héritage.
-	 *          @type array  $dependencies {
-	 *              Les dépendances.
-	 *              TODO arranger les dépendances.
+	 *          @type array [0...n] { --- ARRAY ---
+	 *              Un style.
+	 * 
+	 *              @type string $handle       Le nom du handle du style. Doit être unique.
+	 *              @type string $filepath     Le chemin vers le fichier CSS par rapport à la position du fichier de la classe.
+	 *                                         TODO vérifier si ça va pogner la bonne path malgré l'héritage.
+	 *              @type array  $dependencies { --- ARRAY ---
+	 *                  Les dépendances.
+	 *                  TODO Documenter les dépendances.
+	 *                  TODO Implémenter les dépendances.
+	 *              }
+	 *              @type string $media        Le media-query visé. Ex: 'screen'
 	 *          }
-	 *          @type array  $
+	 *      }
+	 *      @type array $metaboxes { --- ARRAY ---
+	 *          Liste de metaboxes.
+	 * 
+	 *          @type array $[0...n] { --- ARRAY ---
+	 *              Un meta-box.
+	 * 
+	 *              @type string $id            Attribut 'ID' de l'élément HTML affiché.
+	 *              @type string $title         Le titre affiché dans son header. Peut contenir du HTML.
+	 *              @type bool   $show_dashicon Vrai si le Dashicon doit être affiché après le titre de la metabox.
+	 *              @type string $dashicon      La classe du dashicon à afficher.
+	 *                                          Si vide, ce sera celle définie à la racine des args.
+	 *              @type string $callback      Le nom de la fonction appelée qui va afficher le HTML intérieur.
+	 *              @type string $context       Le contexte. ex: "side", "normal" ou "advanced".
+	 *              @type string $priority      La priorité. ex: 'core'
+	 *          }
 	 *      }
 	 * }
-	 *
-	 * @throws \Exception Pas encore choisi pourquoi en envoyer une.
+	 * @return WP_Error|bool Vrai si ça a marché, ou un objet WP_Error sinon.
 	 */
-	public function __construct( array $args )
+	public function __construct( $post_type, array $args )
 	{
-		$defaults_prestation_admin = array(
-			'version' => /* $this->get_version()*/'',
-			'styles' => array(
-				array(
-					'handle' => 'rb_prestation_admin',
-					'filepath' => 'css/rb-prestation-admin.css',
-				)
-			),
-			'' => ''
+		// Valeurs par défaut dans le root.
+		$defaults = array(
+			'version'   => $wp_version,
+			'dashicon'  => '',
+			'styles'    => array(), /** @see $defaults_styles */
+			'metaboxes' => array(), /** @see $defaults_metaboxes */
+		);
+		
+		// Valeurs par défaut des styles.
+		$defaults_styles = array(
+			'handle'       => null,
+			'filepath'     => "css/rb_admin_default.css", // Une feuille de style par défaut, 'cuz why not!
+			'dependencies' => array(),
+			'media'        => 'screen',
+		);
+		
+		// Vérifier si le post_type est valide.
+		if ( empty( $post_type ) || strlen( $post_type ) > 20 )
+		{
+			// Envoyer une exception, vu qu'il faut avoir un post-type valide
+			// TODO mettre la bonne version de WP.
+			return $this->afficher_msg_erreur( 'rb_admin_post_type_length_invalid',
+			                                   'Les noms de Post Types doivent être entre 1 et 20 caractères de longueur.', __FUNCTION__ );
+		}
+		elseif ( ! post_type_exists( $post_type ) ) // Sinon vérifier si le post_type existe.
+		{
+			// Envoyer une exception, vu qu'il faut avoir un post-type déjà enregistré afin de styler son administration.
+			// TODO mettre la bonne version de WP.
+			return $this->afficher_msg_erreur( 'rb_admin_post_type_undefined',
+			                                   "Les post types doivent exister avant de définir leurs options du panneau d'admin.", __FUNCTION__ );
+		}
+		
+		// Assigner le nom du post_type.
+		$this->post_type = $post_type;
+		
+		// Les valeurs par défaut des metaboxes.
+		$defaults_metaboxes = array(
+				'id'            => null,
+				'title'         => 'Metabox',
+				'show_dashicon' => false,
+				'dashicon'      => '',
+				'callback'      => null,
+				'screen'        => $this->post_type,
+				'context'       => 'default',
+				'priority'      => null,
 		);
 		
 		// Passer les arguments par défaut à l'aide d'une fonction de WordPress. (Merci, WordPress!)
-		$args = wp_parse_args( $args, $defaults_prestation_admin );
+		$args = wp_parse_args( $args, $defaults );
 		
-		// Transformer l'array en objet.
+		// Transformer l'array d'arguments en objet afin de faciliter la validation.
 		$args = (object) $args;
-		
-		// Checker si le tag de version a été inclu.
-		if ( array_key_exists( 'version', $args ) ) 
-			$this->version = $args['version'];
 		
 		// Initialiser un compteur.
 		$counter = 0;
 		
 		// Checker si les styles ont été inclus.
-		if ( array_key_exists( 'styles', $args ) ) 
+		if ( !empty( $args->styles ) )
 		{
-			// Parcourir les styles.
-			foreach ( $args['styles'] as $style ) 
+			// Vérifier si la liste de styles est bien un array. (Même s'il est vide!)
+			if ( !is_array( $args->styles ) )
 			{
+				// Envoyer une exception, vu qu'il faut des styles bien formés pour continuer.
+				// TODO mettre la bonne version de WP.
+				return $this->afficher_msg_erreur( 'rb_admin_badly_formed_styles', 
+				                                   "Les styles du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!", __FUNCTION__ );
+			}
+			
+			// Parcourir les styles.
+			foreach ( $args->styles as $style ) 
+			{
+				// Transformer le style en objet.
+				$style = (object) $style;
+				
 				// Checker si le handle ET le path ont été inclus dans le style.			
-				if ( array_key_exists( 'handle', $style ) && array_key_exists( 'filepath', $style ) ) {
-					$this->css[ $counter ]['handle'] = $style['handle'];
-					$this->css[ $counter ]['filepath'] = $style['filepath'];
-				} else {
+				if ( $style->handle === null || $style->filepath === null ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
-					return new WP_Error('rb_admin_badly_formed_style_arg', __( "RB: L'argument de styles doit être bien formé." ));
+					// TODO mettre la bonne version de WP.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_style_arg', 
+					                                   "Les tables associatives de styles doivent être formées correctement.", __FUNCTION__ );
 				}
 				
 				// Checker si les dépendences ont été inclues dans le style.
-				if ( array_key_exists( 'dependencies', $style ) ) {
-					// Checker si les dépendences sont vides ou non. TODO implémenter les dépendences.
-					if ( !is_array( $style['dependencies'] || empty( $style['dependencies'] ) ) ) {
+				if ( $style->dependencies !== null ) {
+					// Checker si les dépendences sont vides ou non.
+					if ( ! is_array( $style->dependencies ) || empty( $style->dependencies ) ) {
 						// Mettre les dépendances à un array vide si elles sont pas un array rempli.
-						$this->css[ $counter ]['dependencies'] = array();
-					} else {
-						// Mettre les dépendances dans les params du style courant.
-						$this->css[ $counter ]['dependencies'] = $style['dependencies'];
+						// Notez que je n'affiche pas d'erreurs, vu que j'pas sûr quoi faire à date avec les dépendances!
+						$style->dependencies = array();
 					}
-				} else {
-					// Mettre les dépendances du style courant à null.
-					$this->css[ $counter ]['dependencies'] = array();
+					// TODO implémenter les dépendences.
+				} else { // Sinon mettre les dépendances du style courant à null.
+					$style->dependencies = array();
 				}
 				
+				// Ajouter le style.
+				$this->styles[] = $style;
+				
 				// Ajouter 1 au compteur.
-				$counter ++;
+				$counter++;
 			}
+			
+			// Réinitialiser le compteur.
+			$counter = 0;
 		}
-		else
+		
+		// Vérifier si les metaboxes sont pas mises par défaut.
+		if ( ! empty( $args->metaboxes ) )
 		{
-			return new WP_Error( 'rb_admin_1', "" );
+			// Parcourir chaque metabox.
+			foreach ( $args->metaboxes as $metabox )
+			{
+				// Transformer l'array metabox en objet.
+				$metabox = (object) $metabox;
+				
+				// Vérifier si l'id existe.
+				if ( ! empty( $metabox->id ) )
+				{
+					// TODO c'qu'il faut faire durant la vérification.
+				}
+				else
+				{
+					// Si c'est pas un array, on affiche un msg d'erreur.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metabox_args',
+					                                   "RB: Les tables associatives des metaboxes doivent être formées correctement.", __FUNCTION__ );
+				}
+				
+				// Vérifier si le title est une string et qu'il n'est pas vide.
+				// TODO probablement assigner un template pour les titles, vu que c'est essentiellement composé de HTML.
+				if ( is_string( $metabox->title ) && ! empty( $metabox->title ) )
+				{
+					
+				}
+				else
+				{
+					// Si c'est pas un title valide, on affiche un message d'erreur.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metabox_title',
+					                                   "RB: Le titre de vos metaboxes doivent être formés correctement.", __FUNCTION__ );
+				}
+				
+				// Ajouter la metabox.
+				$this->metaboxes[] = $metabox;
+				
+				$counter++;
+			}
+			
+			// Réinitialiser le compteur.
+			$counter = 0;
 		}
 		
-		// Réinitialiser le compteur.
-		$counter = 0;
-		
-		$this->metabox = $args['metabox_args'];
+		// Retourner true, vu qu'on n'a pas retourné d'erreur!
+		return true;
+	}
+	
+	/**
+	 * Affiche un message d'erreur à partir des infos entrées.
+	 * 
+	 * Cette méthode garde mon code DRY lors de la création de messages d'erreurs.
+	 * 
+	 * @param string $code     Le code d'erreur.
+	 * @param string $msg      Le message d'erreur à afficher.
+	 * @param string $fonction La fonction où fut causée l'erreur.
+	 * @param string $version  La version de WP.
+	 */
+	public function afficher_msg_erreur( $code, $msg, $fonction='', $version='' )
+	{
+		$version = ( ! is_string( $version ) || empty( $version ) ) 
+					? $this->get_version() 
+					: $version;
+		_doing_it_wrong( $fonction, __( $msg ), $version );
+		return WP_Error( $code, __( $msg ) );
 	}
 	
 	/**
@@ -121,47 +258,54 @@ abstract class RB_Admin
 	 */
 	public function enqueue_styles()
 	{
-		foreach ( $this->css as $css ) {
+		foreach ( $this->styles as $css ) {
 			wp_enqueue_style(
-				$css['handle'],   // Le nom de la feuille de style.
-				plugin_dir_url( __FILE__ ) . $css['path'], // Source
-				$css['dependencies'],    /** Dépendances des handles de style.
-			                 * @see WP_Dependencies::add() */
+				$css->handle,   // Le nom de la feuille de style.
+				plugin_dir_url( __FILE__ ) . $css->filepath, // Source
+				$css->dependencies,    /** Dépendances des handles de style.
+			                            * @see WP_Dependencies::add() */
 				$this->version,   // Version
-				'all'             // Media query specification
+				$css->media       // Media query specification
 			);
 		}
 		// TODO faire un wp_dequeue_style durant la désactivation.
 	}
 	
 	/**
-	 * Crée des metabox pour le panneau d'administration.
+	 * Crée les metaboxes pour la page d'édition des éléments du post-type courant.
 	 *
 	 * @action admin_init
 	 */
-	public function add_info_meta_box()
+	public function add_all_meta_boxes()
 	{
-		// Ajouter un dashicon dans le titre.
-		$metabox_title = '<h1>' . $this->admin_metabox
-		                 . '<span class="dashicons ' . $this->$dashicon . '">'
-		                 . '</span></h1>';
-		
-		// Ajouter la meta-box.
-		add_meta_box(
-			'rb-spectacle-admin',        // valeur de l'attribut « id » dans la balise.
-			$metabox_title, // Titre.
-			array( $this, 'render_meta_box' ), // Callback qui va echo l'affichage.
-			'spectacle',                 // L'écran où est affiché le meta-box.
-			'normal',                    // Le contexte. ex. "side", "normal" ou "advanced".
-			'core'                       // La priorité.
-		);
-		// TODO faire un remove_meta_box() durant la désactivation.
+		foreach ($this->metaboxes as $metabox)
+		{
+			// S'il faut afficher le dashicon dans la metabox courante, mettre le HTML requis!
+			// TODO adapter ça pour les templates.
+			$dashicon_html = $metabox->show_dashicon ? '<span class="dashicons ' . $metabox->dashicon . '"></span>' : '';
+			
+			// Former le titre de la metabox.
+			$metabox_title = '<h1>' . $dashicon_html . $metabox->title . '</h1>';
+			
+			// Ajouter la meta-box.
+			add_meta_box(
+					$metabox->id,                      // Attribut « id » dans la balise.
+					$metabox_title,                    // Titre dans le header du metabox.
+					array( $this, 'render_meta_box' ), // Callback qui va echo l'affichage.
+					$this->post_type,                  // L'écran où est affiché le meta-box.
+					$metabox->context,                 // Le contexte. ex. "side", "normal" ou "advanced".
+					$metabox->priority                 // La priorité.
+					// TODO Savoir si on doit inclure les callback_args.
+			);
+			
+			// TODO faire un remove_meta_box() durant la désactivation.
+		}
 	}
 	
 	/**
 	 * Retourne la liste des métadonnées assignées pour ce post-type.
 	 *
-	 * @return array
+	 * @return array La liste de metadatas.
 	 */
 	public function get_metadatas()
 	{
@@ -340,7 +484,7 @@ abstract class RB_Admin
 	 *
 	 * @action manage_prestation_posts_custom_column
 	 *
-	 * @param String $column  Le nom de la colonne.
+	 * @param string $column  Le nom de la colonne.
 	 * @param int    $post_id L'ID du post courant dans la loop d'affichage de la liste.
 	 */
 	public function display_custom_columns_data( $column, $post_id )
@@ -437,7 +581,7 @@ abstract class RB_Admin
 	/**
 	 * Retourne le numéro de version du plugin.
 	 *
-	 * @return String Le numéro de version du plugin.
+	 * @return string Le numéro de version du plugin.
 	 */
 	function get_version()
 	{

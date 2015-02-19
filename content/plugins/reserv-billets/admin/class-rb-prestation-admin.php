@@ -6,7 +6,7 @@
  */
 class RB_Prestation_Admin extends RB_Admin
 {
-	protected $dashicon = 'dashicons-store';
+	public $dashicon = 'dashicons-store';
 	
 	/**
 	 * @var array Une liste d'arrays.
@@ -35,11 +35,12 @@ class RB_Prestation_Admin extends RB_Admin
 	/**
 	 * Constructeur.
 	 *
-	 * @param array $args Les arguments.
+	 * @param string $post_type L'identifiant du Post-Type.
+	 * @param array  $args      Les arguments.
 	 */
-	public function __construct( array $args )
+	public function __construct( $post_type, $args )
 	{
-		parent::__construct( $args );
+		parent::__construct( $post_type, $args );
 	}
 	
 	/**
@@ -99,7 +100,7 @@ class RB_Prestation_Admin extends RB_Admin
 					<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
 					<?php
 					/** @var WP_Query $loop_spectacles */
-					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle'] );
+					$loop_spectacles = new WP_Query( ['post_type' => 'spectacle', 'posts_per_page' => -1]);
 
 					while ($loop_spectacles->have_posts()) :
 						$loop_spectacles->the_post(); ?>

@@ -70,11 +70,17 @@ class RB_Prestation extends RB_Section
 	{
 		$args = array(
 			'version' => $this->get_version(),
-			'' => ''
+			'styles' => array(
+				array(
+					'handle' => $this->slug.'prestation_admin',
+					'filepath' => 'css/rb-prestation-admin.css',
+				)
+			),
+			
 		);
 		
 		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new RB_Prestation_Admin( $args );
+		$admin = new RB_Prestation_Admin( 'prestation', $args );
 
 		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
 		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
