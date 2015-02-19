@@ -1,32 +1,27 @@
 
-
 body
 	font: 100% $font-title
 	color: $color-red
 
 h1
 	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 63px!important
+	color: $color-white!important
 	font-weight: $bold!important
 	text-transform: uppercase
 
 h2
 	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 30px!important
+	color: $color-white!important
 	font-weight: $bold!important
 
 h3
 	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 25px!important
+	color: $color-white!important
 	font-weight: $bold!important
 
 p
 	font-family: $font-text
 	color: $color-gris-fonce
-	font-size: 15px
 	line-height: $text-line-height
 
 =border-radius($radius)
@@ -40,7 +35,7 @@ p
 	font-weight: $bold!important
 	background-color: $color-red
 	color: $color-white
-	padding: 20px 20px!important
+	padding: 20px!important
 	font-size: 17px!important
 	text-transform: uppercase
 	letter-spacing: $title-letter-spacing
@@ -62,7 +57,7 @@ button
 	color: $color-white
 
 
-@media screen and (max-width: $screen-sm-min)  
+@media screen and (max-width: $screen-sm-min)  // <768
 	h1
 		font-size: 24px!important
 
@@ -76,10 +71,32 @@ button
 		font-size: 10px
 
 
-@media screen and (max-width: $screen-md-min)
+@media screen and (min-width: $screen-sm-min) // >768px
+	h1
+		font-size: 50px!important
 
-@media screen and (max-width: $screen-lg-min)
+	h2
+		font-size: 25px!important
 
-@media screen and (min-width: $screen-lg-min)
+	h3
+		font-size: 13px!important
+
+	p
+		font-size: 11px
+
+@media screen and (min-width: $screen-md-min) // >992px
+	h1
+		font-size: 64px!important
+
+	h2
+		font-size: 31px!important
+
+	h3
+		font-size: 25px!important
+
+	p
+		font-size: 16px
+
+@media screen and (min-width: $screen-lg-min) // >1200px
 
 	

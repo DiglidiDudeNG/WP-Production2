@@ -1,13 +1,59 @@
+// Mettre le h2 en majuscule
 .carousel-caption h2
 	text-transform: uppercase
 
+// Changer le texte de l'heure
 h2.carousel-heure
 	margin-top: 10px
 	margin-bottom: 50px
-	
-button.btn-savoir
-	margin-bottom: 112px
-	
+
+// Texte du bouton
+button.btn-savoir	
+	font-family: $font-text
+
+// Enlever les flèches de navigation droite et gauche par défaut de Bootstrap
 .carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before
 	content: none
 
+
+//medias queries
+
+@media screen and (max-width: $screen-sm-min)  // <768
+	button.btn-savoir
+		margin-bottom: 20px
+		padding: 10px !important
+		font-size: 10px !important
+		letter-spacing: $text-letter-spacing
+
+	.carousel-indicators
+		bottom: 5px
+
+	.carousel-indicator ol
+		margin-bottom: 0
+
+	h2.carousel-heure
+		margin-bottom: 20px
+
+@media screen and (min-width: $screen-sm-min) // >768px
+	button.btn-savoir
+		margin-bottom: 68px
+		padding: 15px !important
+		font-size: 13px !important
+		letter-spacing: $text-letter-spacing
+
+	.carousel-indicators
+		bottom: 5px
+
+	.carousel-indicator ol
+		margin-bottom: 0
+
+	h2.carousel-heure
+		margin-bottom: 40px
+
+@media screen and (min-width: $screen-md-min) // >992px
+	button.btn-savoir
+		margin-bottom: 112px
+
+@media screen and (min-width: $screen-lg-min) // >1200px
+
+	
