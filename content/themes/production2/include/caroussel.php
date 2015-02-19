@@ -11,7 +11,7 @@
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<img src="img/Coldplay.jpg" alt="...">
+				<img src="images/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 			<div class="item">
-				<img src="img/Coldplay.jpg" alt="...">
+				<img src="images/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 			<div class="item">
-				<img src="img/Coldplay.jpg" alt="...">
+				<img src="images/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
