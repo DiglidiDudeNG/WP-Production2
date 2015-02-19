@@ -56,7 +56,7 @@
 
 					<!-- 
 
-						TO-DO: L'intégration html/css de la div ci-dessous (genre class="col-md-6" ... etc) 
+						TODO: L'intégration html/css de la div ci-dessous (genre class="col-md-6" ... etc) 
 
 					-->
 

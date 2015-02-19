@@ -45,7 +45,7 @@
             'walker' => new wp_bootstrap_navwalker())
             );
             ?>
-            <form class="navbar-form navbar-right" role="search">
+            <form class="navbar-form navbar-right" role="search" action="<?php bloginfo('url') ?>/programmation" method="post">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
                 <div class="input-group-btn">

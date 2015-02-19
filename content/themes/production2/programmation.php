@@ -1,10 +1,9 @@
-<?php get_header(); ?>
 <?php
 /*
 Template Name: Programmation
 */
 ?>
-
+<?php get_header(); ?>
 
 	<!-- début du contenu de la page programmation.php -->
 
@@ -22,7 +21,7 @@ Template Name: Programmation
 	<!-- Affichage des 10 spectacles à venir -->
 
 	<div class="spectacles-a-venir-container">
-		<h2>Spectacles à venir (ceci est le titre de la section)</h2>
+		<h2>Programmation (ceci est le titre de la section)</h2>
 		<div class="row">
 
 			<?php
