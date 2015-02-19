@@ -58,8 +58,8 @@
 		<h2>Spectacles à venir (ceci est le titre de la section)</h2>
 
 		<?php
-					wp_reset_postdata();
-									
+		
+			wp_reset_postdata();									
 			$args = array(
 				'posts_per_page'	=> 10,
 				'post_type' 		=> 'prestation',
@@ -76,13 +76,12 @@
 					$wp_query_prestations->the_post();
 					
 
-					$prestation_title = "Le titre marche pas";
+					$prestation_title = "Aucun titre";
+					$prestation_content = "Aucune description";
 					$prestation_spectacle_id = get_post_meta( $post->ID, 'rb_prestation_spectacle_id', true );
 					$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 					$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
-					$prestation_permalink = get_permalink();
-
-					
+					$prestation_permalink = get_permalink();					
 
 
 
@@ -107,6 +106,7 @@
 						if($spectacle_courant_id == $prestation_spectacle_id)
 						{
 							$prestation_title = get_the_title();
+							$prestation_content = get_the_excerpt();
 						}
 						
 					}					
@@ -126,6 +126,7 @@
 							?>
 							<p class="date"><?php echo $prestation_date; ?></p>
 							<p class="heure"><?php echo $prestation_heure; ?></p>
+							<p class="description"><?php echo $prestation_content; ?></p>
 						</a>
 					</div>
 		<?php
