@@ -8,21 +8,25 @@ h1
 	color: $color-white!important
 	font-weight: $bold!important
 	text-transform: uppercase
+	letter-spacing: $title-letter-spacing
 
 h2
 	font: 100% $font-title!important
 	color: $color-white!important
 	font-weight: $bold!important
+	letter-spacing: $title-letter-spacing
 
 h3
 	font: 100% $font-title!important
 	color: $color-white!important
 	font-weight: $bold!important
+	letter-spacing: $text-letter-spacing
 
 p
 	font-family: $font-text
 	color: $color-gris-fonce
 	line-height: $text-line-height
+	letter-spacing: $text-letter-spacing
 
 =border-radius($radius)
 	-webkit-border-radius: $radius
@@ -70,7 +74,6 @@ button
 	p
 		font-size: 10px
 
-
 @media screen and (min-width: $screen-sm-min) // >768px
 	h1
 		font-size: 50px!important
@@ -83,6 +86,7 @@ button
 
 	p
 		font-size: 11px
+
 
 @media screen and (min-width: $screen-md-min) // >992px
 	h1

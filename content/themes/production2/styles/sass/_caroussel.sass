@@ -2,11 +2,6 @@
 .carousel-caption h2
 	text-transform: uppercase
 
-// Changer le texte de l'heure
-h2.carousel-heure
-	margin-top: 10px
-	margin-bottom: 50px
-
 // Texte du bouton
 button.btn-savoir	
 	font-family: $font-text
@@ -16,23 +11,28 @@ button.btn-savoir
 	content: none
 
 
+
 //medias queries
 
 @media screen and (max-width: $screen-sm-min)  // <768
 	button.btn-savoir
-		margin-bottom: 20px
+		margin-bottom: 15px
 		padding: 10px !important
 		font-size: 10px !important
 		letter-spacing: $text-letter-spacing
 
-	.carousel-indicators
-		bottom: 5px
+	ol.carousel-indicators
+		margin-bottom: 0
+		bottom: 10
 
-	.carousel-indicator ol
+	.carousel-caption h2
 		margin-bottom: 0
 
 	h2.carousel-heure
 		margin-bottom: 20px
+		margin-top: 0
+
+
 
 @media screen and (min-width: $screen-sm-min) // >768px
 	button.btn-savoir
@@ -41,18 +41,37 @@ button.btn-savoir
 		font-size: 13px !important
 		letter-spacing: $text-letter-spacing
 
-	.carousel-indicators
-		bottom: 5px
-
-	.carousel-indicator ol
+	ol.carousel-indicators
 		margin-bottom: 0
+		bottom: 15
+
+	.carousel-caption h2
+		margin-bottom: 5px
 
 	h2.carousel-heure
 		margin-bottom: 40px
+		margin-top: 5px
 
 @media screen and (min-width: $screen-md-min) // >992px
 	button.btn-savoir
+		margin-bottom: 100px
+		padding: 20px !important
+		font-size: 16px !important
+		letter-spacing: $title-letter-spacing
+
+	ol.carousel-indicators
+		margin-bottom: 20px
+		bottom: 20
+
+	button.btn-savoir
 		margin-bottom: 112px
+
+	h2.carousel-heure
+		margin-bottom: 50px
+
+	.carousel-caption h1
+		margin-bottom: 57px
+
 
 @media screen and (min-width: $screen-lg-min) // >1200px
 
