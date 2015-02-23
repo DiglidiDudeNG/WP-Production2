@@ -26,10 +26,21 @@
 					 * @var string $prestation_excerpt  La description courte du spectacle
 					 */
 					wp_reset_postdata();
+
+					if(isset($_POST['srch-term'])){
+						$searchTerm = trim($_POST['srch-term']);
+						$searchTerm = filter_var($searchTerm, FILTER_SANITIZE_STRING);
+					}
+					else{
+						$searchTerm = '';
+					}
+
+
 					$wp_query_spectacles = new WP_Query(
 						array(
 							'post_type'			=> 'spectacle',
-							'posts_per_page' 	=> -1
+							'posts_per_page' 	=> -1,
+							's'					=> $searchTerm
 						)
 					);
 
@@ -44,6 +55,25 @@
 						{
 							$prestation_title = get_the_title();
 							$prestation_excerpt = get_the_excerpt();
+
+							?>
+
+								<div class="postContainer col-md-4">
+									<a href="<?php echo $prestation_permalink; ?>">
+										<h3><?php echo $prestation_title; ?></h3>
+										<?php
+											if(has_post_thumbnail())
+											{
+												the_post_thumbnail();
+											}
+										?>
+										<p class="date"><?php echo $prestation_date; ?></p>
+										<p class="heure"><?php echo $prestation_heure; ?></p>
+										<p class="description"><?php echo $prestation_excerpt; ?></p>
+									</a>
+								</div>
+
+							<?php
 						}
 						
 					}					
@@ -60,20 +90,7 @@
 
 					-->
 
-					<div class="postContainer col-md-4">
-						<a href="<?php echo $prestation_permalink; ?>">
-							<h3><?php echo $prestation_title; ?></h3>
-							<?php
-								if(has_post_thumbnail())
-								{
-									the_post_thumbnail();
-								}
-							?>
-							<p class="date"><?php echo $prestation_date; ?></p>
-							<p class="heure"><?php echo $prestation_heure; ?></p>
-							<p class="description"><?php echo $prestation_excerpt; ?></p>
-						</a>
-					</div>
+					
 		<?php
 				}
 			}
