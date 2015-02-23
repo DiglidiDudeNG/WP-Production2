@@ -10,7 +10,7 @@
  * 
  * 
  * NOTES POUR LES SPECTACLES:
- * ajouter 2 photos a chaque spectacles ........ 
+ * ajouter 2 photos a chaque spectacles ........
  * champs
 	 * url de l'artiste   
 	 * facebook de l'artiste  

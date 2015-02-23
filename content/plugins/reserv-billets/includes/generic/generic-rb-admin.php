@@ -90,11 +90,20 @@ abstract class RB_Admin
 	 *      @type array         $metadatas          { --- ARRAY ---
 	 *          Les metadatas pour le type de post.
 	 *
-	 *          @type array [0...n] {--- ARRAY ---
+	 *          @type array [ [a-Z](1,n) ] {--- ARRAY ---
 	 *              Les arguments pour chaque metadata.
-	 *              TODO implémenter les argumnets de chaque script.
-	 *
-	 *              @type string
+	 *              TODO implémenter les arguments de chaque metadata.
+	 * 
+	 *              @type    string       $type       Le type d'input.
+	 *              @type o. string       validate_cb Le nom de la fonction de callback de la validation de la metadata. Vide si y'en a pas.
+	 *              @type o. bool         is_saved    Vrai si la valeur doit être sauvegardée.
+	 *              @type o. string       $is_ref     Vrai si c'est une référence à une autre valeur ailleurs.
+	 *              @type o. string       $ref_type   Le type de la référence.
+	 *                                                Les types possibles et leur valeur dans 'ref_args' sont :
+	 *                                                      - (array) 'metadata' Une metadata comprenant le type de post référé,
+	 *                                                                           la clé de la metadata et la donnée d'affichage.
+	 *                                                      - (array) 'count'    Un compteur de données. Comprend
+	 *              @type o. array(mixed) $ref_args    Les arguments pour la référence.
 	 *          }
 	 *      }
 	 *      @type array         $metaboxes          { --- ARRAY ---
@@ -222,7 +231,6 @@ abstract class RB_Admin
 			if ( !is_array( $args->styles ) )
 			{
 				// Envoyer une exception, vu qu'il faut des styles bien formés pour continuer.
-				// TODO: Mettre la bonne version de WP.
 				wp_die( __( "Les styles du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!" ) );
 			}
 			
@@ -235,7 +243,6 @@ abstract class RB_Admin
 				// Checker si le handle ET le path ont été inclus dans le style.			
 				if ( ! array_key_exists( 'handle', $style ) || ! array_key_exists( 'filepath', $style ) ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
-					// TODO: Mettre la bonne version de WP.
 					wp_die( __( "Les tables associatives de styles doivent être formées correctement." ) );
 				}
 				
@@ -277,7 +284,6 @@ abstract class RB_Admin
 			if ( !is_array( $args->scripts ) )
 			{
 				// Envoyer une exception, vu qu'il faut des scripts bien formés pour continuer.
-				// TODO: Mettre la bonne version de WP.
 				wp_die( __( "Les scripts du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!" ) );
 			}
 			
@@ -290,7 +296,6 @@ abstract class RB_Admin
 				// Checker si le handle ET le path ont été inclus dans le script.			
 				if ( ! array_key_exists( 'handle', $script ) || ! array_key_exists( 'filepath', $script ) ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
-					// TODO: Mettre la bonne version de WP.
 					wp_die( __( "Les tables associatives de scripts doivent être formées correctement." ) );
 				}
 				
@@ -541,8 +546,8 @@ abstract class RB_Admin
 		if ( ! current_user_can( 'edit_posts' ) ) 
 			return;
 		
-		if ( function_exists('render_'.$this->post_type.'_info_metabox' ) );
-			return call_user_func( array( $this, 'render_'.$this->post_type.'_info_metabox' ), $post );
+		if ( function_exists( sprintf( 'render_%s_info_metabox', $this->post_type ) ) );
+			return call_user_func( array( $this, sprintf( 'render_%s_info_metabox', $this->post_type ) ), $post );
 		
 		// Pogner toutes les metadonnées.
 		$post_metas = get_post_meta( $post->ID );
@@ -575,10 +580,13 @@ abstract class RB_Admin
 		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
 		$is_valid_nonce = true;
 		
+		// Définir la fonction spéciale.
+		$special_func = sprintf( 'save_%s', $this->post_type );
+		
 		// Appeler une fonction similaire dans l'enfant si celle-ci existe.
 		// Ex: « save_prestation »
-		if ( function_exists('save_'.$this->post_type ) );
-			return call_user_func( array( $this, 'save_'.$this->post_type ), $post_id, $post );
+		if ( method_exists( $this, $special_func ) )
+			call_user_func( array( $this, $special_func ), $post_id, $post );
 		
 		// S'en va du script dépendamment si ça passe ou non.
 		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
@@ -593,11 +601,9 @@ abstract class RB_Admin
 		// Parcourir la table des clés.
 		foreach ( $custom_keys as $key )
 		{
-			// Vérifier si la clé est interne.
-			if ( key_is_internal( $key ) )
-			{
+			// Passer à la valeur suivante dans l'array si la clé est interne.
+			if ( $this->key_is_internal( $key ) )
 				continue;
-			} // Passer à la valeur suivante dans ce cas-là.
 			
 			// Vérifier si la clé existe dans le $_POST.
 			if ( array_key_exists( $key, $_POST ) )
@@ -640,6 +646,8 @@ abstract class RB_Admin
 			}
 		}
 		
+		// Ajouter une action.
+		// TODO trouver une autre façon de faire ça.
 		do_action( 'rb_'.$this->post_type.'_metas_saved' );
 	}
 	
@@ -773,22 +781,6 @@ abstract class RB_Admin
 	{
 		$keyt = trim($key);
 		return ( $keyt{0} == '_' );
-	}
-	
-	/**
-	 * Pogne le custom field depuis la boucle.
-	 *
-	 * TODO: meilleur doc pour get_custom_field
-	 * TODO: transformer « get_custom_field » pour que ça soit compatible avec la nouvelle structure.
-	 *
-	 * @param $field_name
-	 *
-	 * @return mixed
-	 * @deprecated
-	 */
-	function get_custom_field( $field_name )
-	{
-		return get_post_meta( get_the_ID(), $field_name, true );
 	}
 	
 	/**

@@ -65,7 +65,17 @@ class RB_Prestation extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
-			
+				'spectacle_id' => array(
+					'type' => 'select',
+					'' => '',
+					'validate_cb' => '',
+				),
+				'date' => array(
+					'type' => 'date',
+				),
+				'heure' => array(
+					'type' => 'time',
+				),
 			),
 			'metaboxes' => array(
 				array(
@@ -73,7 +83,7 @@ class RB_Prestation extends RB_Section
 					'title' => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
 					'callback' => 'info', // sera 'render_info_metabox'
-					'screen' => 'prestation',
+					'screen' => $this->post_type,
 					'context' => 'normal',
 					'priority' => 'high',
 				)
