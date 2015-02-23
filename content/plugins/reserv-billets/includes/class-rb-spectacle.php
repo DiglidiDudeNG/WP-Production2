@@ -7,6 +7,15 @@
  * Le contrôleur principal des spectacles.
  * 
  * TODO rendre **DRY**.
+ * 
+ * 
+ * NOTES POUR LES SPECTACLES:
+ * ajouter 2 photos a chaque spectacles ........ 
+ * champs
+	 * url de l'artiste   
+	 * facebook de l'artiste  
+	 * prix
+	 * categorie (rock-alternatif, pop, seventies)
  *
  * @package RB
  */
@@ -19,10 +28,7 @@ class RB_Spectacle extends RB_Section
 	public $admin_class = 'RB_Spectacle_Admin';
 
 	/**
-	 * Constructeur. Fais pas mal de choses!
-	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
+	 * Constructeur. Fais pas mal de choses.
 	 *
 	 * @access public
 	 * @param null|RB_Loader $loader Le loader qui va être appelé pour les hooks.
@@ -67,15 +73,19 @@ class RB_Spectacle extends RB_Section
 					'filepath' => 'css/rb-spectacle-admin.css',
 				)
 			),
+			'scripts' => array(
+				// TODO ajouter des scripts si possible.
+			),
 			'metaboxes' => array(
 				array(
 					'id' => 'rb_spectacle_infobox',
 					'title' => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback' => 'info', // sera 'render_prestation_info_metabox'
+					'callback' => 'info', // sera 'render_spectacle_info_metabox'
 					'screen' => 'spectacle',
 					'context' => 'normal',
 					'priority' => 'high',
+					
 				)
 			),
 		);

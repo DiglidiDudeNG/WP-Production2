@@ -19,9 +19,6 @@ class RB_Prestation extends RB_Section
 	/**
 	 * Constructeur. Fais pas mal de choses!
 	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
-	 *
 	 * @access public
 	 * @param null|RB_Loader $loader Le loader qui va être appelé pour les hooks.
 	 */
@@ -64,6 +61,9 @@ class RB_Prestation extends RB_Section
 					'filepath' => 'css/rb-prestation-admin.css',
 				)
 			),
+			'scripts' => array(
+				// TODO ajouter des scripts si possible.
+			),
 			'metaboxes' => array(
 				array(
 					'id' => 'rb_prestation_infobox',
@@ -78,7 +78,7 @@ class RB_Prestation extends RB_Section
 		);
 		
 		// Créer l'objet qui gère le panneau d'administration.
-		return new $this->admin_class( self::SLUG_DEFAULT, $args );
+		return new $this->admin_class( $this->post_type, $args );
 	}
 
 	/**

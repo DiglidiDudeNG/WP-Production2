@@ -82,27 +82,27 @@ abstract class RB_Section
 		// Utiliser les hooks du panneau d'administration.
 		if ($this->is_admin) {
 			
-			if ($this->admin !== null)
+			if ($this->admin === null)
 			{
 				$this->admin = $this->creer_objet_admin();
 			}
 			
 			// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
-			$loader->queue_action( 'admin_enqueue_styles', $this->$admin, 'enqueue_styles' );
+			$loader->queue_action( 'admin_enqueue_styles', $this->admin, 'enqueue_styles' );
+
+			$loader->queue_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 			
-			$loader->queue_action( 'admin_enqueue_scripts', $this->$admin, 'enqueue_scripts' );
+			$loader->queue_action( 'admin_init', $this->admin, 'add_all_meta_boxes' );
 			
-			$loader->queue_action( 'admin_init', $this->$admin, 'add_all_meta_boxes' );
+			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );
 			
-			$loader->queue_action( 'save_post', $this->$admin, 'save_custom_post', 10, 2 );
+			$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
 			
-			$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->$admin, 'set_post_list_columns', 10, 1 );
+			$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
 			
-			$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->$admin, 'display_custom_columns_data', 10, 2 );
+			$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
 			
-			$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->$admin, 'sort_custom_columns' );
-			
-			$loader->queue_filter( 'request', $this->$admin, 'orderby_custom_columns' );
+			$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
 		}
 	}
 	

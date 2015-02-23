@@ -26,6 +26,7 @@ class RB_Prestation_Admin extends RB_Admin
 //
 //		),
 //	);
+	
 	private $metadatas = array( 
 		'rb_prestation_spectacle_id', 
 		'rb_prestation_date', 
@@ -98,6 +99,8 @@ class RB_Prestation_Admin extends RB_Admin
 		</table>
 	<?php
 	}
+	
+	
 
 //	/**
 //	 * Sauvegarde les données des meta-data du post.

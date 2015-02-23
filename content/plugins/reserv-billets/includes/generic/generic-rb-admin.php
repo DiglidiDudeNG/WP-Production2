@@ -28,6 +28,8 @@ abstract class RB_Admin
 	public $scripts;
 	/** @var Array{array} La liste des metaboxes. */
 	public $metaboxes;
+	/** @var Array{array} La liste des metadatas */
+	public $metadatas;
 	
 	/** @noinspection PhpDocSignatureInspection */
 	
@@ -70,20 +72,53 @@ abstract class RB_Admin
 	 *          Les styles à « enqueuer » dans la section admin.
 	 *
 	 *          @type array [0...n] { --- ARRAY ---
-	 *              Un style.
+	 *              Les arguments de chaque style.
 	 *
 	 *              @type string $handle       Le nom du handle du style. Doit être unique.
-	 *              @type string $filepath     Le chemin vers le fichier CSS par rapport à la position du fichier de la classe.
+	 *              @type string $filepath     Le chemin vers le fichier CSS par rapport à la position du fichier
+	 *                                         de la classe héritant de RB_Admin.
 	 *                                         TODO: vérifier si ça va pogner la bonne path malgré l'héritage.
 	 *              @type array  $dependencies { --- ARRAY ---
 	 *                  Les dépendances.
 	 *                  TODO: Documenter les dépendances.
 	 *                  TODO: Implémenter les dépendances.
 	 *              }
+	 *              @type float  $version      La version du style.
 	 *              @type string $media        Le media-query visé. Ex: 'screen'
 	 *          }
 	 *      }
-	 *      @type array $metaboxes { --- ARRAY ---
+	 *      @type array         $scripts            { --- ARRAY ---
+	 *          Les scripts à « enqueuer » dans la section admin.
+	 * 
+	 *          @type array [0...n] { --- ARRAY ---
+	 *              Les arguments de chaque script.
+	 *              TODO implémenter les scripts.
+	 *              
+	 *              @type string $handle        Le nom du script.
+	 *              @type string $filepath      Le chemin vers le fichier JS par rapport à la position du fichier 
+	 *                                          de la classe héritant de RB_Admin.
+	 *                                          TODO: vérifier si ça va pogner la bonne path malgré l'héritage.
+	 *              @type array $dependencies   { --- ARRAY ---
+	 *                  Les dépendances.
+	 *                  TODO: Documenter les dépendances.
+	 *                  TODO: Implémenter les dépendances.
+	 *              }
+	 *              @type float $version        La version du script.
+	 *              @type bool  $in_footer      Vrai si le script doit être présent dans le footer, 
+	 *                                          Faux s'il doit être dans le head.
+	 *          }
+	 *      }
+	 *      @type array         $metadatas          { --- ARRAY ---
+	 *          Les metadatas pour le type de post.
+	 * 
+	 *          @type array [0...n] {--- ARRAY ---
+	 *              Les arguments pour chaque metadata.
+	 *              TODO implémenter les argumnets de chaque script.
+	 *              
+	 *              @type string 
+	 *          }
+	 *      }
+	 *      @type array         $metaboxes          { --- ARRAY ---
 	 *          Liste de metaboxes.
 	 *
 	 *          @type array $[0...n] { --- ARRAY ---
@@ -124,7 +159,7 @@ abstract class RB_Admin
 			return $this->afficher_msg_erreur( 'rb_admin_post_type_length_invalid',
 			                                   'Les noms de Post Types doivent être entre 1 et 20 caractères de longueur.', __FUNCTION__ );
 		}
-		// TODO: Trouver un moyen de faire 
+		// TODO: Trouver un moyen efficace de faire la vérification de la création du post_type.
 		//elseif ( ! post_type_exists( $post_type ) ) // Sinon vérifier si le post_type existe.
 		//{
 		//	// Envoyer une exception, vu qu'il faut avoir un post-type déjà enregistré afin de styler son administration.
@@ -145,6 +180,7 @@ abstract class RB_Admin
 			'version'   => $wp_version,
 			'dashicon'  => '',
 			'styles'    => array(), /** @see $defaults_styles */
+			'scripts'   => array(), /** @see $defaults_scripts */
 			'metaboxes' => array(), /** @see $defaults_metaboxes */
 		);
 		
@@ -153,10 +189,25 @@ abstract class RB_Admin
 			'handle'       => null,
 			'filepath'     => "css/rb_admin_default.css", // Une feuille de style par défaut, 'cuz why not!
 			'dependencies' => array(),
+			'version'      => 1.0,
 			'media'        => 'screen',
 		);
 		
-		// Les valeurs par défaut des metaboxes.
+		// Valeurs par défaut des scripts.
+		$defaults_scripts = array(
+			'handle'       => null,
+			'filepath'     => "js/rb_admin_default.js",
+			'dependencies' => array(),
+			'version'      => 1.0,
+			'in_footer'    => true,
+		);
+		
+		// Valeurs par défaut des métadonnées.
+		$defaults_metadatas = array(
+			'' => '',
+		);
+		
+		// Valeurs par défaut des metaboxes.
 		$defaults_metaboxes = array(
 			'id'            => null,
 			'title'         => 'Metabox',
@@ -206,10 +257,6 @@ abstract class RB_Admin
 				// Mettre les valeurs de style par défaut au style courant.
 				$style = wp_parse_args( $style, $defaults_styles );
 				
-				// Transformer le style en objet.
-				//$style = (object) $style; 
-				// Note: Je ne le transforme plus en objet, vu que je fais un foreach dedans plus tard.
-				
 				// Checker si le handle ET le path ont été inclus dans le style.			
 				if ( ! array_key_exists( 'handle', $style ) || ! array_key_exists( 'filepath', $style ) ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
@@ -226,7 +273,7 @@ abstract class RB_Admin
 						// Notez que je n'affiche pas d'erreurs, vu que j'pas sûr quoi faire à date avec les dépendances!
 						$style['dependencies'] = array();
 					}
-					// TODO: Implémenter les dépendences.
+					// TODO: Implémenter les dépendances.
 				} else { // Sinon mettre les dépendances du style courant à null.
 					$style['dependencies'] = array();
 				}
@@ -243,6 +290,112 @@ abstract class RB_Admin
 		}
 		
 		/* ------------------- */
+		/* ----- SCRIPTS ----- */
+		/* ------------------- */
+		
+		// Instancier l'array des scripts.
+		$this->scripts = array();
+		
+		// Vérifier si les scripts ne sont pas vides.
+		if ( ! empty( $args->scripts ) )
+		{
+			// Vérifier si la liste de scripts est bien un array. (Même s'il est vide!)
+			if ( !is_array( $args->scripts ) )
+			{
+				// Envoyer une exception, vu qu'il faut des scripts bien formés pour continuer.
+				// TODO: Mettre la bonne version de WP.
+				return $this->afficher_msg_erreur( 'rb_admin_badly_formed_scripts',
+				                                   "Les scripts du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!", __FUNCTION__ );
+			}
+			
+			// Parcourir les scripts.
+			foreach ( $args->scripts as $script )
+			{
+				// Mettre les valeurs de script par défaut au script courant.
+				$script = wp_parse_args( $script, $defaults_scripts );
+				
+				// Checker si le handle ET le path ont été inclus dans le script.			
+				if ( ! array_key_exists( 'handle', $script ) || ! array_key_exists( 'filepath', $script ) ) {
+					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
+					// TODO: Mettre la bonne version de WP.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_style_arg',
+					                                   "Les tables associatives de scripts doivent être formées correctement.", __FUNCTION__ );
+				}
+				
+				// Checker si les dépendences ont été inclues dans le script.
+				if ( array_key_exists( 'dependencies', $script ) ) {
+					// Checker si les dépendences sont vides ou non.
+					if ( ! is_array( $script['dependencies'] ) || empty( $script['dependencies'] ) ) {
+						// Mettre les dépendances à un array vide si elles sont pas un array rempli.
+						// Notez que je n'affiche pas d'erreurs, vu que j'pas sûr quoi faire à date avec les dépendances!
+						$script['dependencies'] = array();
+					}
+					// TODO: Implémenter les dépendances.
+				} else { // Sinon mettre les dépendances du script courant à null.
+					$script['dependencies'] = array();
+				}
+				
+				// TODO effectuer le reste des validations.
+				
+				// Ajouter le script.
+				$this->scripts[] = $script;
+				
+				// Ajouter 1 au compteur.
+				$counter++;
+			}
+			
+			// Réinitialiser le compteur.
+			$counter = 0;
+		}
+		
+		/* ------------------- */
+		/* ---- METADATAS ---- */
+		/* ------------------- */
+		
+		// Instancier l'array des metadatas.
+		$this->metadatas = array();
+		
+		// Vérifier si les metaboxes sont pas mises par défaut.
+		if ( ! empty( $args->metadatas ) )
+		{
+			// Parcourir chaque metabox.
+			foreach ( $args->metadatas as $metadata )
+			{
+				// Mettre les valeurs de style par défaut au style courant.
+				$metadata = wp_parse_args( $metadata, $defaults_metadatas );
+				
+				// Vérifier si l'id existe.
+				if ( empty( $metadata['id'] ) )
+				{
+					// Si c'est pas un array, on affiche un msg d'erreur.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metadata_id',
+					                                   "Les tables associatives des metadatas doivent être formées correctement.",
+					                                   __FUNCTION__ );
+				}
+				
+				// Vérifier si le name est une string et qu'il n'est pas vide.
+				if ( ! array_key_exists( 'name', $metadata ) || ! is_string( $metadata['name'] )  )
+				{
+					// Si c'est pas un name valide, on affiche un message d'erreur.
+					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metadata_name',
+					                                   "Un des noms de vos metadatas doit être formé correctement.", __FUNCTION__ );
+				}
+				
+				// TODO effectuer le reste des validations.
+				
+				// Ajouter la metadata.
+				$this->metadatas[] = $metadata;
+				
+				// Incrémenter le compteur, au cas où on en a de besoin.
+				$counter++;
+			}
+			
+			// Réinitialiser le compteur.
+			$counter = 0;
+		}
+		
+		
+		/* ------------------- */
 		/* ---- METABOXES ---- */
 		/* ------------------- */
 		
@@ -256,10 +409,6 @@ abstract class RB_Admin
 			foreach ( $args->metaboxes as $metabox )
 			{
 				$metabox = wp_parse_args( $metabox, $defaults_metaboxes );
-				
-				// Transformer l'array metabox en objet.
-				//$metabox = (object) $metabox;
-				// Note: Je ne le transforme plus en objet, vu que je fais un foreach dedans plus tard.
 				
 				// Vérifier si l'id existe.
 				if ( empty( $metabox['id'] ) )
@@ -278,6 +427,8 @@ abstract class RB_Admin
 					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metabox_title',
 					                                   "Le titre de vos metaboxes doivent être formés correctement.", __FUNCTION__ );
 				}
+				
+				// TODO effectuer le reste des validations.
 				
 				// Ajouter la metabox.
 				$this->metaboxes[] = $metabox;
@@ -306,16 +457,16 @@ abstract class RB_Admin
 	 */
 	public function afficher_msg_erreur( $code, $msg, $fonction='', $version='' )
 	{
-		$version = ( ! is_string( $version ) || empty( $version ) )
-				? $this->get_version()
-				: $version;
+		$version = ( ! empty( $version ) && is_float( $version ) )
+				? $version
+				: $this->get_version();
 		_doing_it_wrong( $fonction, __( $msg ), $version );
 		return new WP_Error( $code, __( $msg ) );
 	}
 	
 	/**
 	 * Pousse toutes les feuilles de styles requises du plugin pour le panneau d'administration.
-	 * 
+	 *
 	 * @action admin_enqueue_styles
 	 */
 	public function enqueue_styles()
@@ -328,10 +479,10 @@ abstract class RB_Admin
 				$style['handle'],         // Le nom de la feuille de style.
 				plugin_dir_url( __FILE__ ) . $style['filepath'], // Source
 				$style['dependencies'],   /** Dépendances des handles de style.
-			                               * @see WP_Dependencies
-			                               * @see WP_Dependencies::add()
-			                               * TODO: voir « WP_Dependencies() » 
-			                               */
+			 * @see WP_Dependencies
+			 * @see WP_Dependencies::add()
+			 * TODO: voir « WP_Dependencies() »
+			 */
 				$this->version,           // Version
 				$style['media']           // Media query specification
 			);
@@ -351,20 +502,20 @@ abstract class RB_Admin
 			var_dump($this->scripts);
 		
 		foreach ( $this->scripts as $script ) {
-			wp_enqueue_style(
+			wp_enqueue_script(
 				$script['handle'],         // Le nom de la feuille de style.
-				plugin_dir_url( __FILE__ )
-				. $script['filepath'], // Source
+				plugin_dir_url( __FILE__ ) . $script['filepath'], // Source
 				$script['dependencies'],   /** Dépendances des handles de style.
-			 * @see WP_Dependencies
-			 * @see WP_Dependencies::add()
-			 * TODO: voir « WP_Dependencies() » */
+			                                * @see WP_Dependencies
+			                                * @see WP_Dependencies::add()
+			                                * TODO: voir « WP_Dependencies() » 
+			                                */
 				$this->version,         // Version
-				$script['media']           // Media query specification
+				$script['in_footer']    // Vrai si le script doit être ajouté dans le footer.
 			);
 		}
 		
-		// TODO: faire un wp_dequeue_style durant la désactivation.
+		// TODO: faire un wp_dequeue_script durant la désactivation.
 	}
 	
 	/**
@@ -441,8 +592,7 @@ abstract class RB_Admin
 		
 		// Checker si on a toutes les valeurs requises pour la prestation.
 		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST )
-		     && array_key_exists( 'rb_prestation_heure', $_POST )
-		) 
+		     && array_key_exists( 'rb_prestation_heure', $_POST ) )
 		{
 			// Mettre l'ID du Spectacle si celui-ci est valide.
 			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
@@ -500,11 +650,11 @@ abstract class RB_Admin
 			$columns['author'], $columns['tags'], $columns['comments'] );
 		
 		return array_merge( $columns,
-		                    array(
-			                    'rb_spectacle' => __( 'Spectacle' ),
-			                    'rb_date' => __( 'Date' ),
-			                    'rb_heure' => __( 'Heure' ),
-		                    )
+            array(
+                'rb_spectacle' => __( 'Spectacle' ),
+                'rb_date' => __( 'Date' ),
+                'rb_heure' => __( 'Heure' ),
+            )
 		);
 	}
 	
@@ -534,7 +684,8 @@ abstract class RB_Admin
 				if ( empty( $spectacle ) ) // Afficher que le message n'a pas été trouvé.
 				{
 					echo __( 'SPECTACLE INCONNU' );
-				} else // Afficher le titre du spectacle.
+				} 
+				else // Afficher le titre du spectacle.
 				{
 					print $spectacle;
 				}
