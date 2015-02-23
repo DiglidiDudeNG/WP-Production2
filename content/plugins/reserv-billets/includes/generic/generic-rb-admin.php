@@ -608,26 +608,26 @@ abstract class RB_Admin
 		}
 		
 		// Parcourir la table des clés.
-		foreach ( $this->metadatas as $key => $value )
+		foreach ( $this->metadatas as $key => $args )
 		{
 			// Passer à la valeur suivante dans l'array si la clé est interne.
 			if ( $this->key_is_internal( $key ) )
 				continue;
 			
+			if ( ! $args['is_saved'] )
+				continue;
+			
 			// Vérifier si la clé existe dans le $_POST.
 			if ( array_key_exists( $key, $_POST ) )
 			{
-				// Déclarer la variable de validation à Vrai.
-				$valide = true;
-				
 				// Vérfier si la fonction de validation n'est pas vide...
-				if ( $value['validate_fn'] !== null )
+				if ( $args['validate_fn'] !== null )
 				{
 					// ...et si la fonction existe.
-					if ( method_exists( $this, $value['validate_fn'] ) )
+					if ( method_exists( $this, $args['validate_fn'] ) )
 					{
 						// Valider la donnée.
-						if ( call_user_func( array( $this, $value['validate_fn'] ), $_POST[$key] ) )
+						if ( call_user_func( array( $this, $args['validate_fn'] ), $_POST[$key] ) )
 							// Mettre à jour la valeur de la metadata avec celle du $_POST.
 							update_post_meta( $post_id, $key, $_POST[$key] );
 						else // Si la fonction a retournée FAUX.
@@ -645,16 +645,13 @@ abstract class RB_Admin
 					// Mettre à jour la valeur de la metadata avec celle du $_POST.
 					update_post_meta( $post_id, $key, $_POST[$key] );
 				}
-				
-				// Si non-valide, retourner.
-				if ( ! $valide ) return;
 			}
 		}
 		
 		// Ajouter une action.
 		// TODO trouver une utilité pour ça.
-		if ( method_exists( $this, $this->post_type.'_metas_saved' ) )
-			call_user_func( array( $this, $this->post_type.'_metas_saved' ) );
+		if ( method_exists( $this, $this->post_type.'_post_saved' ) )
+			call_user_func( array( $this, $this->post_type.'_post_saved' ) );
 	}
 	
 	/**
@@ -700,6 +697,8 @@ abstract class RB_Admin
 	public function display_custom_columns_data( $column, $post_id )
 	{
 		global $post;
+		
+		if ($this->metadatas[$column][''])
 		
 		echo get_post_meta( $post_id, $column, true );
 		

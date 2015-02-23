@@ -50,7 +50,7 @@ class RB_Prestation_Admin extends RB_Admin
 	 *
 	 * @param WP_Post $prestation
 	 */
-	public function render_info_metabox( $prestation )
+	public function render_prestation_info_metabox( $prestation )
 	{
 		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
 		if ( ! current_user_can( 'edit_posts' ) ) {
