@@ -12,7 +12,7 @@
 		<div class="carousel-inner" role="listbox">
 			
 			<div class="item">
-				<img src="images/Coldplay.jpg" alt="...">
+				<img src="<?php echo IMAGES; ?>/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="item">
-				<img src="images/Coldplay.jpg" alt="...">
+				<img src="<?php echo IMAGES; ?>/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
@@ -32,7 +32,7 @@
 			</div>
 			
 			<div class="item">
-				<img src="images/Coldplay.jpg" alt="...">
+				<img src="<?php echo IMAGES; ?>/Coldplay.jpg" alt="...">
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 février 2015</h2>
