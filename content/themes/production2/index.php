@@ -1,6 +1,5 @@
 <?php get_header(); ?>
 <?php
-// <<<<<<< HEAD
 
 /**
  * index.php
@@ -64,5 +63,7 @@
 
 
 
+
+<p>dadada</p>
+
 <?php get_footer(); ?>
->>>>>>> cdt-header

@@ -1,3 +1,78 @@
 
 .carousel-caption h2
 	text-transform: uppercase
+// Mettre le h2 en majuscule
+.carousel-caption h2
+	text-transform: uppercase
+
+// Texte du bouton
+button.btn-savoir	
+	font-family: $font-text
+
+.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before
+	content: none
+
+
+
+//medias queries
+
+@media screen and (max-width: $screen-sm-min)  // <768
+	button.btn-savoir
+		margin-bottom: 15px
+		padding: 10px !important
+		font-size: 10px !important
+		letter-spacing: $text-letter-spacing
+
+	ol.carousel-indicators
+		margin-bottom: 0
+		bottom: 10
+
+	.carousel-caption h2
+		margin-bottom: 0
+
+	h2.carousel-heure
+		margin-bottom: 20px
+		margin-top: 0
+
+
+
+@media screen and (min-width: $screen-sm-min) // >768px
+	button.btn-savoir
+		margin-bottom: 68px
+		padding: 15px !important
+		font-size: 13px !important
+		letter-spacing: $text-letter-spacing
+
+	ol.carousel-indicators
+		margin-bottom: 0
+		bottom: 15
+
+	.carousel-caption h2
+		margin-bottom: 5px
+
+	h2.carousel-heure
+		margin-bottom: 40px
+		margin-top: 5px
+
+@media screen and (min-width: $screen-md-min) // >992px
+	button.btn-savoir
+		margin-bottom: 100px
+		padding: 20px !important
+		font-size: 16px !important
+		letter-spacing: $title-letter-spacing
+
+	ol.carousel-indicators
+		margin-bottom: 20px
+		bottom: 20
+
+	button.btn-savoir
+		margin-bottom: 112px
+
+	h2.carousel-heure
+		margin-bottom: 50px
+
+	.carousel-caption h1
+		margin-bottom: 57px
+
+
+@media screen and (min-width: $screen-lg-min) // >1200px

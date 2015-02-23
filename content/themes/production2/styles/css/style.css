@@ -1,9 +1,147 @@
 .carousel-caption h2 {
   text-transform: uppercase; }
 
+.carousel-caption h2 {
+  text-transform: uppercase; }
+
+button.btn-savoir {
+  font-family: "Raleway", sans-serif; }
+
+.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before {
+  content: none; }
+
+@media screen and (max-width: 768px) {
+  button.btn-savoir {
+    margin-bottom: 15px;
+    padding: 10px !important;
+    font-size: 10px !important;
+    letter-spacing: 2px; }
+
+  ol.carousel-indicators {
+    margin-bottom: 0;
+    bottom: 10; }
+
+  .carousel-caption h2 {
+    margin-bottom: 0; }
+
+  h2.carousel-heure {
+    margin-bottom: 20px;
+    margin-top: 0; } }
+@media screen and (min-width: 768px) {
+  button.btn-savoir {
+    margin-bottom: 68px;
+    padding: 15px !important;
+    font-size: 13px !important;
+    letter-spacing: 2px; }
+
+  ol.carousel-indicators {
+    margin-bottom: 0;
+    bottom: 15; }
+
+  .carousel-caption h2 {
+    margin-bottom: 5px; }
+
+  h2.carousel-heure {
+    margin-bottom: 40px;
+    margin-top: 5px; } }
+@media screen and (min-width: 992px) {
+  button.btn-savoir {
+    margin-bottom: 100px;
+    padding: 20px !important;
+    font-size: 16px !important;
+    letter-spacing: 4px; }
+
+  ol.carousel-indicators {
+    margin-bottom: 20px;
+    bottom: 20; }
+
+  button.btn-savoir {
+    margin-bottom: 112px; }
+
+  h2.carousel-heure {
+    margin-bottom: 50px; }
+
+  .carousel-caption h1 {
+    margin-bottom: 57px; } }
+#logo {
+  font: 100% "Quicksand", sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: #fff;
+  height: 100%;
+  padding: 21px;
+  transition: all 0.2s linear; }
+
+#logo:hover, #logo:active, #logo:focus {
+  text-decoration: none; }
+
+#navbar-parenthese {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 4px;
+  width: 100%;
+  border: none;
+  margin-bottom: 0;
+  border-bottom: 1px solid #e2e2e2;
+  background-color: #e82530; }
+  #navbar-parenthese .navbar-toggle {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    border-color: transparent; }
+    #navbar-parenthese .navbar-toggle:hover {
+      background-color: transparent; }
+    #navbar-parenthese .navbar-toggle .icon-bar {
+      height: 3px;
+      width: 31px; }
+    #navbar-parenthese .navbar-toggle .icon-bar + .icon-bar {
+      margin-top: 6px; }
+  @media (min-width: 768px) {
+    #navbar-parenthese div #navbar .menu-navigation {
+      margin-top: 17px; } }
+  @media (min-width: 992px) {
+    #navbar-parenthese div #navbar .menu-navigation {
+      margin-top: 27px; } }
+  #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
+    color: #fff;
+    transition: all 0.2s linear;
+    font-size: 14px; }
+    @media (min-width: 768px) {
+      #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
+        font-size: 15px;
+        letter-spacing: 2px;
+        padding: 15px 11px; } }
+    @media (min-width: 992px) {
+      #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
+        font-size: 18px; } }
+    #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:hover, #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:focus, #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:active {
+      background-color: transparent !important;
+      color: #651720; }
+
+.active {
+  background-color: transparent !important; }
+
+.navbar-brand {
+  height: inherit; }
+
+/* Extra small devices (phones, less than 768px) */
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  #logo {
+    font-size: 25px;
+    padding: 25px; } }
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  #logo {
+    font-size: 33px;
+    padding: 33px; } }
+/* Large devices (large desktops, 1200px and up) */
 body {
   font: 100% "Quicksand", sans-serif;
-  color: #e82530; }
+  color: #e82530;
+  margin-top: 104px !important; }
 
 h1 {
   font: 100% "Quicksand", sans-serif !important;
@@ -44,6 +182,9 @@ p {
   -ms-border-radius: 3px;
   border-radius: 3px; }
 
+button {
+  border-style: none; }
+
 .btn-savoir:hover {
   background-color: #651720;
   color: #fff !important;
@@ -51,74 +192,22 @@ p {
 
 #logo {
   font: 100% "Quicksand", sans-serif;
-  font-size: 20px;
+  font-size: 35px;
   letter-spacing: 4px;
   font-weight: 700;
-  color: #fff;
-  height: 100%;
-  padding: 21px;
-  transition: all 0.2s linear; }
+  color: #fff; }
 
-#logo:hover, #logo:active, #logo:focus {
-  text-decoration: none; }
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 24px !important; }
 
-#navbar-parenthese {
-  font-family: "Quicksand", sans-serif;
-  font-size: 15px;
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: 4px;
-  width: 100%;
-  border: none;
-  margin-bottom: 0;
-  border-bottom: 1px solid #e2e2e2;
-  background-color: #e82530; }
-  #navbar-parenthese .navbar-toggle {
-    margin-top: 12px;
-    margin-bottom: 12px;
-    border-color: transparent; }
-    #navbar-parenthese .navbar-toggle:hover {
-      background-color: transparent; }
-    #navbar-parenthese .navbar-toggle .icon-bar {
-      height: 3px;
-      width: 31px; }
-    #navbar-parenthese .navbar-toggle .icon-bar + .icon-bar {
-      margin-top: 6px; }
-  @media (min-width: 768px) {
-    #navbar-parenthese div #navbar .menu-navigation {
-      margin-top: 27px; } }
-  #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
-    color: #fff;
-    transition: all 0.2s linear;
-    font-size: 15px; }
-    @media (min-width: 768px) {
-      #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
-        font-size: 17px; } }
-    @media (min-width: 992px) {
-      #navbar-parenthese div #navbar #menu-menu-principal .menu-item a {
-        font-size: 18px; } }
-    #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:hover, #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:focus, #navbar-parenthese div #navbar #menu-menu-principal .menu-item a:active {
-      background-color: transparent !important;
-      color: #651720; }
+  h2 {
+    font-size: 14px !important; }
 
-.active {
-  background-color: transparent !important; }
+  h3 {
+    font-size: 11px !important; }
 
-.navbar-brand {
-  height: inherit; }
-
-/* Extra small devices (phones, less than 768px) */
-/* No media query since this is the default in Sass Bootstrap */
-/* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-  #logo {
-    font-size: 25px;
-    padding: 25px; } }
-/* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-  #logo {
-    font-size: 33px;
-    padding: 33px; } }
-/* Large devices (large desktops, 1200px and up) */
+  p {
+    font-size: 10px; } }
 
 /*# sourceMappingURL=style.css.map */

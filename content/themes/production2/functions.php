@@ -61,13 +61,12 @@
 	};
 
 
+
 	/** Filtre pour setter la longueur des excerpt (les descriptions courtes) des posts. */
 	function custom_excerpt_length( $length ) {
 		return 20;
 	}
 	add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
-
-
 
 
 ?>
