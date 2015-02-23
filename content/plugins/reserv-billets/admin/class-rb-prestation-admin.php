@@ -68,9 +68,9 @@ class RB_Prestation_Admin extends RB_Admin
 		?>
 		<table width="100%">
 		<tr>
-		<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__( 'Spectacle' )?> :</label></td>
+		<td style="width: 25%"><label for="rb_spectacle_id"><?=__( 'Spectacle' )?> :</label></td>
 		<td>
-		<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
+		<select style="width: 95%" name="rb_spectacle_id" id="rb_spectacle_id">
 		<?php
 		/** @var WP_Query $loop_spectacles */
 		$loop_spectacles = new WP_Query( [ 'post_type' => 'spectacle' ] );
@@ -78,7 +78,7 @@ class RB_Prestation_Admin extends RB_Admin
 		while ( $loop_spectacles->have_posts() ) :
 			$loop_spectacles->the_post(); ?>
 			<option value="<?php the_ID(); ?>" <?php
-			selected( $prestation_metas['rb_prestation_spectacle_id'][0], get_the_ID() );
+			selected( $prestation_metas['rb_spectacle_id'][0], get_the_ID() );
 			?>><?php the_title(); ?></option>
 		<?php endwhile; ?>
 		</select>
@@ -88,14 +88,14 @@ class RB_Prestation_Admin extends RB_Admin
 		</td>
 		</tr>
 		<tr>
-			<td><label for="rb_prestation_date"></label><?=__( 'Date de la Prestation' )?> :</td>
-			<td><input type="date" id="rb_prestation_date" name="rb_prestation_date"
-			           value="<?=$prestation_metas['rb_prestation_date'][0]?>" /></td>
+			<td><label for="rb_date"></label><?=__( 'Date de la Prestation' )?> :</td>
+			<td><input type="date" id="rb_date" name="rb_date"
+			           value="<?=$prestation_metas['rb_date'][0]?>" /></td>
 		</tr>
 		<tr>
-			<td><label for="rb_prestation_heure"></label><?=__( 'Heure de la Prestation' )?> :</td>
-			<td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure"
-			           value="<?=$prestation_metas['rb_prestation_heure'][0]?>" /></td>
+			<td><label for="rb_heure"></label><?=__( 'Heure de la Prestation' )?> :</td>
+			<td><input type="time" id="rb_heure" name="rb_heure"
+			           value="<?=$prestation_metas['rb_heure'][0]?>" /></td>
 		</tr>
 		</table>
 	<?php

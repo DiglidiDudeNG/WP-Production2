@@ -65,16 +65,23 @@ class RB_Prestation extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
-				'spectacle_id' => array(
-					'type' => 'select',
-					'' => '',
-					'validate_cb' => '',
+				'rb_spectacle_id' => array(
+					'type'       => 'select',
+					'name'       => 'Spectacle',
+					'default'    => '0',
+					'in_columns' => true,
 				),
-				'date' => array(
-					'type' => 'date',
+				'rb_date' => array(
+					'type'       => 'date',
+					'name'       => 'Date',
+					'default'    => '2014-02-15',
+					'in_columns' => true,
 				),
-				'heure' => array(
-					'type' => 'time',
+				'rb_heure' => array(
+					'type'       => 'time',
+					'name'       => 'Heure',
+					'default'    => '20:00',
+					'in_columns' => true,
 				),
 			),
 			'metaboxes' => array(

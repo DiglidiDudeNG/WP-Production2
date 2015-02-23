@@ -94,16 +94,19 @@ abstract class RB_Admin
 	 *              Les arguments pour chaque metadata.
 	 *              TODO implémenter les arguments de chaque metadata.
 	 * 
-	 *              @type    string       $type       Le type d'input.
-	 *              @type o. string       validate_cb Le nom de la fonction de callback de la validation de la metadata. Vide si y'en a pas.
-	 *              @type o. bool         is_saved    Vrai si la valeur doit être sauvegardée.
-	 *              @type o. string       $is_ref     Vrai si c'est une référence à une autre valeur ailleurs.
-	 *              @type o. string       $ref_type   Le type de la référence.
+	 *              @type    string  $type        Le type d'input.
+	 *              @type    string  $name        Le nom référé dans l'interface.
+	 *              @type    mixed   $default     La valeur par défaut.
+	 *              @type o. string  validate_cb  La fonction de callback de la validation de la metadata. Vide si y'en a pas.
+	 *              @type o. bool    is_saved     Vrai si la valeur doit être sauvegardée.
+	 *              @type o. bool    in_columns   Vrai si la metadata doit se retrouver dans les colonnes dans le panneau d'admin.
+	 *              @type o. string  $is_ref      Vrai si c'est une référence à une autre valeur ailleurs.
+	 *              @type o. string  $ref_type    Le type de la référence.
 	 *                                                Les types possibles et leur valeur dans 'ref_args' sont :
 	 *                                                      - (array) 'metadata' Une metadata comprenant le type de post référé,
 	 *                                                                           la clé de la metadata et la donnée d'affichage.
 	 *                                                      - (array) 'count'    Un compteur de données. Comprend
-	 *              @type o. array(mixed) $ref_args    Les arguments pour la référence.
+	 *              @type o. array(mixed) $ref_args   Les arguments pour la référence.
 	 *          }
 	 *      }
 	 *      @type array         $metaboxes          { --- ARRAY ---
@@ -189,13 +192,21 @@ abstract class RB_Admin
 		
 		// Valeurs par défaut des métadonnées.
 		$defaults_metadatas = array(
-			'' => '',
+			'type'              => 'text',
+			'name'              => '',
+			'default'           => undefined,
+			'validate_cb'       => null,
+			'is_saved'          => true,
+			'in_columns'        => false,
+			'is_ref'            => false,
+			'ref_type'          => null,
+			'ref_args'          => array(),
 		);
 		
 		// Valeurs par défaut des metaboxes.
 		$defaults_metaboxes = array(
-			'id'            => null,
-			'title'         => 'Metabox',
+			'id'            => 'rb_metabox_bleh',
+			'title'         => 'Metabox Sans-Nom',
 			'show_dashicon' => false,
 			'dashicon'      => '',
 			'callback'      => null,
@@ -209,7 +220,7 @@ abstract class RB_Admin
 		/* ------------------------------------------ */
 		
 		// Passer les arguments par défaut à l'aide d'une fonction de WordPress. (Merci, WordPress!)
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args( $args, $defaults ); 
 		
 		// Transformer l'array d'arguments en objet afin de faciliter la validation.
 		$args = (object) $args;
@@ -336,29 +347,29 @@ abstract class RB_Admin
 		if ( ! empty( $args->metadatas ) )
 		{
 			// Parcourir chaque metabox.
-			foreach ( $args->metadatas as $metadata )
+			foreach ( $args->metadatas as $key => $metadata )
 			{
 				// Mettre les valeurs de style par défaut au style courant.
 				$metadata = wp_parse_args( $metadata, $defaults_metadatas );
 				
 				// Vérifier si l'id existe.
-				if ( empty( $metadata['id'] ) )
+				if ( !is_string( $metadata['type'] ) && empty( $metadata['type'] ) )
 				{
 					// Si c'est pas un array, on affiche un msg d'erreur.
-					wp_die( __( "Les tables associatives des metadatas doivent être formées correctement." ) );
+					wp_die( __( "Les types des metadatas doivent être formées correctement." ) );
 				}
 				
-				// Vérifier si le name est une string et qu'il n'est pas vide.
-				if ( ! array_key_exists( 'name', $metadata ) || ! is_string( $metadata['name'] )  )
+				// Vérifier si le callback existe.
+				if ( method_exists( $this, $metadata['validate_cb'] ) )
 				{
 					// Si c'est pas un name valide, on affiche un message d'erreur.
-					wp_die( __( "Un des noms de vos metadatas doit être formé correctement." ) );
+					wp_die( __( "Le callback d'une de vos metadatas est invalide." ) );
 				}
 				
 				// TODO effectuer le reste des validations.
 				
 				// Ajouter la metadata.
-				$this->metadatas[] = $metadata;
+				$this->metadatas[$key] = $metadata;
 				
 				// Incrémenter le compteur, au cas où on en a de besoin.
 				$counter++;
@@ -449,10 +460,10 @@ abstract class RB_Admin
 				$style['handle'],         // Le nom de la feuille de style.
 				plugin_dir_url( __FILE__ ) . $style['filepath'], // Source
 				$style['dependencies'],   /** Dépendances des handles de style.
-			 * @see WP_Dependencies
-			 * @see WP_Dependencies::add()
-			 * TODO: voir « WP_Dependencies() »
-			 */
+			                               * @see WP_Dependencies
+			                               * @see WP_Dependencies::add()
+			                               * TODO: voir « WP_Dependencies() »
+			                               */
 				$this->version,           // Version
 				$style['media']           // Media query specification
 			);
@@ -573,6 +584,9 @@ abstract class RB_Admin
 	{
 		global $wpdb;
 		
+		if ( $this->post_type != $post->post_type )
+			return;
+		
 		// Checks save status
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
@@ -593,13 +607,8 @@ abstract class RB_Admin
 			return;
 		}
 		
-		// Checker si on a toutes les valeurs requises.
-		
-		// Pogner toutes les clés du post.
-		$custom_keys = get_post_custom_keys($post_id);
-		
 		// Parcourir la table des clés.
-		foreach ( $custom_keys as $key )
+		foreach ( $this->metadatas as $key => $value )
 		{
 			// Passer à la valeur suivante dans l'array si la clé est interne.
 			if ( $this->key_is_internal( $key ) )
@@ -612,13 +621,13 @@ abstract class RB_Admin
 				$valide = true;
 				
 				// Vérfier si la fonction de validation n'est pas vide...
-				if ( ! empty( $this->metadatas[ $key ]['validate_fn'] ) )
+				if ( $value['validate_fn'] !== null )
 				{
 					// ...et si la fonction existe.
-					if ( function_exists( $this->metadatas[ $key ]['validate_fn'] ) )
+					if ( method_exists( $this, $value['validate_fn'] ) )
 					{
 						// Valider la donnée.
-						if ( call_user_func( array( $this, $this->metadatas[ $key ] ), $data ) )
+						if ( call_user_func( array( $this, $value['validate_fn'] ), $_POST[$key] ) )
 							// Mettre à jour la valeur de la metadata avec celle du $_POST.
 							update_post_meta( $post_id, $key, $_POST[$key] );
 						else // Si la fonction a retournée FAUX.
@@ -631,14 +640,10 @@ abstract class RB_Admin
 						wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
 					}
 				}
-				elseif ( ! empty( $_POST[ $key ] ) ) // Sinon si la valeur de la clé dans $_POST n'est pas vide.
+				else // Sinon
 				{
 					// Mettre à jour la valeur de la metadata avec celle du $_POST.
 					update_post_meta( $post_id, $key, $_POST[$key] );
-				}
-				else
-				{ // Dans le cas échéant.
-					wp_die( __( "La valeur de la clé " . $key . " était vide !" ) );
 				}
 				
 				// Si non-valide, retourner.
@@ -647,8 +652,9 @@ abstract class RB_Admin
 		}
 		
 		// Ajouter une action.
-		// TODO trouver une autre façon de faire ça.
-		do_action( 'rb_'.$this->post_type.'_metas_saved' );
+		// TODO trouver une utilité pour ça.
+		if ( method_exists( $this, $this->post_type.'_metas_saved' ) )
+			call_user_func( array( $this, $this->post_type.'_metas_saved' ) );
 	}
 	
 	/**
@@ -664,17 +670,21 @@ abstract class RB_Admin
 	 */
 	public function set_post_list_columns( $columns )
 	{
+		$retour = array();
+		
 		unset( $columns['date'], /* $columns['title'], */
 			$columns['categories'],
 			$columns['author'], $columns['tags'], $columns['comments'] );
 		
-		return array_merge( $columns,
-            array(
-                'rb_spectacle' => __( 'Spectacle' ),
-                'rb_date' => __( 'Date' ),
-                'rb_heure' => __( 'Heure' ),
-            )
-		);
+		foreach ( $this->metadatas as $key => $metadata )
+		{
+			if ( $metadata['in_columns'] )
+			{
+				$retour[$key] = __( $metadata['name'] );
+			}
+		}
+		
+		return array_merge( $columns, $retour );
 	}
 	
 	/**
@@ -691,35 +701,9 @@ abstract class RB_Admin
 	{
 		global $post;
 		
-		switch ( $column ) {
-			// Le spectacle relié.
-			case 'rb_spectacle':
-				$spec_id = get_post_meta( $post_id, 'rb_prestation_spectacle_id', true );
-				
-				// Chercher le spectacle au ID spécifié.
-				$spectacle = get_the_title( $spec_id );
-				
-				// Checker si y'a un spectacle qui correspond.
-				if ( empty( $spectacle ) ) // Afficher que le message n'a pas été trouvé.
-				{
-					echo __( 'SPECTACLE INCONNU' );
-				} 
-				else // Afficher le titre du spectacle.
-				{
-					print $spectacle;
-				}
-				break;
-			
-			// La date de la prestation
-			case 'rb_date':
-				echo self::date_string_format( get_post_meta( $post_id, 'rb_prestation_date', true ) );
-				break;
-			
-			// L'heure de la prestation.
-			case 'rb_heure':
-				echo get_post_meta( $post_id, 'rb_prestation_heure', true );
-				break;
-		}
+		echo get_post_meta( $post_id, $column, true );
+		
+		// TODO adapter aux metadatas qui font des références.
 	}
 	
 	/**
@@ -733,9 +717,8 @@ abstract class RB_Admin
 	 */
 	public function sort_custom_columns( $columns )
 	{
-		$columns['rb_prestation_spectacle_id'] = 'rb_prestation_spectacle_id';
-		$columns['rb_prestation_date'] = 'rb_prestation_date';
-		$columns['rb_prestation_heure'] = 'rb_prestation_heure';
+		foreach ( $this->metadatas as $key => $metadata )
+			$columns[$key] = $key;
 		
 		return $columns;
 	}
@@ -753,11 +736,12 @@ abstract class RB_Admin
 	 */
 	public function orderby_custom_columns( $vars )
 	{
-		foreach ( $this->get_metadatas() as $metadata ) {
-			if ( isset( $vars['orderby'] ) && $metadata == $vars['orderby'] ) {
-				
+		foreach ( $this->metadatas as $key => $metadata ) 
+		{
+			if ( isset( $vars['orderby'] ) ) 
+			{	
 				$args = array(
-					'meta_key' => $metadata,
+					'meta_key' => $key,
 					'orderby' => 'meta_value_num'
 				);
 				
