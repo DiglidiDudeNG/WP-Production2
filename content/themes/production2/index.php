@@ -3,7 +3,7 @@
 
 /**
  * index.php
- * 
+ *
  * Project: wp-production2
  * User:    Félix Dion Robidoux
  * Date:    10/02/2015
@@ -18,9 +18,6 @@
 
 	include_once("include/caroussel.php");
 ?>
-
-	
-
 	<p>kawabunga</p>
 
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
@@ -29,12 +26,12 @@
 	<!-- Affichage des 10 spectacles à venir -->
 
 	<div class="spectacles-a-venir-container">
-		<h2>Spectacles à venir (ceci est le titre de la section)</h2>
+		<h2>Spectacles à venir</h2>
 		<div class="row">
 
 			<?php
-			
-				wp_reset_postdata();									
+
+				wp_reset_postdata();
 				$args = array(
 					'posts_per_page'	=> 10,
 					'post_type' 		=> 'prestation',
@@ -54,16 +51,6 @@
 		</div>
 
 	</div>
-									  
- 
-	
-
 
 	<!-- fin du contenu de la page index.php -->
-
-
-
-
-<p>dadada</p>
-
 <?php get_footer(); ?>
