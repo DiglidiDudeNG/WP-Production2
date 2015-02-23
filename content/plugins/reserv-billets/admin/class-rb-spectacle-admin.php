@@ -12,10 +12,14 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
-	
-	public function __construct( $post_type, $args )
+	/**
+	 * Constructeur. 'Nuff said.
+	 *
+	 * @param String $version Le numéro de version du plugin.
+	 */
+	public function __construct( $version )
 	{
-		parent::__construct( $post_type, $args );
+		parent::__construct( $version );
 	}
 
 	/**
@@ -72,16 +76,17 @@ class RB_Spectacle_Admin extends RB_Admin
 	 * @return bool|int|null     BOOLEAN si la valeur est pas valide.
 	 *                           INT     si on doit la changer manuellement.
 	 *                           NULL    si la valeur entrée est correcte.
-	 *                           
-	 * @deprecated
 	 */
 	public function update_spectacle_nb_billets( $null = null, $object_id, $meta_key, $meta_value, $prev_value )
 	{
-		if (WP_DEBUG)
-			var_dump($meta_key);
-		
-		// Retourner vrai si ça marche, null sinon.
-		return ( $meta_key == "nb_billets" && empty( $meta_value ) ) ? true : null;
+		var_dump($meta_key);
+
+		if ( $meta_key == "nb_billets" && empty( $meta_value ) )
+		{
+			return true;
+		}
+
+		return null;
 	}
 
 	/**
@@ -97,4 +102,3 @@ class RB_Spectacle_Admin extends RB_Admin
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'partials/rb-spectacle-metabox.php';
 	}
 }
-
