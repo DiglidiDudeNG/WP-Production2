@@ -13,7 +13,7 @@
 class RB_Spectacle extends RB_Section
 {
 	/** @const string Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'rb-spectacle-slug';
+	const SLUG_DEFAULT = 'spectacle';
 	
 	/** @var string Le nom de la classe à créer. */
 	public $admin_class = 'RB_Spectacle_Admin';
@@ -49,57 +49,39 @@ class RB_Spectacle extends RB_Section
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php';
 		}
 	}
-
+	
 	/**
-	 * Définit tous les hooks du module.
+	 * Crée L'objet admin.
 	 *
-	 * @param \RB_Loader $loader
+	 * Devra comprendre une variable « $args » qui comprends les arguments de la classe correspondante 
+	 * qui hérite de RB_Admin.
 	 */
-	protected function define_hooks( RB_Loader $loader )
+	public function creer_objet_admin()
 	{
-		// Création du Custom post-type
-		$loader->queue_action( 'init', $this, 'create_post_type', 100 );
-
-		if ( $this->is_admin ) {
-			$this->define_admin_hooks($loader);
-		}
-	}
-
-	/**
-	 * Définit les hooks du panneau d'administration.
-	 *
-	 * @access  protected
-	 * @see     RB::define_all_admin_hooks
-	 *
-	 * @param   \RB_Loader $loader Un pointeur vers le loader.
-	 */
-	protected function define_admin_hooks( RB_Loader $loader )
-	{
-		// Déclarer les arguments de création.
+		// Définir la table d'arguments.
 		$args = array(
 			'version' => $this->get_version(),
+			'styles' => array(
+				array(
+					'handle' => $this->slug . 'spectacle_admin',
+					'filepath' => 'css/rb-spectacle-admin.css',
+				)
+			),
+			'metaboxes' => array(
+				array(
+					'id' => 'rb_spectacle_infobox',
+					'title' => 'Infos générales du Spectacle',
+					'show_dashicon' => true,
+					'callback' => 'info', // sera 'render_prestation_info_metabox'
+					'screen' => 'spectacle',
+					'context' => 'normal',
+					'priority' => 'high',
+				)
+			),
 		);
 		
 		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new $this->admin_class( 'spectacle', $args );
-
-		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
-		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
-		
-		// 
-		$loader->queue_action( 'admin_init', $admin, 'add_all_meta_boxes' );
-		
-		// 
-		$loader->queue_action( 'save_post', $admin, 'save_custom_post', 10, 2 );
-
-		// Ajouter une option sur le menu pour les settings des spectacles
-		$loader->queue_action( 'admin_menu', $admin, 'add_option_menu_spectacle');
-
-		// Message d'activation.
-		$loader->queue_action( 'activated_plugin', $admin, 'add_activation_message' );
-
-		// Metadata "nb_billets"
-		$loader->queue_filter( 'update_spectacle_metadata', $admin, 'update_spectacle_nb_billets' );
+		$this->admin = new $this->admin_class( self::SLUG_DEFAULT, $args );
 	}
 
 	/* ################################ */

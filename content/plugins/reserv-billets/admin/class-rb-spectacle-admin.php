@@ -66,18 +66,5 @@ class RB_Spectacle_Admin extends RB_Admin
 		// Retourner vrai si ça marche, null sinon.
 		return ( $meta_key == "nb_billets" && empty( $meta_value ) ) ? true : null;
 	}
-
-	/**
-	 * Effectue le rendu de la metabox.
-	 */
-	public function render_meta_box()
-	{
-		// Éviter qu
-		if ( ! current_user_can( 'edit_meta_data' ) )
-			return;
-
-		/** @noinspection PhpIncludeInspection */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'partials/rb-spectacle-metabox.php';
-	}
 }
 

@@ -1,12 +1,4 @@
 <?php
-/**
- * BACKUP_PRESTATION_ADMIN.php
- * 
- * Project: WP-Production2
- * User:    Félix Dion Robidoux
- * Date:    19/02/2015
- * Time:    4:04 PM
- */
 
 /**
  * @param WP_Post $prestation

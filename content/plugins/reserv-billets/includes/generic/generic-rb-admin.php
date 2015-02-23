@@ -19,10 +19,13 @@ abstract class RB_Admin
 	
 	/** @var string Le numéro de version du plugin. */
 	protected $version;
-	/** @var Array{array} La liste des fichiers CSS à enqueue. */
-	public $styles;
+	
 	/** @var string La classe pour le dashicon. */
 	public $dashicon;
+	/** @var Array{array} La liste des fichiers CSS à enqueue. */
+	public $styles;
+	/** @var Array{array} La liste des fichiers JS à enqueue. */
+	public $scripts;
 	/** @var Array{array} La liste des metaboxes. */
 	public $metaboxes;
 	
@@ -40,10 +43,12 @@ abstract class RB_Admin
 		
 		if ( get_class( $retour_init ) == 'WP_Error' )
 		{
-			foreach ($retour_init->errors as $error)
+			foreach ( $retour_init->errors as $error )
 			{
-				var_dump($error);
+				var_dump( $error );
 			}
+			
+			var_dump( get_class( $this ) );
 		}
 	}
 	
@@ -101,6 +106,9 @@ abstract class RB_Admin
 	 */
 	public function init( $post_type, array $args )
 	{
+		// Déclarer les variables locales
+		$retour = true;
+		
 		/* -------------------------------- */
 		/* ----- POST-TYPE AVANT TOUT ----- */
 		/* -------------------------------- */
@@ -134,30 +142,30 @@ abstract class RB_Admin
 		
 		// Valeurs par défaut dans le root.
 		$defaults = array(
-				'version'   => $wp_version,
-				'dashicon'  => '',
-				'styles'    => array(), /** @see $defaults_styles */
-				'metaboxes' => array(), /** @see $defaults_metaboxes */
+			'version'   => $wp_version,
+			'dashicon'  => '',
+			'styles'    => array(), /** @see $defaults_styles */
+			'metaboxes' => array(), /** @see $defaults_metaboxes */
 		);
 		
 		// Valeurs par défaut des styles.
 		$defaults_styles = array(
-				'handle'       => null,
-				'filepath'     => "css/rb_admin_default.css", // Une feuille de style par défaut, 'cuz why not!
-				'dependencies' => array(),
-				'media'        => 'screen',
+			'handle'       => null,
+			'filepath'     => "css/rb_admin_default.css", // Une feuille de style par défaut, 'cuz why not!
+			'dependencies' => array(),
+			'media'        => 'screen',
 		);
 		
 		// Les valeurs par défaut des metaboxes.
 		$defaults_metaboxes = array(
-				'id'            => null,
-				'title'         => 'Metabox',
-				'show_dashicon' => false,
-				'dashicon'      => '',
-				'callback'      => null,
-				'screen'        => $this->post_type,
-				'context'       => 'default',
-				'priority'      => null,
+			'id'            => null,
+			'title'         => 'Metabox',
+			'show_dashicon' => false,
+			'dashicon'      => '',
+			'callback'      => null,
+			'screen'        => $this->post_type,
+			'context'       => 'default',
+			'priority'      => null,
 		);
 		
 		/* ------------------------------------------ */
@@ -298,15 +306,17 @@ abstract class RB_Admin
 	 */
 	public function afficher_msg_erreur( $code, $msg, $fonction='', $version='' )
 	{
-		$version = ( ! is_string( $version ) || empty( $version ) ) 
-					? $this->get_version() 
-					: $version;
+		$version = ( ! is_string( $version ) || empty( $version ) )
+				? $this->get_version()
+				: $version;
 		_doing_it_wrong( $fonction, __( $msg ), $version );
 		return new WP_Error( $code, __( $msg ) );
 	}
 	
 	/**
 	 * Pousse toutes les feuilles de styles requises du plugin pour le panneau d'administration.
+	 * 
+	 * @action admin_enqueue_styles
 	 */
 	public function enqueue_styles()
 	{
@@ -316,14 +326,41 @@ abstract class RB_Admin
 		foreach ( $this->styles as $style ) {
 			wp_enqueue_style(
 				$style['handle'],         // Le nom de la feuille de style.
-				plugin_dir_url( __FILE__ ) 
-					. $style['filepath'], // Source
+				plugin_dir_url( __FILE__ ) . $style['filepath'], // Source
 				$style['dependencies'],   /** Dépendances des handles de style.
-			                             * @see WP_Dependencies
-			                             * @see WP_Dependencies::add()
-			                             * TODO: voir « WP_Dependencies() » */
-				$this->version,         // Version
+			                               * @see WP_Dependencies
+			                               * @see WP_Dependencies::add()
+			                               * TODO: voir « WP_Dependencies() » 
+			                               */
+				$this->version,           // Version
 				$style['media']           // Media query specification
+			);
+		}
+		
+		// TODO: faire un wp_dequeue_style durant la désactivation.
+	}
+	
+	/**
+	 * Pousse tous les scripts .js requis du plugin pour le panneau d'administration.
+	 *
+	 * @action admin_enqueue_scripts
+	 */
+	public function enqueue_scripts()
+	{
+		if ( WP_DEBUG_DISPLAY )
+			var_dump($this->scripts);
+		
+		foreach ( $this->scripts as $script ) {
+			wp_enqueue_style(
+				$script['handle'],         // Le nom de la feuille de style.
+				plugin_dir_url( __FILE__ )
+				. $script['filepath'], // Source
+				$script['dependencies'],   /** Dépendances des handles de style.
+			 * @see WP_Dependencies
+			 * @see WP_Dependencies::add()
+			 * TODO: voir « WP_Dependencies() » */
+				$this->version,         // Version
+				$script['media']           // Media query specification
 			);
 		}
 		
@@ -351,12 +388,12 @@ abstract class RB_Admin
 			
 			// Ajouter la meta-box.
 			add_meta_box(
-				$metabox['id'],                      // Attribut « id » dans la balise.
-				$metabox_title,                    // Titre dans le header du metabox.
-				array( $this, 'render_'.$metabox[''].'_meta_box' ), // Callback qui va echo l'affichage.
+				$metabox['id'],                    // Attribut « id » dans la balise.
+				$metabox_title,                    // Titre dans le header du metabox
+				array( $this, 'render_' . $this->post_type . $metabox['callback'] . '_metabox' ), // Callback qui va echo l'affichage..
 				$this->post_type,                  // L'écran où est affiché le meta-box.
-				$metabox->context,                 // Le contexte. ex. "side", "normal" ou "advanced".
-				$metabox->priority                 // La priorité.
+				$metabox['context'],               // Le contexte. ex. "side", "normal" ou "advanced".
+				$metabox['priority']             // La priorité.
 				// TODO: Savoir si on doit inclure les callback_args.
 			);
 			
@@ -375,88 +412,6 @@ abstract class RB_Admin
 	}
 	
 	/**
-	 * Crée des metabox pour le panneau d'administration.
-	 *
-	 * @action admin_init
-	 * 
-	 * @deprecated
-	 * 
-	 * TODO: Mettre les infos dans les arguments de construction du _RB_Prestation_Admin_ dans _RB_Prestation_
-	 * TODO: Effacer la fonction par la suite.
-	 */
-	public function add_prestation_meta_box()
-	{
-		// Ajouter un dashicon dans le titre.
-		$metabox_title = 'Informations sur la Prestation <span class="dashicons dashicons-tickets-alt"></span>';
-		
-		// Ajouter la meta-box.
-		add_meta_box(
-			'rb-prestation-admin-info',        // valeur de l'attribut « id » dans la balise.
-			$metabox_title, // Titre.
-			array( $this, 'render_info_meta_box' ), // Callback qui va echo l'affichage.
-			'prestation',                 // L'écran où est affiché le meta-box.
-			'normal',                    // Le contexte. ex. "side", "normal" ou "advanced".
-			'high'                       // La priorité.
-		);
-	}
-	
-	/**
-	 * Effectue un rendu de toutes les metaboxes.
-	 * 
-	 * @param WP_Post $prestation
-	 */
-	public function render_info_meta_box( $prestation )
-	{
-		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
-		
-		// Pogner toutes les metadonnées.
-		$prestation_metas = get_post_meta( $prestation->ID );
-		
-		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY ) :
-			var_dump( $prestation_metas );
-		endif;
-		
-		?>
-		<table width="100%">
-		<tr>
-		<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__( 'Spectacle' )?> :</label></td>
-		<td>
-		<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
-		<?php
-		/** @var WP_Query $loop_spectacles */
-		$loop_spectacles = new WP_Query( [ 'post_type' => 'spectacle' ] );
-		
-		while ( $loop_spectacles->have_posts() ) :
-			$loop_spectacles->the_post(); ?>
-			<option value="<?php the_ID(); ?>" <?php
-			selected( $prestation_metas['rb_prestation_spectacle_id'][0], get_the_ID() );
-			?>><?php the_title(); ?></option>
-		<?php endwhile; ?>
-		</select>
-		</td>
-		<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
-		
-		</td>
-		</tr>
-		<tr>
-			<td><label for="rb_prestation_date"></label><?=__( 'Date de la Prestation' )?> :</td>
-			<td><input type="date" id="rb_prestation_date" name="rb_prestation_date"
-			           value="<?=$prestation_metas['rb_prestation_date'][0]?>" /></td>
-		</tr>
-		<tr>
-			<td><label for="rb_prestation_heure"></label><?=__( 'Heure de la Prestation' )?> :</td>
-			<td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure"
-			           value="<?=$prestation_metas['rb_prestation_heure'][0]?>" /></td>
-		</tr>
-		</table>
-	<?php
-	}
-	
-	/**
 	 * Sauvegarde les données des meta-data du post.
 	 *
 	 * Va utiliser les données $_POST envoyées par Wordpress lors de la sauvegarde.
@@ -465,16 +420,16 @@ abstract class RB_Admin
 	 * 
 	 * @action save_post
 	 *
-	 * @param int     $prestation_id L'ID de la prestation.
-	 * @param WP_Post $prestation    Une instance de la prestation.
+	 * @param int     $post_id L'ID de la prestation.
+	 * @param WP_Post $post    Une instance de la prestation.
 	 */
-	public function save_custom_post( $prestation_id, $prestation )
+	public function save_custom_post( $post_id, $post )
 	{
 		global $wpdb;
 		
 		// Checks save status
-		$is_autosave = wp_is_post_autosave( $prestation_id );
-		$is_revision = wp_is_post_revision( $prestation_id );
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
 		// TODO: effectuer la validation par NOnce.
 		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
 		$is_valid_nonce = true;
@@ -487,11 +442,12 @@ abstract class RB_Admin
 		// Checker si on a toutes les valeurs requises pour la prestation.
 		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST )
 		     && array_key_exists( 'rb_prestation_heure', $_POST )
-		) {
+		) 
+		{
 			// Mettre l'ID du Spectacle si celui-ci est valide.
 			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
 			{
-				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
+				update_post_meta( $post_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
 			} else {
 				return;
 			}
@@ -499,7 +455,7 @@ abstract class RB_Admin
 			// Mettre la date si elle est valide.
 			if ( ! empty( $_POST['rb_prestation_date'] ) ) // Updater le post_meta.
 			{
-				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+				update_post_meta( $post_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
 			} else {
 				return;
 			}
@@ -507,18 +463,19 @@ abstract class RB_Admin
 			// Mettre l'heure si elle est valide.
 			if ( ! empty( $_POST['rb_prestation_heure'] ) ) // Updater le post_meta.
 			{
-				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
+				update_post_meta( $post_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
 			} else {
 				return;
 			}
 			
 			// Mettre le titre du post dans une variable.
 			//			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
-			$titre = __( "Prestation" ) . " #" . $prestation->ID;
+			$titre = __( "Prestation" ) . " #" . $post_id;
 			
 			// Le titre.
-			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $prestation_id ) );
-		} else // Sinon
+			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $post_id ) );
+		} 
+		else // Sinon
 		{
 			// Retourner sans rien faire. Duh.
 			return;

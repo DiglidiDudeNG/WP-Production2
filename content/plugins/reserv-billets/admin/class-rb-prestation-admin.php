@@ -44,35 +44,60 @@ class RB_Prestation_Admin extends RB_Admin
 	}
 	
 	/**
-	 * Retourne la liste des métadonnées assignées pour ce post-type.
+	 * Effectue un rendu de la metabox des informations.
 	 *
-	 * @return array
+	 * @param WP_Post $prestation
 	 */
-	public function get_metadatas()
+	public function render_prestation_info_metabox( $prestation )
 	{
-		return $this->metadatas;
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
+		
+		// Pogner toutes les metadonnées.
+		$prestation_metas = get_post_meta( $prestation->ID );
+		
+		// Afficher le debugger si on en a besoin.
+		if ( WP_DEBUG_DISPLAY ) :
+			var_dump( $prestation_metas );
+		endif;
+		
+		?>
+		<table width="100%">
+		<tr>
+		<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=__( 'Spectacle' )?> :</label></td>
+		<td>
+		<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
+		<?php
+		/** @var WP_Query $loop_spectacles */
+		$loop_spectacles = new WP_Query( [ 'post_type' => 'spectacle' ] );
+		
+		while ( $loop_spectacles->have_posts() ) :
+			$loop_spectacles->the_post(); ?>
+			<option value="<?php the_ID(); ?>" <?php
+			selected( $prestation_metas['rb_prestation_spectacle_id'][0], get_the_ID() );
+			?>><?php the_title(); ?></option>
+		<?php endwhile; ?>
+		</select>
+		</td>
+		<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
+		
+		</td>
+		</tr>
+		<tr>
+			<td><label for="rb_prestation_date"></label><?=__( 'Date de la Prestation' )?> :</td>
+			<td><input type="date" id="rb_prestation_date" name="rb_prestation_date"
+			           value="<?=$prestation_metas['rb_prestation_date'][0]?>" /></td>
+		</tr>
+		<tr>
+			<td><label for="rb_prestation_heure"></label><?=__( 'Heure de la Prestation' )?> :</td>
+			<td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure"
+			           value="<?=$prestation_metas['rb_prestation_heure'][0]?>" /></td>
+		</tr>
+		</table>
+	<?php
 	}
-
-	///**
-	// * Crée des metabox pour le panneau d'administration.
-	// *
-	// * @action admin_init
-	// */
-	//public function add_info_meta_box()
-	//{
-	//	// Ajouter un dashicon dans le titre.
-	//	$metabox_title = 'Informations sur la Prestation <span class="dashicons dashicons-tickets-alt"></span>';
-	//
-	//	// Ajouter la meta-box.
-	//	add_meta_box(
-	//		'rb-prestation-admin-info',        // valeur de l'attribut « id » dans la balise.
-	//		$metabox_title, // Titre.
-	//		array( $this, 'render_info_meta_box' ), // Callback qui va echo l'affichage.
-	//		'prestation',                 // L'écran où est affiché le meta-box.
-	//		'normal',                    // Le contexte. ex. "side", "normal" ou "advanced".
-	//		'high'                       // La priorité.
-	//	);
-	//}
 
 //	/**
 //	 * Sauvegarde les données des meta-data du post.

@@ -8,8 +8,9 @@
 class RB_Prestation extends RB_Section
 {
 	/** @const  String Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'rb-prestation-slug';
+	const SLUG_DEFAULT = 'prestation';
 	
+	/** @var string */
 	public $admin_class = 'RB_Prestation_Admin'; // TODO générer ça automatiquement.
 	
 	/** @var RB_Prestation_Admin L'objet d'administration du post_type Prestation. */
@@ -41,24 +42,43 @@ class RB_Prestation extends RB_Section
 	{
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-prestation-admin.php';
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-'.$this->post_type.'-admin.php';
 		}
 	}
-
+	
 	/**
-	 * Définit tous les hooks de la fonction
+	 * Crée L'objet admin.
 	 *
-	 * @param \RB_Loader $loader
+	 * Devra comprendre une variable nommée Args
+	 *
+	 * @return mixed
 	 */
-	protected function define_hooks( RB_Loader $loader )
+	public function creer_objet_admin()
 	{
-		// Création du Custom post-type
-		$loader->queue_action( 'init', $this, 'create_post_type' );
-
-		// Utiliser les hooks du panneau d'administration.
-		if ($this->is_admin) {
-			$this->define_admin_hooks( $loader );
-		}
+		// Définir la table d'arguments.
+		$args = array(
+			'version' => $this->get_version(),
+			'styles' => array(
+				array(
+					'handle' => $this->slug . 'prestation_admin',
+					'filepath' => 'css/rb-prestation-admin.css',
+				)
+			),
+			'metaboxes' => array(
+				array(
+					'id' => 'rb_prestation_infobox',
+					'title' => 'Infos générales de la Prestation',
+					'show_dashicon' => true,
+					'callback' => 'info', // sera 'render_prestation_info_metabox'
+					'screen' => 'prestation',
+					'context' => 'normal',
+					'priority' => 'high',
+				)
+			),
+		);
+		
+		// Créer l'objet qui gère le panneau d'administration.
+		return new $this->admin_class( self::SLUG_DEFAULT, $args );
 	}
 
 	/**
@@ -69,44 +89,9 @@ class RB_Prestation extends RB_Section
 	 *
 	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_admin_hooks(RB_Loader $loader)
+	protected function define_extra_hooks(RB_Loader $loader)
 	{
-		$args = array(
-			'version' => $this->get_version(),
-			'styles' => array(
-				array(
-					'handle' => $this->slug.'prestation_admin',
-					'filepath' => 'css/rb-prestation-admin.css',
-				)
-			),
-			'metaboxes' => array(
-				array(
-					
-				)	
-			),
-			
-		);
 		
-		
-		// Créer l'objet qui gère le panneau d'administration.
-		$admin = new RB_Prestation_Admin( 'prestation', $args );
-
-		// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
-		$loader->queue_action( 'admin_enqueue_scripts', $admin, 'enqueue_styles' );
-
-		$loader->queue_action( 'admin_init', $admin, 'add_all_meta_boxes' );
-
-		$loader->queue_action( 'save_post', $admin, 'save_custom_post', 10, 2 );
-
-		$loader->queue_filter( 'manage_prestation_posts_columns', $admin, 'set_post_list_columns', 10, 1 );
-
-		$loader->queue_action( 'manage_prestation_posts_custom_column', $admin, 'display_custom_columns_data', 10, 2 );
-		
-		$loader->queue_filter( 'manage_edit-prestation_sortable_columns', $admin, 'sort_custom_columns' );
-		
-		$loader->queue_filter( 'request', $admin, 'orderby_custom_columns' );
-
-		//		$loader->queue_action( 'admin_init', $admin, 'add_artiste_meta_box' );
 	}
 
 	/* ################################ */

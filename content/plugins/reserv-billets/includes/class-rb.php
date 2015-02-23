@@ -83,7 +83,7 @@ class RB
 	}
 
 	/**
-	 * Définit tous les hooks de la fonction
+	 * Définit tous les hooks globaux.
 	 */
 	protected function define_hooks()
 	{
