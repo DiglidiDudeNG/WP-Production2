@@ -76,10 +76,10 @@ class RB
 		// Créer l'objet RB_Spectacle.
 		/** @noinspection PhpIncludeInspection */
 		require_once plugin_dir_path( __FILE__ ) . 'class-rb-spectacle.php'; // RB_Spectacle
-		$this->sections["spectacle"] = new RB_Spectacle($this->loader);
+		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
 
 		require_once 'class-rb-prestation.php'; // RB_Spectacle
-		$this->sections["prestation"] = new RB_Prestation($this->loader);
+		$this->sections["prestation"] = new RB_Prestation( $this->loader );
 	}
 
 	/**

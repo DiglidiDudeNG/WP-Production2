@@ -29,9 +29,6 @@ abstract class RB_Section
 	/**
 	 * Constructeur. Fais pas mal de choses!
 	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
-	 *
 	 * @access public
 	 *
 	 * @param string         $post_type Le nom du post-type.
@@ -103,6 +100,10 @@ abstract class RB_Section
 			$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
 			
 			$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
+			
+			// Permettre d'ajouter des hooks personnalisés pour la classe enfant.
+			if ( function_exists( 'define_'.$this->post_type.'_admin_hooks' ) )
+				call_user_func( array( $this, 'define_'.$this->post_type.'_admin_hooks' ), $loader );
 		}
 	}
 	

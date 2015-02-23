@@ -76,22 +76,24 @@ class RB_Spectacle extends RB_Section
 			'scripts' => array(
 				// TODO ajouter des scripts si possible.
 			),
+			'metadatas' => array(
+				
+			),
 			'metaboxes' => array(
 				array(
 					'id' => 'rb_spectacle_infobox',
 					'title' => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback' => 'info', // sera 'render_spectacle_info_metabox'
+					'callback' => 'info', // sera 'render_info_metabox'
 					'screen' => 'spectacle',
 					'context' => 'normal',
 					'priority' => 'high',
-					
 				)
 			),
 		);
 		
 		// Créer l'objet qui gère le panneau d'administration.
-		$this->admin = new $this->admin_class( self::SLUG_DEFAULT, $args );
+		return new $this->admin_class( self::SLUG_DEFAULT, $args );
 	}
 
 	/* ################################ */

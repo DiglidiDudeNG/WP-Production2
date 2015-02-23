@@ -64,12 +64,15 @@ class RB_Prestation extends RB_Section
 			'scripts' => array(
 				// TODO ajouter des scripts si possible.
 			),
+			'metadatas' => array(
+			
+			),
 			'metaboxes' => array(
 				array(
 					'id' => 'rb_prestation_infobox',
 					'title' => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
-					'callback' => 'info', // sera 'render_prestation_info_metabox'
+					'callback' => 'info', // sera 'render_info_metabox'
 					'screen' => 'prestation',
 					'context' => 'normal',
 					'priority' => 'high',

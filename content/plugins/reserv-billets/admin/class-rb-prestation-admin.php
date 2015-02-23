@@ -6,7 +6,8 @@
  */
 class RB_Prestation_Admin extends RB_Admin
 {
-	public $dashicon = 'dashicons-store';
+	const BASE_SLUG = 'rb_spectacle';
+	public $dashicon = 'dashicons-tickets-alt';
 	
 	/**
 	 * @var array Une liste d'arrays.
@@ -27,7 +28,7 @@ class RB_Prestation_Admin extends RB_Admin
 //		),
 //	);
 	
-	private $metadatas = array( 
+	public $metadatas = array( 
 		'rb_prestation_spectacle_id', 
 		'rb_prestation_date', 
 		'rb_prestation_heure' 
@@ -49,7 +50,7 @@ class RB_Prestation_Admin extends RB_Admin
 	 *
 	 * @param WP_Post $prestation
 	 */
-	public function render_prestation_info_metabox( $prestation )
+	public function render_info_metabox( $prestation )
 	{
 		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
 		if ( ! current_user_can( 'edit_posts' ) ) {

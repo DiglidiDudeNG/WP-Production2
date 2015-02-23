@@ -26,36 +26,15 @@ abstract class RB_Admin
 	public $styles;
 	/** @var Array{array} La liste des fichiers JS à enqueue. */
 	public $scripts;
-	/** @var Array{array} La liste des metaboxes. */
-	public $metaboxes;
 	/** @var Array{array} La liste des metadatas */
 	public $metadatas;
+	/** @var Array{array} La liste des metaboxes. */
+	public $metaboxes;
 	
 	/** @noinspection PhpDocSignatureInspection */
 	
 	/**
-	 * Constructeur. 'Nuff said.
-	 * 
-	 * @param       $post_type
-	 * @param array $args
-	 */
-	public function __construct( $post_type, array $args )
-	{
-		$retour_init = $this->init( $post_type, $args );
-		
-		if ( get_class( $retour_init ) == 'WP_Error' )
-		{
-			foreach ( $retour_init->errors as $error )
-			{
-				var_dump( $error );
-			}
-			
-			var_dump( get_class( $this ) );
-		}
-	}
-	
-	/**
-	 * Extension du constructeur.
+	 * Constructeur.
 	 *
 	 * Inspiré de la méthode « register_post_type() » de WordPress, cette méthode permettra
 	 * une abstraction à couper le souffle! (Si, si!)
@@ -89,13 +68,13 @@ abstract class RB_Admin
 	 *      }
 	 *      @type array         $scripts            { --- ARRAY ---
 	 *          Les scripts à « enqueuer » dans la section admin.
-	 * 
+	 *
 	 *          @type array [0...n] { --- ARRAY ---
 	 *              Les arguments de chaque script.
 	 *              TODO implémenter les scripts.
-	 *              
+	 *
 	 *              @type string $handle        Le nom du script.
-	 *              @type string $filepath      Le chemin vers le fichier JS par rapport à la position du fichier 
+	 *              @type string $filepath      Le chemin vers le fichier JS par rapport à la position du fichier
 	 *                                          de la classe héritant de RB_Admin.
 	 *                                          TODO: vérifier si ça va pogner la bonne path malgré l'héritage.
 	 *              @type array $dependencies   { --- ARRAY ---
@@ -104,18 +83,18 @@ abstract class RB_Admin
 	 *                  TODO: Implémenter les dépendances.
 	 *              }
 	 *              @type float $version        La version du script.
-	 *              @type bool  $in_footer      Vrai si le script doit être présent dans le footer, 
+	 *              @type bool  $in_footer      Vrai si le script doit être présent dans le footer,
 	 *                                          Faux s'il doit être dans le head.
 	 *          }
 	 *      }
 	 *      @type array         $metadatas          { --- ARRAY ---
 	 *          Les metadatas pour le type de post.
-	 * 
+	 *
 	 *          @type array [0...n] {--- ARRAY ---
 	 *              Les arguments pour chaque metadata.
 	 *              TODO implémenter les argumnets de chaque script.
-	 *              
-	 *              @type string 
+	 *
+	 *              @type string
 	 *          }
 	 *      }
 	 *      @type array         $metaboxes          { --- ARRAY ---
@@ -136,14 +115,11 @@ abstract class RB_Admin
 	 *      }
 	 * }
 	 * TODO: Ajouter tout le reste des arguments qu'on peut mettre.
-	 * 
+	 *
 	 * @return WP_Error|bool Vrai si ça a marché, ou un objet WP_Error sinon.
 	 */
-	public function init( $post_type, array $args )
+	public function __construct( $post_type, array $args )
 	{
-		// Déclarer les variables locales
-		$retour = true;
-		
 		/* -------------------------------- */
 		/* ----- POST-TYPE AVANT TOUT ----- */
 		/* -------------------------------- */
@@ -247,8 +223,7 @@ abstract class RB_Admin
 			{
 				// Envoyer une exception, vu qu'il faut des styles bien formés pour continuer.
 				// TODO: Mettre la bonne version de WP.
-				return $this->afficher_msg_erreur( 'rb_admin_badly_formed_styles',
-				                                   "Les styles du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!", __FUNCTION__ );
+				wp_die( __( "Les styles du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!" ) );
 			}
 			
 			// Parcourir les styles.
@@ -261,8 +236,7 @@ abstract class RB_Admin
 				if ( ! array_key_exists( 'handle', $style ) || ! array_key_exists( 'filepath', $style ) ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
 					// TODO: Mettre la bonne version de WP.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_style_arg',
-					                                   "Les tables associatives de styles doivent être formées correctement.", __FUNCTION__ );
+					wp_die( __( "Les tables associatives de styles doivent être formées correctement." ) );
 				}
 				
 				// Checker si les dépendences ont été inclues dans le style.
@@ -304,8 +278,7 @@ abstract class RB_Admin
 			{
 				// Envoyer une exception, vu qu'il faut des scripts bien formés pour continuer.
 				// TODO: Mettre la bonne version de WP.
-				return $this->afficher_msg_erreur( 'rb_admin_badly_formed_scripts',
-				                                   "Les scripts du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!", __FUNCTION__ );
+				wp_die( __( "Les scripts du panneau d'admnistration pour « ".__CLASS__." » sont mal formés!" ) );
 			}
 			
 			// Parcourir les scripts.
@@ -318,8 +291,7 @@ abstract class RB_Admin
 				if ( ! array_key_exists( 'handle', $script ) || ! array_key_exists( 'filepath', $script ) ) {
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
 					// TODO: Mettre la bonne version de WP.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_style_arg',
-					                                   "Les tables associatives de scripts doivent être formées correctement.", __FUNCTION__ );
+					wp_die( __( "Les tables associatives de scripts doivent être formées correctement." ) );
 				}
 				
 				// Checker si les dépendences ont été inclues dans le script.
@@ -368,17 +340,14 @@ abstract class RB_Admin
 				if ( empty( $metadata['id'] ) )
 				{
 					// Si c'est pas un array, on affiche un msg d'erreur.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metadata_id',
-					                                   "Les tables associatives des metadatas doivent être formées correctement.",
-					                                   __FUNCTION__ );
+					wp_die( __( "Les tables associatives des metadatas doivent être formées correctement." ) );
 				}
 				
 				// Vérifier si le name est une string et qu'il n'est pas vide.
 				if ( ! array_key_exists( 'name', $metadata ) || ! is_string( $metadata['name'] )  )
 				{
 					// Si c'est pas un name valide, on affiche un message d'erreur.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metadata_name',
-					                                   "Un des noms de vos metadatas doit être formé correctement.", __FUNCTION__ );
+					wp_die( __( "Un des noms de vos metadatas doit être formé correctement." ) );
 				}
 				
 				// TODO effectuer le reste des validations.
@@ -414,9 +383,7 @@ abstract class RB_Admin
 				if ( empty( $metabox['id'] ) )
 				{
 					// Si c'est pas un array, on affiche un msg d'erreur.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metabox_id',
-					                                   "Les tables associatives des metaboxes doivent être formées correctement.",
-					                                   __FUNCTION__ );
+					wp_die( __( "Les tables associatives des metaboxes doivent être formées correctement." ) );
 				}
 				
 				// Vérifier si le title est une string et qu'il n'est pas vide.
@@ -424,8 +391,7 @@ abstract class RB_Admin
 				if ( ! array_key_exists( 'title', $metabox ) || ! is_string( $metabox['title'] )  )
 				{
 					// Si c'est pas un title valide, on affiche un message d'erreur.
-					return $this->afficher_msg_erreur( 'rb_admin_badly_formed_metabox_title',
-					                                   "Le titre de vos metaboxes doivent être formés correctement.", __FUNCTION__ );
+					wp_die( __( "Le titre de vos metaboxes doivent être formés correctement." ) );
 				}
 				
 				// TODO effectuer le reste des validations.
@@ -440,9 +406,6 @@ abstract class RB_Admin
 			// Réinitialiser le compteur.
 			$counter = 0;
 		}
-		
-		// Retourner true, vu qu'on n'a pas retourné d'erreur!
-		return $this;
 	}
 	
 	/**
@@ -454,6 +417,8 @@ abstract class RB_Admin
 	 * @param string $msg      Le message d'erreur à afficher.
 	 * @param string $fonction La fonction où fut causée l'erreur.
 	 * @param string $version  La version de WP.
+	 * 
+	 * @deprecated
 	 */
 	public function afficher_msg_erreur( $code, $msg, $fonction='', $version='' )
 	{
@@ -535,16 +500,19 @@ abstract class RB_Admin
 			$dashicon_html = $metabox['show_dashicon'] ? '<span class="dashicons ' . $metabox['dashicon'] . '"></span>' : '';
 			
 			// Former le titre de la metabox.
-			$metabox_title = '<h1>' . $dashicon_html . $metabox['title'] . '</h1>';
+			$metabox_title = '<h1>' . $metabox['title'] . $dashicon_html . '</h1>';
+			
+			// Définir le nom de la fonction de callback.
+			$metabox_callback = sprintf( 'render_%s_metabox', $metabox['callback'] );
 			
 			// Ajouter la meta-box.
 			add_meta_box(
 				$metabox['id'],                    // Attribut « id » dans la balise.
-				$metabox_title,                    // Titre dans le header du metabox
-				array( $this, 'render_' . $this->post_type . $metabox['callback'] . '_metabox' ), // Callback qui va echo l'affichage..
+				$metabox_title,                    // Titre dans le header du metabox.
+				array( $this, $metabox_callback ), // Callback qui va echo l'affichage.
 				$this->post_type,                  // L'écran où est affiché le meta-box.
 				$metabox['context'],               // Le contexte. ex. "side", "normal" ou "advanced".
-				$metabox['priority']             // La priorité.
+				$metabox['priority']               // La priorité.
 				// TODO: Savoir si on doit inclure les callback_args.
 			);
 			
@@ -560,6 +528,28 @@ abstract class RB_Admin
 	public function get_metadatas()
 	{
 		return $this->metadatas;
+	}
+	
+	/**
+	 * Effectue un rendu de la metabox des informations.
+	 *
+	 * @param WP_Post $prestation
+	 */
+	public function render_info_metabox( $post )
+	{
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
+		if ( ! current_user_can( 'edit_posts' ) ) 
+			return;
+		
+		if ( function_exists('render_'.$this->post_type.'_info_metabox' ) );
+			return call_user_func( array( $this, 'render_'.$this->post_type.'_info_metabox' ), $post );
+		
+		// Pogner toutes les metadonnées.
+		$post_metas = get_post_meta( $post->ID );
+		
+		// Afficher le debugger si on en a besoin.
+		if ( WP_DEBUG_DISPLAY )
+			var_dump( $post_metas );
 	}
 	
 	/**
@@ -585,51 +575,72 @@ abstract class RB_Admin
 		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
 		$is_valid_nonce = true;
 		
+		// Appeler une fonction similaire dans l'enfant si celle-ci existe.
+		// Ex: « save_prestation »
+		if ( function_exists('save_'.$this->post_type ) );
+			return call_user_func( array( $this, 'save_'.$this->post_type ), $post_id, $post );
+		
 		// S'en va du script dépendamment si ça passe ou non.
 		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
 			return;
 		}
 		
-		// Checker si on a toutes les valeurs requises pour la prestation.
-		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST )
-		     && array_key_exists( 'rb_prestation_heure', $_POST ) )
+		// Checker si on a toutes les valeurs requises.
+		
+		// Pogner toutes les clés du post.
+		$custom_keys = get_post_custom_keys($post_id);
+		
+		// Parcourir la table des clés.
+		foreach ( $custom_keys as $key )
 		{
-			// Mettre l'ID du Spectacle si celui-ci est valide.
-			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
+			// Vérifier si la clé est interne.
+			if ( key_is_internal( $key ) )
 			{
-				update_post_meta( $post_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
-			} else {
-				return;
-			}
+				continue;
+			} // Passer à la valeur suivante dans ce cas-là.
 			
-			// Mettre la date si elle est valide.
-			if ( ! empty( $_POST['rb_prestation_date'] ) ) // Updater le post_meta.
+			// Vérifier si la clé existe dans le $_POST.
+			if ( array_key_exists( $key, $_POST ) )
 			{
-				update_post_meta( $post_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
-			} else {
-				return;
+				// Déclarer la variable de validation à Vrai.
+				$valide = true;
+				
+				// Vérfier si la fonction de validation n'est pas vide...
+				if ( ! empty( $this->metadatas[ $key ]['validate_fn'] ) )
+				{
+					// ...et si la fonction existe.
+					if ( function_exists( $this->metadatas[ $key ]['validate_fn'] ) )
+					{
+						// Valider la donnée.
+						if ( call_user_func( array( $this, $this->metadatas[ $key ] ), $data ) )
+							// Mettre à jour la valeur de la metadata avec celle du $_POST.
+							update_post_meta( $post_id, $key, $_POST[$key] );
+						else // Si la fonction a retournée FAUX.
+							// Retourner une erreur.
+							wp_die( __( "La validation de la donnée" . $key . "a échouée !" ) );
+					}
+					else // Si la fonction n'existe pas.
+					{
+						// Retourner une erreur.						
+						wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
+					}
+				}
+				elseif ( ! empty( $_POST[ $key ] ) ) // Sinon si la valeur de la clé dans $_POST n'est pas vide.
+				{
+					// Mettre à jour la valeur de la metadata avec celle du $_POST.
+					update_post_meta( $post_id, $key, $_POST[$key] );
+				}
+				else
+				{ // Dans le cas échéant.
+					wp_die( __( "La valeur de la clé " . $key . " était vide !" ) );
+				}
+				
+				// Si non-valide, retourner.
+				if ( ! $valide ) return;
 			}
-			
-			// Mettre l'heure si elle est valide.
-			if ( ! empty( $_POST['rb_prestation_heure'] ) ) // Updater le post_meta.
-			{
-				update_post_meta( $post_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
-			} else {
-				return;
-			}
-			
-			// Mettre le titre du post dans une variable.
-			//			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
-			$titre = __( "Prestation" ) . " #" . $post_id;
-			
-			// Le titre.
-			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $post_id ) );
-		} 
-		else // Sinon
-		{
-			// Retourner sans rien faire. Duh.
-			return;
 		}
+		
+		do_action( 'rb_'.$this->post_type.'_metas_saved' );
 	}
 	
 	/**
@@ -747,6 +758,21 @@ abstract class RB_Admin
 		}
 		
 		return $vars;
+	}
+	
+	/**
+	 * Retourne vrai si le nom de clé entré est interne à Wordpress.
+	 * 
+	 * Check si ya un '_' au début du nom de la clé. 
+	 * 
+	 * @param $key Le nom de la clé.
+	 *
+	 * @return bool Vrai si la clé est interne.
+	 */
+	function key_is_internal($key)
+	{
+		$keyt = trim($key);
+		return ( $keyt{0} == '_' );
 	}
 	
 	/**

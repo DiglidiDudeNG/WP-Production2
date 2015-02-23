@@ -12,6 +12,9 @@
  */
 class RB_Spectacle_Admin extends RB_Admin
 {
+	const BASE_SLUG = 'rb_prestation';
+	public $dashicon = 'dashicons-store';
+	
 	/**
 	 * Constructeur.
 	 *
@@ -40,6 +43,16 @@ class RB_Spectacle_Admin extends RB_Admin
 			'none', // Aucune icône.
 			'25'
 		);
+	}
+	
+	/**
+	 * Effectue un rendu de la metabox des informations.
+	 *
+	 * @param WP_Post $spectacle
+	 */
+	public function render_spectacle_info_metabox( $spectacle )
+	{
+		echo "TODO";
 	}
 
 	/**
