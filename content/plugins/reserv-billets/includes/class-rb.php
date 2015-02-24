@@ -78,8 +78,12 @@ class RB
 		require_once plugin_dir_path( __FILE__ ) . 'class-rb-spectacle.php'; // RB_Spectacle
 		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
 
+		// Créer l'objet RB_Prestation.
 		require_once 'class-rb-prestation.php'; // RB_Spectacle
 		$this->sections["prestation"] = new RB_Prestation( $this->loader );
+		
+		// Inclure les metadonnées.
+		require_once 'class-rb-metadata.php';
 	}
 
 	/**

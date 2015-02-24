@@ -72,8 +72,8 @@ class RB_Prestation extends RB_Section
 					'name'          => 'Spectacle',
 					'default'       => '0',
 					'in_columns'    => true,
-					'is_queried'    => true,
-					'ref_args'      => array( 'post-type', 'spectacle', 'ID', 'title', false ),
+					'is_query'    => true,
+					'query_args'      => array( 'post-type', 'spectacle', 'ID', 'title', false ),
 				),
 				'rb_date' => array( // La date.
 					'type'       => 'input:date',

@@ -79,17 +79,27 @@ class RB_Spectacle extends RB_Section
 			),
 			'metadatas' => array(
 				'rb_liste_prestation_id' => array(
-					'type' => 'static:list',
-					
+					'type'       => 'link:json',
+					'name'       => 'Liste des Prestations',
+				    'default'    => '{}',
+					'in_columns' => true, 
+					'is_query'   => true,
+					'query_args' => '', // TODO query args.
 				),
 			),
+			/*
+			chaque spectacles ........ 
+			champs pour  url de l'artiste   
+			facebook de l'artiste  
+			prix 
+			la categorie (rock-alternatif, pop, seventies
+			 */
 			'metaboxes' => array(
 				array(
 					'id'            => 'rb_spectacle_infobox',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
 					'callback_tag'  => 'info', // sera 'render_info_metabox'
-					'screen'        => 'spectacle',
 					'context'       => 'normal',
 					'priority'      => 'high',
 				)

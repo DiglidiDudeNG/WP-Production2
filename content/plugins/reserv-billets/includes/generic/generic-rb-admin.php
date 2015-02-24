@@ -100,10 +100,10 @@ abstract class RB_Admin
 	 *              @type string       $type        Le type d'input.
 	 *              @type string       $name        Le nom référé dans l'interface.
 	 *              @type mixed        $default     La valeur par défaut.
-	 *              @type string       validate_cb  La fonction de callback de la validation de la metadata. Vide si y'en a pas.
-	 *              @type bool         is_saved     Vrai si la valeur doit être sauvegardée.
-	 *              @type bool         in_columns   Vrai si la metadata doit se retrouver dans les colonnes dans le panneau d'admin.
-	 *              @type string       $is_queried  Vrai si c'est une référence à une valeur ailleurs, pognée par un WP_Query.
+	 *              @type string       $validate_cb La fonction de callback de la validation de la metadata. Vide si y'en a pas.
+	 *              @type bool         $is_saved    Vrai si la valeur doit être sauvegardée.
+	 *              @type bool         $in_columns  Vrai si la metadata doit se retrouver dans les colonnes dans le panneau d'admin.
+	 *              @type string       $is_query    Vrai si c'est une référence à une valeur ailleurs, pognée par un WP_Query.
 	 *              @type array(mixed) $query_args  Les arguments pour la référence. Les arguments sont :
 	 *                                                   - $type        => La place où on pogne cte valeur-là. Ex: post-type
 	 *                                                   - $arg_type    => L'argument pour le type. Ex: spectacle
@@ -201,7 +201,7 @@ abstract class RB_Admin
 			'validate_cb'       => null,
 			'is_saved'          => true,
 			'in_columns'        => false,
-			'is_queried'        => false,
+			'is_query'          => false,
 			'query_args'        => array(),
 		);
 		
@@ -773,7 +773,7 @@ abstract class RB_Admin
 			$metavalue = get_post_meta( $post_id, $column, true );
 			
 			// Si la valeur affichée doit être une référence à une autre valeur...
-			if ( $col['is_queried'] ) 
+			if ( $col['is_query'] ) 
 			{
 				$col['query_args'][0];
 			}
