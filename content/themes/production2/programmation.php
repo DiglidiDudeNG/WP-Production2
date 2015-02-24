@@ -24,7 +24,7 @@ Template Name: Programmation
 		<h2>Programmation (ceci est le titre de la section)</h2>
 		<div class="row">
 
-			<?php
+			<?php				
 			
 				wp_reset_postdata();									
 				$args = array(
