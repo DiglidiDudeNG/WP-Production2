@@ -1,24 +1,19 @@
+<?php
+/*
+Template Name: Programmation
+*/
+?>
 <?php get_header(); ?>
-<?php
 
-/**
- * index.php
- *
- * Project: wp-production2
- * User:    Félix Dion Robidoux
- * Date:    10/02/2015
- * Time:    9:28 AM
- */
-?>
+	<!-- début du contenu de la page programmation.php -->
 
 
-	<!-- début du contenu de la page index.php -->
 
-<?php
 
-	include_once("include/caroussel.php");
-?>
 	<p>kawabunga</p>
+	<p></p>
+	<p></p>
+	<p></p>
 
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
@@ -26,14 +21,14 @@
 	<!-- Affichage des 10 spectacles à venir -->
 
 	<div class="spectacles-a-venir-container">
-		<h2>Spectacles à venir</h2>
+		<h2>Programmation (ceci est le titre de la section)</h2>
 		<div class="row">
 
 			<?php
-
-				wp_reset_postdata();
+			
+				wp_reset_postdata();									
 				$args = array(
-					'posts_per_page'	=> 10,
+					'posts_per_page'	=> -1,
 					'post_type' 		=> 'prestation',
 					'order'				=> 'ACS',
 					'order_by'			=> 'meta_value',
@@ -51,8 +46,13 @@
 		</div>
 
 	</div>
+									  
+ 
+	
 
-</div>
+
 	<!-- fin du contenu de la page index.php -->
-<?php get_footer(); ?>
 
+
+
+<?php get_footer(); ?>

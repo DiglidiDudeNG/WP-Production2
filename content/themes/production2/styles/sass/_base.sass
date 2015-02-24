@@ -1,32 +1,32 @@
-
 body
 	font: 100% $font-title
 	color: $color-red
+	margin-top: 104px!important
 
 h1
 	font: 100% $font-title!important
 	color: $color-white!important
+	font-size: 63px!important
 	font-weight: $bold!important
 	text-transform: uppercase
-	letter-spacing: $title-letter-spacing
 
 h2
 	font: 100% $font-title!important
 	color: $color-white!important
+	font-size: 30px!important
 	font-weight: $bold!important
-	letter-spacing: $title-letter-spacing
 
 h3
 	font: 100% $font-title!important
 	color: $color-white!important
+	font-size: 25px!important
 	font-weight: $bold!important
-	letter-spacing: $text-letter-spacing
 
 p
 	font-family: $font-text
 	color: $color-gris-fonce
+	font-size: 15px
 	line-height: $text-line-height
-	letter-spacing: $text-letter-spacing
 
 =border-radius($radius)
 	-webkit-border-radius: $radius
@@ -39,14 +39,14 @@ p
 	font-weight: $bold!important
 	background-color: $color-red
 	color: $color-white
-	padding: 20px!important
+	padding: 20px 20px!important
 	font-size: 17px!important
 	text-transform: uppercase
 	letter-spacing: $title-letter-spacing
 	+border-radius(3px)
 
 button
-	border-style: none   //ajouté par karine
+	border-style: none
 
 .btn-savoir:hover
 	background-color: $color-red-hover
@@ -61,7 +61,7 @@ button
 	color: $color-white
 
 
-@media screen and (max-width: $screen-sm-min)  // <768
+@media screen and (max-width: $screen-sm-min)  
 	h1
 		font-size: 24px!important
 
@@ -74,33 +74,9 @@ button
 	p
 		font-size: 10px
 
-@media screen and (min-width: $screen-sm-min) // >768px
-	h1
-		font-size: 50px!important
 
-	h2
-		font-size: 25px!important
+@media screen and (max-width: $screen-md-min)
 
-	h3
-		font-size: 13px!important
+@media screen and (max-width: $screen-lg-min)
 
-	p
-		font-size: 11px
-
-
-@media screen and (min-width: $screen-md-min) // >992px
-	h1
-		font-size: 64px!important
-
-	h2
-		font-size: 31px!important
-
-	h3
-		font-size: 25px!important
-
-	p
-		font-size: 16px
-
-@media screen and (min-width: $screen-lg-min) // >1200px
-
-	
+@media screen and (min-width: $screen-lg-min)

@@ -1,3 +1,15 @@
+// Donner une hauteur à la section carousel
+#moncarousel
+	height: auto
+	display: block
+
+.carousel .item 
+	-webkit-transition: opacity 1s
+	-moz-transition: opacity 1s
+	-ms-transition: opacity 1s
+	-o-transition: opacity 1s
+	transition: opacity 1s
+
 // Mettre le h2 en majuscule
 .carousel-caption h2
 	text-transform: uppercase
@@ -6,17 +18,11 @@
 button.btn-savoir	
 	font-family: $font-text
 
-// Enlever les flèches de navigation droite et gauche par défaut de Bootstrap
-.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before
-	content: none
-
-
-
 //medias queries
 
 @media screen and (max-width: $screen-sm-min)  // <768
 	button.btn-savoir
-		margin-bottom: 15px
+		margin-bottom: 10px  //etait 15
 		padding: 10px !important
 		font-size: 10px !important
 		letter-spacing: $text-letter-spacing
@@ -32,11 +38,9 @@ button.btn-savoir
 		margin-bottom: 20px
 		margin-top: 0
 
-
-
 @media screen and (min-width: $screen-sm-min) // >768px
 	button.btn-savoir
-		margin-bottom: 68px
+		margin-bottom: 50px  //etait 68
 		padding: 15px !important
 		font-size: 13px !important
 		letter-spacing: $text-letter-spacing
@@ -54,7 +58,7 @@ button.btn-savoir
 
 @media screen and (min-width: $screen-md-min) // >992px
 	button.btn-savoir
-		margin-bottom: 100px
+		margin-bottom: 70px //etait 100
 		padding: 20px !important
 		font-size: 16px !important
 		letter-spacing: $title-letter-spacing

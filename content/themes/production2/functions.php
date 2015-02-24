@@ -8,8 +8,8 @@
 	 *
 	 */
 
+	define('WP_DEBUG', false);
 
-	
 	// define('TEMPPATH', get_bloginfo('stylesheet_directory'));
 	define('TEMPPATH', get_bloginfo('stylesheet_directory'));
 	// get_stylesheet_directory_uri();
@@ -21,25 +21,35 @@
 	define('SCRIPTS', TEMPPATH."/js");
 
 
-
-
-
 	/** Désactive le filtre de formatage `wpautop`. Je l'aime pas. */
 	remove_filter( 'the_content', 'wpautop' );
 	remove_filter( 'the_excerpt', 'wpautop' );
 
 
 	/** Ajout de la fonctionalité des menus dans l'interface admin de WordPress. */
-	add_theme_support("nav-menus");
+	/* Theme setup */
+	add_action( 'after_setup_theme', 'wpt_setup' );
+    if ( ! function_exists( 'wpt_setup' ) ):
+        function wpt_setup() {
+            register_nav_menu( 'primary', __( 'Primary navigation', 'wptuts' ) );
+        } endif;
 
+    // Register custom navigation walker
+	    require_once('wp_bootstrap_navwalker.php');
 
-	
-	
-	
-	if(function_exists('register_nav_menus'))
-	{
-		register_nav_menus(array('main'=>'Navigation Principale'));
+	//Register bootstrap and Jquery
+	function wpt_register_js() {
+	    wp_register_script('jquery.bootstrap.min', SCRIPTS . '/bootstrap.min.js', 'jquery');
 	}
+
+	add_action( 'wp_enqueue_scripts', 'wpt_register_js' );
+
+	function wpt_register_css() {
+	    wp_register_style( 'bootstrap.min', get_template_directory_uri() . '/styles/css/bootstrap.min.css' );
+	    wp_enqueue_style( 'bootstrap.min' );
+	}
+
+	add_action( 'wp_enqueue_scripts', 'wpt_register_css' );
 
 
 
@@ -51,6 +61,12 @@
 	};
 
 
+
+	/** Filtre pour setter la longueur des excerpt (les descriptions courtes) des posts. */
+	function custom_excerpt_length( $length ) {
+		return 20;
+	}
+	add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
 
 ?>

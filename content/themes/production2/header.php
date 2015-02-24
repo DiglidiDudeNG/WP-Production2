@@ -1,54 +1,58 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php bloginfo('name');?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le styles -->
+    <link href="<?php bloginfo('stylesheet_url');?>" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"> -->
+    <!-- <link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'> -->
+    <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900' rel='stylesheet' type='text/css'> -->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <?php wp_head(); ?>
+  </head>
+  <body>
+    <!--  -->
+    <nav id="navbar-parenthese" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a id="logo" class="navbar-brand" href="<?php bloginfo('url')?>"><?php bloginfo('name')?></a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <div class="menu-navigation navbar-right">
+            <?php /* Primary navigation */
+            wp_nav_menu( array(
+            'top_menu',
+            'depth' => 2,
+            'container' => false,
+            'menu_class' => 'nav navbar-nav',
+            //Process nav menu using our custom nav walker
+            'walker' => new wp_bootstrap_navwalker())
+            );
+            ?>
+            
+            <form class="navbar-form navbar-right" role="search" action="<?php bloginfo('url') ?>/programmation" method="post">
 
-	// Arguments du menu
-	$menuPrincipal = array(
-		'theme_location' => 'main',
-		'container' => false,
-		'container_class' => '', //Ici on ajoutera probablement une classe
-		'menu_class' => '', //Ici aussi on ajoutera probablement une classe
-		'menu_id' => '',
-		'echo' => true,
-		'before' => '',
-		'after' => '',
-		'link_before' => '',
-		'link_after' => '',
-		'items_wrap' => '%3$s',
-		'depth' => 0,
-		'walker' => ''
-	);
-	
-?>
-
-<!doctype html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <title><?php// bloginfo('name'); ?> | <?php// wp_title(); ?></title> -->
-
-	<!-- Chargement de la feuille de style principale de WordPress -->
-	<!-- <link rel="stylesheet" type="text/css" href="<?php// get_stylesheet_uri(); ?>"> -->
-	<link rel="stylesheet" href="style.css" />
-  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
-	<?php
-		// À VÉRIFIER L'UTILITÉ RÉELLE DE CE HOOK
-	//	wp_head();
-	?>
-</head>
-<body>
-	<header class="container-fluid">
-		<div class="container">
-			
-			<?php
-				// Insertion du menu de navigation principal
-//				wp_nav_menu($menuPrincipal);
-			?>
-			<p> Ceci est le header </p>
-
-		</div>
-	</header>
-	
-	<!-- fin header -->
-
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+      <div class="container">
