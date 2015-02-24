@@ -16,7 +16,7 @@
     <![endif]-->
     <?php wp_head(); ?>
   </head>
-  <body>
+  <body id="contenu-site">
     <!--  -->
     <nav id="navbar-parenthese" class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">

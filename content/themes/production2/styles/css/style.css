@@ -63,10 +63,10 @@ button.btn-savoir {
 
   .carousel-caption h1 {
     margin-bottom: 57px; } }
-body {
+#contenu-site {
   font: 100% "Quicksand", sans-serif;
   color: #e82530;
-  margin-top: 104px !important; }
+  margin-top: 79px; }
 
 h1 {
   font: 100% "Quicksand", sans-serif !important;
@@ -75,20 +75,21 @@ h1 {
   font-weight: 700 !important;
   text-transform: uppercase; }
 
-h2 {
-  font: 100% "Quicksand", sans-serif !important;
-  color: #e82530 !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  text-align: center; }
+#contenu-site h2 {
+  font: 100% "Quicksand", sans-serif;
+  color: #e82530;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px; }
 
-h3 {
-  font: 100% "Quicksand", sans-serif !important;
-  color: #e82530 !important;
-  font-size: 25px !important;
-  font-weight: 700 !important; }
+#contenu-site h3 {
+  font: 100% "Quicksand", sans-serif;
+  color: #e82530;
+  font-size: 25px;
+  font-weight: 700; }
 
-p {
+#contenu-site p {
   font-family: "Raleway", sans-serif;
   color: #323232;
   font-size: 15px;
@@ -125,17 +126,23 @@ button {
   color: #fff; }
 
 @media screen and (max-width: 768px) {
-  h1 {
-    font-size: 24px !important; }
+  #contenu-site h1 {
+    font-size: 24px; }
 
-  h2 {
-    font-size: 14px !important; }
+  #contenu-site h2 {
+    font-size: 24px; }
 
-  h3 {
-    font-size: 11px !important; }
+  #contenu-site h3 {
+    font-size: 11px; }
 
-  p {
-    font-size: 10px; } }
+  #contenu-site p {
+    font-size: 10px; }
+
+  #contenu-site {
+    margin-top: 65px; } }
+@media screen and (min-width: 992px) {
+  #contenu-site {
+    margin-top: 104px; } }
 #logo {
   font: 100% "Quicksand", sans-serif;
   font-size: 20px;
@@ -163,12 +170,12 @@ button {
   #navbar-parenthese .navbar-collapse {
     border-color: #fff; }
   #navbar-parenthese .navbar-form {
-    border: none; }
+    border: 0 transparent; }
   #navbar-parenthese .navbar-toggle {
     margin-top: 12px;
     margin-bottom: 12px;
     border-color: transparent; }
-    #navbar-parenthese .navbar-toggle:hover {
+    #navbar-parenthese .navbar-toggle:hover, #navbar-parenthese .navbar-toggle:focus {
       background-color: transparent; }
     #navbar-parenthese .navbar-toggle .icon-bar {
       height: 3px;
@@ -217,7 +224,10 @@ button {
     padding: 33px; } }
 /* Large devices (large desktops, 1200px and up) */
 .postContainer {
-  padding-bottom: 30px; }
+  padding-bottom: 30px;
+  max-width: 385px;
+  float: none;
+  margin: 0 auto; }
   .postContainer img {
     max-width: 100%; }
 

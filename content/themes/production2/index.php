@@ -18,8 +18,6 @@
 
 	include_once("include/caroussel.php");
 ?>
-	<p>kawabunga</p>
-
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
 

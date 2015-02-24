@@ -1,7 +1,7 @@
-body
+#contenu-site
 	font: 100% $font-title
 	color: $color-red
-	margin-top: 104px!important
+	margin-top: 79px
 
 h1
 	font: 100% $font-title!important
@@ -10,20 +10,21 @@ h1
 	font-weight: $bold!important
 	text-transform: uppercase
 
-h2
-	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 30px!important
-	font-weight: $bold!important
+#contenu-site h2
+	font: 100% $font-title
+	color: $color-red
+	font-size: 30px
+	font-weight: $bold
 	text-align: center
+	margin-bottom: 20px
 
-h3
-	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 25px!important
-	font-weight: $bold!important
+#contenu-site h3
+	font: 100% $font-title
+	color: $color-red
+	font-size: 25px
+	font-weight: $bold
 
-p
+#contenu-site p
 	font-family: $font-text
 	color: $color-gris-fonce
 	font-size: 15px
@@ -65,20 +66,25 @@ button
 
 
 @media screen and (max-width: $screen-sm-min)  
-	h1
-		font-size: 24px!important
+	#contenu-site h1
+		font-size: 24px
 
-	h2
-		font-size: 14px!important
+	#contenu-site h2
+		font-size: 24px
 
-	h3
-		font-size: 11px!important
+	#contenu-site h3
+		font-size: 11px
 
-	p
+	#contenu-site p
 		font-size: 10px
 
+	#contenu-site
+		margin-top: 65px
 
-@media screen and (max-width: $screen-md-min)
+
+@media screen and (min-width: $screen-md-min)
+	#contenu-site
+		margin-top: 104px
 
 @media screen and (max-width: $screen-lg-min)
 
