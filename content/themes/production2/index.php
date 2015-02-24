@@ -18,14 +18,10 @@
 
 	include_once("include/caroussel.php");
 ?>
-	<p>kawabunga</p>
-
-	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
-
 
 	<!-- Affichage des 10 spectacles à venir -->
 
-	<div class="spectacles-a-venir-container">
+	<div class="spectacles-a-venir-container container">
 		<h2>Spectacles à venir</h2>
 		<div class="row">
 
@@ -52,7 +48,7 @@
 
 	</div>
 
-</div>
+
 	<!-- fin du contenu de la page index.php -->
 <?php get_footer(); ?>
 

@@ -1,4 +1,4 @@
-<section class="carousel2">
+<section class="carousel2 container-fluid ">
 	<div id="moncarousel" class="slide carousel carousel-fade" data-ride="carousel">
 	  <!-- Indicators -->
 		<ol class="carousel-indicators">
@@ -10,8 +10,8 @@
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner" role="listbox">
 			
-			<div class="item active">
-				<img src="<?php echo IMAGES; ?>/Coldplay.jpg" alt="Coldplay">
+			<div class="item active image-un">
+				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="Coldplay"> -->
 				<div class="carousel-caption">
 					<h1>Coldplay</h1>
 					<h2>25 janvier 2015</h2>
@@ -20,8 +20,8 @@
 				</div>
 			</div>
 
-			<div class="item">
-				<img src="<?php echo IMAGES; ?>/rogerWaters.jpg" alt="Roger Waters">
+			<div class="item image-deux">
+				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="Roger Waters"> -->
 				<div class="carousel-caption">
 					<h1>Roger Waters</h1>
 					<h2>25 février 2015</h2>
@@ -30,8 +30,8 @@
 				</div>
 			</div>
 			
-			<div class="item">
-				<img src="<?php echo IMAGES; ?>/theKillers.jpg" alt="The Killers">
+			<div class="item image-trois">
+				<!-- <img src="<?php// echo// IMAGES; ?>/roger-Hodgson.jpg" alt="The Killers"> -->
 				<div class="carousel-caption">
 					<h1>The Killers</h1>
 					<h2>25 mars 2015</h2>
