@@ -13,7 +13,30 @@
 					$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 					$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
 					$prestation_permalink = get_permalink();
+
+					// Switch pour le module de recherche
 					$rechercheInfructueuse = false;
+
+
+
+					/**
+					 * Formatage de la date pour convenir au design
+					 */
+
+					// Set local français-canada
+					setlocale(LC_ALL, 'frc', 'fr_CA');
+
+					// Conversion de la string de date de la BD en format time ('d-m-Y')
+					$new_date = strtotime($prestation_date);
+
+					// Chaque partie de la date est placée dans une variable
+					// strftime doit être utilisé pour le format en français
+					$prestation_jourDeSemaine = strftime("%a", $new_date);
+					$prestation_jourDuMois = strftime("%d", $new_date);
+					$prestation_mois = strftime("%b", $new_date);
+
+					
+
 
 
 
