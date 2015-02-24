@@ -28,12 +28,6 @@ class RB_Prestation_Admin extends RB_Admin
 //		),
 //	);
 	
-	public $metadatas = array( 
-		'rb_prestation_spectacle_id', 
-		'rb_prestation_date', 
-		'rb_prestation_heure' 
-	);
-	
 	/**
 	 * Constructeur.
 	 *
@@ -99,6 +93,17 @@ class RB_Prestation_Admin extends RB_Admin
 		</tr>
 		</table>
 	<?php
+	}
+	
+	
+	/**
+	 * @param WP_Post $post
+	 *
+	 * @return mixed|void
+	 */
+	public function render_default_metabox( $post )
+	{
+		return;
 	}
 	
 	
@@ -174,6 +179,7 @@ class RB_Prestation_Admin extends RB_Admin
 	//public function set_post_list_columns($columns)
 	//{
 	//	unset( $columns['date'], /* $columns['title'], */ $columns['categories'],
+	//		$columns['author'], $columns['tags'], $columns['comments'] );
 	//		$columns['author'], $columns['tags'], $columns['comments'] );
 	//
 	//	return array_merge( $columns,
@@ -251,7 +257,7 @@ class RB_Prestation_Admin extends RB_Admin
 	// */
 	//public function orderby_custom_columns( $vars )
 	//{
-	//	foreach ( $this->get_metadatas() as $metadata )
+	//	foreach ( $this->metadatas as $metadata )
 	//	{
 	//		if ( isset( $vars['orderby'] ) && $metadata == $vars['orderby'] ) {
 	//			

@@ -20,15 +20,17 @@ abstract class RB_Admin
 	/** @var string Le numéro de version du plugin. */
 	protected $version;
 	
-	/** @var string La classe pour le dashicon. */
+	/** @var string        La classe du dashicon à utiliser. Vide ou null si on ne veux pas de dashicon. */
 	public $dashicon;
-	/** @var Array{array} La liste des fichiers CSS à enqueue. */
+	/** @var Array{string} Les noms des colonnes à enlever de la liste d'éléments du type de post. */
+	public $hide_columns;
+	/** @var Array{array}  La liste des fichiers CSS à enqueue. */
 	public $styles;
-	/** @var Array{array} La liste des fichiers JS à enqueue. */
+	/** @var Array{array}  La liste des fichiers JS à enqueue. */
 	public $scripts;
-	/** @var Array{array} La liste des metadatas */
+	/** @var Array{array}  La liste des metadatas */
 	public $metadatas;
-	/** @var Array{array} La liste des metaboxes. */
+	/** @var Array{array}  La liste des metaboxes. */
 	public $metaboxes;
 	
 	/** @noinspection PhpDocSignatureInspection */
@@ -47,7 +49,8 @@ abstract class RB_Admin
 	 *
 	 *      @type string        $version            La version du plugin.
 	 *      @type string|null   $dashicon           La classe du dashicon à utiliser. Vide ou null si on ne veux pas de dashicon.
-	 *      @type array|null    $styles             { --- ARRAY ---
+	 *      @type array         $hide_columns       Les noms des colonnes à enlever de la liste d'éléments du type de post.
+	 *      @type array         $styles             { --- ARRAY ---
 	 *          Les styles à « enqueuer » dans la section admin.
 	 *
 	 *          @type array [0...n] { --- ARRAY ---
@@ -88,29 +91,29 @@ abstract class RB_Admin
 	 *          }
 	 *      }
 	 *      @type array         $metadatas          { --- ARRAY ---
-	 *          Les metadatas pour le type de post.
+	 *          Liste des metadatas pour le type de post.
 	 *
 	 *          @type array [ [a-Z](1,n) ] {--- ARRAY ---
 	 *              Les arguments pour chaque metadata.
 	 *              TODO implémenter les arguments de chaque metadata.
 	 * 
-	 *              @type    string  $type        Le type d'input.
-	 *              @type    string  $name        Le nom référé dans l'interface.
-	 *              @type    mixed   $default     La valeur par défaut.
-	 *              @type o. string  validate_cb  La fonction de callback de la validation de la metadata. Vide si y'en a pas.
-	 *              @type o. bool    is_saved     Vrai si la valeur doit être sauvegardée.
-	 *              @type o. bool    in_columns   Vrai si la metadata doit se retrouver dans les colonnes dans le panneau d'admin.
-	 *              @type o. string  $is_ref      Vrai si c'est une référence à une autre valeur ailleurs.
-	 *              @type o. string  $ref_type    Le type de la référence.
-	 *                                                Les types possibles et leur valeur dans 'ref_args' sont :
-	 *                                                      - (array) 'metadata' Une metadata comprenant le type de post référé,
-	 *                                                                           la clé de la metadata et la donnée d'affichage.
-	 *                                                      - (array) 'count'    Un compteur de données. Comprend
-	 *              @type o. array(mixed) $ref_args   Les arguments pour la référence.
+	 *              @type string       $type        Le type d'input.
+	 *              @type string       $name        Le nom référé dans l'interface.
+	 *              @type mixed        $default     La valeur par défaut.
+	 *              @type string       validate_cb  La fonction de callback de la validation de la metadata. Vide si y'en a pas.
+	 *              @type bool         is_saved     Vrai si la valeur doit être sauvegardée.
+	 *              @type bool         in_columns   Vrai si la metadata doit se retrouver dans les colonnes dans le panneau d'admin.
+	 *              @type string       $is_queried  Vrai si c'est une référence à une valeur ailleurs, pognée par un WP_Query.
+	 *              @type array(mixed) $query_args  Les arguments pour la référence. Les arguments sont :
+	 *                                                   - $type        => La place où on pogne cte valeur-là. Ex: post-type
+	 *                                                   - $arg_type    => L'argument pour le type. Ex: spectacle
+	 *                                                   - $val_meta    => La valeur qui est gardée dans le metadata. Ex: ID
+	 *                                                   - $val_echo    => La valeur affichée. Ex: title
+	 *                                                   - $modif_refed => Vrai si la valeur va affecter la référence.
 	 *          }
 	 *      }
 	 *      @type array         $metaboxes          { --- ARRAY ---
-	 *          Liste de metaboxes.
+	 *          Liste des metaboxes pour l'édition d'un post du post-type.
 	 *
 	 *          @type array $[0...n] { --- ARRAY ---
 	 *              Un meta-box.
@@ -120,7 +123,7 @@ abstract class RB_Admin
 	 *              @type bool   $show_dashicon Vrai si le Dashicon doit être affiché après le titre de la metabox.
 	 *              @type string $dashicon      La classe du dashicon à afficher.
 	 *                                          Si vide, ce sera celle définie à la racine des args.
-	 *              @type string $callback      Le nom de la fonction appelée qui va afficher le HTML intérieur.
+	 *              @type string $callback_tag   Le nom de la fonction appelée qui va afficher le HTML intérieur.
 	 *              @type string $context       Le contexte. ex: 'side', 'normal' ou 'advanced'
 	 *              @type string $priority      La priorité. ex: 'core'
 	 *          }
@@ -143,9 +146,7 @@ abstract class RB_Admin
 		if ( empty( $post_type ) || strlen( $post_type ) > 20 )
 		{
 			// Envoyer une exception, vu qu'il faut avoir un post-type valide
-			// TODO: Mettre la bonne version de WP.
-			return $this->afficher_msg_erreur( 'rb_admin_post_type_length_invalid',
-			                                   'Les noms de Post Types doivent être entre 1 et 20 caractères de longueur.', __FUNCTION__ );
+			wp_die( __( __FUNCTION__.': Les noms de Post Types doivent être entre 1 et 20 caractères de longueur.' ) );
 		}
 		// TODO: Trouver un moyen efficace de faire la vérification de la création du post_type.
 		//elseif ( ! post_type_exists( $post_type ) ) // Sinon vérifier si le post_type existe.
@@ -165,11 +166,13 @@ abstract class RB_Admin
 		
 		// Valeurs par défaut dans le root.
 		$defaults = array(
-			'version'   => $wp_version,
-			'dashicon'  => '',
-			'styles'    => array(), /** @see $defaults_styles */
-			'scripts'   => array(), /** @see $defaults_scripts */
-			'metaboxes' => array(), /** @see $defaults_metaboxes */
+			'version'      => $this->get_version(),
+			'dashicon'     => '',
+			'hide_columns' => array(),
+			'styles'       => array(), /** @see $defaults_styles */
+			'scripts'      => array(), /** @see $defaults_scripts */
+			'metadatas'    => array(), /** @see $defaults_metadatas */
+			'metaboxes'    => array(), /** @see $defaults_metaboxes */
 		);
 		
 		// Valeurs par défaut des styles.
@@ -192,15 +195,14 @@ abstract class RB_Admin
 		
 		// Valeurs par défaut des métadonnées.
 		$defaults_metadatas = array(
-			'type'              => 'text',
-			'name'              => '',
-			'default'           => undefined,
+			'type'              => 'static:text',
+			'name'              => 'Metadata sans-nom',
+			'default'           => '',
 			'validate_cb'       => null,
 			'is_saved'          => true,
 			'in_columns'        => false,
-			'is_ref'            => false,
-			'ref_type'          => null,
-			'ref_args'          => array(),
+			'is_queried'        => false,
+			'query_args'        => array(),
 		);
 		
 		// Valeurs par défaut des metaboxes.
@@ -209,10 +211,11 @@ abstract class RB_Admin
 			'title'         => 'Metabox Sans-Nom',
 			'show_dashicon' => false,
 			'dashicon'      => '',
-			'callback'      => null,
+			'callback_tag'  => null,
 			'screen'        => $this->post_type,
 			'context'       => 'default',
 			'priority'      => null,
+			'metadatas'     => array(),
 		);
 		
 		/* ------------------------------------------ */
@@ -304,22 +307,23 @@ abstract class RB_Admin
 				// Mettre les valeurs de script par défaut au script courant.
 				$script = wp_parse_args( $script, $defaults_scripts );
 				
-				// Checker si le handle ET le path ont été inclus dans le script.			
-				if ( ! array_key_exists( 'handle', $script ) || ! array_key_exists( 'filepath', $script ) ) {
+				// Checker si le handle ET le path ont été inclus dans le script.
+				if ( !is_string( $script['handle'] ) || !is_file( $script['filepath'] ) )
+				{
 					// Envoyer une exception, vu qu'on a besoin d'un handle et d'un filepath obligatoirement.
-					wp_die( __( "Les tables associatives de scripts doivent être formées correctement." ) );
+					wp_die( __( "La table associative du script ".$script['id']." doit être formée correctement." ) );
 				}
 				
-				// Checker si les dépendences ont été inclues dans le script.
-				if ( array_key_exists( 'dependencies', $script ) ) {
-					// Checker si les dépendences sont vides ou non.
-					if ( ! is_array( $script['dependencies'] ) || empty( $script['dependencies'] ) ) {
-						// Mettre les dépendances à un array vide si elles sont pas un array rempli.
-						// Notez que je n'affiche pas d'erreurs, vu que j'pas sûr quoi faire à date avec les dépendances!
-						$script['dependencies'] = array();
-					}
+				// Checker si les dépendences sont vides ou non.
+				if ( ! is_array( $script['dependencies'] ) || empty( $script['dependencies'] ) )
+				{
+					// Mettre les dépendances à un array vide si elles sont pas un array rempli.
+					// Note: je n'affiche pas d'erreurs, vu que j'pas sûr quoi faire à date avec les dépendances!
+					$script['dependencies'] = array();
 					// TODO: Implémenter les dépendances.
-				} else { // Sinon mettre les dépendances du script courant à null.
+				}
+				else  // Sinon mettre les dépendances du script courant à null.
+				{
 					$script['dependencies'] = array();
 				}
 				
@@ -353,10 +357,22 @@ abstract class RB_Admin
 				$metadata = wp_parse_args( $metadata, $defaults_metadatas );
 				
 				// Vérifier si l'id existe.
-				if ( !is_string( $metadata['type'] ) && empty( $metadata['type'] ) )
+				if ( !is_string( $metadata['type'] ) || empty( $metadata['type'] ) )
 				{
 					// Si c'est pas un array, on affiche un msg d'erreur.
 					wp_die( __( "Les types des metadatas doivent être formées correctement." ) );
+				}
+				else
+				{
+					if ( ! is_array( $metadata['query_args'] ) )
+					{
+						wp_die( __( 'Les arguments de référence pour '.$metadata[''].' doivent être ' ) );
+					}
+					
+					//switch ()
+					//{
+					//	
+					//}
 				}
 				
 				// Vérifier si le callback existe.
@@ -426,15 +442,16 @@ abstract class RB_Admin
 	
 	/**
 	 * Affiche un message d'erreur à partir des infos entrées.
-	 * 
+	 *
 	 * Cette méthode garde mon code DRY lors de la création de messages d'erreurs.
-	 * 
-	 * @param string $code     Le code d'erreur.
-	 * @param string $msg      Le message d'erreur à afficher.
+	 *
+	 * @param string $code Le code d'erreur.
+	 * @param string $msg Le message d'erreur à afficher.
 	 * @param string $fonction La fonction où fut causée l'erreur.
-	 * @param string $version  La version de WP.
-	 * 
+	 * @param string $version La version de WP.
+	 *
 	 * @deprecated
+	 * @return \WP_Error
 	 */
 	public function afficher_msg_erreur( $code, $msg, $fonction='', $version='' )
 	{
@@ -491,8 +508,8 @@ abstract class RB_Admin
 			                                * @see WP_Dependencies::add()
 			                                * TODO: voir « WP_Dependencies() » 
 			                                */
-				$this->version,         // Version
-				$script['in_footer']    // Vrai si le script doit être ajouté dans le footer.
+				$this->version,             // Version
+				$script['in_footer']        // Vrai si le script doit être ajouté dans le footer.
 			);
 		}
 		
@@ -511,24 +528,67 @@ abstract class RB_Admin
 		
 		foreach ($this->metaboxes as $metabox)
 		{
+			$metabox_title = $metabox['title'];
+			
 			// S'il faut afficher le dashicon dans la metabox courante, mettre le HTML requis!
 			// TODO: adapter ça pour les templates.
-			$dashicon_html = $metabox['show_dashicon'] ? '<span class="dashicons ' . $metabox['dashicon'] . '"></span>' : '';
+			if ( $metabox['show_dashicon'] )
+			{
+				if ( !empty( $metabox['dashicon'] ) )
+				{
+					$icon_class = $metabox['dashicon'];
+					
+					if ( !strstr( $metabox['dashicon'], 'dashicon-' ) ) 
+					{
+						$icon_class = "dashicon-" . $icon_class;
+					}
+				}
+				else
+				{
+					
+				}
+				
+				$metabox_title .= '<span class="dashicons ' . $icon_class . '"></span>';
+			}
 			
 			// Former le titre de la metabox.
-			$metabox_title = '<h1>' . $metabox['title'] . $dashicon_html . '</h1>';
 			
-			// Définir le nom de la fonction de callback.
-			$metabox_callback = sprintf( 'render_%s_metabox', $metabox['callback'] );
+			
+			// Définir la base du format du nom du callback.
+			$base_sprint_callback_fn = 'render_%s_metabox';
+			
+			// Formater le nom du callback d'affichage.
+			$formatted_callback_fn = sprintf( $base_sprint_callback_fn, $this->post_type . "_" . $metabox['callback_tag'] );
+			
+			// Déclarer le callback à inclure dans les arguments.
+			$metabox_callback = null;
+			
+			// Vérifier si le callback n'est pas vide.
+			if ( ! empty( $metabox['callback_tag'] ) )
+			{
+				// Si la méthode n'existe pas, mettre un callback par défaut.
+				if ( !method_exists( $this, $formatted_callback_fn ) )
+				{
+					// Définir le nom de la fonction de callback.
+					$formatted_callback_fn = sprintf( $base_sprint_callback_fn, "default" );
+				}
+				
+				// Définir le nom de la fonction de callback.
+				$metabox_callback = array( $this, $formatted_callback_fn );
+			}
+			else
+			{
+				wp_die( __( "La méthode de callback de l'affichage de la metabox ".$metabox['title']." est invalide !" ) );
+			}
 			
 			// Ajouter la meta-box.
 			add_meta_box(
-				$metabox['id'],                    // Attribut « id » dans la balise.
-				$metabox_title,                    // Titre dans le header du metabox.
-				array( $this, $metabox_callback ), // Callback qui va echo l'affichage.
-				$this->post_type,                  // L'écran où est affiché le meta-box.
-				$metabox['context'],               // Le contexte. ex. "side", "normal" ou "advanced".
-				$metabox['priority']               // La priorité.
+				$metabox['id'],      // Attribut « id » dans la balise.
+				$metabox_title,      // Titre dans le header du metabox.
+				$metabox_callback,   // Callback qui va echo l'affichage.
+				$this->post_type,    // L'écran où est affiché le meta-box.
+				$metabox['context'], // Le contexte. ex. "side", "normal" ou "advanced".
+				$metabox['priority'] // La priorité.
 				// TODO: Savoir si on doit inclure les callback_args.
 			);
 			
@@ -537,28 +597,24 @@ abstract class RB_Admin
 	}
 	
 	/**
-	 * Retourne la liste des métadonnées assignées pour ce post-type.
-	 *
-	 * @return array La liste de metadatas.
-	 */
-	public function get_metadatas()
-	{
-		return $this->metadatas;
-	}
-	
-	/**
 	 * Effectue un rendu de la metabox des informations.
 	 *
-	 * @param WP_Post $prestation
+	 * @param WP_Post $post Une instance de l'objet Post.
+	 *
+	 * @return void|mixed
 	 */
 	public function render_info_metabox( $post )
 	{
 		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
-		if ( ! current_user_can( 'edit_posts' ) ) 
-			return;
+		if ( ! current_user_can( 'edit_posts' ) )
+		{
+			return false;
+		}
 		
-		if ( function_exists( sprintf( 'render_%s_info_metabox', $this->post_type ) ) );
+		if ( function_exists( sprintf( 'render_%s_info_metabox', $this->post_type ) ) )
+		{
 			return call_user_func( array( $this, sprintf( 'render_%s_info_metabox', $this->post_type ) ), $post );
+		}
 		
 		// Pogner toutes les metadonnées.
 		$post_metas = get_post_meta( $post->ID );
@@ -566,7 +622,18 @@ abstract class RB_Admin
 		// Afficher le debugger si on en a besoin.
 		if ( WP_DEBUG_DISPLAY )
 			var_dump( $post_metas );
+		
+		return null;
 	}
+	
+	/**
+	 * Effectue le rendu de la metabox par défaut.
+	 *
+	 * @param WP_Post $post Instance du post.
+	 * 
+	 * @return mixed
+	 */
+	abstract public function render_default_metabox( $post );
 	
 	/**
 	 * Sauvegarde les données des meta-data du post.
@@ -580,10 +647,8 @@ abstract class RB_Admin
 	 * @param int     $post_id L'ID de la prestation.
 	 * @param WP_Post $post    Une instance de la prestation.
 	 */
-	public function save_custom_post( $post_id, $post )
+	public final function save_custom_post( $post_id, $post )
 	{
-		global $wpdb;
-		
 		if ( $this->post_type != $post->post_type )
 			return;
 		
@@ -614,6 +679,7 @@ abstract class RB_Admin
 			if ( $this->key_is_internal( $key ) )
 				continue;
 			
+			// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
 			if ( ! $args['is_saved'] )
 				continue;
 			
@@ -632,15 +698,15 @@ abstract class RB_Admin
 							update_post_meta( $post_id, $key, $_POST[$key] );
 						else // Si la fonction a retournée FAUX.
 							// Retourner une erreur.
-							wp_die( __( "La validation de la donnée" . $key . "a échouée !" ) );
+							wp_die( __( "La validation de la donnée " . $key . " a échouée !" ) );
 					}
 					else // Si la fonction n'existe pas.
 					{
-						// Retourner une erreur.						
+						// Retourner une erreur.
 						wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
 					}
 				}
-				else // Sinon
+				else // Si tout le reste s'est bien passé.
 				{
 					// Mettre à jour la valeur de la metadata avec celle du $_POST.
 					update_post_meta( $post_id, $key, $_POST[$key] );
@@ -648,16 +714,13 @@ abstract class RB_Admin
 			}
 		}
 		
-		// Ajouter une action.
-		// TODO trouver une utilité pour ça.
-		if ( method_exists( $this, $this->post_type.'_post_saved' ) )
-			call_user_func( array( $this, $this->post_type.'_post_saved' ) );
+		// Ajouter des actions après.
+		do_action( 'rb'.$this->post_type.'_post_saved', array( $post_id ) );
+		do_action( 'rb_custom_post_saved', array( $post_id ) );
 	}
 	
 	/**
 	 * Modifie les colonnes affichées dans la liste de prestations sur le panneau d'admin.
-	 *
-	 * TODO: transformer « set_post_list_columns » pour que ça soit compatible avec la nouvelle structure.
 	 * 
 	 * @filter manage_prestation_posts_columns
 	 *
@@ -665,14 +728,15 @@ abstract class RB_Admin
 	 *
 	 * @return array La nouvelle liste de colonnes.
 	 */
-	public function set_post_list_columns( $columns )
+	public final function set_post_list_columns( $columns )
 	{
 		$retour = array();
 		
-		unset( $columns['date'], /* $columns['title'], */
-			$columns['categories'],
-			$columns['author'], $columns['tags'], $columns['comments'] );
+		// Enlever toutes les colonnes à enlever.
+		foreach ( $this->hide_columns as $hidden_column_name )
+			unset( $columns[ $hidden_column_name ] );
 		
+		// Ajouter toutes les colonnes à ajouter.
 		foreach ( $this->metadatas as $key => $metadata )
 		{
 			if ( $metadata['in_columns'] )
@@ -689,34 +753,51 @@ abstract class RB_Admin
 	 *
 	 * TODO: transformer « display_custom_columns_data » pour que ça soit compatible avec la nouvelle structure.
 	 * 
-	 * @action manage_prestation_posts_custom_column
+	 * @action manage_{POST-TYPE}_posts_custom_column
 	 *
 	 * @param string $column  Le nom de la colonne.
 	 * @param int    $post_id L'ID du post courant dans la loop d'affichage de la liste.
 	 */
-	public function display_custom_columns_data( $column, $post_id )
+	public final function display_custom_columns_data( $column, $post_id )
 	{
 		global $post;
 		
-		if ($this->metadatas[$column][''])
+		$col = $this->metadatas[$column];
 		
-		echo get_post_meta( $post_id, $column, true );
+		if ( WP_DEBUG_DISPLAY )
+			var_dump($col);
+		
+		// Si ça doit être affiché dans les colonnes...
+		if ( $col['in_columns'] )
+		{
+			$metavalue = get_post_meta( $post_id, $column, true );
+			
+			// Si la valeur affichée doit être une référence à une autre valeur...
+			if ( $col['is_queried'] ) 
+			{
+				$col['query_args'][0];
+			}
+			else
+			{
+				
+			}
+		}
 		
 		// TODO adapter aux metadatas qui font des références.
 	}
 	
 	/**
 	 * Assigne la posibilité de trier des posts par rapport aux colonnes personnalisées.
-	 *
-	 * TODO: transformer « sort_custom_columns » pour que ça soit compatible avec la nouvelle structure.
+	 * 
+	 * @filter manage_edit-{POST-TYPE}_sortable_columns
 	 * 
 	 * @param Array $columns Les colonnes déjà triables.
 	 *
 	 * @return Array Les colonnes triables, incluant nos colonnes personnalisées.
 	 */
-	public function sort_custom_columns( $columns )
+	public final function sort_custom_columns( $columns )
 	{
-		foreach ( $this->metadatas as $key => $metadata )
+		foreach ( $this->metadatas as $key => $data )
 			$columns[$key] = $key;
 		
 		return $columns;
@@ -724,24 +805,22 @@ abstract class RB_Admin
 	
 	/**
 	 * Ajoute la requête de triage pour chaque type.
-	 *
-	 * TODO: transformer « orderby_custom_columns » pour que ça soit compatible avec la nouvelle structure.
 	 * 
 	 * @filter request
 	 *
-	 * @param $vars
+	 * @param array $vars Les colonnes je crois...?
 	 *
-	 * @return array
+	 * @return array L'array mergé, ou pas mergé; who knows.
 	 */
-	public function orderby_custom_columns( $vars )
-	{
+	public final function orderby_custom_columns( $vars )
+	{	
 		foreach ( $this->metadatas as $key => $metadata ) 
 		{
 			if ( isset( $vars['orderby'] ) ) 
 			{	
 				$args = array(
 					'meta_key' => $key,
-					'orderby' => 'meta_value_num'
+					'orderby' => 'meta_value_num',
 				);
 				
 				$vars = array_merge( $vars, $args );
@@ -752,17 +831,66 @@ abstract class RB_Admin
 	}
 	
 	/**
+	 * 
+	 * 
+	 * @access private
+	 * 
+	 * @param string $metatype Le type de la meta.
+	 */
+	private final static function metatype_to_html( $metatype )
+	{
+		// TODO ça.
+		switch ($metatype)
+		{
+			case '0':
+				
+				break;
+			
+			case '1':
+				
+				break;
+			
+			case '2':
+				
+				break;
+			
+			case '3':
+				
+				break;
+			
+			case '4':
+				
+				break;
+			
+			default:
+				
+				break;
+		}
+	}
+	
+	/**
+	 * Transforme le metatype en array et le vérifie.
+	 * 
+	 * @param $metatype
+	 */
+	private final static function verify_metatype( $metatype )
+	{
+		
+	}
+	
+	/**
 	 * Retourne vrai si le nom de clé entré est interne à Wordpress.
 	 * 
 	 * Check si ya un '_' au début du nom de la clé. 
 	 * 
-	 * @param $key Le nom de la clé.
+	 * @param string|int $key Le nom de la clé.
 	 *
 	 * @return bool Vrai si la clé est interne.
 	 */
-	function key_is_internal($key)
+	public final function key_is_internal($key)
 	{
 		$keyt = trim($key);
+		
 		return ( $keyt{0} == '_' );
 	}
 	

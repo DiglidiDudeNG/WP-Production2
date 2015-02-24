@@ -54,45 +54,64 @@ class RB_Prestation extends RB_Section
 	{
 		// Définir la table d'arguments.
 		$args = array(
-			'version' => $this->get_version(),
-			'styles' => array(
-				array(
-					'handle' => $this->slug . 'prestation_admin',
+			'version'       => $this->get_version(),
+			'dashicon'      => '',
+			'hide_columns'  => array( 'date', 'author', 'comments' ),
+			'styles'        => array( // Les styles
+				array( // Un style par défaut.
+					'handle'   => $this->slug . 'prestation_admin',
 					'filepath' => 'css/rb-prestation-admin.css',
 				)
 			),
-			'scripts' => array(
+			'scripts' => array( // Les scripts.
 				// TODO ajouter des scripts si possible.
 			),
-			'metadatas' => array(
-				'rb_spectacle_id' => array(
-					'type'       => 'select',
-					'name'       => 'Spectacle',
-					'default'    => '0',
-					'in_columns' => true,
+			'metadatas' => array( // Les Metadatas.
+				'rb_spectacle_id' => array( // L'ID du spectacle relié.
+					'type'          => 'input:select',
+					'name'          => 'Spectacle',
+					'default'       => '0',
+					'in_columns'    => true,
+					'is_queried'    => true,
+					'ref_args'      => array( 'post-type', 'spectacle', 'ID', 'title', false ),
 				),
-				'rb_date' => array(
-					'type'       => 'date',
+				'rb_date' => array( // La date.
+					'type'       => 'input:date',
 					'name'       => 'Date',
 					'default'    => '2014-02-15',
 					'in_columns' => true,
 				),
-				'rb_heure' => array(
-					'type'       => 'time',
+				'rb_heure' => array( // L'heure.
+					'type'       => 'input:time',
 					'name'       => 'Heure',
-					'default'    => '20:00',
+					'default'    => '01:00',
+					'in_columns' => true,
+				),
+				'rb_nb_billets' => array( // Le nombre de billets restants.
+					'name'       => 'Billets restants',
+					'default'    => get_option('rb_billets_par_defaut'),
 					'in_columns' => true,
 				),
 			),
 			'metaboxes' => array(
-				array(
-					'id' => 'rb_prestation_infobox',
-					'title' => 'Infos générales de la Prestation',
+				array( // La metabox générale.
+					'id'            => 'rb_prestation_general',
+					'title'         => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
-					'callback' => 'info', // sera 'render_info_metabox'
-					'screen' => $this->post_type,
-					'context' => 'normal',
-					'priority' => 'high',
+					'callback_tag'  => 'info', // sera 'render_info_metabox'
+					'context'       => 'normal',
+					'priority'      => 'high',
+					'metadatas'     => array( 'rb_spectacle_id', 'rb_date', 'rb_heure' ),
+				),
+				array( // La metabox des billets.
+					'id'            => 'rb_prestation_billets',
+					'title'         => 'Nb de billets restants',
+					'show_dashicon' => true,
+					'dashicon'      => 'tickets-alt',
+					'callback_tag'  => 'billets',
+					'context'       => 'side',
+					'priority'      => 'high',
+					'metadatas'     => array( 'rb_nb_billets' ),
 				)
 			),
 		);
@@ -102,14 +121,14 @@ class RB_Prestation extends RB_Section
 	}
 
 	/**
-	 * Définit les hooks du panneau d'administration.
+	 * Définit les hooks spécifiques au panneau d'administration des Prestations.
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
 	 *
 	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_extra_hooks(RB_Loader $loader)
+	protected function define_prestation_admin_hooks(RB_Loader $loader)
 	{
 		
 	}

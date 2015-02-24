@@ -79,5 +79,10 @@ class RB_Spectacle_Admin extends RB_Admin
 		// Retourner vrai si ça marche, null sinon.
 		return ( $meta_key == "nb_billets" && empty( $meta_value ) ) ? true : null;
 	}
+	
+	public function render_default_metabox( $post )
+	{
+		// TODO: Implement render_default_metabox() method.
+	}
 }
 

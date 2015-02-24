@@ -89,10 +89,11 @@ abstract class RB_Section
 
 			$loader->queue_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 			
-			$loader->queue_action( 'admin_init', $this->admin, 'add_all_meta_boxes' );
+			$loader->queue_action( 'add_meta_boxes', $this->admin, 'add_all_meta_boxes' );
 			
 			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );
 			
+			// Manager des colonnes.
 			$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
 			
 			$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
@@ -105,6 +106,9 @@ abstract class RB_Section
 			if ( function_exists( 'define_'.$this->post_type.'_admin_hooks' ) )
 				call_user_func( array( $this, 'define_'.$this->post_type.'_admin_hooks' ), $loader );
 		}
+		
+		if ( function_exists( 'define_'.$this->post_type.'_after_admin_hooks' ) )
+			call_user_func( array( $this, 'define_'.$this->post_type.'_after_admin_hooks' ), $loader );
 	}
 	
 	/**

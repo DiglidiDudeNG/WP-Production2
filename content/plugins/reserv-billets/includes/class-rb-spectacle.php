@@ -66,10 +66,11 @@ class RB_Spectacle extends RB_Section
 	{
 		// Définir la table d'arguments.
 		$args = array(
-			'version' => $this->get_version(),
-			'styles' => array(
+			'version'      => $this->get_version(),
+			'hide_columns' => array( 'date', 'author', 'comments' ),
+			'styles'       => array(
 				array(
-					'handle' => $this->slug . 'spectacle_admin',
+					'handle'   => $this->slug . 'spectacle_admin',
 					'filepath' => 'css/rb-spectacle-admin.css',
 				)
 			),
@@ -77,17 +78,20 @@ class RB_Spectacle extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
-				
+				'rb_liste_prestation_id' => array(
+					'type' => 'static:list',
+					
+				),
 			),
 			'metaboxes' => array(
 				array(
-					'id' => 'rb_spectacle_infobox',
-					'title' => 'Infos générales du Spectacle',
+					'id'            => 'rb_spectacle_infobox',
+					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback' => 'info', // sera 'render_info_metabox'
-					'screen' => 'spectacle',
-					'context' => 'normal',
-					'priority' => 'high',
+					'callback_tag'  => 'info', // sera 'render_info_metabox'
+					'screen'        => 'spectacle',
+					'context'       => 'normal',
+					'priority'      => 'high',
 				)
 			),
 		);
@@ -95,10 +99,19 @@ class RB_Spectacle extends RB_Section
 		// Créer l'objet qui gère le panneau d'administration.
 		return new $this->admin_class( self::SLUG_DEFAULT, $args );
 	}
-
-	/* ################################ */
-	/* DÉBUT DES FONCTIONS DE CALLBACKS */
-	/* ################################ */
+	
+	/**
+	 * Définit les hooks spécifiques au panneau d'administration des Spectacles.
+	 *
+	 * @access  protected
+	 * @see     RB::define_all_admin_hooks
+	 *
+	 * @param   \RB_Loader $loader Un pointeur vers le loader.
+	 */
+	protected function define_spectacle_admin_hooks(RB_Loader $loader)
+	{
+		
+	}
 
 	/**
 	 * Crée le post type `Spectacle`
