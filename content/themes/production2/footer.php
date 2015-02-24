@@ -1,15 +1,18 @@
 	<!-- début footer -->
 		<footer>
 			<div class="footer-top">
-				<div class="container adresse">
-					<p>Salle { Parenthèse</p>
-					<p>987 avenue Cartier</p>
-					<p>Québec (Québec) G1F 5T6</p>
-					<p>info@salleparenthese.com</p>				
-				</div>
-				<div class="container reseau">
-					<i class="fa fa-facebook"></i>
-					<i class="fa fa-twitter"></i>
+				<div class="container">
+					<address>
+						<p><strong>Salle { Parenthèse</strong></p>
+						<p>987 avenue Cartier</p>
+						<p>Québec (Québec) G1F 5T6</p>
+						<p>info@salleperenthese.com</p>
+					</address>
+		
+					<div class="reseau">
+						<i class="fa fa-facebook"></i>
+						<i class="fa fa-twitter"></i>
+					</div>
 				</div>
 			</div>
 			<div class="footer-bottom">

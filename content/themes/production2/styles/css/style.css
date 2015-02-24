@@ -298,7 +298,8 @@ button {
   padding: 10px; }
 
 footer p {
-  color: #fff; }
+  color: #fff;
+  margin: 0; }
 
 .footer-bottom {
   background-color: #e82530;
@@ -307,3 +308,21 @@ footer p {
 
 i {
   font-size: 20px; }
+
+footer address {
+  display: inline-block; }
+
+footer div.reseau {
+  display: inline-block;
+  float: right;
+  vertical-align: middle; }
+
+/* Extra small devices (phones, less than 768px) */
+/* Small devices (tablets, 768px and up) */
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  footer p:nth-child(1) {
+    font-size: 17px; }
+  footer p:nth-child(2), footer p:nth-child(3), footer p:nth-child(4) {
+    font-size: 15px; } }
+/* Large devices (large desktops, 1200px and up) */
