@@ -23,9 +23,6 @@ class RB_Spectacle extends RB_Section
 {
 	/** @const string Le nom de la slug par défaut. */
 	const SLUG_DEFAULT = 'spectacle';
-	
-	/** @var string Le nom de la classe à créer. */
-	public $admin_class = 'RB_Spectacle_Admin';
 
 	/**
 	 * Constructeur. Fais pas mal de choses.
@@ -78,36 +75,59 @@ class RB_Spectacle extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
-				'rb_liste_prestation_id' => array(
-					'type'       => 'link:json',
-					'name'       => 'Liste des Prestations',
-				    'default'    => '{}',
-					'in_columns' => true, 
-					'is_query'   => true,
-					'query_args' => '', // TODO query args.
+				'rb_spectacle_liste_prestation_id' => array(
+					'type'          => 'link:json',
+					'name'          => __( 'Liste des Prestations' ),
+					'default'       => '{}',
+					'in_columns'    => true,
+					'is_query'      => true,
+					'metabox_query' => array( 
+						'post_type' => 'prestation',
+						'meta_key'  => 'rb_prestation_spectacle_id',
+						 // TODO trouver quoi envoyer comme meta_value.
+					),
+				    'column_query' => array(
+					    'post_type'  => 'prestation',
+					    'meta_key'   => 'rb_prestation_spectacle_id', // TODO adapter.
+				    ),
+				),
+				'rb_spectacle_artiste_site_url' => array(
+					'type'       => 'input:url',
+					'name'       => __( "URL du site de l'artiste" ),
+					'default'    => '#',
+				),
+				'rb_spectacle_artiste_facebook_url' => array(
+					'type'       => 'input:url',
+				    'name'       => __( "URL du Facebook de l'artiste" ),
+					'default'    => '#',
+				),
+				'rb_spectacle_prix' => array(
+					'type'       => 'input:currency',
+					'name'       => __( "Prix d'entrée pour une personne" ),
+					'default'    => 1.00,
 				),
 			),
-			/*
-			chaque spectacles ........ 
-			champs pour  url de l'artiste   
-			facebook de l'artiste  
-			prix 
-			la categorie (rock-alternatif, pop, seventies
-			 */
 			'metaboxes' => array(
 				array(
-					'id'            => 'rb_spectacle_infobox',
+					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
 					'callback_tag'  => 'info', // sera 'render_info_metabox'
 					'context'       => 'normal',
 					'priority'      => 'high',
+					'metadatas'     => [
+						'rb_spectacle_artiste_site_url',
+						'rb_spectacle_artiste_facebook_url',
+					    'rb_spectacle_prix',
+					],
 				)
 			),
 		);
 		
+		$nom_classe = __CLASS__."_Admin";
+		
 		// Créer l'objet qui gère le panneau d'administration.
-		return new $this->admin_class( self::SLUG_DEFAULT, $args );
+		return new $nom_classe( self::SLUG_DEFAULT, $args );
 	}
 	
 	/**
@@ -135,19 +155,19 @@ class RB_Spectacle extends RB_Section
 			'menu_name'           => __( 'Spectacle', '/langage' ),
 			'parent_item_colon'   => __( 'Parent', '/langage' ),
 			'all_items'           => __( 'Tous les Spectacles', '/langage' ),
-			'view_item'           => __( 'Voir les infos du Spectacle', '/langage' ),
+			'view_item'           => __( 'Voir Spectacle', '/langage' ),
 			'add_new_item'        => __( 'Ajouter un Spectacle', '/langage' ),
 			'add_new'             => __( 'Ajouter', '/langage' ),
 			'edit_item'           => __( 'Éditer les infos du Spectacle', '/langage' ),
 			'update_item'         => __( 'Mettre à jour les infos du Spectacle', '/langage' ),
-			'search_items'        => __( 'Chercher un Spectacle', '/langage' ),
+			'search_items'        => __( 'Rechercher un Spectacle', '/langage' ),
 			'not_found'           => __( 'Non-trouvé', '/langage' ),
 			'not_found_in_trash'  => __( 'Non-trouvé dans la corbeille', '/langage' ),
 		);
 
 		// Déclarer les arguments du rewrite pour le post-type.
 		$rewrite = array(
-			'slug'                => 'spectacle',
+			'slug'                => self::SLUG_DEFAULT,
 			'with_front'          => true,
 			'pages'               => true,
 			'feeds'               => true,
@@ -177,6 +197,6 @@ class RB_Spectacle extends RB_Section
 		);
 
 		// Enregistre le post-type à l'aide de la liste d'arguments.
-		register_post_type( 'spectacle', $args );
+		register_post_type( self::SLUG_DEFAULT, $args );
 	}
 }

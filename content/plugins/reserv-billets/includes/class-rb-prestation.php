@@ -10,9 +10,6 @@ class RB_Prestation extends RB_Section
 	/** @const  String Le nom de la slug par défaut. */
 	const SLUG_DEFAULT = 'prestation';
 	
-	/** @var string */
-	public $admin_class = 'RB_Prestation_Admin'; // TODO générer ça automatiquement.
-	
 	/** @var RB_Prestation_Admin L'objet d'administration du post_type Prestation. */
 	public $admin;
 
@@ -67,27 +64,33 @@ class RB_Prestation extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array( // Les Metadatas.
-				'rb_spectacle_id' => array( // L'ID du spectacle relié.
+				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
 					'type'          => 'input:select',
 					'name'          => 'Spectacle',
 					'default'       => '0',
 					'in_columns'    => true,
-					'is_query'    => true,
-					'query_args'      => array( 'post-type', 'spectacle', 'ID', 'title', false ),
+					'is_query'      => true,
+					'metabox_query' => array(
+						'post_type'  => 'spectacle',
+					), // TODO adapter à nouvelle façon.
+					'column_query'  => array( 
+						'post_type'  => 'spectacle',
+						'meta_key'   => '',
+					), // TODO adapter à nouvelle façon.
 				),
-				'rb_date' => array( // La date.
+				'rb_prestation_date' => array( // La date.
 					'type'       => 'input:date',
 					'name'       => 'Date',
 					'default'    => '2014-02-15',
 					'in_columns' => true,
 				),
-				'rb_heure' => array( // L'heure.
+				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
 					'name'       => 'Heure',
 					'default'    => '01:00',
 					'in_columns' => true,
 				),
-				'rb_nb_billets' => array( // Le nombre de billets restants.
+				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
 					'name'       => 'Billets restants',
 					'default'    => get_option('rb_billets_par_defaut'),
 					'in_columns' => true,
@@ -101,7 +104,7 @@ class RB_Prestation extends RB_Section
 					'callback_tag'  => 'info', // sera 'render_info_metabox'
 					'context'       => 'normal',
 					'priority'      => 'high',
-					'metadatas'     => array( 'rb_spectacle_id', 'rb_date', 'rb_heure' ),
+					'metadatas'     => [ 'rb_prestation_spectacle_id', 'rb_prestation_date', 'rb_prestation_heure' ],
 				),
 				array( // La metabox des billets.
 					'id'            => 'rb_prestation_billets',
@@ -111,13 +114,15 @@ class RB_Prestation extends RB_Section
 					'callback_tag'  => 'billets',
 					'context'       => 'side',
 					'priority'      => 'high',
-					'metadatas'     => array( 'rb_nb_billets' ),
+					'metadatas'     => [ 'rb_prestation_nb_billets' ],
 				)
 			),
 		);
 		
+		$nomClasse = __CLASS__."_Admin";
+		
 		// Créer l'objet qui gère le panneau d'administration.
-		return new $this->admin_class( $this->post_type, $args );
+		return new $nomClasse( $this->post_type, $args );
 	}
 
 	/**
@@ -146,7 +151,7 @@ class RB_Prestation extends RB_Section
 			'menu_name'           => __( 'Prestation', '/langage' ),
 			'parent_item_colon'   => __( 'Faisant parti du Spectacle: ', '/langage' ),
 			'all_items'           => __( 'Toutes les Prestations', '/langage' ),
-			'view_item'           => __( 'Voir les infos de la Prestation', '/langage' ),
+			'view_item'           => __( 'Voir Prestation', '/langage' ),
 			'add_new_item'        => __( 'Ajouter une Prestation', '/langage' ),
 			'add_new'             => __( 'Ajouter', '/langage' ),
 			'edit_item'           => __( 'Éditer les infos de la Prestation', '/langage' ),

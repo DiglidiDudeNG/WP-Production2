@@ -52,34 +52,89 @@ class RB_Spectacle_Admin extends RB_Admin
 	 */
 	public function render_spectacle_info_metabox( $spectacle )
 	{
-		echo "TODO";
-	}
-
-	/**
-	 * Vérifie si la metadata est celle des billets,
-	 * et si oui, éviter la marde.
-	 *
-	 * @param null   $null       Toujours null. Demandez-moi pas pourquoi, jsais pô!
-	 * @param int    $object_id  L'ID de l'objet metadata.
-	 * @param string $meta_key   La clé de la metadata.
-	 * @param mixed  $meta_value La valeur courante de la metadata.
-	 * @param mixed  $prev_value La valeur précédente de la metadata.
-	 *
-	 * @return bool|int|null     BOOLEAN si la valeur est pas valide.
-	 *                           INT     si on doit la changer manuellement.
-	 *                           NULL    si la valeur entrée est correcte.
-	 *                           
-	 * @deprecated
-	 */
-	public function update_spectacle_nb_billets( $null = null, $object_id, $meta_key, $meta_value, $prev_value )
-	{
-		if (WP_DEBUG)
-			var_dump($meta_key);
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
 		
-		// Retourner vrai si ça marche, null sinon.
-		return ( $meta_key == "nb_billets" && empty( $meta_value ) ) ? true : null;
+		// Pogner toutes les metadonnées.
+		$spectacle_metas = get_post_meta( $spectacle->ID );
+		
+		// Afficher le debugger si on en a besoin.
+		if ( WP_DEBUG_DISPLAY ) :
+			var_dump( $spectacle_metas );
+		endif;
+			
+		?>
+		<table width="100%">
+		<tr>
+			<td style="width: 25%"><label for="rb_spectacle_liste_prestation_id"><?php
+					echo $this->metadatas['rb_spectacle_liste_prestation_id']['name'];
+					?> :</label></td>
+			<td>
+				<ul>
+				<?php
+				$args = $this->metadatas['rb_spectacle_list_prestation_id']['metabox_query'];
+				
+				/** @var WP_Query $loop_prestation */
+				$loop_prestation = new WP_Query( $args );
+				
+				if ($loop_prestation->post_count == 0) echo "<li><b>Aucune.</b> <a href='".admin_url()."post-new.php?post_type=prestation'>Ajouter --></a></li>";
+				
+				while ( $loop_prestation->have_posts() ) :
+					$loop_prestation->the_post(); ?>
+					<li><?php 
+						the_ID(); 
+					?> : <?php 
+						the_title(); 
+						echo " (".get_post_meta( get_the_ID(), 'rb_prestation_date', true ).")";
+					?></li>
+				<?php endwhile; ?>
+				</ul>
+			</td>
+			<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
+				
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="rb_spectacle_artiste_site_url"><?=
+					$this->metadatas['rb_spectacle_artiste_site_url']['name']?> :</label>
+			</td>
+			<td>
+				<input type="url" id="rb_spectacle_artiste_site_url" name="rb_spectacle_artiste_site_url"
+			           value="<?=$spectacle_metas['rb_spectacle_artiste_site_url'][0]?>" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="rb_spectacle_artiste_facebook_url"><?=
+					$this->metadatas['rb_spectacle_artiste_facebook_url']['name']?> :</label>
+			</td>
+			<td>
+				<input type="url" id="rb_spectacle_artiste_facebook_url" name="rb_spectacle_artiste_facebook_url"
+			           value="<?=$spectacle_metas['rb_spectacle_artiste_facebook_url'][0]?>" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="rb_spectacle_prix"><?=
+					$this->metadatas['rb_spectacle_prix']['name']?> :</label>
+			</td>
+			<td>
+				<input type="" id="rb_spectacle_prix" name="rb_spectacle_prix" class="currency" 
+				       min="1.00" max="999.00" step="0.00" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $
+			</td>
+		</tr>
+		</table>
+	<?php
 	}
 	
+	/**
+	 * @param \WP_Post $post
+	 *
+	 * @return mixed|void
+	 */
 	public function render_default_metabox( $post )
 	{
 		// TODO: Implement render_default_metabox() method.

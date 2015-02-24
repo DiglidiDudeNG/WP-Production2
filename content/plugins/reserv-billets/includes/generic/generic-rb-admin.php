@@ -168,7 +168,7 @@ abstract class RB_Admin
 		$defaults = array(
 			'version'      => $this->get_version(),
 			'dashicon'     => '',
-			'hide_columns' => array(),
+			'hide_columns' => array( 'date' ),
 			'styles'       => array(), /** @see $defaults_styles */
 			'scripts'      => array(), /** @see $defaults_scripts */
 			'metadatas'    => array(), /** @see $defaults_metadatas */
@@ -230,7 +230,7 @@ abstract class RB_Admin
 		
 		// Initialiser un compteur.
 		$counter = 0;
-		
+						
 		/* ---------------- */
 		/* ---- STYLES ---- */
 		/* ---------------- */
@@ -363,23 +363,18 @@ abstract class RB_Admin
 					wp_die( __( "Les types des metadatas doivent être formées correctement." ) );
 				}
 				else
-				{
+				{ // Les arguments de référence
 					if ( ! is_array( $metadata['query_args'] ) )
 					{
-						wp_die( __( 'Les arguments de référence pour '.$metadata[''].' doivent être ' ) );
+						wp_die( __( 'Les arguments de référence pour '.$metadata['name'].' doivent être valides.' ) );
 					}
-					
-					//switch ()
-					//{
-					//	
-					//}
 				}
 				
 				// Vérifier si le callback existe.
-				if ( method_exists( $this, $metadata['validate_cb'] ) )
+				if ( $metadata['validate_cb'] !== null && ! method_exists( $this, $metadata['validate_cb'] ) )
 				{
 					// Si c'est pas un name valide, on affiche un message d'erreur.
-					wp_die( __( "Le callback d'une de vos metadatas est invalide." ) );
+					wp_die( __( "Le callback de validation de la metadata ". $key ." est invalide." ) );
 				}
 				
 				// TODO effectuer le reste des validations.
@@ -715,8 +710,6 @@ abstract class RB_Admin
 		}
 		
 		// Ajouter des actions après.
-		do_action( 'rb'.$this->post_type.'_post_saved', array( $post_id ) );
-		do_action( 'rb_custom_post_saved', array( $post_id ) );
 	}
 	
 	/**
@@ -731,6 +724,8 @@ abstract class RB_Admin
 	public final function set_post_list_columns( $columns )
 	{
 		$retour = array();
+		
+		unset( $columns['date'] );
 		
 		// Enlever toutes les colonnes à enlever.
 		foreach ( $this->hide_columns as $hidden_column_name )
@@ -770,16 +765,37 @@ abstract class RB_Admin
 		// Si ça doit être affiché dans les colonnes...
 		if ( $col['in_columns'] )
 		{
-			$metavalue = get_post_meta( $post_id, $column, true );
+			$meta_value = get_post_meta( $post_id, $column, true );
+			var_dump($meta_value);
 			
 			// Si la valeur affichée doit être une référence à une autre valeur...
 			if ( $col['is_query'] ) 
 			{
-				$col['query_args'][0];
+				
+				if ( array_key_exists( 'meta_ref', $col['column_query'] ) )
+				{
+					$meta_ref = $col['column_query']['meta_ref'];
+					
+					unset( $col['column_query']['meta_ref'] );
+					
+					$ref = get_post( $meta_value );
+				}
+				
+				array_merge( $col['column_query'], array(
+					'meta_value' => $meta_value,
+				) );
+				
+				// Effectuer la Query.
+				$query = new WP_Query( $col['column_query'] );
+				if ( $query->have_posts() ) 
+				{
+					$query->the_post();
+					echo get_the_title();
+				}
 			}
 			else
 			{
-				
+				echo $meta_value;
 			}
 		}
 		
@@ -820,7 +836,7 @@ abstract class RB_Admin
 			{	
 				$args = array(
 					'meta_key' => $key,
-					'orderby' => 'meta_value_num',
+					'orderby' => 'meta_value',
 				);
 				
 				$vars = array_merge( $vars, $args );

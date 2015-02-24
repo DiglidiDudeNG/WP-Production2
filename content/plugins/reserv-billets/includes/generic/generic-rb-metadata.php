@@ -45,7 +45,7 @@ abstract class RB_Metadata
 	 */
 	function __construct( $post_type, $args )
 	{
-		
+		// TODO rendre ça utile.
 	}
 	
 	

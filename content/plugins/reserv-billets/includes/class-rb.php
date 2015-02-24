@@ -83,7 +83,7 @@ class RB
 		$this->sections["prestation"] = new RB_Prestation( $this->loader );
 		
 		// Inclure les metadonnées.
-		require_once 'class-rb-metadata.php';
+		require_once 'generic/generic-rb-metadata.php';
 	}
 
 	/**

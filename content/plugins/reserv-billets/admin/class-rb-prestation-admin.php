@@ -7,26 +7,6 @@
 class RB_Prestation_Admin extends RB_Admin
 {
 	const BASE_SLUG = 'rb_spectacle';
-	public $dashicon = 'dashicons-tickets-alt';
-	
-	/**
-	 * @var array Une liste d'arrays.
-	 * TODO automatiser le rendu et la sauvegarde des metadata.
-	 */
-//	private $metadatas = array(
-//		'date' => array(
-//			'nope' => 'nope',
-//		),
-//		'' => array(
-//
-//		),
-//		'd' => array(
-//
-//		),
-//		'e' => array(
-//
-//		),
-//	);
 	
 	/**
 	 * Constructeur.
@@ -51,50 +31,57 @@ class RB_Prestation_Admin extends RB_Admin
 			return;
 		}
 		
+		var_dump($_GET);
+		
+		$select_special = array_key_exists( 'spectacle_id', $_GET ) ? $_GET['spectacle_id'] : false;
+		
 		// Pogner toutes les metadonnées.
-		$prestation_metas = get_post_meta( $prestation->ID );
+		$post_metas = get_post_meta( $prestation->ID );
 		
 		// Afficher le debugger si on en a besoin.
 		if ( WP_DEBUG_DISPLAY ) :
-			var_dump( $prestation_metas );
+			var_dump( $post_metas );
 		endif;
 		
 		?>
 		<table width="100%">
 		<tr>
-		<td style="width: 25%"><label for="rb_spectacle_id"><?=__( 'Spectacle' )?> :</label></td>
+		<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=$this->metadatas['rb_prestation_spectacle_id']['name']?> :</label></td>
 		<td>
-		<select style="width: 95%" name="rb_spectacle_id" id="rb_spectacle_id">
+		<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
 		<?php
+		
+		$args = $this->metadatas['rb_prestation_spectacle_id']['metabox_query'];
+		
 		/** @var WP_Query $loop_spectacles */
-		$loop_spectacles = new WP_Query( [ 'post_type' => 'spectacle' ] );
+		$loop_spectacles = new WP_Query( $args );
 		
 		while ( $loop_spectacles->have_posts() ) :
 			$loop_spectacles->the_post(); ?>
 			<option value="<?php the_ID(); ?>" <?php
-			selected( $prestation_metas['rb_spectacle_id'][0], get_the_ID() );
+			
+			selected( $post_metas['rb_prestation_spectacle_id'][0], is_int($select_special) ? $select_special : get_the_ID() );
 			?>><?php the_title(); ?></option>
 		<?php endwhile; ?>
 		</select>
 		</td>
 		<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
-		
+			
 		</td>
 		</tr>
 		<tr>
-			<td><label for="rb_date"></label><?=__( 'Date de la Prestation' )?> :</td>
-			<td><input type="date" id="rb_date" name="rb_date"
-			           value="<?=$prestation_metas['rb_date'][0]?>" /></td>
+			<td><label for="rb_prestation_date"><?=$this->metadatas['rb_prestation_date']['name']?> :</label></td>
+			<td><input type="date" id="rb_prestation_date" name="rb_prestation_date"
+			           value="<?=$post_metas['rb_prestation_date'][0]?>" /></td>
 		</tr>
 		<tr>
-			<td><label for="rb_heure"></label><?=__( 'Heure de la Prestation' )?> :</td>
-			<td><input type="time" id="rb_heure" name="rb_heure"
-			           value="<?=$prestation_metas['rb_heure'][0]?>" /></td>
+			<td><label for="rb_prestation_heure"><?=$this->metadatas['rb_prestation_heure']['name']?> :</label></td>
+			<td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure"
+			           value="<?=$post_metas['rb_prestation_heure'][0]?>" /></td>
 		</tr>
 		</table>
 	<?php
 	}
-	
 	
 	/**
 	 * @param WP_Post $post
@@ -106,90 +93,80 @@ class RB_Prestation_Admin extends RB_Admin
 		return;
 	}
 	
+	/**
+	 * Effectué après la sauvegarde des metadatas du post.
+	 *
+	 * @global $wpdb
+	 *
+	 * @param int $post_id L'ID du post.
+	 */
+	public function post_saved( $post_id )
+	{
+		global $wpdb;
+		
+		$post = get_post($post_id);
+		
+		$title = "Prestation #".$post->ID; // Todo rendre ça mieux.
+	}
 	
-
-//	/**
-//	 * Sauvegarde les données des meta-data du post.
-//	 *
-//	 * Va utiliser les données $_POST envoyées par Wordpress lors de la sauvegarde.
-//	 *
-//	 * @action save_post
-//	 *
-//	 * @param int     $prestation_id    L'ID de la prestation.
-//	 * @param WP_Post $prestation       Une instance de la prestation.
-//	 */
-//	public function save_custom_post( $prestation_id, $prestation )
-//	{
-//		global $wpdb;
-//		
-//		// Checks save status
-//		$is_autosave = wp_is_post_autosave( $prestation_id );
-//		$is_revision = wp_is_post_revision( $prestation_id );
-//		// TODO effectuer la validation par NOnce.
-//		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
-//		$is_valid_nonce = true;
-//		
-//		// S'en va du script dépendamment si ça passe ou non.
-//		if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
-//			return;
-//		}
-//		
-//		// Checker si on a toutes les valeurs requises pour la prestation.
-//		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST ) 
-//		        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
-//		{	
-//			// Mettre l'ID du Spectacle si celui-ci est valide.
-//			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
-//				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
-//			else return;
-//			
-//			// Mettre la date si elle est valide.
-//			if ( ! empty( $_POST['rb_prestation_date'] ) ) // Updater le post_meta.
-//				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
-//			else return;
-//			
-//			// Mettre l'heure si elle est valide.
-//			if ( ! empty( $_POST['rb_prestation_heure'] ) ) // Updater le post_meta.
-//				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
-//			else return;
-//			
-//			// Mettre le titre du post dans une variable.
-////			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
-//			$titre = __("Prestation")." #".$prestation->ID;
-//			
-//			// Le titre.
-//			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $prestation_id ) );
-//		}
-//		else // Sinon
-//		{
-//			// Retourner sans rien faire. Duh.
-//			return;
-//		}
-//	}
-
-	///**
-	// * Modifie les colonnes affichées dans la liste de prestations sur le panneau d'admin.
-	// *
-	// * @filter manage_prestation_posts_columns
-	// *
-	// * @param array $columns Les colonnes.
-	// *
-	// * @return array La nouvelle liste de colonnes.
-	// */
-	//public function set_post_list_columns($columns)
-	//{
-	//	unset( $columns['date'], /* $columns['title'], */ $columns['categories'],
-	//		$columns['author'], $columns['tags'], $columns['comments'] );
-	//		$columns['author'], $columns['tags'], $columns['comments'] );
-	//
-	//	return array_merge( $columns,
-	//		array(
-	//			'rb_spectacle' => __('Spectacle'),
-	//			'rb_date' => __('Date'),
-	//			'rb_heure' => __('Heure'),
-	//		)
-	//	);
-	//}
+	//	/**
+	//	 * Sauvegarde les données des meta-data du post.
+	//	 *
+	//	 * Va utiliser les données $_POST envoyées par Wordpress lors de la sauvegarde.
+	//	 *
+	//	 * @action save_post
+	//	 *
+	//	 * @param int     $prestation_id    L'ID de la prestation.
+	//	 * @param WP_Post $prestation       Une instance de la prestation.
+	//	 */
+	//	public function save_custom_post( $prestation_id, $prestation )
+	//	{
+	//		global $wpdb;
+	//		
+	//		// Checks save status
+	//		$is_autosave = wp_is_post_autosave( $prestation_id );
+	//		$is_revision = wp_is_post_revision( $prestation_id );
+	//		// TODO effectuer la validation par NOnce.
+	//		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
+	//		$is_valid_nonce = true;
+	//		
+	//		// S'en va du script dépendamment si ça passe ou non.
+	//		if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+	//			return;
+	//		}
+	//		
+	//		// Checker si on a toutes les valeurs requises pour la prestation.
+	//		if ( array_key_exists( 'rb_prestation_spectacle_id', $_POST ) && array_key_exists( 'rb_prestation_date', $_POST ) 
+	//		        && array_key_exists( 'rb_prestation_heure', $_POST ) ) 
+	//		{	
+	//			// Mettre l'ID du Spectacle si celui-ci est valide.
+	//			if ( $this->valider_spectacle_id( $_POST['rb_prestation_spectacle_id'] ) ) // Updater le post_meta.
+	//				update_post_meta( $prestation_id, 'rb_prestation_spectacle_id', $_POST['rb_prestation_spectacle_id'] );
+	//			else return;
+	//			
+	//			// Mettre la date si elle est valide.
+	//			if ( ! empty( $_POST['rb_prestation_date'] ) ) // Updater le post_meta.
+	//				update_post_meta( $prestation_id, 'rb_prestation_date', $_POST['rb_prestation_date'] );
+	//			else return;
+	//			
+	//			// Mettre l'heure si elle est valide.
+	//			if ( ! empty( $_POST['rb_prestation_heure'] ) ) // Updater le post_meta.
+	//				update_post_meta( $prestation_id, 'rb_prestation_heure', $_POST['rb_prestation_heure'] );
+	//			else return;
+	//			
+	//			// Mettre le titre du post dans une variable.
+	////			$titre = get_the_title( $_POST['rb_prestation_spectacle_id'] ) . " - " .  ;
+	//			$titre = __("Prestation")." #".$prestation->ID;
+	//			
+	//			// Le titre.
+	//			$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $prestation_id ) );
+	//		}
+	//		else // Sinon
+	//		{
+	//			// Retourner sans rien faire. Duh.
+	//			return;
+	//		}
+	//	}
 
 	///**
 	// * Afficher les colonnes personnalisés qui montrent les données
@@ -228,49 +205,6 @@ class RB_Prestation_Admin extends RB_Admin
 	//			echo get_post_meta( $post_id, 'rb_prestation_heure', true );
 	//			break;
 	//	}
-	//}
-	
-	///**
-	// * Assigne la posibilité de trier des posts par rapport aux colonnes personnalisées.
-	// * 
-	// * @param Array $columns Les colonnes déjà triables.
-	// *                       
-	// * @return Array Les colonnes triables, incluant nos colonnes personnalisées.
-	// */
-	//public function sort_custom_columns( $columns )
-	//{
-	//	$columns['rb_prestation_spectacle_id'] = 'rb_prestation_spectacle_id';
-	//	$columns['rb_prestation_date'] = 'rb_prestation_date';
-	//	$columns['rb_prestation_heure'] = 'rb_prestation_heure';
-	//	
-	//	return $columns;
-	//}
-	//
-	///**
-	// * Ajoute la requête de triage pour chaque type.
-	// * 
-	// * @filter request
-	// * 
-	// * @param $vars
-	// *
-	// * @return array
-	// */
-	//public function orderby_custom_columns( $vars )
-	//{
-	//	foreach ( $this->metadatas as $metadata )
-	//	{
-	//		if ( isset( $vars['orderby'] ) && $metadata == $vars['orderby'] ) {
-	//			
-	//			$args = array(
-	//				'meta_key' => $metadata,
-	//				'orderby' => 'meta_value_num'
-	//			);
-	//			
-	//			$vars = array_merge( $vars, $args );
-	//		}
-	//	}
-	//	
-	//	return $vars;
 	//}
 
 	/**
@@ -318,6 +252,6 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	private function valider_spectacle_id( $id )
 	{
-		return ( get_post( $id )->post_type == 'spectacle' ? true : false );
+		return ( get_post_type( $id ) == 'spectacle' );
 	}
 }
