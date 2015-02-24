@@ -22,6 +22,12 @@
 	margin-bottom: 0
 	border-bottom: 1px solid #e2e2e2
 	background-color: $color-red
+	.navbar-header
+		// border-bottom: $color-white 1px solid
+	.navbar-collapse
+		border-color: $color-white
+	.navbar-form
+		border: none
 	.navbar-toggle
 		margin-top: 12px
 		margin-bottom: 12px
@@ -45,6 +51,7 @@
 	color: $color-white
 	transition: $transition
 	font-size: 14px
+	background-color: transparent
 	@media (min-width: $screen-sm-min)
 		font-size: 15px
 		letter-spacing: 2px
@@ -52,12 +59,9 @@
 	@media (min-width: $screen-md-min)
 		font-size: 18px
 	&:hover, &:focus, &:active
-		background-color: transparent!important
 		color: $color-red-hover
-
-.active
-	background-color: transparent!important
-
+#navbar-parenthese .menu-item>.active>a
+	color: $color-red-hover
 .navbar-brand
 	height: inherit
 
