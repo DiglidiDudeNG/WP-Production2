@@ -10,7 +10,7 @@
 					</address>
 		
 					<div class="reseau">
-						<i class="fa fa-facebook"></i>
+						<i class="fa fa-facebook"></i>  <!-- ajouter les liens -->
 						<i class="fa fa-twitter"></i>
 					</div>
 				</div>

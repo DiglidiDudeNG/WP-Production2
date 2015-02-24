@@ -1,6 +1,6 @@
 $(document).ready ( function(){
 
-	$('#moncarousel').carousel({
+	$('.carousel').carousel({
 	  interval: 4000
 	})
 

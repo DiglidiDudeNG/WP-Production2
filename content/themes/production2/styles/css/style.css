@@ -301,13 +301,17 @@ footer p {
   color: #fff;
   margin: 0; }
 
-.footer-bottom {
-  background-color: #e82530;
-  color: #fff;
-  padding: 10px; }
-
 i {
-  font-size: 20px; }
+  text-align: center;
+  margin-left: 10px; }
+
+.fa {
+  width: 40px;
+  height: 40px;
+  background-color: #e82530;
+  border-radius: 50%;
+  padding-top: 10px;
+  font-size: 22px !important; }
 
 footer address {
   display: inline-block; }
@@ -315,7 +319,15 @@ footer address {
 footer div.reseau {
   display: inline-block;
   float: right;
-  vertical-align: middle; }
+  padding-top: 40px; }
+
+.footer-bottom {
+  background-color: #e82530;
+  color: #fff;
+  padding: 10px; }
+
+.footer-bottom p {
+  font-size: 12px !important; }
 
 /* Extra small devices (phones, less than 768px) */
 /* Small devices (tablets, 768px and up) */

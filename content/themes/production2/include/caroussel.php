@@ -31,7 +31,7 @@
 			</div>
 			
 			<div class="item image-trois">
-				<!-- <img src="<?php// echo// IMAGES; ?>/roger-Hodgson.jpg" alt="The Killers"> -->
+				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="The Killers"> -->
 				<div class="carousel-caption">
 					<h1>The Killers</h1>
 					<h2>25 mars 2015</h2>
@@ -41,6 +41,16 @@
 			</div>
 
 		</div>
+		
+		  <!-- Controls pour les flèches à droite et gauche -->
+		<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
 
 	</div>
 </section>
