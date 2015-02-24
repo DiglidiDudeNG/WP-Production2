@@ -47,13 +47,11 @@
 
 					if($wp_query_spectacles->have_posts())
 					{
-						$wp_query_spectacles->the_post();
 
-						$spectacle_courant_id = $post->ID;
 						while ($wp_query_spectacles->have_posts())
 						{
 							$wp_query_spectacles->the_post();
-						
+
 							$spectacle_courant_id = $post->ID;
 
 
@@ -64,7 +62,7 @@
 
 								?>
 
-									<div class="postContainer col-md-4">
+									<!-- <div class="postContainer col-md-4">
 										<a href="<?php echo $prestation_permalink; ?>">
 											<h3><?php echo $prestation_title; ?></h3>
 											<?php
@@ -77,14 +75,45 @@
 											<p class="heure"><?php echo $prestation_heure; ?></p>
 											<p class="description"><?php echo $prestation_excerpt; ?></p>
 										</a>
+									</div> -->
+									<div class="postContainer col-md-4 col-sm-6">
+										<article class="spectacle flip-js">
+											<div class="spectacle-front front">
+												<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
+												<div class="spectacle-info">
+													<div class="spectacle-info-name">
+														<span class="text"><?php echo $prestation_title; ?></span>
+													</div>
+												</div>
+												<div class="spectacle-info-date">
+													ven. <span class="number">27</span> fév.
+												</div>
+											</div>
+											<div class="spectacle-back back">
+												<div class="spectacle-info">
+													<div class="spectacle-info-name">
+														<span class="text"><?php echo $prestation_title; ?></span>
+													</div>
+													<div class="spectacle-info-date">
+														ven. <span class="number">27</span> fév.
+													</div>
+													<div class="spectacle-content">
+														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
+														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
+														<a href="<?php echo $prestation_permalink; ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
+														<a href="<?php echo $prestation_permalink; ?>" class="button btn-spectacle-info">En savoir plus</a>
+													</div>
+												</div>
+											</div>
+										</article>
 									</div>
+
 
 								<?php
 							}
-							
+
 						}
 
-					}
 					}
 					else $rechercheInfructueuse = true;
 
@@ -99,53 +128,7 @@
 						TODO: L'intégration html/css de la div ci-dessous (genre class="col-md-6" ... etc)
 
 					-->
-
-					<!-- <div class="postContainer col-md-4">
-						<a href="<?php echo $prestation_permalink; ?>">
-							<h3><?php echo $prestation_title; ?></h3>
-							<?php
-								if(has_post_thumbnail())
-								{
-									the_post_thumbnail();
-								}
-							?>
-							<p class="date"><?php echo $prestation_date; ?></p>
-							<p class="heure"><?php echo $prestation_heure; ?></p>
-							<p class="description"><?php echo $prestation_excerpt; ?></p>
-						</a>
-					</div> -->
-					<div class="postContainer col-md-4 col-sm-6">
-						<!-- <a href="<?php echo $prestation_permalink; ?>"> -->
-							<article class="spectacle flip-js">
-								<div class="spectacle-front front">
-									<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
-									<div class="spectacle-info">
-										<div class="spectacle-info-name">
-											<span class="text"><?php echo $prestation_title; ?></span>
-										</div>
-									</div>
-									<div class="spectacle-info-date">
-										ven. <span class="number">27</span> fév.
-									</div>
-								</div>
-								<div class="spectacle-back back">
-									<div class="spectacle-info">
-										<div class="spectacle-info-name">
-											<span class="text"><?php echo $prestation_title; ?></span>
-										</div>
-										<div class="spectacle-info-date">
-											ven. <span class="number">27</span> fév.
-										</div>
-										<div class="spectacle-content">
-											<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
-											<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
-											<a href="<?php echo $prestation_permalink; ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
-											<a href="<?php echo $prestation_permalink; ?>" class="button btn-spectacle-info">En savoir plus</a>
-										</div>
-									</div>
-								</div>
-							</article>
-					</div>
+					
 
 		<?php
 				}
@@ -155,7 +138,7 @@
 				echo '<span>Aucun spectacle ne correspond à votre recherche</span>';
 				}
 			}
-			
+
 			else echo '<span>Aucun spectacle à afficher</span>';
 		?>
 
