@@ -52,7 +52,7 @@ button.btn-savoir {
     height: 267px; }
 
   button.btn-savoir {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     padding: 10px !important;
     font-size: 10px !important;
     letter-spacing: 2px; }
@@ -72,7 +72,7 @@ button.btn-savoir {
     height: 485px; }
 
   button.btn-savoir {
-    margin-bottom: 68px;
+    margin-bottom: 10px;
     padding: 15px !important;
     font-size: 13px !important;
     letter-spacing: 2px; }
@@ -92,23 +92,20 @@ button.btn-savoir {
     height: 644px; }
 
   button.btn-savoir {
-    margin-bottom: 100px;
+    margin-bottom: 75px;
     padding: 20px !important;
     font-size: 16px !important;
     letter-spacing: 4px; }
 
   ol.carousel-indicators {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     bottom: 20; }
-
-  button.btn-savoir {
-    margin-bottom: 112px; }
 
   h2.carousel-heure {
     margin-bottom: 50px; }
 
   .carousel-caption h1 {
-    margin-bottom: 57px; } }
+    margin-bottom: 50px; } }
 body {
   font: 100% "Quicksand", sans-serif;
   color: #e82530; }
@@ -151,9 +148,15 @@ p {
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   border-radius: 3px; }
+  .btn-savoir:hover {
+    background-color: #651720;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s linear; }
 
 button {
-  border-style: none; }
+  border-style: none;
+  text-decoration: none; }
 
 .btn-savoir:hover {
   background-color: #651720;
@@ -167,7 +170,8 @@ button {
   font-weight: 700;
   color: #fff; }
 
-@media screen and (max-width: 768px) {
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: 768px) {
   h1 {
     font-size: 24px !important; }
 
@@ -178,13 +182,39 @@ button {
     font-size: 11px !important; }
 
   p {
-    font-size: 10px; } }
-@media screen and (max-width: 992px) {
+    font-size: 10px; }
+
   body {
     margin-top: 68px !important; } }
-@media screen and (max-width: 1200px) {
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 50px !important; }
+
+  h2 {
+    font-size: 24px !important; }
+
+  h3 {
+    font-size: 13px !important; }
+
+  p {
+    font-size: 11px; }
+
+  #logo {
+    font-size: 25px;
+    padding: 25px; }
+
+  body {
+    margin-top: 68px !important; } }
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  #logo {
+    font-size: 33px;
+    padding: 33px; }
+
   body {
     margin-top: 104px !important; } }
+/* Large devices (large desktops, 1200px and up) */
 #logo {
   font: 100% "Quicksand", sans-serif;
   font-size: 20px;
@@ -277,5 +307,3 @@ footer p {
 
 i {
   font-size: 20px; }
-
-/*# sourceMappingURL=style.css.map */
