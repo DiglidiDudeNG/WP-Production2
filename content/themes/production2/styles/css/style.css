@@ -79,7 +79,8 @@ h2 {
   font: 100% "Quicksand", sans-serif !important;
   color: #e82530 !important;
   font-size: 30px !important;
-  font-weight: 700 !important; }
+  font-weight: 700 !important;
+  text-align: center; }
 
 h3 {
   font: 100% "Quicksand", sans-serif !important;
@@ -94,26 +95,27 @@ p {
   line-height: 24px; }
 
 .btn-savoir {
-  font: 100% "Quicksand", sans-serif !important;
-  font-weight: 700 !important;
+  font: 100% "Quicksand", sans-serif;
+  font-weight: 700;
   background-color: #e82530;
   color: #fff;
-  padding: 20px 20px !important;
-  font-size: 17px !important;
+  padding: 20px 20px;
+  font-size: 17px;
   text-transform: uppercase;
   letter-spacing: 4px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   border-radius: 3px; }
+  .btn-savoir:hover {
+    background-color: #651720;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s linear; }
 
 button {
-  border-style: none; }
-
-.btn-savoir:hover {
-  background-color: #651720;
-  color: #fff !important;
-  transition: all 0.2s linear; }
+  border-style: none;
+  text-decoration: none; }
 
 #logo {
   font: 100% "Quicksand", sans-serif;
@@ -158,6 +160,10 @@ button {
   margin-bottom: 0;
   border-bottom: 1px solid #e2e2e2;
   background-color: #e82530; }
+  #navbar-parenthese .navbar-collapse {
+    border-color: #fff; }
+  #navbar-parenthese .navbar-form {
+    border: none; }
   #navbar-parenthese .navbar-toggle {
     margin-top: 12px;
     margin-bottom: 12px;
@@ -179,7 +185,8 @@ button {
 #navbar-parenthese .menu-item a {
   color: #fff;
   transition: all 0.2s linear;
-  font-size: 14px; }
+  font-size: 14px;
+  background-color: transparent; }
   @media (min-width: 768px) {
     #navbar-parenthese .menu-item a {
       font-size: 15px;
@@ -189,11 +196,10 @@ button {
     #navbar-parenthese .menu-item a {
       font-size: 18px; } }
   #navbar-parenthese .menu-item a:hover, #navbar-parenthese .menu-item a:focus, #navbar-parenthese .menu-item a:active {
-    background-color: transparent !important;
     color: #651720; }
 
-.active {
-  background-color: transparent !important; }
+#navbar-parenthese .menu-item > .active > a {
+  color: #651720; }
 
 .navbar-brand {
   height: inherit; }
@@ -210,5 +216,157 @@ button {
     font-size: 33px;
     padding: 33px; } }
 /* Large devices (large desktops, 1200px and up) */
+.postContainer {
+  padding-bottom: 30px; }
+  .postContainer img {
+    max-width: 100%; }
+
+[class*='spectacle'] img {
+  max-width: 100%; }
+
+.spectacle, .spectacle-front, .spectacle-back {
+  height: 360px;
+  width: 100%;
+  position: relative;
+  display: block;
+  overflow: hidden; }
+
+.spectacle.hover .spectacle-back .spectacle-info-name, .spectacle.hover .spectacle-back .spectacle-info-date {
+  top: 0; }
+.spectacle.hover .spectacle-back .spectacle-content {
+  bottom: 0; }
+
+.spectacle-front {
+  cursor: pointer;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  left: 0; }
+  .spectacle-front .spectacle-info {
+    bottom: 0; }
+  .spectacle-front .spectacle-info-name {
+    padding-left: 70px; }
+  .spectacle-front .spectacle-info-date {
+    bottom: 0;
+    left: 0; }
+
+.spectacle-back {
+  position: absolute;
+  top: 0;
+  left: 0; }
+  .spectacle-back .spectacle-info {
+    top: 0;
+    cursor: pointer; }
+  .spectacle-back .spectacle-info-name {
+    top: -70px;
+    padding-right: 70px;
+    transition: top 0.2s ease-in-out; }
+  .spectacle-back .spectacle-info-date {
+    top: -70px;
+    right: 0;
+    transition: top 0.2s ease-in-out; }
+
+.spectacle-content {
+  padding: 20px;
+  background: #f3f3f3;
+  position: relative;
+  height: 290px;
+  bottom: -291px;
+  transition: bottom 0.2s ease-in-out; }
+
+.spectacle-time {
+  top: -6.5px;
+  position: relative;
+  font-size: 15px;
+  color: #e82530;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700; }
+
+.spectacle-description {
+  font-family: "Raleway", sans-serif;
+  color: #323232;
+  margin: 0;
+  height: 193px;
+  overflow: hidden;
+  font-size: 14px; }
+
+.spectacle-info {
+  position: absolute;
+  right: 0;
+  left: 0;
+  overflow: hidden; }
+
+.spectacle-info-name {
+  background: #651720;
+  color: #fff;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  font-size: 17px;
+  height: 70px;
+  display: table;
+  width: 100%;
+  position: relative; }
+  .spectacle-info-name .text {
+    padding: 0 0.5em 0 1em;
+    display: table-cell;
+    vertical-align: middle; }
+
+.spectacle-info-date {
+  position: absolute;
+  padding: 2px;
+  background: #e82530;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  color: #fff;
+  line-height: 21px;
+  font-size: 13px;
+  font-weight: 300;
+  font-family: "Quicksand", sans-serif; }
+  .spectacle-info-date .number {
+    font-weight: 700;
+    font-size: 26px;
+    display: block; }
+
+.spectacle-cover {
+  width: 100%;
+  height: auto; }
+
+.btn-spectacle-info {
+  font: 100% "Quicksand", sans-serif;
+  font-weight: 700;
+  background-color: #e82530;
+  color: #fff;
+  padding: 15px 11px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  border-radius: 2px; }
+  .btn-spectacle-info:hover {
+    background-color: #651720;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s linear; }
+
+.btn-margin-right {
+  margin-right: 12px; }
+
+@media (min-width: 1200px) {
+  .btn-spectacle-info {
+    font-size: 14px;
+    padding: 15px 23px; }
+
+  .btn-margin-right {
+    margin-right: 15px; } }
+@media (max-width: 768px) {
+  .btn-spectacle-info {
+    font-size: 14px;
+    padding: 15px 23px; }
+
+  .btn-margin-right {
+    margin-right: 15px; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -23,7 +23,7 @@
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
 
-	<!-- Affichage des 10 spectacles à venir -->
+	<!-- Affichage des 12 spectacles à venir -->
 
 	<div class="spectacles-a-venir-container">
 		<h2>Spectacles à venir</h2>
@@ -33,7 +33,7 @@
 
 				wp_reset_postdata();
 				$args = array(
-					'posts_per_page'	=> 10,
+					'posts_per_page'	=> 12,
 					'post_type' 		=> 'prestation',
 					'order'				=> 'ACS',
 					'order_by'			=> 'meta_value',
