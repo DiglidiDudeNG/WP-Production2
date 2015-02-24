@@ -41,7 +41,7 @@
             'walker' => new wp_bootstrap_navwalker())
             );
             ?>
-            
+
             <form class="navbar-form navbar-right" role="search" action="<?php bloginfo('url') ?>/programmation" method="post">
 
               <div class="input-group">
