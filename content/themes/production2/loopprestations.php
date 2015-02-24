@@ -85,20 +85,7 @@
 
 								?>
 
-									<!-- <div class="postContainer col-md-4">
-										<a href="<?php echo $prestation_permalink; ?>">
-											<h3><?php echo $prestation_title; ?></h3>
-											<?php
-												if(has_post_thumbnail())
-												{
-													the_post_thumbnail();
-												}
-											?>
-											<p class="date"><?php echo $prestation_date; ?></p>
-											<p class="heure"><?php echo $prestation_heure; ?></p>
-											<p class="description"><?php echo $prestation_excerpt; ?></p>
-										</a>
-									</div> -->
+									
 									<div class="postContainer col-md-4 col-sm-6">
 										<article class="spectacle flip-js">
 											<div class="spectacle-front front">
@@ -109,7 +96,9 @@
 													</div>
 												</div>
 												<div class="spectacle-info-date">
-													ven. <span class="number">27</span> fév.
+													<?php echo $prestation_jourDeSemaine; ?> 
+													<span class="number"><?php echo $prestation_jourDuMois; ?></span>
+													<?php echo $prestation_mois; ?>
 												</div>
 											</div>
 											<div class="spectacle-back back">
@@ -143,17 +132,7 @@
 					/**
 					 * Fin du query du spectacle
 					 */
-		?>
-
-
-					<!--
-
-						TODO: L'intégration html/css de la div ci-dessous (genre class="col-md-6" ... etc)
-
-					-->
-					
-
-		<?php
+		
 				}
 
 				// Si recherche infructueuse
