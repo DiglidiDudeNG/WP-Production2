@@ -1,10 +1,6 @@
 $(document).ready (function(){
 
-	$('.carousel').carousel({
-	  interval: 2000
-	});
-
-	$('#moncarousel').carousel({
+	$('#carousel-example-generic').carousel({
 	  interval: 4000
 	});
 
@@ -13,8 +9,8 @@ $(document).ready (function(){
     if(self.hasClass("hover")) {
       self.removeClass("hover");
     } else {
-      $(".hover").removeClass("hover");  
+      $(".hover").removeClass("hover");
       self.toggleClass("hover");
-    } 
+    }
   });
 });
