@@ -58,10 +58,57 @@
 		font-size: 18px
 	&:hover, &:focus, &:active
 		color: $color-red-hover
+
 #navbar-parenthese .menu-item>.active>a
 	color: $color-red-hover
+
 .navbar-brand
 	height: inherit
+
+// SEARCH BAR
+.btn-default.btn-search, .search-bar .search-input
+	border-color: transparent
+	// border: none
+
+// #custom-search-input 
+// 	button
+// 		border: 0
+// 		background: none
+// 		padding: 2px 5px
+// 		margin-top: 2px
+// 		position: relative
+// 		color: $color-red-hover
+// 		left: -28px
+// 		+border-radius(3px)
+// 	.search-query
+// 		padding-right: 3px
+// 		+border-radius(3px)
+// 		&:hover + button
+// 			z-index: 3
+
+
+#custom-search-input .input-group-btn > .btn 
+	border-left-width: 0
+	left: -2px
+
+#custom-search-input .input-group .form-control:focus 
+	box-shadow: none
+	-webkit-box-shadow: none 
+	border-color: #cccccc 
+
+#custom-search-input .form-control
+	border: 0
+	box-shadow: none
+	-webkit-box-shadow: none
+
+
+#custom-search-input .btn
+	border-color: $color-white
+	color: $color-red
+	&:hover
+		background-color: $color-white
+		color: $color-red-hover
+		transition: $transition
 
 /* Extra small devices (phones, less than 768px) */
 

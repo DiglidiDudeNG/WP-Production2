@@ -130,9 +130,9 @@
 
 				// Si recherche infructueuse
 				if($rechercheInfructueuse == true){
-				echo '<span>Aucun spectacle ne correspond à votre recherche</span>';
+				echo '<p>Aucun spectacle ne correspond à votre recherche</p>';
 				}
 			}
 
-			else echo '<span>Aucun spectacle à afficher</span>';
+			else echo '<p>Aucun spectacle à afficher</p>';
 		?>
