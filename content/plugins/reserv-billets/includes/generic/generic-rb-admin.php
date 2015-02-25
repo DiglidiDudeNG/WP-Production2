@@ -862,7 +862,8 @@ abstract class RB_Admin
 	{
 		switch ($metatype)
 		{
-			case ''
+			case '':
+				break;
 		}
 	}
 	

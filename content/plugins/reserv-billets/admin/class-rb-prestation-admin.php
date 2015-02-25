@@ -82,12 +82,7 @@ class RB_Prestation_Admin extends RB_Admin
 		</table>
 	<?php
 	}
-	
-	public function sort_custom_columns( $columns )
-	{
-		
-	}
-	
+
 	/**
 	 * @param WP_Post $post
 	 *
