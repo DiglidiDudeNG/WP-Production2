@@ -65,25 +65,23 @@ class RB
 	private function load_all_dependencies()
 	{
 		// Pogner les classes abstraites.
-		require_once plugin_dir_path( __FILE__ ) . 'generic/generic-rb-section.php'; // RB_Section
-		require_once plugin_dir_path( __FILE__ ) . 'generic/generic-rb-admin.php'; // RB_Admin
+		require_once 'generic/generic-rb-section.php'; // RB_Section
+		require_once 'generic/generic-rb-admin.php'; // RB_Admin
 
 		// Créer le Loader.
-		/** @noinspection PhpIncludeInspection */
-		require_once plugin_dir_path( __FILE__ ) . 'class-rb-loader.php'; // RB_Loader
+		require_once 'class-rb-loader.php'; // RB_Loader
 		$this->loader = new RB_Loader( $this->get_version() );
 
 		// Créer l'objet RB_Spectacle.
-		/** @noinspection PhpIncludeInspection */
-		require_once plugin_dir_path( __FILE__ ) . 'class-rb-spectacle.php'; // RB_Spectacle
+		require_once 'class-rb-spectacle.php'; // RB_Spectacle
 		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
-
+		
 		// Créer l'objet RB_Prestation.
 		require_once 'class-rb-prestation.php'; // RB_Spectacle
 		$this->sections["prestation"] = new RB_Prestation( $this->loader );
 		
-		// Inclure les metadonnées.
-		require_once 'generic/generic-rb-metadata.php';
+		// Inclure les metabox.
+		//require_once '';
 	}
 
 	/**

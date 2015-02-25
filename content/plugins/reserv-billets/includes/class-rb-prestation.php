@@ -135,7 +135,7 @@ class RB_Prestation extends RB_Section
 	 *
 	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_prestation_admin_hooks(RB_Loader $loader)
+	protected function define_other_hooks(RB_Loader $loader)
 	{
 		
 	}
@@ -188,7 +188,7 @@ class RB_Prestation extends RB_Section
 			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
 			'can_export'          => true, // Pour faire des backups.
 			'has_archive'         => true, // Eh, why not?
-			'exclude_from_search' => true, // On veut être capable de les rechercher.
+			'exclude_from_search' => true, // On veut PAS être capable de les rechercher.
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'post', // C'est pas vraiment un post.

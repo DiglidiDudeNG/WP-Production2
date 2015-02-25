@@ -31,7 +31,7 @@ class RB_Prestation_Admin extends RB_Admin
 			return;
 		}
 		
-		var_dump($_GET);
+		echo print_r($_GET);
 		
 		$select_special = array_key_exists( 'spectacle_id', $_GET ) ? $_GET['spectacle_id'] : false;
 		
@@ -39,9 +39,8 @@ class RB_Prestation_Admin extends RB_Admin
 		$post_metas = get_post_meta( $prestation->ID );
 		
 		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY ) :
+		if ( WP_DEBUG_DISPLAY )
 			var_dump( $post_metas );
-		endif;
 		
 		?>
 		<table width="100%">

@@ -45,6 +45,7 @@ class RB_Spectacle_Admin extends RB_Admin
 		);
 	}
 	
+	 
 	/**
 	 * Effectue un rendu de la metabox des informations.
 	 *
@@ -61,10 +62,15 @@ class RB_Spectacle_Admin extends RB_Admin
 		$spectacle_metas = get_post_meta( $spectacle->ID );
 		
 		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY ) :
+		if ( WP_DEBUG_DISPLAY )
 			var_dump( $spectacle_metas );
-		endif;
+		
+		// Effectue la recherche des metadonnées.
+		foreach ( $this->metadatas as $meta_key => $meta_args )
+		{
 			
+		}
+		
 		?>
 		<table width="100%">
 		<tr>
@@ -83,48 +89,33 @@ class RB_Spectacle_Admin extends RB_Admin
 				
 				while ( $loop_prestation->have_posts() ) :
 					$loop_prestation->the_post(); ?>
-					<li><?php 
-						the_ID(); 
-					?> : <?php 
-						the_title(); 
-						echo " (".get_post_meta( get_the_ID(), 'rb_prestation_date', true ).")";
+					<li><?php
+					the_ID();
+					?> : <?php
+					the_title();
+					echo " (".get_post_meta( get_the_ID(), 'rb_prestation_date', true ).")";
 					?></li>
 				<?php endwhile; ?>
 				</ul>
 			</td>
-			<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
-				
-			</td>
 		</tr>
 		<tr>
-			<td>
-				<label for="rb_spectacle_artiste_site_url"><?=
-					$this->metadatas['rb_spectacle_artiste_site_url']['name']?> :</label>
-			</td>
-			<td>
-				<input type="url" id="rb_spectacle_artiste_site_url" name="rb_spectacle_artiste_site_url"
-			           value="<?=$spectacle_metas['rb_spectacle_artiste_site_url'][0]?>" />
-			</td>
+			<td><label for="rb_spectacle_artiste_site_url"><?=
+					$this->metadatas['rb_spectacle_artiste_site_url']['name']?> :</label></td>
+			<td><input type="url" id="rb_spectacle_artiste_site_url" name="rb_spectacle_artiste_site_url"
+			           value="<?=$spectacle_metas['rb_spectacle_artiste_site_url'][0]?>" /></td>
 		</tr>
 		<tr>
-			<td>
-				<label for="rb_spectacle_artiste_facebook_url"><?=
-					$this->metadatas['rb_spectacle_artiste_facebook_url']['name']?> :</label>
-			</td>
-			<td>
-				<input type="url" id="rb_spectacle_artiste_facebook_url" name="rb_spectacle_artiste_facebook_url"
-			           value="<?=$spectacle_metas['rb_spectacle_artiste_facebook_url'][0]?>" />
-			</td>
+			<td><label for="rb_spectacle_artiste_facebook_url"><?=
+					$this->metadatas['rb_spectacle_artiste_facebook_url']['name']?> :</label></td>
+			<td><input type="url" id="rb_spectacle_artiste_facebook_url" name="rb_spectacle_artiste_facebook_url"
+			           value="<?=$spectacle_metas['rb_spectacle_artiste_facebook_url'][0]?>" /></td>
 		</tr>
 		<tr>
-			<td>
-				<label for="rb_spectacle_prix"><?=
-					$this->metadatas['rb_spectacle_prix']['name']?> :</label>
-			</td>
-			<td>
-				<input type="number" id="rb_spectacle_prix" name="rb_spectacle_prix" class="currency" 
-				       min="1.00" max="999.00" step="0.01" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $
-			</td>
+			<td><label for="rb_spectacle_prix"><?=
+					$this->metadatas['rb_spectacle_prix']['name']?> :</label></td>
+			<td><input type="number" id="rb_spectacle_prix" name="rb_spectacle_prix" 
+				       min="1.00" max="999.00" step="0.01" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $</td>
 		</tr>
 		</table>
 	<?php
@@ -146,11 +137,10 @@ class RB_Spectacle_Admin extends RB_Admin
 		$post_metas = get_post_meta( $post->ID );
 		
 		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY ) :
+		if ( WP_DEBUG_DISPLAY )
 			var_dump( $post_metas );
-		endif;
-		
-		
 	}
+	
+	
 }
 
