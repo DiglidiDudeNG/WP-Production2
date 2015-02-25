@@ -11,7 +11,7 @@ Template Name: Programmation
 
 
 	<!-- Affichage des 10 spectacles à venir -->
-
+<div class="container">
 	<div class="spectacles-a-venir-container">
 		<h2>Programmation</h2>
 		<div class="row">
@@ -36,7 +36,7 @@ Template Name: Programmation
 		</div>
 
 	</div>
-
+</div>
 	<!-- fin du contenu de la page index.php -->
 
 <?php get_footer(); ?>

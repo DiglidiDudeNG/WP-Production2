@@ -209,7 +209,7 @@ button {
     font-size: 10px; }
 
   #contenu-site {
-    margin-top: 68px; } }
+    margin-top: 104px; } }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   #contenu-site h1 {
@@ -311,6 +311,9 @@ button {
   margin: 0 auto; }
   .postContainer img {
     max-width: 100%; }
+
+.spectacles-a-venir-container {
+  padding-top: 2px; }
 
 [class*='spectacle'] img {
   max-width: 100%; }
