@@ -1,6 +1,3 @@
-.carousel-caption h2 {
-  text-transform: uppercase; }
-
 .carousel2.container-fluid {
   padding: 0; }
 
@@ -49,9 +46,6 @@
 
 button.btn-savoir {
   font-family: "Raleway", sans-serif; }
-
-.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before {
-  content: none; }
 
 @media screen and (max-width: 768px) {
   .carousel .item {

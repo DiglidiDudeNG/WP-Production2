@@ -54,4 +54,3 @@
           </div><!--/.nav-collapse -->
         </div>
       </nav>
-      <div class="container">

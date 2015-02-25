@@ -1,11 +1,9 @@
-.carousel-caption h2
-	text-transform: uppercase
 //enlever le padding par defaut du container-fluid
 .carousel2.container-fluid
 	padding: 0
 
 //transition plus smooth
-.carousel .item
+.carousel .item 
 	-webkit-transition: opacity 1s
 	-moz-transition: opacity 1s
 	-ms-transition: opacity 1s
@@ -20,33 +18,28 @@
 .carousel .image-deux
 	+background-img
 	background-image: url('../../images/roger-Hodgson.jpg')
-
+	
 .carousel .image-trois
 	+background-img
 	background-image: url('../../images/roger-Hodgson.jpg')
-
+	
 // Mettre le h2 en majuscule
 .carousel-caption h2
 	text-transform: uppercase
 
 // Texte du bouton
-button.btn-savoir
+button.btn-savoir	
 	font-family: $font-text
 
-.carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before
-	content: none
-
-
-
-//medias queries
 // -------------  medias queries  ---------------- //
 
 @media screen and (max-width: $screen-sm-min)  // <768
-	.carousel .item
+	.carousel .item 
 		height: 267px
+		
 
 	button.btn-savoir
-		margin-bottom: 5px
+		margin-bottom: 5px 
 		padding: 10px !important
 		font-size: 10px !important
 		letter-spacing: $text-letter-spacing
@@ -63,11 +56,11 @@ button.btn-savoir
 		margin-top: 0
 
 @media screen and (min-width: $screen-sm-min) // >768px
-	.carousel .item
+	.carousel .item 
 		height: 485px
 
 	button.btn-savoir
-		margin-bottom: 10px
+		margin-bottom: 10px  
 		padding: 15px !important
 		font-size: 13px !important
 		letter-spacing: $text-letter-spacing
@@ -85,11 +78,11 @@ button.btn-savoir
 
 @media screen and (min-width: $screen-md-min) // >992px
 
-	.carousel .item
+	.carousel .item 
 		height: 644px
 
 	button.btn-savoir
-		margin-bottom: 75px
+		margin-bottom: 75px 
 		padding: 20px !important
 		font-size: 16px !important
 		letter-spacing: $title-letter-spacing
@@ -106,3 +99,5 @@ button.btn-savoir
 
 
 @media screen and (min-width: $screen-lg-min) // >1200px
+
+	
