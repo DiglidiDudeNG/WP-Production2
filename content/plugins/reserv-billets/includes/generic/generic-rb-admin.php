@@ -821,66 +821,35 @@ abstract class RB_Admin
 	
 	/**
 	 * Ajoute la requête de triage pour chaque type.
-	 * 
-	 * @filter request
 	 *
-	 * @param array $vars Les colonnes je crois...?
+	 * //* @filter request
+	 * @action pre_get_posts
+	 *
+	 * @param WP_Query $query
 	 *
 	 * @return array L'array mergé, ou pas mergé; who knows.
+	 * 
 	 */
-	public final function orderby_custom_columns( $vars )
-	{	
-		foreach ( $this->metadatas as $key => $metadata ) 
-		{
-			if ( isset( $vars['orderby'] ) ) 
-			{	
-				$args = array(
-					'meta_key' => $key,
-					'orderby' => 'meta_value',
-				);
-				
-				$vars = array_merge( $vars, $args );
-			}
-		}
-		
-		return $vars;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @access private
-	 * 
-	 * @param string $metatype Le type de la meta.
-	 */
-	private final static function metatype_to_html( $metatype )
+	public final function orderby_custom_columns( $query )
 	{
-		// TODO ça.
-		switch ($metatype)
+		// Si c'est la query principale et si y'a un get de type "orderby"...
+		if ( $query->is_main_query() && ( $orderby = $query->get( 'orderby' ) ) ) 
 		{
-			case '0':
-				
-				break;
-			
-			case '1':
-				
-				break;
-			
-			case '2':
-				
-				break;
-			
-			case '3':
-				
-				break;
-			
-			case '4':
-				
-				break;
-			
-			default:
-				
-				break;
+			// Passer dans tous les metadatas qui sont affichés dans les colonnes...
+			foreach ( $this->metadatas as $meta_key => $meta_value )
+			{
+				// Si c'est la bonne clée dans l'ordering.
+				if ( $meta_key == $orderby )
+				{
+					// Assigner la clé de la metadata dans le query.
+					$query->set( 'meta_key', $meta_key );
+					
+					if ( $meta_value[''] )
+					{
+						
+					}
+				}
+			}
 		}
 	}
 	
@@ -889,9 +858,12 @@ abstract class RB_Admin
 	 * 
 	 * @param $metatype
 	 */
-	private final static function verify_metatype( $metatype )
+	final private static function verify_meta_html_type( $metatype )
 	{
-		
+		switch ($metatype)
+		{
+			case ''
+		}
 	}
 	
 	/**
@@ -903,7 +875,7 @@ abstract class RB_Admin
 	 *
 	 * @return bool Vrai si la clé est interne.
 	 */
-	public final function key_is_internal($key)
+	final public function key_is_internal($key)
 	{
 		$keyt = trim($key);
 		
@@ -911,11 +883,33 @@ abstract class RB_Admin
 	}
 	
 	/**
+	 * @param String $metakey La clé de la metadata.
+	 *
+	 * @return mixed La valeur du type html.
+	 */
+	final public function get_meta_html_type( $metakey )
+	{
+		$var = explode( ':', $this->metadatas[$metakey]['type'] );
+		return $var[0];
+	}
+	
+	/**
+	 * @param String $metakey La clé de la metadata.
+	 *
+	 * @return mixed La valeur du type de var.
+	 */
+	final public function get_var_type( $metakey )
+	{
+		$var = explode( ':', $this->metadatas[$metakey]['type'] );
+		return $var[0];
+	}
+	
+	/**
 	 * Retourne le numéro de version du plugin.
 	 *
 	 * @return string Le numéro de version du plugin.
 	 */
-	public final function get_version()
+	final public function get_version()
 	{
 		return $this->version;
 	}

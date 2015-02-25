@@ -82,13 +82,15 @@ class RB_Prestation extends RB_Section
 					'type'       => 'input:date',
 					'name'       => 'Date',
 					'default'    => '2014-02-15',
-					'in_columns' => true,
+					'in_columns' => true, 
+					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
 					'name'       => 'Heure',
 					'default'    => '01:00',
 					'in_columns' => true,
+					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
 					'name'       => 'Billets restants',

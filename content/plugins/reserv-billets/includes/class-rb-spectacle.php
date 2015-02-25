@@ -76,7 +76,7 @@ class RB_Spectacle extends RB_Section
 			),
 			'metadatas' => array(
 				'rb_spectacle_liste_prestation_id' => array(
-					'type'          => 'link:json',
+					'type'          => 'link:json', // Premier = type d'HTML; Deuxième = type de variable.
 					'name'          => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
@@ -118,7 +118,7 @@ class RB_Spectacle extends RB_Section
 					'metadatas'     => [
 						'rb_spectacle_artiste_site_url',
 						'rb_spectacle_artiste_facebook_url',
-					    'rb_spectacle_prix',
+						'rb_spectacle_prix',
 					],
 				)
 			),

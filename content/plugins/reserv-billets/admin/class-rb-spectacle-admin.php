@@ -122,8 +122,8 @@ class RB_Spectacle_Admin extends RB_Admin
 					$this->metadatas['rb_spectacle_prix']['name']?> :</label>
 			</td>
 			<td>
-				<input type="" id="rb_spectacle_prix" name="rb_spectacle_prix" class="currency" 
-				       min="1.00" max="999.00" step="0.00" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $
+				<input type="number" id="rb_spectacle_prix" name="rb_spectacle_prix" class="currency" 
+				       min="1.00" max="999.00" step="0.01" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $
 			</td>
 		</tr>
 		</table>
@@ -137,7 +137,20 @@ class RB_Spectacle_Admin extends RB_Admin
 	 */
 	public function render_default_metabox( $post )
 	{
-		// TODO: Implement render_default_metabox() method.
+		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
+		
+		// Pogner toutes les metadonnées.
+		$post_metas = get_post_meta( $post->ID );
+		
+		// Afficher le debugger si on en a besoin.
+		if ( WP_DEBUG_DISPLAY ) :
+			var_dump( $post_metas );
+		endif;
+		
+		
 	}
 }
 

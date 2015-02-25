@@ -100,7 +100,9 @@ abstract class RB_Section
 			
 			$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
 			
-			$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
+			$loader->queue_action( 'pre_get_posts', $this->admin, 'orderby_custom_columns', 10, 1 );
+			
+			//$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
 			
 			// Permettre d'ajouter des hooks personnalisés pour la classe enfant.
 			if ( function_exists( 'define_'.$this->post_type.'_admin_hooks' ) )
@@ -128,7 +130,7 @@ abstract class RB_Section
 	/**
 	 * Crée L'objet admin.
 	 * 
-	 * Devra comprendre une variable nommée Args
+	 * Devra comprendre une variable nommée $args avec la structure vue dans RB_Admin.
 	 *
 	 * @return mixed
 	 */
