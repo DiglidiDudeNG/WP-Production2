@@ -42,14 +42,20 @@
   background-image: url("../../images/roger-Hodgson.jpg"); }
 
 .carousel-caption h2 {
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  color: #fff !important; }
 
 button.btn-savoir {
-  font-family: "Raleway", sans-serif; }
+  font-family: "Raleway", sans-serif;
+  margin-bottom: 7px;
+  margin-top: 9px;
+  padding: 15px !important;
+  font-size: 13px !important;
+  letter-spacing: 2px; }
 
 @media screen and (max-width: 768px) {
   .carousel .item {
-    height: 267px; }
+    height: 300px; }
 
   button.btn-savoir {
     margin-bottom: 5px;
@@ -64,12 +70,15 @@ button.btn-savoir {
   .carousel-caption h2 {
     margin-bottom: 0; }
 
-  h2.carousel-heure {
+  #contenu-site h2.carousel-heure {
     margin-bottom: 20px;
-    margin-top: 0; } }
+    margin-top: 0; }
+
+  #contenu-site .carousel-caption {
+    padding-bottom: 54px; } }
 @media screen and (min-width: 768px) {
   .carousel .item {
-    height: 485px; }
+    height: 500px; }
 
   button.btn-savoir {
     margin-bottom: 10px;
@@ -81,15 +90,18 @@ button.btn-savoir {
     margin-bottom: 0;
     bottom: 15; }
 
-  .carousel-caption h2 {
+  #contenu-site .carousel-caption h2 {
     margin-bottom: 5px; }
 
-  h2.carousel-heure {
+  #contenu-site h2.carousel-heure {
     margin-bottom: 40px;
-    margin-top: 5px; } }
+    margin-top: 5px; }
+
+  #contenu-site .carousel-caption {
+    padding-bottom: 114px; } }
 @media screen and (min-width: 992px) {
   .carousel .item {
-    height: 644px; }
+    height: 570px; }
 
   button.btn-savoir {
     margin-bottom: 75px;
@@ -104,18 +116,23 @@ button.btn-savoir {
   h2.carousel-heure {
     margin-bottom: 50px; }
 
-  .carousel-caption h1 {
-    margin-bottom: 50px; } }
-body {
-  font: 100% "Quicksand", sans-serif;
-  color: #e82530;
+  #contenu-site .carousel-caption h1 {
+    margin-bottom: 50px; }
+
+  #contenu-site .carousel-caption {
+    padding-bottom: 64px; } }
+#contenu-site {
   margin-top: 79px; }
 
+body {
+  font: 100% "Quicksand", sans-serif;
+  color: #e82530; }
+
 #contenu-site h1 {
-  font: 100% "Quicksand", sans-serif !important;
-  color: #fff !important;
-  font-size: 63px !important;
-  font-weight: 700 !important;
+  font: 100% "Quicksand", sans-serif;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
   text-transform: uppercase; }
 
 #contenu-site h2 {
@@ -170,7 +187,7 @@ button {
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 768px) {
   #contenu-site h1 {
-    font-size: 24px; }
+    font-size: 32px; }
 
   #contenu-site h2 {
     font-size: 17px; }
@@ -179,7 +196,8 @@ button {
     font-size: 11px; }
 
   #contenu-site p {
-    font-size: 10px; }
+    font-size: 10px;
+    line-height: 16px; }
 
   #contenu-site {
     margin-top: 65px; } }
@@ -191,17 +209,17 @@ button {
     font-size: 10px; }
 
   #contenu-site {
-    margin-top: 68px !important; } }
+    margin-top: 68px; } }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   #contenu-site h1 {
-    font-size: 50px !important; }
+    font-size: 50px; }
 
   #contenu-site h2 {
-    font-size: 24px !important; }
+    font-size: 24px; }
 
   #contenu-site h3 {
-    font-size: 13px !important; }
+    font-size: 13px; }
 
   #contenu-site p {
     font-size: 11px; } }
@@ -445,7 +463,7 @@ button {
   background-color: #651720;
   color: #fff;
   height: auto;
-  padding: 10px; }
+  padding: 25px 10px; }
 
 footer p {
   color: #fff;
@@ -464,12 +482,13 @@ i {
   font-size: 22px !important; }
 
 footer address {
-  display: inline-block; }
+  display: inline-block;
+  margin-bottom: 0; }
 
 footer div.reseau {
   display: inline-block;
   float: right;
-  padding-top: 40px; }
+  margin-top: 26px; }
 
 .footer-bottom {
   background-color: #e82530;
@@ -480,6 +499,9 @@ footer div.reseau {
   font-size: 12px !important; }
 
 /* Extra small devices (phones, less than 768px) */
+@media (max-width: 768px) {
+  footer div.reseau {
+    margin-top: 12px; } }
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {

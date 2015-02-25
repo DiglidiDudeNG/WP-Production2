@@ -7,7 +7,7 @@
 						<p><strong>Salle { Parenthèse</strong></p>
 						<p>987 avenue Cartier</p>
 						<p>Québec (Québec) G1F 5T6</p>
-						<p>info@salleperenthese.com</p>
+						<a href="mailto:info@salleperenthese.com"><p>info@salleperenthese.com</p></a>
 					</address>
 		
 					<div class="reseau">

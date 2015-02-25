@@ -14,9 +14,9 @@
 			<div class="item active image-un">
 				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="Coldplay"> -->
 				<div class="carousel-caption">
-					<h1>Coldplay</h1>
-					<h2>25 janvier 2015</h2>
-					<h2 class="carousel-heure">20:00</h2>
+					<h1>Creedence Clearwater</h1>
+					<h2>25 janvier 2015<br>
+					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>
 			</div>
@@ -25,8 +25,8 @@
 				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="Roger Waters"> -->
 				<div class="carousel-caption">
 					<h1>Roger Waters</h1>
-					<h2>25 février 2015</h2>
-					<h2 class="carousel-heure">20:00</h2>
+					<h2>25 janvier 2015<br>
+					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>
 			</div>
@@ -35,8 +35,8 @@
 				<!-- <img src="<?php// echo IMAGES; ?>/roger-Hodgson.jpg" alt="The Killers"> -->
 				<div class="carousel-caption">
 					<h1>The Killers</h1>
-					<h2>25 mars 2015</h2>
-					<h2 class="carousel-heure">20:00</h2>
+					<h2>25 janvier 2015<br>
+					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>
 			</div>
