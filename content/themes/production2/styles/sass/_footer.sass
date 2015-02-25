@@ -1,19 +1,60 @@
+.footer-top
+	background-color: $color-red-hover
+	color: $color-white
+	height: auto
+	padding: 10px
+	
+footer p
+	color: $color-white
+	margin: 0
 
+i	
+	text-align: center
+	margin-left: 10px
+	
+.fa
+	width: 40px
+	height: 40px
+	background-color: $color-red
+	border-radius: 50%
+	padding-top: 10px
+	font-size: 22px!important	
+	
+footer address
+	display: inline-block
 
+footer div.reseau
+	display: inline-block
+	float: right
+	padding-top: 40px
+
+		
+.footer-bottom
+	background-color: $color-red
+	color: $color-white
+	padding: 10px
+
+.footer-bottom p
+	font-size: 12px!important
+	
 //medias queries
 
-@media screen and (max-width: $screen-sm-min)  // <768
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: $screen-sm-min)
 
 
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min)
 
 
-@media screen and (min-width: $screen-sm-min) // >768px
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min)
 
-
-@media screen and (min-width: $screen-md-min) // >992px
-
-
-
-@media screen and (min-width: $screen-lg-min) // >1200px
-
-	
+	footer 
+		p:nth-child(1)
+			font-size: 17px 
+		p:nth-child(2), p:nth-child(3), p:nth-child(4)
+			font-size: 15px 
+		
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min)

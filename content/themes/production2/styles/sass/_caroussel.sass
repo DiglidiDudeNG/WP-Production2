@@ -1,12 +1,36 @@
-
 .carousel-caption h2
 	text-transform: uppercase
+//enlever le padding par defaut du container-fluid
+.carousel2.container-fluid
+	padding: 0
+
+//transition plus smooth
+.carousel .item
+	-webkit-transition: opacity 1s
+	-moz-transition: opacity 1s
+	-ms-transition: opacity 1s
+	-o-transition: opacity 1s
+	transition: opacity 1s
+
+//ajout des 3 images
+.carousel .image-un
+	+background-img
+	background-image: url('../../images/roger-Hodgson.jpg')
+
+.carousel .image-deux
+	+background-img
+	background-image: url('../../images/roger-Hodgson.jpg')
+
+.carousel .image-trois
+	+background-img
+	background-image: url('../../images/roger-Hodgson.jpg')
+
 // Mettre le h2 en majuscule
 .carousel-caption h2
 	text-transform: uppercase
 
 // Texte du bouton
-button.btn-savoir	
+button.btn-savoir
 	font-family: $font-text
 
 .carousel-control .glyphicon-chevron-left:before, .carousel-control .glyphicon-chevron-right:before
@@ -15,10 +39,14 @@ button.btn-savoir
 
 
 //medias queries
+// -------------  medias queries  ---------------- //
 
 @media screen and (max-width: $screen-sm-min)  // <768
+	.carousel .item
+		height: 267px
+
 	button.btn-savoir
-		margin-bottom: 15px
+		margin-bottom: 5px
 		padding: 10px !important
 		font-size: 10px !important
 		letter-spacing: $text-letter-spacing
@@ -34,11 +62,12 @@ button.btn-savoir
 		margin-bottom: 20px
 		margin-top: 0
 
-
-
 @media screen and (min-width: $screen-sm-min) // >768px
+	.carousel .item
+		height: 485px
+
 	button.btn-savoir
-		margin-bottom: 68px
+		margin-bottom: 10px
 		padding: 15px !important
 		font-size: 13px !important
 		letter-spacing: $text-letter-spacing
@@ -55,24 +84,25 @@ button.btn-savoir
 		margin-top: 5px
 
 @media screen and (min-width: $screen-md-min) // >992px
+
+	.carousel .item
+		height: 644px
+
 	button.btn-savoir
-		margin-bottom: 100px
+		margin-bottom: 75px
 		padding: 20px !important
 		font-size: 16px !important
 		letter-spacing: $title-letter-spacing
 
 	ol.carousel-indicators
-		margin-bottom: 20px
+		margin-bottom: 10px
 		bottom: 20
-
-	button.btn-savoir
-		margin-bottom: 112px
 
 	h2.carousel-heure
 		margin-bottom: 50px
 
 	.carousel-caption h1
-		margin-bottom: 57px
+		margin-bottom: 50px
 
 
 @media screen and (min-width: $screen-lg-min) // >1200px

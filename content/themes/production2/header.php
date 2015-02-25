@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le styles -->
     <link href="<?php bloginfo('stylesheet_url');?>" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"> -->
-    <!-- <link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'> -->
-    <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900' rel='stylesheet' type='text/css'> -->
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -41,7 +38,6 @@
             'walker' => new wp_bootstrap_navwalker())
             );
             ?>
-
             <form class="navbar-form navbar-right" role="search" action="<?php bloginfo('url') ?>/programmation" method="post">
 
               <div class="input-group">
