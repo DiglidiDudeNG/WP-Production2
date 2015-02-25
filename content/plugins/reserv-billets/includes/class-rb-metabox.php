@@ -2,14 +2,15 @@
 
 class RB_Metabox implements RB_Interface_Metabox
 {
-	const DEFAULT_ID = "rb_metabox_bleh"; 
+	
+	const DEFAULT_ID = "rb_metabox_bleh";
+	
+	// ---
+	//<editor-fold desc="// PROPRIÉTÉS POUR « add_metabox »">
 	
 	/** @var String
-	 * L'identifiant du post type.
+	 * L'attribut ID affiché dans le rendu HTML.
 	 */
-	public $post_type;
-	
-	/** @var String L'attribut ID affiché dans le rendu HTML. */
 	private $id;
 	
 	/** @var String
@@ -29,140 +30,101 @@ class RB_Metabox implements RB_Interface_Metabox
 	private $dashicon;
 	
 	/** @var String
-	 * Le nom de la fonction appelée qui va afficher le HTML intérieur.
+	 * L'écran où sera affiché le metabox.
+	 * Peut avoir la valeur d'un post_type.
 	 */
-	private $callback_tag;
+	private $screen;
 	
 	/** @var String
 	 * Le contexte. ex: 'side', 'normal' ou 'advanced'
 	 */
 	private $context;
 	
-	/** @var String 
-	 * La priorité. ex: 'core' 
+	/** @var String
+	 * La priorité. ex: 'core'
 	 */
 	private $priority;
+	
+	//</editor-fold>
+	// ---
+	//<editor-fold desc="// PROPRIÉTÉS UNIQUES DE LA CLASSE">
+	
+	/** @var Bool Le booléen qui détermine s'il screen est un post-type. */
+	private $in_post_type = false;
+	
+	/** @var Array La liste de metadatas qui feront parti de la metabox. */
+	private $metadatas;
+	
+	//</editor-fold>
+	// ---
+	//<editor-fold desc="// CONSTRUCTEUR ">
 	
 	/**
 	 * Constructeur de l'élément RB_Metabox.
 	 *
-	 * @param String $post_type L'identifiant du post type. Doit être sans le slug du plugin.
-	 * @param Array  $args      {
-	 *      Les arguments pour le metabox.
-	 *      
-	 *      @type 
-	 * }
+	 * @param Array $args Les paramètres de l'objet RB_Metabox.
 	 */
-	function __construct( $post_type, array $args)
+	function __construct( array $args = null )
 	{
-		$this->post_type = $post_type;
+		// Déclarer l'objet WP_Error afin de retourner des erreurs.
+		$errors = new WP_Error();
 		
+		// Déclarer l'array des valeurs par défaut.
 		$defaults = array(
-			'id'            => 'rb_metabox_bleh',
-			'title'         => 'Metabox Sans-Nom',
+			// Pour « add_metabox »
+			'id' => null,
+			'title' => 'Metabox Sans-Nom',
 			'show_dashicon' => false,
-			'dashicon'      => '',
-			'callback_tag'  => null,
-			'screen'        => $post_type,
-			'context'       => 'default',
-			'priority'      => null,
-			'metadatas'     => array(),
+			'dashicon' => '',
+			'screen' => 'main',
+			'context' => 'default',
+			'priority' => null,
+			// Uniques pour la classe.
+			'metadatas' => array(),
 		);
 		
-		// Vérifier si l'id existe.
-		if ( empty( $metabox['id'] ) )
-		{
-			// Si c'est pas un array, on affiche un msg d'erreur.
-			wp_die( __( "Les tables associatives des metaboxes doivent être formées correctement." ) );
-		}
+		// Parser les arguments par défaut dans l'array d'arguments de construction de l'objet.
+		wp_parse_args( $args, $defaults );
 		
-		// Vérifier si le title est une string et qu'il n'est pas vide.
-		// TODO: Probablement assigner un template pour les titles, vu que c'est essentiellement composé de HTML.
-		if ( ! array_key_exists( 'title', $metabox ) || ! is_string( $metabox['title'] )  )
-		{
-			// Si c'est pas un title valide, on affiche un message d'erreur.
-			wp_die( __( "Le titre de vos metaboxes doivent être formés correctement." ) );
+		// Effectuer l'ajout de chacune des propriétés de la classe.
+		foreach ( $args as $cle => $param )
+		{	
+			// Si le paramètre a été assigné à notre objet avec succès, passer à la prochaine valeur.
+			if ( !call_user_func( array( $this, 'set_' . $cle ), $param ) )
+			{
+				var_dump( $args );
+				// Si ça itère pas à la prochaine valeur, on affiche un erreur.
+				wp_die( __( "Le constructeur de <b>" . __CLASS__ . "</b> a retourné une erreur pour l'assignement du param <b>" . $cle . ".</b>" ) );
+			}
 		}
 	}
 	
+	//</editor-fold>
+	// ---
+	//<editor-fold desc="// MÉTHODES QUI AFFECTENT WORDPRESS DIRECTEMENT">
+	
 	/**
 	 * Ajoute la Metabox dans l'environement Wordpress.
-	 * 
+	 *
 	 * @return bool Vrai si l'ajout a été un succès, faux sinon.
 	 */
 	public function add()
 	{
-		$metabox_title = $this->get_title();
-		
-		// S'il faut afficher le dashicon dans la metabox courante, mettre le HTML requis!
-		// TODO: adapter ça pour les templates.
-		if ( $this->has_dashicon() )
-		{
-			if ( !empty( $metabox['dashicon'] ) )
-			{
-				$icon_class = $metabox['dashicon'];
-				
-				if ( !strstr( $metabox['dashicon'], 'dashicon-' ) )
-				{
-					$icon_class = "dashicon-" . $icon_class;
-				}
-			}
-			else
-			{
-				
-			}
-			
-			$metabox_title .= '<span class="dashicons ' . $icon_class . '"></span>';
-		}
-		
-		// Former le titre de la metabox.
-		
-		
-		// Définir la base du format du nom du callback.
-		$base_sprint_callback_fn = 'render_%s_metabox';
-		
-		// Formater le nom du callback d'affichage.
-		$formatted_callback_fn = sprintf( $base_sprint_callback_fn, $this->post_type . "_" . $metabox['callback_tag'] );
-		
-		// Déclarer le callback à inclure dans les arguments.
-		$metabox_callback = null;
-		
-		// Vérifier si le callback n'est pas vide.
-		if ( ! empty( $metabox['callback_tag'] ) )
-		{
-			// Si la méthode n'existe pas, mettre un callback par défaut.
-			if ( !method_exists( $this, $formatted_callback_fn ) )
-			{
-				// Définir le nom de la fonction de callback.
-				$formatted_callback_fn = sprintf( $base_sprint_callback_fn, "default" );
-			}
-			
-			// Définir le nom de la fonction de callback.
-			$metabox_callback = array( $this, $formatted_callback_fn );
-		}
-		else
-		{
-			wp_die( __( "La méthode de callback de l'affichage de la metabox ".$metabox['title']." est invalide !" ) );
-		}
-		
 		// Ajouter la meta-box.
 		add_meta_box(
-			$metabox['id'],      // Attribut « id » dans la balise.
-			$metabox_title,      // Titre dans le header du metabox.
-			$metabox_callback,   // Callback qui va echo l'affichage.
-			$this->post_type,    // L'écran où est affiché le meta-box.
-			$metabox['context'], // Le contexte. ex. "side", "normal" ou "advanced".
-			$metabox['priority'] // La priorité.
-		// TODO: Savoir si on doit inclure les callback_args.
+			$this->get_id(),          // Attribut « id » dans la balise.
+			$this->get_header_html(), // Titre dans le header du metabox.
+			array( $this, 'render' ), // Callback qui va echo l'affichage de la metabox.
+			$this->get_screen(),      // L'écran où est affiché le meta-box.
+			$this->get_context(),     // Le contexte. ex. "side", "normal" ou "advanced".
+			$this->get_priority()     // La priorité d'ajout de la metabox.
 		);
-		
 		// TODO: faire un remove_meta_box() durant la désactivation.
-		
 	}
 	
 	/**
 	 * Effectue le rendu du contenu de la metabox.
-	 * 
+	 *
 	 * @param WP_Post $post Instance du post.
 	 *
 	 * @return bool|mixed|null
@@ -173,27 +135,88 @@ class RB_Metabox implements RB_Interface_Metabox
 		if ( ! current_user_can( 'edit_posts' ) )
 			return false;
 		
-		// Voir si la fonction existe.
-		if ( function_exists( sprintf( 'render_%s_info_metabox', $this->post_type ) ) )
-		{
-			return call_user_func( array( $this, sprintf( 'render_%s_info_metabox', $this->post_type ) ), $post );
-		}
-		else
-		{
-			// Pogner toutes les metadonnées.
-			$post_metas = get_post_meta( $post->ID );
-			
-			// Afficher le debugger si on en a besoin.
-			if ( WP_DEBUG_DISPLAY )
-				var_dump( $post_metas );
-			
-			return null;
-		}
+		// Pogner toutes les metadonnées.
+		$post_metas = get_post_meta( $post->ID );
+		
+		// Afficher le debugger si on en a besoin.
+		if ( WP_DEBUG_DISPLAY )
+			var_dump( $post_metas );
+		
+		// TODO voir « list_meta($metas) » pour l'affichage >>>>>> voir: template.php
+		
+		return null;
 	}
 	
 	/**
-	 * 
-	 * 
+	 * Génère le HTML affiché pour le header.
+	 *
+	 * @return String Le HTML formé du header de la metabox.
+	 */
+	public function get_header_html()
+	{
+		$header_html = "<em>" . $this->get_title() . "</em>";
+		
+		// Vérifier si la metabox doit afficher un dashicon.
+		if ( $this->is_show_dashicon() )
+		{
+			// Si la classe du dashicon n'est pas vide...
+			if ( ! empty( $icon = $this->get_dashicon() ) )
+			{
+				// Si y'a pas le suffix « dashicon- » dans le nom du dashicon.
+				if ( ! strstr( $this->dashicon, 'dashicon-' ) )
+				{
+					// En mettre un, duh!
+					$icon = "dashicon-" . $icon;
+				}
+			}
+			elseif ( $pt_menu_icon = get_post_type_object( $this->get_post_type() )->menu_icon !== null )
+			{
+				// Sinon, si le menu_icon du post_type a été assigné, l'utiliser tout simplement !
+				$icon = $pt_menu_icon;
+			}
+			else // Sinon, pas le choix, faut afficher le dashicon de base!
+			{
+				$icon = 'dashicon-';
+			}
+			
+			$header_html .= '<span class="dashicons ' . $icon . '"></span>';
+		}
+		
+		// Retourner le HTML formé du header de la metabox.
+		return $header_html;
+	}
+	
+	/**
+	 * Le post-type auquel la metabox est assignée.
+	 *
+	 * Essentiellement, ça pogne la propriété « Screen » pis ça la retourne.
+	 *
+	 * @return String|false Le nom du post-type impliqué, faux si la metabox n'est pas reliée à un post-type.
+	 */
+	public function get_post_type()
+	{
+		return ( $this->screen ? null : $this->get_screen() );
+	}
+	
+	/**
+	 * Détermine si la propriété screen de la metabox est le nom d'un post-type existant.
+	 *
+	 * @return String|false Le nom du post-type impliqué, faux si la metabox n'est pas reliée à un post-type.
+	 */
+	public function screen_is_post_type()
+	{
+		// Checker si la propriété « Screen » est aussi le nom d'un post-type enregistré.
+		// Retourne le nom du post_type si oui, Faux sinon.
+		return get_post_type_object( $this->get_screen() ) !== null;
+	}
+	
+	// </editor-fold>
+	// ---
+	//<editor-fold desc="// GETTERS">
+	
+	/**
+	 * Getter de la propriété « id » du metabox.
+	 *
 	 * @return String
 	 */
 	public function get_id()
@@ -202,8 +225,8 @@ class RB_Metabox implements RB_Interface_Metabox
 	}
 	
 	/**
-	 * 
-	 * 
+	 * Getter de la propriété « title » du metabox.
+	 *
 	 * @return String
 	 */
 	public function get_title()
@@ -212,22 +235,329 @@ class RB_Metabox implements RB_Interface_Metabox
 	}
 	
 	/**
-	 * 
-	 * 
-	 * @param String $title
-	 */
-	public function set_title( $title )
-	{
-		$this->title = $title;
-	}
-	
-	/**
-	 * Retourne vrai si le dashicon est affiché dans le title de la metabox.
-	 * 
+	 * Getter de la propriété « show_dashicon » du metabox.
+	 *
 	 * @return Bool Vrai si le dashicon doit être affiché dans le title de la metabox..
 	 */
-	public function has_dashicon()
+	public function is_show_dashicon()
 	{
 		return $this->show_dashicon;
 	}
+	
+	/**
+	 * Getter de la classe du dashicon.
+	 *
+	 * @return String La classe du dashicon.
+	 */
+	public function get_dashicon()
+	{
+		return $this->dashicon;
+	}
+	
+	/**
+	 * Getter de l'écran où est affiché le metabox.
+	 *
+	 * @return String L'écran où est affiché le metabox.
+	 */
+	public function get_screen()
+	{
+		return $this->screen;
+	}
+	
+	/**
+	 * Getter du contexte.
+	 *
+	 * @return String Le contexte.
+	 */
+	public function get_context()
+	{
+		return $this->context;
+	}
+	
+	/**
+	 * Getter de la priorité.
+	 *
+	 * @return String La priorité.
+	 */
+	public function get_priority()
+	{
+		return $this->priority;
+	}
+	
+	/**
+	 * @param string $meta_key Une clé d'un meta.
+	 *
+	 * @return Array La liste des metadatas.
+	 */
+	public function get_metadatas( $meta_key = '' )
+	{
+		// TODO checker dans toutes les meta_keys.
+		return $this->metadatas;
+	}
+	
+	//</editor-fold>
+	// ---
+	//<editor-fold desc="// SETTERS">
+	
+	/**
+	 * Setter de l'ID.
+	 *
+	 * @param String $id La valeur de l'ID.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_id( $id )
+	{
+		$ok = $this->valider_id( $id );
+		
+		if ( $ok )
+			$this->id = $id;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter du title.
+	 *
+	 * @param String $title La valeur du titre.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_title( $title )
+	{
+		$ok = $this->valider_title( $title );
+		
+		if ( $ok )
+			$this->title = $title;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter de l'affichage du dashicon.
+	 *
+	 * @param String $show_dashicon La valeur déterminant s'il faut afficher le dashicon.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_show_dashicon( $show_dashicon )
+	{
+		$ok = is_bool( $show_dashicon );
+		
+		if ( $ok )
+			$this->show_dashicon = $show_dashicon;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter de la classe du dashicon.
+	 *
+	 * @param String $dashicon La valeur de la classe du dashicon.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_dashicon( $dashicon )
+	{
+		$ok = $this->valider_dashicon( $dashicon );
+		
+		if ( $ok )
+			$this->dashicon = $dashicon;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter de l'écran.
+	 *
+	 * @param String $screen La valeur de l'écran.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_screen( $screen )
+	{
+		$ok = $this->valider_screen( $screen );
+		
+		if ( $ok )
+		{
+			$this->screen = $screen;
+			
+			if ( $this->screen_is_post_type() )
+			{
+			}
+		}
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter du contexte.
+	 *
+	 * @param String $context La valeur du contexte.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_context( $context )
+	{
+		$ok = $this->valider_context( $context );
+		
+		if ( $ok )
+			$this->context = $context;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter de la priorité.
+	 *
+	 * @param String $priority La valeur de la priorité.
+	 *
+	 * @return bool Vrai si la valeur a été assignée à l'objet courant avec succès.
+	 */
+	public function set_priority( $priority )
+	{
+		$ok = $this->valider_priority( $priority );
+		
+		if ( $ok )
+			$this->priority = $priority;
+		
+		return $ok;
+	}
+	
+	/**
+	 * @param Array $metadatas
+	 * 
+	 * @return Bool Vrai si ça a passé.
+	 */
+	public function set_metadatas( $metadatas )
+	{
+		if ( is_serialized( $metadatas ) )
+			$metadatas = unserialize( $metadatas );
+		
+		$this->metadatas = $metadatas;
+		
+		// TODO la validation.
+		return true;
+	}
+	
+	//</editor-fold>
+	// ---
+	//<editor-fold desc="// VALIDATEURS">
+	
+	/**
+	 * Validateur de l'ID.
+	 *
+	 * @param String $id La valeur de l'ID à valider.
+	 *
+	 * @return bool Vrai si l'ID est valide.
+	 */
+	private function valider_id( $id )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur du title.
+	 *
+	 * @param String $title La valeur du title à valider.
+	 *
+	 * @return bool Vrai si le title est valide.
+	 */
+	private function valider_title( $title )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur du dashicon.
+	 *
+	 * @param String $dashicon La valeur du dashicon à valider.
+	 *
+	 * @return bool Vrai si le dashicon est valide.
+	 */
+	private function valider_dashicon( $dashicon )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur de l'écran.
+	 *
+	 * @param String $screen La valeur de l'écran
+	 *
+	 * @return Bool Vrai si l'écran est valide.
+	 */
+	private function valider_screen( $screen )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur du contexte.
+	 *
+	 * @param String $context La valeur du contexte à valider.
+	 *
+	 * @return bool Vrai si le contexte est valide.
+	 */
+	private function valider_context( $context )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur de la priorité.
+	 *
+	 * @param String $priority La valeur de la priorité à valider.
+	 *
+	 * @return Bool Vrai si la priorité est valide.
+	 */
+	private function valider_priority( $priority )
+	{
+		// TODO la validation.
+		return true;
+	}
+	
+	/**
+	 * Validateur des metadatas.
+	 *
+	 * @param array $metadatas L'array des metadatas.
+	 *
+	 * @return string|Bool Vrai si elles ont toutes
+	 */
+	private function valider_metadatas( $metadatas )
+	{
+		foreach ( $metadatas as $key => $metadata )
+		{
+			$valide = true;
+			
+			// TODO compléter la validation des metadatas.
+			
+			if ( ! $valide )
+			{
+				if ( is_int( $key ) )
+				{
+					$key = strval( $key );
+					
+					if ( is_array( $metadata ) )
+					{
+						$key = $metadata;
+					}
+				}
+				
+				// Retourner la clé.
+				return $key;
+			}
+		}
+		
+		// Retourner vrai si tout s'est bien passé.
+		return true;
+	}
+	
+	//</editor-fold>	
+	// ---
 }

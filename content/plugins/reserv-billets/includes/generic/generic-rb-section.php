@@ -111,8 +111,7 @@ abstract class RB_Section
 				call_user_func( array( $this, 'define_'.$this->post_type.'_admin_hooks' ), $loader );
 		}
 		
-		if ( function_exists( 'define_'.$this->post_type.'_after_admin_hooks' ) )
-			call_user_func( array( $this, 'define_'.$this->post_type.'_after_admin_hooks' ), $loader );
+		$this->define_other_hooks($loader);
 	}
 	
 	/**
@@ -140,8 +139,6 @@ abstract class RB_Section
 	
 	/**
 	 * @param \RB_Loader $loader
-	 *
-	 * @return mixed
 	 */
-	abstract public function define_other_hooks( RB_Loader $loader );
+	abstract protected function define_other_hooks( RB_Loader $loader );
 }

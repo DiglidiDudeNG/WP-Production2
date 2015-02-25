@@ -54,7 +54,7 @@ define( 'WPLANG', '' );
 // ===========
 // Hide errors
 // ===========
-ini_set( 'display_errors', 1 );
+ini_set( 'display_errors', true );
 define( 'WP_DEBUG_DISPLAY', true );
 
 // =================================================================

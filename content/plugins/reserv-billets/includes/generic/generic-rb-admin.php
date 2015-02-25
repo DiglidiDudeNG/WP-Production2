@@ -118,7 +118,7 @@ abstract class RB_Admin
 	 *              @type bool   $show_dashicon Vrai si le Dashicon doit être affiché après le titre de la metabox.
 	 *              @type string $dashicon      La classe du dashicon à afficher.
 	 *                                          Si vide, ce sera celle définie à la racine des args.
-	 *              @type string $callback_tag  Le nom de la fonction appelée qui va afficher le HTML intérieur.
+	 *              @type string $screen        L'écran où le metabox est affiché. Sera fort probablement le post_type.
 	 *              @type string $context       Le contexte. ex: 'side', 'normal' ou 'advanced'
 	 *              @type string $priority      La priorité. ex: 'core'
 	 *          }
@@ -339,26 +339,31 @@ abstract class RB_Admin
 				// Mettre les valeurs de style par défaut au style courant.
 				$metadata = wp_parse_args( $metadata, $defaults_metadatas );
 				
-				// Vérifier si l'id existe.
-				if ( !is_string( $metadata['type'] ) || empty( $metadata['type'] ) )
-				{
-					// Si c'est pas un array, on affiche un msg d'erreur.
-					wp_die( __( "Les types des metadatas doivent être formées correctement." ) );
-				}
-				else
-				{ // Les arguments de référence
-					if ( ! is_array( $metadata['query_args'] ) )
-					{
-						wp_die( __( 'Les arguments de référence pour '.$metadata['name'].' doivent être valides.' ) );
-					}
-				}
-				
-				// Vérifier si le callback existe.
-				if ( $metadata['validate_cb'] !== null && ! method_exists( $this, $metadata['validate_cb'] ) )
-				{
-					// Si c'est pas un name valide, on affiche un message d'erreur.
-					wp_die( __( "Le callback de validation de la metadata ". $key ." est invalide." ) );
-				}
+				//// Vérifier si l'id existe.
+				//if ( empty( $metadata->type || ! is_string( $metadata->type ) ) )
+				//{
+				//	// Si c'est pas un array, on affiche un msg d'erreur.
+				//	wp_die( __( "Les types des metadatas doivent être formées correctement." ) );
+				//}
+				//
+				//// Vérifier si les metabox_args sont corrects.
+				//if ( empty( $metadata->metabox_args ) || ! is_array( $metadata->metabox_args ) )
+				//{
+				//	wp_die( __( 'Les arguments de référence de metabox pour '.$metadata['name'].' doivent être valides.' ) );
+				//}
+				//
+				//// Vérifier si les columns_args sont corrects.
+				//if ( empty( $metadata->column_args ) || ! is_array( $metadata->column_args ) )
+				//{
+				//	wp_die( __( 'Les arguments de référence de colonnes pour '.$metadata['name'].' doivent être valides.' ) );
+				//}
+				//
+				//// Vérifier si le callback existe.
+				//if ( $metadata['validate_cb'] !== null && ! method_exists( $this, $metadata['validate_cb'] ) )
+				//{
+				//	// Si c'est pas un name valide, on affiche un message d'erreur.
+				//	wp_die( __( "Le callback de validation de la metadata ". $key ." est invalide." ) );
+				//}
 				
 				// TODO effectuer le reste des validations.
 				
@@ -387,7 +392,7 @@ abstract class RB_Admin
 			// Parcourir chaque metabox.
 			foreach ( $args->metaboxes as $metabox )
 			{
-				$metabox_obj = new RB_Metabox( $post_type, $metabox );
+				$metabox_obj = new RB_Metabox( $metabox );
 				
 				// Ajouter la metabox.
 				$this->metaboxes[] = $metabox_obj;
@@ -395,9 +400,6 @@ abstract class RB_Admin
 				// Incrémenter le compteur, au cas où on en a de besoin.
 				$counter++;
 			}
-			
-			// Réinitialiser le compteur.
-			$counter = 0;
 		}
 	}
 	
@@ -494,41 +496,10 @@ abstract class RB_Admin
 		// Parcourir toute les metaboxes.
 		foreach ($this->metaboxes as $metabox)
 		{
+			// Ajouter la metabox.
 			$metabox->add();
 		}
 	}
-	
-	/**
-	 * Effectue un rendu de la metabox des informations.
-	 *
-	 * @param WP_Post $post Une instance de l'objet Post.
-	 *
-	 * @return void|mixed
-	 */
-	public function render_info_metabox( $post )
-	{
-		/** @var RB_Metabox $metabox */
-		$metabox = null;
-		
-		foreach ($this->metaboxes as $metabox)
-		{
-			foreach ($this->metadatas as $metadata)
-			{
-				$metadatas[$metadata->id] = $metadata;
-			}
-			
-			$metabox->render( $post, $metadatas );
-		}
-	}
-	
-	/**
-	 * Effectue le rendu de la metabox par défaut.
-	 *
-	 * @param WP_Post $post Instance du post.
-	 * 
-	 * @return mixed
-	 */
-	abstract public function render_default_metabox( $post );
 	
 	/**
 	 * Sauvegarde les données des meta-data du post.
@@ -554,59 +525,56 @@ abstract class RB_Admin
 		// $is_valid_nonce = ( isset( $_POST[ 'rb_nonce' ] ) && wp_verify_nonce( $_POST[ 'rb_nonce' ], basename( __FILE__ ) ) ) ? true : false;
 		$is_valid_nonce = true;
 		
-		// Définir la fonction spéciale.
-		$special_func = sprintf( 'save_%s', $this->post_type );
-		
-		// Appeler une fonction similaire dans l'enfant si celle-ci existe.
-		// Ex: « save_prestation »
-		if ( method_exists( $this, $special_func ) )
-			call_user_func( array( $this, $special_func ), $post_id, $post );
-		
 		// S'en va du script dépendamment si ça passe ou non.
 		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
 			return;
 		}
 		
+		/** @var RB_Metadata $metadata */
+		$metadata = null;
+		
 		// Parcourir la table des clés.
-		foreach ( $this->metadatas as $key => $args )
+		foreach ( $this->metadatas as $key => $metadata )
 		{
-			// Passer à la valeur suivante dans l'array si la clé est interne.
-			if ( $this->key_is_internal( $key ) )
-				continue;
+			$metadata->update( 'post' );
 			
-			// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
-			if ( ! $args['is_saved'] )
-				continue;
-			
-			// Vérifier si la clé existe dans le $_POST.
-			if ( array_key_exists( $key, $_POST ) )
-			{
-				// Vérfier si la fonction de validation n'est pas vide...
-				if ( $args['validate_fn'] !== null )
-				{
-					// ...et si la fonction existe.
-					if ( method_exists( $this, $args['validate_fn'] ) )
-					{
-						// Valider la donnée.
-						if ( call_user_func( array( $this, $args['validate_fn'] ), $_POST[$key] ) )
-							// Mettre à jour la valeur de la metadata avec celle du $_POST.
-							update_post_meta( $post_id, $key, $_POST[$key] );
-						else // Si la fonction a retournée FAUX.
-							// Retourner une erreur.
-							wp_die( __( "La validation de la donnée " . $key . " a échouée !" ) );
-					}
-					else // Si la fonction n'existe pas.
-					{
-						// Retourner une erreur.
-						wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
-					}
-				}
-				else // Si tout le reste s'est bien passé.
-				{
-					// Mettre à jour la valeur de la metadata avec celle du $_POST.
-					update_post_meta( $post_id, $key, $_POST[$key] );
-				}
-			}
+			//// Passer à la valeur suivante dans l'array si la clé est interne.
+			//if ( $this->key_is_internal( $key ) )
+			//	continue;
+			//
+			//// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
+			//if ( ! $args['is_saved'] )
+			//	continue;
+			//
+			//// Vérifier si la clé existe dans le $_POST.
+			//if ( array_key_exists( $key, $_POST ) )
+			//{
+			//	// Vérfier si la fonction de validation n'est pas vide...
+			//	if ( $args['validate_fn'] !== null )
+			//	{
+			//		// ...et si la fonction existe.
+			//		if ( method_exists( $this, $args['validate_fn'] ) )
+			//		{
+			//			// Valider la donnée.
+			//			if ( call_user_func( array( $this, $args['validate_fn'] ), $_POST[$key] ) )
+			//				// Mettre à jour la valeur de la metadata avec celle du $_POST.
+			//				update_post_meta( $post_id, $key, $_POST[$key] );
+			//			else // Si la fonction a retournée FAUX.
+			//				// Retourner une erreur.
+			//				wp_die( __( "La validation de la donnée " . $key . " a échouée !" ) );
+			//		}
+			//		else // Si la fonction n'existe pas.
+			//		{
+			//			// Retourner une erreur.
+			//			wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
+			//		}
+			//	}
+			//	else // Si tout le reste s'est bien passé.
+			//	{
+			//		// Mettre à jour la valeur de la metadata avec celle du $_POST.
+			//		update_post_meta( $post_id, $key, $_POST[$key] );
+			//	}
+			//}
 		}
 		
 		// Ajouter des actions après.

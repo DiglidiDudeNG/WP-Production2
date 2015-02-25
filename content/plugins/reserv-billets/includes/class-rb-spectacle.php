@@ -50,6 +50,8 @@ class RB_Spectacle extends RB_Section
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php';
+			require_once plugin_dir_path( __FILE__ ) . 'interfaces/interface-rb-metabox.php';
+			require_once plugin_dir_path( __FILE__ ) . 'class-rb-metabox.php';
 		}
 	}
 	
@@ -113,7 +115,6 @@ class RB_Spectacle extends RB_Section
 					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback_tag'  => 'info', // sera 'render_info_metabox'
 					'context'       => 'normal',
 					'priority'      => 'high',
 					'metadatas'     => [
@@ -139,8 +140,6 @@ class RB_Spectacle extends RB_Section
 	 * @see     RB::define_all_admin_hooks
 	 *
 	 * @param   RB_Loader $loader Un pointeur vers le loader.
-	 *
-	 * @return mixed|void
 	 */
 	public function define_other_hooks( RB_Loader $loader )
 	{

@@ -81,16 +81,6 @@ class RB_Prestation_Admin extends RB_Admin
 		</table>
 	<?php
 	}
-
-	/**
-	 * @param WP_Post $post
-	 *
-	 * @return mixed|void
-	 */
-	public function render_default_metabox( $post )
-	{
-		return;
-	}
 	
 	/**
 	 * Effectué après la sauvegarde des metadatas du post.

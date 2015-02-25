@@ -120,27 +120,5 @@ class RB_Spectacle_Admin extends RB_Admin
 		</table>
 	<?php
 	}
-	
-	/**
-	 * @param \WP_Post $post
-	 *
-	 * @return mixed|void
-	 */
-	public function render_default_metabox( $post )
-	{
-		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
-		
-		// Pogner toutes les metadonnées.
-		$post_metas = get_post_meta( $post->ID );
-		
-		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY )
-			var_dump( $post_metas );
-	}
-	
-	
 }
 
