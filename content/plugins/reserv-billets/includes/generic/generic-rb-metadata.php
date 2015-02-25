@@ -13,6 +13,9 @@ abstract class RB_Metadata
 	const DEF_DEFAULT = '';
 	const DEF_VALIDATE_CB = '';
 	
+	/** @var String Le post-type relié. */
+	public $post_type;
+	
 	/** @var String Le type d'input. */
 	public $type;
 	
@@ -40,8 +43,8 @@ abstract class RB_Metadata
 	/**
 	 * Constructeur de Metadata.
 	 *
-	 * @param String $post_type Le type de post relié.
-	 * @param Array  $args      Les arguments.
+	 * @param String $post_type Le nom du post-type relié.
+	 * @param Array  $args      La grosse liste d'arguments pleine de meat (Mhhmm, meat!)
 	 */
 	function __construct( $post_type, $args )
 	{
