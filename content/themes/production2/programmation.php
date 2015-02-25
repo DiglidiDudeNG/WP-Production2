@@ -7,7 +7,6 @@ Template Name: Programmation
 
 	<!-- début du contenu de la page programmation.php -->
 
-
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
 
@@ -16,10 +15,8 @@ Template Name: Programmation
 	<div class="spectacles-a-venir-container">
 		<h2>Programmation</h2>
 		<div class="row">
-
-			<?php				
-			
-				wp_reset_postdata();									
+			<?php
+				wp_reset_postdata();
 				$args = array(
 					'posts_per_page'	=> -1,
 					'post_type' 		=> 'prestation',
@@ -39,13 +36,7 @@ Template Name: Programmation
 		</div>
 
 	</div>
-									  
- 
-	
-
 
 	<!-- fin du contenu de la page index.php -->
-
-
 
 <?php get_footer(); ?>
