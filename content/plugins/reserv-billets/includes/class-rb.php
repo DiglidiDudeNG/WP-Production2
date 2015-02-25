@@ -76,25 +76,22 @@ class RB
 		// Créer l'objet RB_Spectacle.
 		/** @noinspection PhpIncludeInspection */
 		require_once plugin_dir_path( __FILE__ ) . 'class-rb-spectacle.php'; // RB_Spectacle
-		$this->sections["spectacle"] = new RB_Spectacle($this->loader);
+		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
 
+		// Créer l'objet RB_Prestation.
 		require_once 'class-rb-prestation.php'; // RB_Spectacle
-		$this->sections["prestation"] = new RB_Prestation($this->loader);
-
-		// Créer l'objet RB_Spectacle_Admin
-		if ( $this->is_admin ) {
-			/** @noinspection PhpIncludeInspection */
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php'; // RB_Spectacle_Admin
-			$this->sections["spectacle_admin"] = new RB_Spectacle_Admin( $this->get_version() );
-		}
+		$this->sections["prestation"] = new RB_Prestation( $this->loader );
+		
+		// Inclure les metadonnées.
+		require_once 'generic/generic-rb-metadata.php';
 	}
 
 	/**
-	 * Définit tous les hooks de la fonction
+	 * Définit tous les hooks globaux.
 	 */
 	protected function define_hooks()
 	{
-//		$this->$loader->queue_action();
+		
 	}
 
 	/**
