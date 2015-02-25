@@ -1,31 +1,33 @@
+#contenu-site
+	margin-top: 79px
 body
 	font: 100% $font-title
 	color: $color-red
-	margin-top: 104px!important
 
-h1
-	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 63px!important
-	font-weight: $bold!important
+#contenu-site h1
+	font: 100% $font-title
+	color: $color-white
+	font-size: 32px
+	font-weight: $bold
 	text-transform: uppercase
 
-h2
-	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 30px!important
-	font-weight: $bold!important
+#contenu-site h2
+	font: 100% $font-title
+	color: $color-red
+	font-size: 30px
+	font-weight: $bold
 	text-align: center
+	margin-bottom: 20px
 
-h3
-	font: 100% $font-title!important
-	color: $color-red!important
-	font-size: 25px!important
-	font-weight: $bold!important
+#contenu-site h3
+	font: 100% $font-title
+	color: $color-red
+	font-size: 25px
+	font-weight: $bold
 
-p
+#contenu-site p
 	font-family: $font-text
-	color: $color-gris-fonce
+	// color: $color-gris-fonce
 	font-size: 15px
 	line-height: $text-line-height
 
@@ -40,8 +42,8 @@ p
 	font-weight: $bold
 	background-color: $color-red
 	color: $color-white
-	padding: 20px 20px
-	font-size: 17px
+	padding: 20px 20px!important
+	font-size: 17px!important
 	text-transform: uppercase
 	letter-spacing: $title-letter-spacing
 	+border-radius(3px)
@@ -54,8 +56,6 @@ button
 	border-style: none
 	text-decoration: none
 
-
-
 #logo
 	font: 100% $font-title
 	font-size: 35px
@@ -64,22 +64,55 @@ button
 	color: $color-white
 
 
-@media screen and (max-width: $screen-sm-min)  
-	h1
-		font-size: 24px!important
+// @media screen and (max-width: $screen-sm-min)
+// 	#contenu-site h1
+// 		font-size: 24px
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: $screen-sm-min)
+	#contenu-site h1
+		font-size: 32px
 
-	h2
-		font-size: 14px!important
+	#contenu-site h2
+		font-size: 17px
 
-	h3
-		font-size: 11px!important
+	#contenu-site h3
+		font-size: 11px
 
+	#contenu-site p
+		font-size: 10px
+		line-height: 16px
+
+	#contenu-site
+		margin-top: 65px
+
+
+@media screen and (min-width: $screen-md-min)
+	#contenu-site
+		margin-top: 104px
+
+
+@media screen and (min-width: $screen-lg-min)
 	p
 		font-size: 10px
 
+	#contenu-site
+		margin-top: 104px
 
-@media screen and (max-width: $screen-md-min)
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min)
 
-@media screen and (max-width: $screen-lg-min)
+	#contenu-site h1
+		font-size: 50px
 
-@media screen and (min-width: $screen-lg-min)
+	#contenu-site h2
+		font-size: 24px
+
+	#contenu-site h3
+		font-size: 13px
+
+	#contenu-site p
+		font-size: 11px
+
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min)

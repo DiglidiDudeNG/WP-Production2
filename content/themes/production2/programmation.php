@@ -7,20 +7,11 @@ Template Name: Programmation
 
 	<!-- début du contenu de la page programmation.php -->
 
-
-
-
-	<p>kawabunga</p>
-	<p></p>
-	<p></p>
-	<p></p>
-
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
-
+<div class="container">
 	<div class="spectacles-a-venir-container">
-		<h2>Programmation (ceci est le titre de la section)</h2>
-
+		<h2>Programmation</h2>
 
 
 		<form action="<?php bloginfo('url') ?>/programmation" method="post">
@@ -142,13 +133,7 @@ Template Name: Programmation
 		</div>
 
 	</div>
-									  
- 
-	
-
-
+</div>
 	<!-- fin du contenu de la page index.php -->
-
-
 
 <?php get_footer(); ?>

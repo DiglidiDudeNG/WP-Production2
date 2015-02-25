@@ -35,12 +35,6 @@
 					$prestation_jourDuMois = strftime("%d", $new_date);
 					$prestation_mois = strftime("%b", $new_date);
 
-					
-
-
-
-
-
 					/**
 					 * Query des spectacles pour afficher les infos des spectacles par rapport à la prestation courante
 					 *
@@ -132,15 +126,13 @@
 					/**
 					 * Fin du query du spectacle
 					 */
-		
 				}
 
 				// Si recherche infructueuse
 				if($rechercheInfructueuse == true){
-				echo '<span>Aucun spectacle ne correspond à votre recherche</span>';
+				echo '<p>Aucun spectacle ne correspond à votre recherche</p>';
 				}
 			}
 
-			else echo '<span>Aucun spectacle à afficher</span>';
+			else echo '<p>Aucun spectacle à afficher</p>';
 		?>
-
