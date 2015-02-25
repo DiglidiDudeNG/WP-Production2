@@ -1,16 +1,17 @@
-$(document).ready (function(){
+$( document ).ready(function(){
 
-	$('#carousel-example-generic').carousel({
-	  interval: 4000
+	$('.carousel').carousel({
+	  interval: 2000
 	});
+
 
   $(".container").on("click", ".flip-js", function(e){
     var self = $(this);
     if(self.hasClass("hover")) {
       self.removeClass("hover");
     } else {
-      $(".hover").removeClass("hover");
+      $(".hover").removeClass("hover");  
       self.toggleClass("hover");
-    }
+    } 
   });
 });

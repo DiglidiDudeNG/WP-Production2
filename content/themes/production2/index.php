@@ -15,6 +15,7 @@
 	<!-- début du contenu de la page index.php -->
 
 <?php
+
 	include_once("include/caroussel.php");
 ?>
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
@@ -43,8 +44,10 @@
 				 * Les paramètres d'affichage sont définis ci-haut, dépendement de la page chargée
 				 */
 				include(locate_template("loopprestations.php"));
+
 			?>
 		</div>
+
 	</div>
 
 	<!-- fin du contenu de la page index.php -->
