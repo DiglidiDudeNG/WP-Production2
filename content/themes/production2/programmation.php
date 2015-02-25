@@ -18,44 +18,118 @@ Template Name: Programmation
 	<!-- C'EST ICI QU'ON MET LA VIANDE ;) -->
 
 
-	<!-- Affichage des 10 spectacles à venir -->
-
 	<div class="spectacles-a-venir-container">
 		<h2>Programmation (ceci est le titre de la section)</h2>
 
 
 
-		<form action="<?php bloginfo('url') ?>/programmation">
-			<select name="" id="">
-				<option value="1">Janvier</option>
-				<option value="2">Février</option>
-				<option value="3">Mars</option>
-				<option value="4">Avril</option>
-				<option value="5">Mai</option>
-				<option value="6">Juin</option>
-				<option value="7">Juillet</option>
-				<option value="8">Août</option>
-				<option value="9">Septembre</option>
-				<option value="10">Octobre</option>
-				<option value="11">Novembre</option>
-				<option value="12">Décembre</option>
+		<form action="<?php bloginfo('url') ?>/programmation" method="post">
+			<select name="selection_mois" id="selection_mois">
+				<option value="01" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "01"){
+								echo 'selected';
+							}}?>
+				>Janvier</option>
+				<option value="02" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "02"){
+								echo 'selected';
+							}}?>
+				>Février</option>
+				<option value="03" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "03"){
+								echo 'selected';
+							}}?>
+				>Mars</option>
+				<option value="04" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "04"){
+								echo 'selected';
+							}}?>
+				>Avril</option>
+				<option value="05" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "05"){
+								echo 'selected';
+							}}?>
+				>Mai</option>
+				<option value="06" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "06"){
+								echo 'selected';
+							}}?>
+				>Juin</option>
+				<option value="07" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "7"){
+								echo 'selected';
+							}}?>
+				>Juillet</option>
+				<option value="08" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "08"){
+								echo 'selected';
+							}}?>
+				>Août</option>
+				<option value="09" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "09"){
+								echo 'selected';
+							}}?>
+				>Septembre</option>
+				<option value="10" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "10"){
+								echo 'selected';
+							}}?>
+				>Octobre</option>
+				<option value="11" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "11"){
+								echo 'selected';
+							}}?>
+				>Novembre</option>
+				<option value="12" <?php if(isset( $_POST['submit_mois']) ){ 
+							if($_POST['selection_mois'] == "12"){
+								echo 'selected';
+							}}?>
+				>Décembre</option>
 			</select>
+
+			<input type="submit" name="submit_mois" id="submit_mois">
 		</form>
 
 
 
 		<div class="row">
 
-			<?php				
-			
-				wp_reset_postdata();									
-				$args = array(
-					'posts_per_page'	=> -1,
-					'post_type' 		=> 'prestation',
-					'order'				=> 'ACS',
-					'order_by'			=> 'meta_value',
-					'meta_key'       	=> 'rb_prestation_date'
-				);
+			<?php
+
+				wp_reset_postdata();
+
+				if(isset( $_POST['submit_mois']) ){
+
+					$month = $_POST['selection_mois'];
+
+					$args = array(
+						'posts_per_page'	=> -1,
+						'post_type' 		=> 'prestation',
+						'order'				=> 'ACS',
+						'order_by'			=> 'meta_value',
+						'meta_key'       	=> 'rb_prestation_date',
+						'meta_query'		=> array(
+							array(
+								'key'		=> 'rb_prestation_date',
+								'value'		=> array('2015-' . $month . '-01', '2015-' . $month . '-31'),
+								'type'		=> 'DATE',
+								'compare'	=> 'BETWEEN'
+							)
+						)
+					);
+				}
+				else{
+
+					$args = array(
+						'posts_per_page'	=> -1,
+						'post_type' 		=> 'prestation',
+						'order'				=> 'ACS',
+						'order_by'			=> 'meta_value',
+						'meta_key'       	=> 'rb_prestation_date'
+					);
+				}
+												
+				
 				$wp_query_prestations = new WP_Query($args);
 
 				/**
