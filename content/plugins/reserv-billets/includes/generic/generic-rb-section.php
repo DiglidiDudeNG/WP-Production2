@@ -79,21 +79,25 @@ abstract class RB_Section
 		// Utiliser les hooks du panneau d'administration.
 		if ($this->is_admin) {
 			
-			if ($this->admin === null)
+			// Si l'objet admin n'a pas été créé
+			if ( !is_object( $this->admin ) )
 			{
 				$this->admin = $this->creer_objet_admin();
 			}
 			
-			// Ajouter les actions du panneau d'admin à la queue d'action du composant loader.
+			// L'ajout des styles.
 			$loader->queue_action( 'admin_enqueue_styles', $this->admin, 'enqueue_styles' );
 
+			// L'ajout des scripts.
 			$loader->queue_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 			
+			// L'ajout des metaboxes.
 			$loader->queue_action( 'add_meta_boxes', $this->admin, 'add_all_meta_boxes' );
 			
+			// La sauvegarde du post.
 			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );
 			
-			// Manager des colonnes.
+			// Gérer les colonnes.
 			$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
 			
 			$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
@@ -102,15 +106,16 @@ abstract class RB_Section
 			
 			$loader->queue_action( 'pre_get_posts', $this->admin, 'orderby_custom_columns', 10, 1 );
 			
+			//$loader->queue_filter( 'posts_clauses', $this->admin, 'advanced_orderby_columns', 10, 2 );
+			
 			//$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
 			
 			// Permettre d'ajouter des hooks personnalisés pour la classe enfant.
-			if ( function_exists( 'define_'.$this->post_type.'_admin_hooks' ) )
-				call_user_func( array( $this, 'define_'.$this->post_type.'_admin_hooks' ), $loader );
+			if ( function_exists( 'define_{$this->post_type}_admin_hooks' ) )
+				call_user_func( array( $this, 'define_{$this->post_type}_admin_hooks' ), $loader );
 		}
 		
-		if ( function_exists( 'define_'.$this->post_type.'_after_admin_hooks' ) )
-			call_user_func( array( $this, 'define_'.$this->post_type.'_after_admin_hooks' ), $loader );
+		$this->define_other_hooks($loader);
 	}
 	
 	/**
@@ -135,4 +140,9 @@ abstract class RB_Section
 	 * @return mixed
 	 */
 	abstract public function creer_objet_admin();
+	
+	/**
+	 * @param \RB_Loader $loader
+	 */
+	abstract protected function define_other_hooks( RB_Loader $loader );
 }

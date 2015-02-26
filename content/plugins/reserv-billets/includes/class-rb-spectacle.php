@@ -50,6 +50,8 @@ class RB_Spectacle extends RB_Section
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php';
+			require_once plugin_dir_path( __FILE__ ) . 'interfaces/interface-rb-metabox.php';
+			require_once plugin_dir_path( __FILE__ ) . 'class-rb-metabox.php';
 		}
 	}
 	
@@ -81,15 +83,16 @@ class RB_Spectacle extends RB_Section
 					'default'       => '{}',
 					'in_columns'    => true,
 					'is_query'      => true,
-					'metabox_query' => array( 
+					'metabox_query' => array(
 						'post_type' => 'prestation',
 						'meta_key'  => 'rb_prestation_spectacle_id',
-						 // TODO trouver quoi envoyer comme meta_value.
+					    
+						// TODO trouver quoi envoyer comme meta_value.
 					),
-				    'column_query' => array(
-					    'post_type'  => 'prestation',
-					    'meta_key'   => 'rb_prestation_spectacle_id', // TODO adapter.
-				    ),
+					'column_query' => array(
+						'post_type'  => 'prestation',
+						'meta_key'   => 'rb_prestation_spectacle_id', // TODO adapter.
+					),
 				),
 				'rb_spectacle_artiste_site_url' => array(
 					'type'       => 'input:url',
@@ -103,7 +106,7 @@ class RB_Spectacle extends RB_Section
 				),
 				'rb_spectacle_prix' => array(
 					'type'       => 'input:currency',
-					'name'       => __( "Prix d'entrée pour une personne" ),
+					'name'       => __( "Prix du billet" ),
 					'default'    => 1.00,
 				),
 			),
@@ -112,7 +115,6 @@ class RB_Spectacle extends RB_Section
 					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback_tag'  => 'info', // sera 'render_info_metabox'
 					'context'       => 'normal',
 					'priority'      => 'high',
 					'metadatas'     => [
@@ -130,17 +132,18 @@ class RB_Spectacle extends RB_Section
 		return new $nom_classe( self::SLUG_DEFAULT, $args );
 	}
 	
+	
 	/**
 	 * Définit les hooks spécifiques au panneau d'administration des Spectacles.
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
 	 *
-	 * @param   \RB_Loader $loader Un pointeur vers le loader.
+	 * @param   RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_spectacle_admin_hooks(RB_Loader $loader)
+	public function define_other_hooks( RB_Loader $loader )
 	{
-		
+		// TODO: Implement define_other_hooks() method.
 	}
 
 	/**

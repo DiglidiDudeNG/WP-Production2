@@ -75,26 +75,26 @@ class RB_Prestation extends RB_Section
 					), // TODO adapter à nouvelle façon.
 					'column_query'  => array( 
 						'post_type'  => 'spectacle',
-						'meta_key'   => '',
+						'meta_key'   => '${}',
 					), // TODO adapter à nouvelle façon.
 				),
 				'rb_prestation_date' => array( // La date.
 					'type'       => 'input:date',
 					'name'       => 'Date',
-					'default'    => '2014-02-15',
+					'default'    => date("Y-m-d") || '2014-02-15', // Aujourd'hui, ou ma date de fête, parce que!
 					'in_columns' => true, 
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
 					'name'       => 'Heure',
-					'default'    => '01:00',
+					'default'    => '19:00',
 					'in_columns' => true,
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
 					'name'       => 'Billets restants',
-					'default'    => get_option('rb_billets_par_defaut'),
+					'default'    => get_option('rb_billets_par_defaut') || 500,
 					'in_columns' => true,
 				),
 			),
@@ -103,7 +103,6 @@ class RB_Prestation extends RB_Section
 					'id'            => 'rb_prestation_general',
 					'title'         => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
-					'callback_tag'  => 'info', // sera 'render_info_metabox'
 					'context'       => 'normal',
 					'priority'      => 'high',
 					'metadatas'     => [ 'rb_prestation_spectacle_id', 'rb_prestation_date', 'rb_prestation_heure' ],
@@ -113,7 +112,6 @@ class RB_Prestation extends RB_Section
 					'title'         => 'Nb de billets restants',
 					'show_dashicon' => true,
 					'dashicon'      => 'tickets-alt',
-					'callback_tag'  => 'billets',
 					'context'       => 'side',
 					'priority'      => 'high',
 					'metadatas'     => [ 'rb_prestation_nb_billets' ],
@@ -135,7 +133,7 @@ class RB_Prestation extends RB_Section
 	 *
 	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_prestation_admin_hooks(RB_Loader $loader)
+	protected function define_other_hooks(RB_Loader $loader)
 	{
 		
 	}
@@ -188,7 +186,7 @@ class RB_Prestation extends RB_Section
 			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
 			'can_export'          => true, // Pour faire des backups.
 			'has_archive'         => true, // Eh, why not?
-			'exclude_from_search' => true, // On veut être capable de les rechercher.
+			'exclude_from_search' => true, // On veut PAS être capable de les rechercher.
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'post', // C'est pas vraiment un post.

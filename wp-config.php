@@ -16,8 +16,9 @@ if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
 // ========================
 // Custom Content Directory
 // ========================
-// define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
-// define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/content' );
+// TODO décommenter lors du développement.
+define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/content' );
+define( 'WP_CONTENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . RB_DIR_WP . '/content' );
 
 // ================================================
 // You almost certainly do not want to change these
@@ -53,7 +54,7 @@ define( 'WPLANG', '' );
 // ===========
 // Hide errors
 // ===========
-ini_set( 'display_errors', 1 );
+ini_set( 'display_errors', true );
 define( 'WP_DEBUG_DISPLAY', true );
 
 // =================================================================
