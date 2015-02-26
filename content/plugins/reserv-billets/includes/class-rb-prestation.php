@@ -103,6 +103,7 @@ class RB_Prestation extends RB_Section
 					'id'            => 'rb_prestation_general',
 					'title'         => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
+					'screen'        => 'prestation',
 					'context'       => 'normal',
 					'priority'      => 'high',
 					'metadatas'     => [ 'rb_prestation_spectacle_id', 'rb_prestation_date', 'rb_prestation_heure' ],
@@ -112,8 +113,9 @@ class RB_Prestation extends RB_Section
 					'title'         => 'Nb de billets restants',
 					'show_dashicon' => true,
 					'dashicon'      => 'tickets-alt',
+					'screen'        => 'prestation',
 					'context'       => 'side',
-					'priority'      => 'high',
+					'priority'      => 'low',
 					'metadatas'     => [ 'rb_prestation_nb_billets' ],
 				)
 			),

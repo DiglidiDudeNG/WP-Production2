@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Class RB_Metabox
+ * 
+ * L'objet Metabox qui crée et manage les metabox.
+ * 
+ * @property-read String 
+ */
 class RB_Metabox implements RB_Interface_Metabox
 {
+	const DASHICON_VALIDE_MAIS_SANS_PREFIXE = 2;
 	
 	const DEFAULT_ID = "rb_metabox_bleh";
 	
@@ -62,9 +70,10 @@ class RB_Metabox implements RB_Interface_Metabox
 	/**
 	 * Constructeur de l'élément RB_Metabox.
 	 *
-	 * @param Array $args Les paramètres de l'objet RB_Metabox.
+	 * @param Array  $args      Les paramètres de l'objet RB_Metabox.
+	 * @param String $post_type Le nom unique du post_type.
 	 */
-	function __construct( array $args = null )
+	function __construct( array $args )
 	{
 		// Déclarer l'objet WP_Error afin de retourner des erreurs.
 		$errors = new WP_Error();
@@ -72,7 +81,7 @@ class RB_Metabox implements RB_Interface_Metabox
 		// Déclarer l'array des valeurs par défaut.
 		$defaults = array(
 			// Pour « add_metabox »
-			'id' => null,
+			'id' => self::DEFAULT_ID,
 			'title' => 'Metabox Sans-Nom',
 			'show_dashicon' => false,
 			'dashicon' => '',
@@ -84,13 +93,13 @@ class RB_Metabox implements RB_Interface_Metabox
 		);
 		
 		// Parser les arguments par défaut dans l'array d'arguments de construction de l'objet.
-		wp_parse_args( $args, $defaults );
-		
-		// Effectuer l'ajout de chacune des propriétés de la classe.
+		$args = wp_parse_args( $args, $defaults );
+			
+			// Effectuer l'ajout de chacune des propriétés de la classe.
 		foreach ( $args as $cle => $param )
-		{	
+		{
 			// Si le paramètre a été assigné à notre objet avec succès, passer à la prochaine valeur.
-			if ( ! call_user_func( array( $this, 'set_' . $cle ), $param ) )
+			if ( ! call_user_func( array( $this, 'set_'.$cle ), $param ) )
 			{
 				var_dump( $args );
 				// Si ça itère pas à la prochaine valeur, on affiche un erreur.
@@ -143,7 +152,12 @@ class RB_Metabox implements RB_Interface_Metabox
 		
 		// TODO voir « list_meta($metas) » pour l'affichage >>>>>> voir: template.php
 		
-		
+		switch ( $this->get_metadata() )
+		{
+			case '':
+				
+				break;
+		}
 	}
 	
 	/**
@@ -153,33 +167,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	public function get_header_html()
 	{
-		$header_html = "<em>" . $this->get_title() . "</em>";
-		
-		// Vérifier si la metabox doit afficher un dashicon.
-		if ( $this->is_show_dashicon() )
-		{
-			// Si la classe du dashicon n'est pas vide...
-			if ( ! empty( $icon = $this->get_dashicon() ) )
-			{
-				// Si y'a pas le suffix « dashicon- » dans le nom du dashicon.
-				if ( ! strstr( $this->dashicon, 'dashicon-' ) )
-				{
-					// En mettre un, duh!
-					$icon = "dashicon-" . $icon;
-				}
-			}
-			elseif ( $pt_menu_icon = get_post_type_object( $this->get_post_type() )->menu_icon !== null )
-			{
-				// Sinon, si le menu_icon du post_type a été assigné, l'utiliser tout simplement !
-				$icon = $pt_menu_icon;
-			}
-			else // Sinon, pas le choix, faut afficher le dashicon de base!
-			{
-				$icon = 'dashicon-';
-			}
-			
-			$header_html .= '<span class="dashicons ' . $icon . '"></span>';
-		}
+		$header_html = '<span class="dashicons ' . $this->get_dashicon() . '"></span> ' . $this->get_title();
 		
 		// Retourner le HTML formé du header de la metabox.
 		return $header_html;
@@ -194,19 +182,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	public function get_post_type()
 	{
-		return ( $this->screen ? null : $this->get_screen() );
-	}
-	
-	/**
-	 * Détermine si la propriété screen de la metabox est le nom d'un post-type existant.
-	 *
-	 * @return String|false Le nom du post-type impliqué, faux si la metabox n'est pas reliée à un post-type.
-	 */
-	public function screen_is_post_type()
-	{
-		// Checker si la propriété « Screen » est aussi le nom d'un post-type enregistré.
-		// Retourne le nom du post_type si oui, Faux sinon.
-		return get_post_type_object( $this->get_screen() ) !== null;
+		return ( post_type_exists( $this->get_screen() ) ? $this->get_screen() : false );
 	}
 	
 	// </editor-fold>
@@ -218,80 +194,59 @@ class RB_Metabox implements RB_Interface_Metabox
 	 *
 	 * @return String
 	 */
-	public function get_id()
-	{
-		return $this->id;
-	}
+	public function get_id() { return $this->id; }
 	
 	/**
 	 * Getter de la propriété « title » du metabox.
 	 *
 	 * @return String
 	 */
-	public function get_title()
-	{
-		return $this->title;
-	}
+	public function get_title() { return $this->title; }
 	
 	/**
 	 * Getter de la propriété « show_dashicon » du metabox.
 	 *
 	 * @return Bool Vrai si le dashicon doit être affiché dans le title de la metabox..
 	 */
-	public function is_show_dashicon()
-	{
-		return $this->show_dashicon;
-	}
+	public function is_show_dashicon() { return $this->show_dashicon; }
 	
 	/**
 	 * Getter de la classe du dashicon.
 	 *
 	 * @return String La classe du dashicon.
 	 */
-	public function get_dashicon()
-	{
-		return $this->dashicon;
-	}
+	public function get_dashicon() { return $this->dashicon; }
 	
 	/**
 	 * Getter de l'écran où est affiché le metabox.
 	 *
 	 * @return String L'écran où est affiché le metabox.
 	 */
-	public function get_screen()
-	{
-		return $this->screen;
-	}
+	public function get_screen() { return $this->screen; }
 	
 	/**
 	 * Getter du contexte.
 	 *
 	 * @return String Le contexte.
 	 */
-	public function get_context()
-	{
-		return $this->context;
-	}
+	public function get_context() { return $this->context; }
 	
 	/**
 	 * Getter de la priorité.
 	 *
 	 * @return String La priorité.
 	 */
-	public function get_priority()
-	{
-		return $this->priority;
-	}
+	public function get_priority() { return $this->priority; }
 	
 	/**
 	 * @param string $meta_key Une clé d'un meta.
 	 *
 	 * @return Array La liste des metadatas.
 	 */
-	public function get_metadatas( $meta_key = '' )
+	public function get_metadata( $meta_key = '' )
 	{
 		// TODO checker dans toutes les meta_keys.
-		return $this->metadatas;
+		return $this->metadatas[$meta_key];
 	}
 	
 	//</editor-fold>
@@ -358,10 +313,38 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	public function set_dashicon( $dashicon )
 	{
+		// Effectuer la vérification de base.
 		$ok = $this->valider_dashicon( $dashicon );
 		
-		if ( $ok )
+		// Valeur de show_dashicon.
+		$must_show_dashicon = $this->is_show_dashicon();
+		
+		// Si on ne doit pas afficher de dashicon, éviter de le faire!
+		if ( !$must_show_dashicon )
+		{
+			// Mettre le dashicon à null.
+			$this->dashicon = ''; // TODO mettre une constante par défaut.
+			
+			// Prétendre que la vérification fut un succès, ni vu ni connu!
+			return true;
+		}
+		elseif ( $ok ) // Si on doit afficher le dashicon, vérifier si le dashicon est valide.
+		{
+			$dash_exploded = explode( '-', $dashicon );
+			
+			if ( !strstr( $dashicon, 'dashicons-' ) )
+				$dashicon = "dashicons-" . $dashicon;
+			elseif ( $dash_exploded[0] != "dashicons" )
+				$dashicon = "dashicons-" . $dash_exploded[count( $dash_exploded )];
+			
 			$this->dashicon = $dashicon;
+		}
+		else
+		{
+			$ok = true;
+			$pt_obj = get_post_type_object( $this->get_screen() );
+			$this->dashicon = $pt_obj ? $pt_obj->menu_icon : 'dashicons-info';
+		}
 		
 		return $ok;
 	}
@@ -378,14 +361,8 @@ class RB_Metabox implements RB_Interface_Metabox
 		$ok = $this->valider_screen( $screen );
 		
 		if ( $ok )
-		{
 			$this->screen = $screen;
-			
-			if ( $this->screen_is_post_type() )
-			{
-			}
-		}
-		
+
 		return $ok;
 	}
 	
@@ -452,7 +429,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_id( $id )
 	{
-		return !empty($id) && is_string($id);
+		return is_string($id) && !empty($id);
 	}
 	
 	/**
@@ -464,7 +441,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_title( $title )
 	{
-		return !empty($title) && is_string($title);
+		return is_string($title) && !empty($title);
 	}
 	
 	/**
@@ -472,11 +449,11 @@ class RB_Metabox implements RB_Interface_Metabox
 	 *
 	 * @param String $dashicon La valeur du dashicon à valider.
 	 *
-	 * @return bool Vrai si le dashicon est valide.
+	 * @return bool Vrai si le dashicon est valide, Faux sinon.
 	 */
 	private function valider_dashicon( $dashicon )
 	{
-		return !empty($dashicon) && is_string($dashicon);
+		return is_string( $dashicon ) && !empty( $dashicon );
 	}
 	
 	/**
@@ -488,8 +465,9 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_screen( $screen )
 	{
-		// TODO la validation.
-		return !empty($screen) && is_string($screen);
+		// Vérifier si la metabox doit afficher un dashicon.
+		return  !empty($screen) && is_string($screen) && post_type_exists( $screen )
+		        || !empty($screen) && is_string($screen);
 	}
 	
 	/**

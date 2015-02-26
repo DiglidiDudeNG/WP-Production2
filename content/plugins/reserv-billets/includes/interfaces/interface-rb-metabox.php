@@ -22,8 +22,6 @@ interface RB_Interface_Metabox
 	 * Effectue le rendu du contenu de la metabox.
 	 *
 	 * @param WP_Post $post Instance du post.
-	 *
-	 * @return bool|mixed|null
 	 */
 	public function render( $post );
 	

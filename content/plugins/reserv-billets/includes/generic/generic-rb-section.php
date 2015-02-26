@@ -92,7 +92,7 @@ abstract class RB_Section
 			$loader->queue_action( 'admin_enqueue_scripts', $this->admin, 'enqueue_scripts' );
 			
 			// L'ajout des metaboxes.
-			$loader->queue_action( 'add_meta_boxes', $this->admin, 'add_all_meta_boxes' );
+			$loader->queue_action( 'admin_init', $this->admin, 'add_all_meta_boxes' );
 			
 			// La sauvegarde du post.
 			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );

@@ -12,6 +12,9 @@ abstract class RB_Admin
 	 */
 	const BASE_SLUG = 'rb_';
 	
+	static $count_scripts = 0;
+	static $count_stylesheets = 0;
+	
 	/** @var string Le nom du post-type. */
 	protected $post_type;
 	
@@ -390,9 +393,9 @@ abstract class RB_Admin
 		if ( ! empty( $args->metaboxes ) )
 		{
 			// Parcourir chaque metabox.
-			foreach ( $args->metaboxes as $metabox )
+			foreach ( $args->metaboxes as $metabox_args )
 			{
-				$metabox_obj = new RB_Metabox( $metabox );
+				$metabox_obj = new RB_Metabox( $metabox_args );
 				
 				// Ajouter la metabox.
 				$this->metaboxes[] = $metabox_obj;
@@ -431,11 +434,14 @@ abstract class RB_Admin
 	 * @action admin_enqueue_styles
 	 */
 	public function enqueue_styles()
-	{
-		if ( WP_DEBUG_DISPLAY )
-			var_dump($this->styles);
-		
-		foreach ( $this->styles as $style ) {
+	{	
+		foreach ( $this->styles as $style ) 
+		{
+			if ( WP_DEBUG_DISPLAY ) {
+				var_dump( array( 'Feuile de style #' . self::$count_stylesheets, $style ) );
+				self::$count_stylesheets++;
+			}
+			
 			wp_enqueue_style(
 				$style['handle'],         // Le nom de la feuille de style.
 				plugin_dir_url( __FILE__ ) . $style['filepath'], // Source
@@ -459,10 +465,13 @@ abstract class RB_Admin
 	 */
 	public function enqueue_scripts()
 	{
-		if ( WP_DEBUG_DISPLAY )
-			//var_dump($this->scripts);
-		
-		foreach ( $this->scripts as $script ) {
+		foreach ( $this->scripts as $script ) 
+		{
+			if ( WP_DEBUG_DISPLAY ) {
+				var_dump( array( 'Script #' . self::$count_scripts, $script ) );
+				self::$count_scripts++;
+			}
+			
 			wp_enqueue_script(
 				$script['handle'],         // Le nom de la feuille de style.
 				plugin_dir_url( __FILE__ ) . $script['filepath'], // Source

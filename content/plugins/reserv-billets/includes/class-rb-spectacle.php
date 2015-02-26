@@ -115,8 +115,9 @@ class RB_Spectacle extends RB_Section
 					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
+					'screen'        => 'spectacle',
 					'context'       => 'normal',
-					'priority'      => 'high',
+					'priority'      => 'core',
 					'metadatas'     => [
 						'rb_spectacle_artiste_site_url',
 						'rb_spectacle_artiste_facebook_url',
