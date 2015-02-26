@@ -526,58 +526,69 @@ abstract class RB_Admin
 		$is_valid_nonce = true;
 		
 		// S'en va du script dépendamment si ça passe ou non.
-		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
+		if ( $is_autosave || ! $is_valid_nonce ) 
+		{
 			return;
 		}
 		
-		/** @var RB_Metadata $metadata */
-		$metadata = null;
-		
-		// Parcourir la table des clés.
-		foreach ( $this->metadatas as $key => $metadata )
+		if ( !$is_revision )
 		{
-			$metadata->update( 'post' );
+			/** @var RB_Metadata $metadata */
+			$metadata = null;
 			
-			//// Passer à la valeur suivante dans l'array si la clé est interne.
-			//if ( $this->key_is_internal( $key ) )
-			//	continue;
-			//
-			//// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
-			//if ( ! $args['is_saved'] )
-			//	continue;
-			//
-			//// Vérifier si la clé existe dans le $_POST.
-			//if ( array_key_exists( $key, $_POST ) )
-			//{
-			//	// Vérfier si la fonction de validation n'est pas vide...
-			//	if ( $args['validate_fn'] !== null )
-			//	{
-			//		// ...et si la fonction existe.
-			//		if ( method_exists( $this, $args['validate_fn'] ) )
-			//		{
-			//			// Valider la donnée.
-			//			if ( call_user_func( array( $this, $args['validate_fn'] ), $_POST[$key] ) )
-			//				// Mettre à jour la valeur de la metadata avec celle du $_POST.
-			//				update_post_meta( $post_id, $key, $_POST[$key] );
-			//			else // Si la fonction a retournée FAUX.
-			//				// Retourner une erreur.
-			//				wp_die( __( "La validation de la donnée " . $key . " a échouée !" ) );
-			//		}
-			//		else // Si la fonction n'existe pas.
-			//		{
-			//			// Retourner une erreur.
-			//			wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
-			//		}
-			//	}
-			//	else // Si tout le reste s'est bien passé.
-			//	{
-			//		// Mettre à jour la valeur de la metadata avec celle du $_POST.
-			//		update_post_meta( $post_id, $key, $_POST[$key] );
-			//	}
-			//}
+			// Parcourir la table des clés.
+			foreach ( $this->metadatas as $key => $metadata )
+			{
+				// TODO implémenter avec la classe RB_Metadata.
+				//$metadata->update( post_id );
+				
+				// Passer à la valeur suivante dans l'array si la clé est interne.
+				if ( $this->key_is_internal( $key ) )
+					continue;
+				
+				// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
+				//if ( ! $metadata->is_saved() )
+				if ( ! $metadata['is_saved'] )
+					continue;
+				
+				// Vérifier si la clé existe dans le $_POST.
+				if ( array_key_exists( $key, $_POST ) )
+				{
+					// Vérfier si la fonction de validation n'est pas vide...
+					if ( $metadata['validate_fn'] !== null )
+					{
+						// ...et si la fonction existe.
+						if ( method_exists( $this, $metadata['validate_fn'] ) )
+						{
+							// Valider la donnée.
+							if ( call_user_func( array( $this, $metadata['validate_fn'] ), $_POST[$key] ) )
+								// Mettre à jour la valeur de la metadata avec celle du $_POST.
+								update_post_meta( $post_id, $key, $_POST[$key] );
+							else // Si la fonction a retournée FAUX.
+								// Retourner une erreur.
+								wp_die( __( "La validation de la donnée " . $key . " a échouée !" ) );
+						}
+						else // Si la fonction n'existe pas.
+						{
+							// Retourner une erreur.
+							wp_die( __( "La fonction de validation pour " . $key . " n'existe pas !" ) );
+						}
+					}
+					else // Si tout le reste s'est bien passé.
+					{
+						// Mettre à jour la valeur de la metadata avec celle du $_POST.
+						update_post_meta( $post_id, $key, $_POST[$key] );
+					}
+				}
+			}
+		}		
+		else
+		{
+			// TODO implémenter avec la classe RB_Metadata.
+			// $metadata->set_defaults( 'post' );
 		}
 		
-		// Ajouter des actions après.
+		// TODO Ajouter des actions après...?
 	}
 	
 	/**

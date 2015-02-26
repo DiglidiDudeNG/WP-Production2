@@ -35,11 +35,11 @@ class RB_Loader
 	 *
 	 * @see RB_Loader::run() <<< C'est là qu'ils sont appliqués.
 	 *
-	 * @param String $tag           L'identifiant de l'action. Exemple: "init"
-	 * @param Mixed  $composant     Le composant (objet) ayant la fonction à assigner à l'action.
-	 * @param String $fnCallback    La fonction dans la composante qui sera appelée par l'action.
-	 * @param int    $priorité      La priorité d'exécution de l'action.
-	 * @param int    $args_acceptés Le nb d'arguments acceptés par le callback de l'action.
+	 * @param String   $tag           L'identifiant de l'action. Exemple: "init"
+	 * @param Mixed    $composant     Le composant (objet) ayant la fonction à assigner à l'action.
+	 * @param Callback $fnCallback    La fonction dans la composante qui sera appelée par l'action.
+	 * @param int      $priorité      La priorité d'exécution de l'action.
+	 * @param int      $args_acceptés Le nb d'arguments acceptés par le callback de l'action.
 	 */
 	public function queue_action( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
 	{
@@ -52,11 +52,11 @@ class RB_Loader
 	 *
 	 * @see RB_Loader::run() <<< C'est là qu'ils sont appliqués.
 	 *
-	 * @param String $tag           L'identifiant du filtre. Exemple: "the_content"
-	 * @param Mixed  $composant     Le composant (objet) ayant la fonction à assigner au filtre.
-	 * @param String $fnCallback    La fonction dans la composante qui sera appelée pour le filtre.
-	 * @param int    $priorité      La priorité d'exécution du filtre.
-	 * @param int    $args_acceptés Le nb d'arguments acceptés par le callback du filtre.
+	 * @param String   $tag           L'identifiant du filtre. Exemple: "the_content"
+	 * @param Mixed    $composant     Le composant (objet) ayant la fonction à assigner au filtre.
+	 * @param Callback $fnCallback    La fonction dans la composante qui sera appelée pour le filtre.
+	 * @param int      $priorité      La priorité d'exécution du filtre.
+	 * @param int      $args_acceptés Le nb d'arguments acceptés par le callback du filtre.
 	 */
 	public function queue_filter( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
 	{

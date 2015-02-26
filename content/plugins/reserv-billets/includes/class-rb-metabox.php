@@ -90,7 +90,7 @@ class RB_Metabox implements RB_Interface_Metabox
 		foreach ( $args as $cle => $param )
 		{	
 			// Si le paramètre a été assigné à notre objet avec succès, passer à la prochaine valeur.
-			if ( !call_user_func( array( $this, 'set_' . $cle ), $param ) )
+			if ( ! call_user_func( array( $this, 'set_' . $cle ), $param ) )
 			{
 				var_dump( $args );
 				// Si ça itère pas à la prochaine valeur, on affiche un erreur.
@@ -119,6 +119,7 @@ class RB_Metabox implements RB_Interface_Metabox
 			$this->get_context(),     // Le contexte. ex. "side", "normal" ou "advanced".
 			$this->get_priority()     // La priorité d'ajout de la metabox.
 		);
+		
 		// TODO: faire un remove_meta_box() durant la désactivation.
 	}
 	
@@ -126,14 +127,12 @@ class RB_Metabox implements RB_Interface_Metabox
 	 * Effectue le rendu du contenu de la metabox.
 	 *
 	 * @param WP_Post $post Instance du post.
-	 *
-	 * @return bool|mixed|null
 	 */
 	public function render( $post )
 	{
 		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
 		if ( ! current_user_can( 'edit_posts' ) )
-			return false;
+			wp_die( __( "Vous n'êtes pas autorisé à éditer les posts du type <b>".$post->post_type."</b>." ) );
 		
 		// Pogner toutes les metadonnées.
 		$post_metas = get_post_meta( $post->ID );
@@ -144,7 +143,7 @@ class RB_Metabox implements RB_Interface_Metabox
 		
 		// TODO voir « list_meta($metas) » pour l'affichage >>>>>> voir: template.php
 		
-		return null;
+		
 	}
 	
 	/**
@@ -453,8 +452,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_id( $id )
 	{
-		// TODO la validation.
-		return true;
+		return !empty($id) && is_string($id);
 	}
 	
 	/**
@@ -466,8 +464,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_title( $title )
 	{
-		// TODO la validation.
-		return true;
+		return !empty($title) && is_string($title);
 	}
 	
 	/**
@@ -479,8 +476,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	 */
 	private function valider_dashicon( $dashicon )
 	{
-		// TODO la validation.
-		return true;
+		return !empty($dashicon) && is_string($dashicon);
 	}
 	
 	/**
@@ -493,7 +489,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	private function valider_screen( $screen )
 	{
 		// TODO la validation.
-		return true;
+		return !empty($screen) && is_string($screen);
 	}
 	
 	/**

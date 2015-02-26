@@ -75,26 +75,26 @@ class RB_Prestation extends RB_Section
 					), // TODO adapter à nouvelle façon.
 					'column_query'  => array( 
 						'post_type'  => 'spectacle',
-						'meta_key'   => '',
+						'meta_key'   => '${}',
 					), // TODO adapter à nouvelle façon.
 				),
 				'rb_prestation_date' => array( // La date.
 					'type'       => 'input:date',
 					'name'       => 'Date',
-					'default'    => '2014-02-15',
+					'default'    => date("Y-m-d") || '2014-02-15', // Aujourd'hui, ou ma date de fête, parce que!
 					'in_columns' => true, 
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
 					'name'       => 'Heure',
-					'default'    => '01:00',
+					'default'    => '19:00',
 					'in_columns' => true,
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
 					'name'       => 'Billets restants',
-					'default'    => get_option('rb_billets_par_defaut'),
+					'default'    => get_option('rb_billets_par_defaut') || 500,
 					'in_columns' => true,
 				),
 			),

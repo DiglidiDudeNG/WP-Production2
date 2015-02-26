@@ -120,5 +120,7 @@ class RB_Spectacle_Admin extends RB_Admin
 		</table>
 	<?php
 	}
+	
+	
 }
 
