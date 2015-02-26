@@ -80,8 +80,13 @@ class RB
 		require_once 'class-rb-prestation.php'; // RB_Spectacle
 		$this->sections["prestation"] = new RB_Prestation( $this->loader );
 		
+		// Inclure les metadatas.
+		require_once 'class_rb_metadata.php';		
+		
 		// Inclure les metabox.
-		//require_once '';
+		require_once 'interfaces/interface-rb-metabox.php';
+		require_once 'class-rb-metabox.php';
+		
 	}
 
 	/**

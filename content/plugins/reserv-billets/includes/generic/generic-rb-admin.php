@@ -100,7 +100,7 @@ abstract class RB_Admin
 	 *              Les arguments pour chaque metadata.
 	 * 
 	 *              @type string       $type          Le type d'input.
-	 *              @type string       $name          Le nom référé dans l'interface.
+	 *              @type string       $label         Le label affiché dans l'interface.
 	 *              @type mixed        $default       La valeur par défaut.
 	 *              @type string       $validate_cb   La fonction de callback de la validation de la metadata. Vide si y'en a pas.
 	 *              @type bool         $is_saved      Vrai si la valeur doit être sauvegardée.
@@ -119,8 +119,7 @@ abstract class RB_Admin
 	 *              @type string $id            Attribut 'ID' de l'élément HTML affiché.
 	 *              @type string $title         Le titre affiché dans son header. Peut contenir du HTML.
 	 *              @type bool   $show_dashicon Vrai si le Dashicon doit être affiché après le titre de la metabox.
-	 *              @type string $dashicon      La classe du dashicon à afficher.
-	 *                                          Si vide, ce sera celle définie à la racine des args.
+	 *              @type string $dashicon      La classe du dashicon à afficher. Si vide, ce sera un dashicon par défaut.
 	 *              @type string $screen        L'écran où le metabox est affiché. Sera fort probablement le post_type.
 	 *              @type string $context       Le contexte. ex: 'side', 'normal' ou 'advanced'
 	 *              @type string $priority      La priorité. ex: 'core'
@@ -189,19 +188,6 @@ abstract class RB_Admin
 			'dependencies' => array(),
 			'version'      => 1.0,
 			'in_footer'    => true,
-		);
-		
-		// Valeurs par défaut des métadonnées.
-		$defaults_metadatas = array(
-			'type'              => 'static:text',
-			'name'              => 'Metadata sans-nom',
-			'default'           => '',
-			'validate_cb'       => null,
-			'is_saved'          => true,
-			'in_columns'        => false,
-			'is_query'          => false,
-			'metabox_args'      => array(),
-			'column_args'       => array(),
 		);
 		
 		/* ------------------------------------------ */
@@ -340,9 +326,11 @@ abstract class RB_Admin
 			foreach ( $args->metadatas as $key => $metadata )
 			{
 				// Mettre les valeurs de style par défaut au style courant.
-				$metadata = wp_parse_args( $metadata, $defaults_metadatas );
+				$metadata['key'] = $key;
 				
-				//// Vérifier si l'id existe.
+				$metadata = new RB_Metadata( $metadata );
+				
+				//// Vérifier si le type existe.
 				//if ( empty( $metadata->type || ! is_string( $metadata->type ) ) )
 				//{
 				//	// Si c'est pas un array, on affiche un msg d'erreur.
@@ -367,8 +355,6 @@ abstract class RB_Admin
 				//	// Si c'est pas un name valide, on affiche un message d'erreur.
 				//	wp_die( __( "Le callback de validation de la metadata ". $key ." est invalide." ) );
 				//}
-				
-				// TODO effectuer le reste des validations.
 				
 				// Ajouter la metadata.
 				$this->metadatas[$key] = $metadata;

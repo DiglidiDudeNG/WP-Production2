@@ -14,7 +14,7 @@ class RB_Metabox implements RB_Interface_Metabox
 	const DEFAULT_ID = "rb_metabox_bleh";
 	
 	// ---
-	//<editor-fold desc="// PROPRIÉTÉS POUR « add_metabox »">
+	//<editor-fold desc="// PROPRIÉTÉS POUR LE CONSTRUCTEUR">
 	
 	/** @var String
 	 * L'attribut ID affiché dans le rendu HTML.

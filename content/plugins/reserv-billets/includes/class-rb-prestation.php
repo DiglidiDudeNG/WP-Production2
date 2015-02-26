@@ -66,7 +66,7 @@ class RB_Prestation extends RB_Section
 			'metadatas' => array( // Les Metadatas.
 				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
 					'type'          => 'input:select',
-					'name'          => 'Spectacle',
+					'label'          => 'Spectacle',
 					'default'       => '0',
 					'in_columns'    => true,
 					'is_query'      => true,
@@ -80,20 +80,20 @@ class RB_Prestation extends RB_Section
 				),
 				'rb_prestation_date' => array( // La date.
 					'type'       => 'input:date',
-					'name'       => 'Date',
+					'label'       => 'Date',
 					'default'    => date("Y-m-d") || '2014-02-15', // Aujourd'hui, ou ma date de fête, parce que!
 					'in_columns' => true, 
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
-					'name'       => 'Heure',
+					'label'       => 'Heure',
 					'default'    => '19:00',
 					'in_columns' => true,
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
-					'name'       => 'Billets restants',
+					'label'       => 'Billets restants',
 					'default'    => get_option('rb_billets_par_defaut') || 500,
 					'in_columns' => true,
 				),

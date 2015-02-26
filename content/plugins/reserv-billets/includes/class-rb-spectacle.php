@@ -50,8 +50,6 @@ class RB_Spectacle extends RB_Section
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php';
-			require_once plugin_dir_path( __FILE__ ) . 'interfaces/interface-rb-metabox.php';
-			require_once plugin_dir_path( __FILE__ ) . 'class-rb-metabox.php';
 		}
 	}
 	
@@ -79,7 +77,7 @@ class RB_Spectacle extends RB_Section
 			'metadatas' => array(
 				'rb_spectacle_liste_prestation_id' => array(
 					'type'          => 'link:json', // Premier = type d'HTML; Deuxième = type de variable.
-					'name'          => __( 'Liste des Prestations' ),
+					'label'          => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
 					'is_query'      => true,
@@ -96,17 +94,17 @@ class RB_Spectacle extends RB_Section
 				),
 				'rb_spectacle_artiste_site_url' => array(
 					'type'       => 'input:url',
-					'name'       => __( "URL du site de l'artiste" ),
+					'label'       => __( "URL du site de l'artiste" ),
 					'default'    => '#',
 				),
 				'rb_spectacle_artiste_facebook_url' => array(
 					'type'       => 'input:url',
-				    'name'       => __( "URL du Facebook de l'artiste" ),
+				    'label'       => __( "URL du Facebook de l'artiste" ),
 					'default'    => '#',
 				),
 				'rb_spectacle_prix' => array(
 					'type'       => 'input:currency',
-					'name'       => __( "Prix du billet" ),
+					'label'       => __( "Prix du billet" ),
 					'default'    => 1.00,
 				),
 			),

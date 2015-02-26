@@ -48,7 +48,7 @@ abstract class RB_Section
 		// Définir la valeur de is_admin afin de ne pas à la re-vérifier tout le temps.
 		// (Réduit le temps de chargement; Chaque seconde compte, ti-gars!)
 		$this->is_admin = is_admin();
-
+		
 		// Charger les dépendances dans la mémoire, dont les sous-classes Admin et Loader.
 		$this->load_dependencies();
 
