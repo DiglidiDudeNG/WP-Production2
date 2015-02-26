@@ -11,8 +11,8 @@
 					</address>
 		
 					<div class="reseau">
-						<i class="fa fa-facebook"></i>  <!-- ajouter les liens -->
-						<i class="fa fa-twitter"></i>
+						<a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+						<a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
 					</div>
 				</div>
 			</div>
