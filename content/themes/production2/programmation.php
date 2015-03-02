@@ -13,73 +13,51 @@ Template Name: Programmation
 	<div class="spectacles-a-venir-container">
 		<h2>Programmation</h2>
 
+		<ul>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=01">Janvier</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=02">Février</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=03">Mars</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=04">Avril</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=05">Mai</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=06">Juin</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=07">Juillet</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=08">Août</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=09">Septembre</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=10">Octobre</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=11">Novembre</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_mois=12">Décembre</a></li>
+		</ul>
 
-		<form action="<?php bloginfo('url') ?>/programmation" method="post">
-			<select name="selection_mois" id="selection_mois">
-				<option value="01" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "01"){
-								echo 'selected';
-							}}?>
-				>Janvier</option>
-				<option value="02" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "02"){
-								echo 'selected';
-							}}?>
-				>Février</option>
-				<option value="03" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "03"){
-								echo 'selected';
-							}}?>
-				>Mars</option>
-				<option value="04" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "04"){
-								echo 'selected';
-							}}?>
-				>Avril</option>
-				<option value="05" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "05"){
-								echo 'selected';
-							}}?>
-				>Mai</option>
-				<option value="06" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "06"){
-								echo 'selected';
-							}}?>
-				>Juin</option>
-				<option value="07" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "7"){
-								echo 'selected';
-							}}?>
-				>Juillet</option>
-				<option value="08" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "08"){
-								echo 'selected';
-							}}?>
-				>Août</option>
-				<option value="09" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "09"){
-								echo 'selected';
-							}}?>
-				>Septembre</option>
-				<option value="10" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "10"){
-								echo 'selected';
-							}}?>
-				>Octobre</option>
-				<option value="11" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "11"){
-								echo 'selected';
-							}}?>
-				>Novembre</option>
-				<option value="12" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "12"){
-								echo 'selected';
-							}}?>
-				>Décembre</option>
-			</select>
+		<ul>
+		<?php
+			$args = array(
+				'orderby' => 'name',
+				'order' => 'ASC'
+			);
 
-			<input type="submit" name="submit_mois" id="submit_mois">
-		</form>
+			$categories = get_categories($args);
+
+			foreach($categories as $category) { 
+		    	echo '<li>
+						<a href="' . get_bloginfo('url') . '/programmation?selection_categorie=' . $category->name . '">' . $category->name . '</a>
+					</li>';
+		    }
+		?>
+
+
+		<!-- <ul>
+		
+			<li>
+				<a href="<?php bloginfo('url') ?>/programmation?selection_categorie=<?php echo $category->name ?>"><?php echo $category->name ?></a>
+			</li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_categorie=folk">Folk</a></li>
+			<li><a href="<?php bloginfo('url') ?>/programmation?selection_categorie=alternatif">Alternatif</a></li> -->
+		</ul>
+
+		
+
+
+		
 
 
 
@@ -89,9 +67,9 @@ Template Name: Programmation
 
 				wp_reset_postdata();
 
-				if(isset( $_POST['submit_mois']) ){
+				if(isset( $_GET['selection_mois']) ){
 
-					$month = $_POST['selection_mois'];
+					$month = $_GET['selection_mois'];
 
 					$args = array(
 						'posts_per_page'	=> -1,
@@ -127,7 +105,7 @@ Template Name: Programmation
 				 * Chargement du template de la loop d'affichage des spectacles.
 				 * Les paramètres d'affichage sont définis ci-haut, dépendement de la page chargée
 				 */
-				include(locate_template("loopprestations.php"));
+				require(locate_template("loopprestations.php"));
 
 			?>
 		</div>
