@@ -8,7 +8,8 @@
 class RB_Prestation extends RB_Section
 {
 	/** @const  String Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'prestation';
+	const DEFAULT_SLUG = 'prestation';
+	const DEFAULT_NB_BILLETS = 500;
 	
 	/** @var RB_Prestation_Admin L'objet d'administration du post_type Prestation. */
 	public $admin;
@@ -49,6 +50,9 @@ class RB_Prestation extends RB_Section
 	 */
 	public function creer_objet_admin()
 	{
+		$default_billets = get_option('rb_billets_par_defaut', null);
+		var_dump($default_billets);
+		
 		// Définir la table d'arguments.
 		$args = array(
 			'version'       => $this->get_version(),
@@ -65,8 +69,10 @@ class RB_Prestation extends RB_Section
 			),
 			'metadatas' => array( // Les Metadatas.
 				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
-					'type'          => 'input:select',
-					'label'          => 'Spectacle',
+					'html_type'     => 'input',
+					'data_type'     => 'int',
+					'query_type'    => 'string',
+					'label'         => 'Spectacle',
 					'default'       => '0',
 					'in_columns'    => true,
 					'is_query'      => true,
@@ -75,26 +81,29 @@ class RB_Prestation extends RB_Section
 					), // TODO adapter à nouvelle façon.
 					'column_query'  => array( 
 						'post_type'  => 'spectacle',
-						'meta_key'   => '${}',
+						'meta_key'   => '',
 					), // TODO adapter à nouvelle façon.
 				),
 				'rb_prestation_date' => array( // La date.
-					'type'       => 'input:date',
-					'label'       => 'Date',
+					'html_type'  => 'input',
+					'data_type'  => 'date',
+					'label'      => 'Date',
 					'default'    => date("Y-m-d") || '2014-02-15', // Aujourd'hui, ou ma date de fête, parce que!
 					'in_columns' => true, 
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
 					'type'       => 'input:time',
-					'label'       => 'Heure',
+					'label'      => 'Heure',
 					'default'    => '19:00',
 					'in_columns' => true,
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
-					'label'       => 'Billets restants',
-					'default'    => get_option('rb_billets_par_defaut') || 500,
+					'label'      => 'Billets restants',
+					'default'    => is_null($default_billets) 
+									? /*TRUE:*/  self::DEFAULT_NB_BILLETS 
+									: /*FALSE:*/ $default_billets,
 					'in_columns' => true,
 				),
 			),
@@ -137,7 +146,7 @@ class RB_Prestation extends RB_Section
 	 */
 	protected function define_other_hooks(RB_Loader $loader)
 	{
-		
+		// Ajoutez c'que vous voulez là !
 	}
 
 	/* ################################ */

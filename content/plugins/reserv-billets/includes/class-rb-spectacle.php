@@ -23,6 +23,8 @@ class RB_Spectacle extends RB_Section
 {
 	/** @const string Le nom de la slug par défaut. */
 	const SLUG_DEFAULT = 'spectacle';
+	
+	public $loader;
 
 	/**
 	 * Constructeur. Fais pas mal de choses.
@@ -76,8 +78,9 @@ class RB_Spectacle extends RB_Section
 			),
 			'metadatas' => array(
 				'rb_spectacle_liste_prestation_id' => array(
-					'type'          => 'link:json', // Premier = type d'HTML; Deuxième = type de variable.
-					'label'          => __( 'Liste des Prestations' ),
+					'html_type'     => 'link',
+					'data_type'     => 'json',
+					'label'         => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
 					'is_query'      => true,
@@ -87,25 +90,28 @@ class RB_Spectacle extends RB_Section
 					    
 						// TODO trouver quoi envoyer comme meta_value.
 					),
-					'column_query' => array(
-						'post_type'  => 'prestation',
-						'meta_key'   => 'rb_prestation_spectacle_id', // TODO adapter.
+					'column_query'  => array(
+						'post_type' => 'prestation',
+						'meta_key'  => 'rb_prestation_spectacle_id', // TODO adapter.
 					),
 				),
 				'rb_spectacle_artiste_site_url' => array(
-					'type'       => 'input:url',
-					'label'       => __( "URL du site de l'artiste" ),
-					'default'    => '#',
+					'html_type' => 'input',
+					'data_type' => 'url',
+					'label'     => __( "URL du site de l'artiste" ),
+					'default'   => '#',
 				),
 				'rb_spectacle_artiste_facebook_url' => array(
-					'type'       => 'input:url',
-				    'label'       => __( "URL du Facebook de l'artiste" ),
-					'default'    => '#',
+					'html_type' => 'input',
+					'data_type' => 'url',
+				    'label'     => __( "URL du Facebook de l'artiste" ),
+					'default'   => $_SERVER['REQUEST_URI'].'#',
 				),
 				'rb_spectacle_prix' => array(
-					'type'       => 'input:currency',
-					'label'       => __( "Prix du billet" ),
-					'default'    => 1.00,
+					'html_type' => 'input',
+					'data_type' => 'currency',
+					'label'     => __( "Prix du billet" ),
+					'default'   => 1.00,
 				),
 			),
 			'metaboxes' => array(
@@ -134,6 +140,8 @@ class RB_Spectacle extends RB_Section
 	
 	/**
 	 * Définit les hooks spécifiques au panneau d'administration des Spectacles.
+	 * 
+	 * Est là au cas où on a besoin d'autres hooks que ceux de la classe parent.
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
@@ -142,7 +150,7 @@ class RB_Spectacle extends RB_Section
 	 */
 	public function define_other_hooks( RB_Loader $loader )
 	{
-		// TODO: Implement define_other_hooks() method.
+		// Ajoutez c'que vous voulez là !
 	}
 
 	/**

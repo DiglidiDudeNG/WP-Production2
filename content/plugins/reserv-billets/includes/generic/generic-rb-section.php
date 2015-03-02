@@ -9,7 +9,7 @@
 abstract class RB_Section
 {
 	/** @const String Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'rb-x-slug';
+	const DEFAULT_SLUG = 'rb-x-slug';
 	
 	/** @var String Le nom du post-type. */
 	public $post_type;
@@ -37,10 +37,10 @@ abstract class RB_Section
 	public function __construct( $post_type, RB_Loader $loader )
 	{
 		// Définir le nom de la slug, pour les URLs.
-		$this->slug = self::SLUG_DEFAULT;
+		$this->slug = self::DEFAULT_SLUG;
 
 		// Définir le numéro de version. (À changer de temps en temps)
-		$this->version = '0.6.5';
+		$this->version = '0.8.0';
 		
 		// Définir le post-type.
 		$this->post_type = $post_type;
@@ -98,13 +98,15 @@ abstract class RB_Section
 			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );
 			
 			// Gérer les colonnes.
-			$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
-			
-			$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
-			
-			$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
-			
-			$loader->queue_action( 'pre_get_posts', $this->admin, 'orderby_custom_columns', 10, 1 );
+			// TODO DÉCOMMENTER
+			//$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
+			//
+			//$loader->queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
+			//
+			//$loader->queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
+			//
+			//$loader->queue_action( 'pre_get_posts', $this->admin, 'orderby_custom_columns', 10, 1 );
+			// TODO FIN DÉCOMMENTER
 			
 			//$loader->queue_filter( 'posts_clauses', $this->admin, 'advanced_orderby_columns', 10, 2 );
 			
@@ -142,6 +144,9 @@ abstract class RB_Section
 	abstract public function creer_objet_admin();
 	
 	/**
+	 * 
+	 * Est là au cas où on a besoin d'autres hooks que ceux de la classe parent.
+	 * 
 	 * @param \RB_Loader $loader
 	 */
 	abstract protected function define_other_hooks( RB_Loader $loader );
