@@ -1,0 +1,57 @@
+#contact a
+	color: $color-gris-fonce
+	margin: 5px 0
+
+#contact i
+	margin: 20px 0
+
+#contact .contact-titre
+	margin: 10px 0
+	
+#contact p
+	margin: 5px 0
+	
+
+    
+.google-maps iframe 
+	position: absolute
+	top: 0
+	left: 0
+	width: 100% !important
+	height: 100% !important
+    
+	
+//medias queries
+
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: $screen-sm-min)
+
+	.google-maps 
+		position: relative
+		padding-bottom: 80% // This is the aspect ratio
+		height: 0
+		overflow: hidden
+		margin-bottom: 10px
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min)
+
+	.google-maps 
+		position: relative
+		padding-bottom: 50% // This is the aspect ratio
+		height: 0
+		overflow: hidden
+		margin-bottom: 20px
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min)
+
+	.google-maps 
+		position: relative
+		padding-bottom: 40% // This is the aspect ratio
+		height: 0
+		overflow: hidden
+		margin-bottom: 20px
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min)
