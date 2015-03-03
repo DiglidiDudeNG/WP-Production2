@@ -154,10 +154,8 @@ body {
   font-family: "Raleway", sans-serif;
   line-height: 24px; }
 
-#contenu-site a {
-  color: #fff; }
-  #contenu-site a:hover {
-    text-decoration: none; }
+#contenu-site a:hover {
+  text-decoration: none; }
 
 .fa {
   width: 40px;
