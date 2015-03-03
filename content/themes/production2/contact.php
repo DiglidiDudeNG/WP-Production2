@@ -13,7 +13,7 @@ Template Name: Contact
 		<h2>Contact</h2>
 		<div class="row contact-adresse">
 			<div class="col-sm-4 col-xsm-6 text-center">
-				<i class="fa fa-automobile"></i>
+				<i class="fa fa-automobile fa-first"></i>
 				<address>
 					<p class="contact-titre"><strong>Adresse</strong></p>
 					<p>987 avenue Cartier</p>

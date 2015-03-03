@@ -12,74 +12,75 @@ Template Name: Programmation
 <div class="container">
 	<div class="spectacles-a-venir-container">
 		<h2>Programmation</h2>
+		
+
+		<!-- Liste des mois -->
+		<ul>
+			<?php
+
+				// Set local français-canada et timezone
+				setlocale(LC_ALL, 'frc', 'fr_CA');
+				date_default_timezone_set ( 'America/Montreal' );
+
+				// Récupération de la date courante
+				$currentDate = date_create();
+				$currentDate = date_timestamp_get($currentDate);
+
+				// Récupération du mois de la date courante sous le format "01";
+				$moisCourantValeur = strftime('%m', $currentDate);
+
+				// Tableau des mois en français
+				$moisFrancaisTab = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+				
+				// Loop qui affiche tous les mois à partir du mois de la date courante
+				for($i=0; $i<12; $i++){
+
+					// Récupération et transformation en integer de la valeur du mois courant afin de correspondre à l'index du tableau
+					$indexTabMoisFrancais = intval($moisCourantValeur-1);
+
+					// Affichage en html
+					echo '<li>
+							<a href="' . get_bloginfo('url') . '/programmation?selection_mois=' . $moisCourantValeur . '">' . $moisFrancaisTab[$indexTabMoisFrancais] . '</a>
+						</li>';
 
 
-		<form action="<?php bloginfo('url') ?>/programmation" method="post">
-			<select name="selection_mois" id="selection_mois">
-				<option value="01" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "01"){
-								echo 'selected';
-							}}?>
-				>Janvier</option>
-				<option value="02" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "02"){
-								echo 'selected';
-							}}?>
-				>Février</option>
-				<option value="03" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "03"){
-								echo 'selected';
-							}}?>
-				>Mars</option>
-				<option value="04" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "04"){
-								echo 'selected';
-							}}?>
-				>Avril</option>
-				<option value="05" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "05"){
-								echo 'selected';
-							}}?>
-				>Mai</option>
-				<option value="06" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "06"){
-								echo 'selected';
-							}}?>
-				>Juin</option>
-				<option value="07" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "7"){
-								echo 'selected';
-							}}?>
-				>Juillet</option>
-				<option value="08" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "08"){
-								echo 'selected';
-							}}?>
-				>Août</option>
-				<option value="09" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "09"){
-								echo 'selected';
-							}}?>
-				>Septembre</option>
-				<option value="10" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "10"){
-								echo 'selected';
-							}}?>
-				>Octobre</option>
-				<option value="11" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "11"){
-								echo 'selected';
-							}}?>
-				>Novembre</option>
-				<option value="12" <?php if(isset( $_POST['submit_mois']) ){ 
-							if($_POST['selection_mois'] == "12"){
-								echo 'selected';
-							}}?>
-				>Décembre</option>
-			</select>
+					// Incrémentation de $moisCourantValeur
+					$moisCourantValeur++;
 
-			<input type="submit" name="submit_mois" id="submit_mois">
-		</form>
+					// Si la valeur de $moisCourantValeur dépasse 12, retour à 01
+					if($moisCourantValeur > 12) $moisCourantValeur=1;
+
+					// Formatage de $moisCourantValeur sous le format "01"
+					if(strlen($moisCourantValeur) < 2) $moisCourantValeur='0'.$moisCourantValeur;
+
+				}
+			?>			
+		</ul>
+
+
+		<!-- Liste des catégories -->
+		<ul>
+			<?php
+				$args = array(
+					'orderby' => 'name',
+					'order' => 'ASC'
+				);
+
+				$categories = get_categories($args);
+
+				foreach($categories as $category) { 
+			    	echo '<li>
+							<a href="' . get_bloginfo('url') . '/programmation?selection_categorie=' . $category->name . '">' . $category->name . '</a>
+						</li>';
+			    }
+			?>
+		</ul>
+
+		
+
+
+		
 
 
 
@@ -89,9 +90,9 @@ Template Name: Programmation
 
 				wp_reset_postdata();
 
-				if(isset( $_POST['submit_mois']) ){
+				if(isset( $_GET['selection_mois']) ){
 
-					$month = $_POST['selection_mois'];
+					$month = $_GET['selection_mois'];
 
 					$args = array(
 						'posts_per_page'	=> -1,
@@ -127,7 +128,7 @@ Template Name: Programmation
 				 * Chargement du template de la loop d'affichage des spectacles.
 				 * Les paramètres d'affichage sont définis ci-haut, dépendement de la page chargée
 				 */
-				include(locate_template("loopprestations.php"));
+				require(locate_template("loopprestations.php"));
 
 			?>
 		</div>

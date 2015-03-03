@@ -24,9 +24,11 @@
 	background-image: url('../../images/roger-Hodgson.jpg')
 
 // Mettre le h2 en majuscule
-.carousel-caption h2
+#contenu-site .carousel-caption h2
 	text-transform: uppercase
-	color: $color-white!important
+	color: $color-white
+	letter-spacing: 1px
+	font-weight: $regular
 
 // Texte du bouton
 button.btn-savoir
@@ -36,7 +38,10 @@ button.btn-savoir
 	padding: 15px !important
 	font-size: 13px !important
 	letter-spacing: 2px
+	font-weight: $regular
 
+.carousel-caption
+	text-shadow: none!important
 
 // -------------  medias queries  ---------------- //
 
@@ -49,21 +54,23 @@ button.btn-savoir
 		margin-bottom: 5px
 		padding: 10px !important
 		font-size: 10px !important
-		letter-spacing: $text-letter-spacing
+		letter-spacing: 1px
 
 	ol.carousel-indicators
 		margin-bottom: 0
 		bottom: 10
 
-	.carousel-caption h2
-		margin-bottom: 0
+	#contenu-site .carousel-caption h2
+		margin: 16px 0
+		font-size: 17px
 
 	#contenu-site h2.carousel-heure
 		margin-bottom: 20px
 		margin-top: 0
-	
+
 	#contenu-site .carousel-caption
 		padding-bottom: 54px
+
 @media screen and (min-width: $screen-sm-min) // >768px
 	.carousel .item
 		height: 500px
@@ -72,21 +79,18 @@ button.btn-savoir
 		margin-bottom: 10px
 		padding: 15px !important
 		font-size: 13px !important
-		letter-spacing: $text-letter-spacing
+		letter-spacing: 1px
 
 	ol.carousel-indicators
 		margin-bottom: 0
 		bottom: 15
 
 	#contenu-site .carousel-caption h2
-		margin-bottom: 5px
-
-	#contenu-site h2.carousel-heure
-		margin-bottom: 40px
-		margin-top: 5px
+		margin: 20px 0
+		font-size: 24px
 
 	#contenu-site .carousel-caption
-		padding-bottom: 114px
+		padding-bottom: 110px
 
 @media screen and (min-width: $screen-md-min) // >992px
 
@@ -95,9 +99,9 @@ button.btn-savoir
 
 	button.btn-savoir
 		margin-bottom: 75px
-		padding: 20px !important
-		font-size: 16px !important
-		letter-spacing: $title-letter-spacing
+		padding: 17px !important
+		font-size: 15px !important
+		letter-spacing: 2px
 
 	ol.carousel-indicators
 		margin-bottom: 10px
@@ -107,10 +111,10 @@ button.btn-savoir
 		margin-bottom: 50px
 
 	#contenu-site .carousel-caption h1
-		margin-bottom: 50px
+		margin-bottom: 35px
 
 	#contenu-site .carousel-caption
-		padding-bottom: 64px
+		padding-bottom: 74px
 
 @media screen and (min-width: $screen-lg-min) // >1200px
 

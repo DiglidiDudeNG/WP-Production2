@@ -54,11 +54,23 @@
 					}
 
 
+					if(isset( $_GET['selection_categorie']) ){
+
+						$categorie = trim($_GET['selection_categorie']);
+						$categorie = filter_var($categorie, FILTER_SANITIZE_STRING);				
+					}
+					else{
+						$categorie = '';
+					}
+
+
+
 					$wp_query_spectacles = new WP_Query(
 						array(
 							'post_type'			=> 'spectacle',
 							'posts_per_page' 	=> -1,
-							's'					=> $searchTerm
+							's'					=> $searchTerm,
+							'category_name'		=> $categorie
 						)
 					);
 
