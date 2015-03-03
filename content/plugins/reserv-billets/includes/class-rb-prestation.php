@@ -69,8 +69,8 @@ class RB_Prestation extends RB_Section
 			),
 			'metadatas' => array( // Les Metadatas.
 				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
-					'html_type'     => 'input',
-					'data_type'     => 'int',
+					'html_type'     => 'select',
+					'data_type'     => 'number',
 					'query_type'    => 'string',
 					'label'         => 'Spectacle',
 					'default'       => '0',
@@ -93,13 +93,16 @@ class RB_Prestation extends RB_Section
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
-					'type'       => 'input:time',
+                    'html_type'  => 'input',
+                    'data_type'  => 'time',
 					'label'      => 'Heure',
 					'default'    => '19:00',
 					'in_columns' => true,
 					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
+                    'html_type'  => 'static',
+                    'data_type'  => 'number',
 					'label'      => 'Billets restants',
 					'default'    => is_null($default_billets) 
 									? /*TRUE:*/  self::DEFAULT_NB_BILLETS 

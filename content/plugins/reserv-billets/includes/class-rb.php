@@ -29,10 +29,7 @@ class RB
 	protected $is_admin;
 
 	/**
-	 * Constructeur. Fais pas mal de choses!
-	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
+	 * Constructeur. Fais pas mal de choses.
 	 *
 	 * @param String|null $custom_slug Le nom du slug, si on en veut un différent
 	 *                                 de celui par défaut.
@@ -83,12 +80,12 @@ class RB
 		// Inclure la classe « RB_Spectacle ».
 		require_once 'class-rb-spectacle.php';
 		// Créer l'objet « RB_Spectacle ».
-		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
+		$this->sections['spectacle'] = new RB_Spectacle( $this->loader );
 		
 		// Inclure la classe « RB_Prestation ».
 		require_once 'class-rb-prestation.php';
 		// Créer l'objet « RB_Prestation ».
-		$this->sections["prestation"] = new RB_Prestation( $this->loader );
+		$this->sections['prestation'] = new RB_Prestation( $this->loader );
 	}
 
 	/**

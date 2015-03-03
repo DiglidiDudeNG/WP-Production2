@@ -496,12 +496,15 @@ abstract class RB_Admin
 			/** @var RB_Metadata $metadata */
 			foreach ( $this->metadatas as $metadata )
 			{
-				try {
-					if ( $metabox->get_metadata_instance( $metadata->get_key() ) ) 
+				try 
+				{
+					if ( $metabox->get_metadata_by_key( $metadata->get_key() ) ) 
 					{
 						
 					}
-				} catch (ErrorException $e) {
+				} 
+				catch (ErrorException $e) 
+				{
 					
 				}
 			}
@@ -534,38 +537,36 @@ abstract class RB_Admin
 		
 		// S'en va du script dépendamment si ça passe ou non.
 		if ( $is_autosave || ! $is_valid_nonce ) 
-		{
 			return;
-		}
 		
+		// Si ce n'est pas une révision, on fait de quoi de spécial!
 		if ( !$is_revision )
 		{
 			/** @var RB_Metadata $metadata */
 			$metadata = null;
 			
 			// Parcourir la table des clés.
-			foreach ( $this->metadatas as $key => $metadata )
+			foreach ( $this->metadatas as $metadata )
 			{
 				// TODO implémenter avec la classe RB_Metadata.
 				//$metadata->update( post_id );
 				
 				// Passer à la valeur suivante dans l'array si la clé est interne.
-				if ( $this->key_is_internal( $key ) )
+				if ( $this->key_is_internal( $metadata->get_key() ) )
 					continue;
 				
 				// S'il ne doit pas être sauvegardé par sa valeur dans le $_POST, ignorer et passer au prochain.
-				//if ( ! $metadata->is_saved() )
-				if ( ! $metadata['is_saved'] )
+				if ( ! $metadata->is_saved() )
 					continue;
 				
 				// Vérifier si la clé existe dans le $_POST.
-				if ( array_key_exists( $key, $_POST ) )
+				if ( array_key_exists( $metadata->get_key() , $_POST ) )
 				{
 					// Vérfier si la fonction de validation n'est pas vide...
-					if ( $metadata['validate_fn'] !== null )
+					if ( !empty( $metadata->get_validate_cb() ) )
 					{
 						// ...et si la fonction existe.
-						if ( method_exists( $this, $metadata['validate_fn'] ) )
+						if ( method_exists( $this, $metadata->get_validate_cb() ) )
 						{
 							// Valider la donnée.
 							if ( call_user_func( array( $this, $metadata['validate_fn'] ), $_POST[$key] ) )
@@ -592,7 +593,12 @@ abstract class RB_Admin
 		else
 		{
 			// TODO implémenter avec la classe RB_Metadata.
-			// $metadata->set_defaults( 'post' );
+			/** @var RB_Metadata $metadata */
+			foreach ( $this->metadatas as $metadata )
+			{
+				// Updater le post meta courant.
+				update_post_meta( $post_id, $metadata->get_key(), $metadata->get_default_value() );
+			}
 		}
 		
 		// TODO Ajouter des actions après...?

@@ -37,7 +37,7 @@ class RB_Loader
 	 *
 	 * @param String   $tag           L'identifiant de l'action. Exemple: "init"
 	 * @param Mixed    $composant     Le composant (objet) ayant la fonction à assigner à l'action.
-	 * @param Callback $fnCallback    La fonction dans la composante qui sera appelée par l'action.
+	 * @param Callable $fnCallback    La fonction dans la composante qui sera appelée par l'action.
 	 * @param int      $priorité      La priorité d'exécution de l'action.
 	 * @param int      $args_acceptés Le nb d'arguments acceptés par le callback de l'action.
 	 */

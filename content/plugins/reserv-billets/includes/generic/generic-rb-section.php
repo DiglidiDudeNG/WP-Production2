@@ -112,6 +112,8 @@ abstract class RB_Section
 			
 			//$loader->queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
 			
+			$loader->queue_action( 'post_edit_form_tag', $this, 'include_post_form_enctype' );
+			
 			// Permettre d'ajouter des hooks personnalisés pour la classe enfant.
 			if ( function_exists( 'define_{$this->post_type}_admin_hooks' ) )
 				call_user_func( array( $this, 'define_{$this->post_type}_admin_hooks' ), $loader );
@@ -132,6 +134,17 @@ abstract class RB_Section
 	public function get_version()
 	{
 		return $this->version;
+	}
+	
+	/**
+	 * Inclus le type d'encodage pour le formulaire d'édition de post.
+	 * 
+	 * @action post_edit_form_tag
+	 */
+	public function include_post_form_enctype()
+	{
+		// TODO être sûr que ça soit pas une mauvaise idée.
+		echo ' enctype="multipart/form-data"';
 	}
 	
 	/**

@@ -113,6 +113,22 @@ class RB_Spectacle extends RB_Section
 					'label'     => __( "Prix du billet" ),
 					'default'   => 1.00,
 				),
+				/* caroussel, bandeau et mini */
+				'rb_spectacle_img_mini' => array(
+					'html_type' => 'input',
+					'data_type' => 'file',
+					'label'     => __( "Image Miniature" ),
+				),
+				'rb_spectacle_img_caroussel_url' => array(
+					'html_type' => 'input',
+					'data_type' => 'file',
+					'label'     => __( "Image dans le Caroussel" ),
+				),
+				'rb_spectacle_img_bandeau_url' => array(
+					'html_type' => 'input',
+					'data_type' => 'file',
+					'label'     => __( "Image dans la Page du Spectacle (bandeau)" ),
+				),
 			),
 			'metaboxes' => array(
 				array(
@@ -127,7 +143,31 @@ class RB_Spectacle extends RB_Section
 						'rb_spectacle_artiste_facebook_url',
 						'rb_spectacle_prix',
 					],
-				)
+				),
+				array(
+					'id'            => 'rb_spectacle_info_prestations',
+					'title'         => 'Infos des prestations',
+					'show_dashicon' => true,
+					'dashicon'      => 'tickets-alt',
+					'screen'        => 'spectacle',
+					'context'       => 'side',
+					'priority'      => 'core',
+					'metadatas'     => [ 'rb_spectacle_liste_prestation_id' ],
+				),
+			    array(
+		            'id'            => 'rb_spectacle_images',
+				    'title'         => "Images Promotionnelles",
+				    'show_dashicon' => true,
+				    'dashicon'      => 'format-gallery',
+				    'screen'        => 'spectacle',
+				    'context'       => 'side',
+				    'priority'      => 'high',
+				    'metadatas'     => [
+					    'rb_spectacle_img_mini',
+					    'rb_spectacle_img_caroussel_url',
+					    'rb_spectacle_img_bandeau_url',
+				    ],
+			    ),
 			),
 		);
 		
