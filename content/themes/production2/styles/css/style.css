@@ -158,7 +158,7 @@ body {
   height: 40px;
   background-color: #e82530;
   border-radius: 50%;
-  padding-top: 10px;
+  padding-top: 9px;
   font-size: 22px !important; }
 
 i {
@@ -198,32 +198,25 @@ button {
 
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 768px) {
+  #contenu-site {
+    margin-top: 79px; }
+
   #contenu-site h1 {
-    font-size: 32px; }
+    font-size: 35px; }
 
   #contenu-site h2 {
-    font-size: 17px; }
+    font-size: 25px; }
 
   #contenu-site h3 {
-    font-size: 11px; }
+    font-size: 20px; }
 
   #contenu-site p {
-    font-size: 10px;
-    line-height: 16px; }
-
-  #contenu-site {
-    margin-top: 65px; } }
-@media screen and (min-width: 992px) {
-  #contenu-site {
-    margin-top: 104px; } }
-@media screen and (min-width: 1200px) {
-  p {
-    font-size: 10px; }
-
-  #contenu-site {
-    margin-top: 104px; } }
+    font-size: 15px; } }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+  #contenu-site {
+    margin-top: 79px; }
+
   #contenu-site h1 {
     font-size: 50px; }
 
@@ -236,6 +229,22 @@ button {
   #contenu-site p {
     font-size: 15px; } }
 /* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  #contenu-site {
+    margin-top: 104px; }
+
+  #contenu-site h1 {
+    font-size: 64px; }
+
+  #contenu-site h2 {
+    font-size: 40px; }
+
+  #contenu-site h3 {
+    font-size: 30px; }
+
+  #contenu-site p {
+    font-size: 16px; } }
+/* Large devices (large desktops, 1200px and up) */
 #logo {
   font: 100% "Quicksand", sans-serif;
   font-size: 20px;
@@ -533,6 +542,9 @@ footer div.reseau {
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */
+#contact .contact-adresse {
+  margin-bottom: 20px; }
+
 #contact a {
   color: #323232;
   margin: 5px 0; }
@@ -541,7 +553,8 @@ footer div.reseau {
   margin: 20px 0; }
 
 #contact .contact-titre {
-  margin: 10px 0; }
+  margin: 10px 0;
+  color: #e82530; }
 
 #contact p {
   margin: 5px 0; }
@@ -555,20 +568,32 @@ footer div.reseau {
 
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 768px) {
+  #contact .container {
+    padding: 0 10%; }
+
   .google-maps {
     position: relative;
-    padding-bottom: 80%;
+    padding-bottom: 60%;
     height: 0;
     overflow: hidden;
-    margin-bottom: 10px; } }
+    margin-bottom: 10px; }
+
+  #contact .contact-titre {
+    font-size: 16px; } }
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+  #contact .container {
+    padding: 0; }
+
   .google-maps {
     position: relative;
     padding-bottom: 50%;
     height: 0;
     overflow: hidden;
-    margin-bottom: 20px; } }
+    margin-bottom: 20px; }
+
+  #contact .contact-titre {
+    font-size: 18px; } }
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   .google-maps {
@@ -576,7 +601,10 @@ footer div.reseau {
     padding-bottom: 40%;
     height: 0;
     overflow: hidden;
-    margin-bottom: 20px; } }
+    margin-bottom: 20px; }
+
+  #contact .contact-titre {
+    font-size: 20px; } }
 /* Large devices (large desktops, 1200px and up) */
 
 /*# sourceMappingURL=style.css.map */

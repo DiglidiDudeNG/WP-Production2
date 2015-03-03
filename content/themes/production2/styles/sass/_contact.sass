@@ -1,3 +1,6 @@
+#contact .contact-adresse
+	margin-bottom: 20px
+	
 #contact a
 	color: $color-gris-fonce
 	margin: 5px 0
@@ -7,11 +10,11 @@
 
 #contact .contact-titre
 	margin: 10px 0
+	color: $color-red
 	
 #contact p
 	margin: 5px 0
 	
-
     
 .google-maps iframe 
 	position: absolute
@@ -25,23 +28,33 @@
 
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: $screen-sm-min)
-
+	#contact .container
+		padding: 0 10%
+		
 	.google-maps 
 		position: relative
-		padding-bottom: 80% // This is the aspect ratio
+		padding-bottom: 60% // This is the aspect ratio
 		height: 0
 		overflow: hidden
 		margin-bottom: 10px
+		
+	#contact .contact-titre
+		font-size: 16px
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min)
-
+	#contact .container
+		padding: 0
+		
 	.google-maps 
 		position: relative
 		padding-bottom: 50% // This is the aspect ratio
 		height: 0
 		overflow: hidden
 		margin-bottom: 20px
+		
+	#contact .contact-titre
+		font-size: 18px
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min)
@@ -52,6 +65,9 @@
 		height: 0
 		overflow: hidden
 		margin-bottom: 20px
+		
+	#contact .contact-titre
+		font-size: 20px
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min)

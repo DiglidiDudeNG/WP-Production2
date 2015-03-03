@@ -11,8 +11,8 @@ Template Name: Contact
 <section id="contact">
 	<div class="container">
 		<h2>Contact</h2>
-		<div class="row">
-			<div class="col-md-4 col-sm-6 text-center">
+		<div class="row contact-adresse">
+			<div class="col-sm-4 col-xsm-6 text-center">
 				<i class="fa fa-automobile"></i>
 				<address>
 					<p class="contact-titre"><strong>Adresse</strong></p>
@@ -21,14 +21,14 @@ Template Name: Contact
 				</address>
 			</div>
 			
-			<div class="col-md-4 col-sm-6 text-center">
+			<div class="col-sm-4 col-xsm-6 text-center">
 				<i class="fa fa-phone"></i>
 				<p class="contact-titre"><strong>Coordonées</strong></p>
 				<p>(418) 123 4567 </p>
 				<a href="mailto:info@salleperenthese.com"><p>info@salleperenthese.com</p></a>
 			</div>
 			
-			<div class="col-md-4 col-sm-6 text-center">
+			<div class="col-sm-4 col-xsm-6 text-center">
 				<i class="fa fa-clock-o"></i>
 				<p class="contact-titre"><strong>Heures d'ouverture</strong></p>
 				<p>Lundi au vendredi: 8h à 22h</p>
@@ -41,48 +41,5 @@ Template Name: Contact
 	</div>
 </section>
 	<!-- fin du contenu de la page contact.php -->
-	
-	<div id="googleMap" style="width:500px;height:380px;"></div>
 
 <?php get_footer(); ?>
-
-<script
-src="http://maps.googleapis.com/maps/api/js">
-</script>
-
-
-<script>
-var myCenter=new google.maps.LatLng(51.508742,-0.120850);
-
-function initialize()
-{
-var mapProp = {
-  center: myCenter,
-  zoom:5,
-  mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-var marker = new google.maps.Marker({
-  position: myCenter,
-  title:'Click to zoom'
-  });
-
-marker.setMap(map);
-
-// Zoom to 9 when clicking on marker
-google.maps.event.addListener(marker,'click',function() {
-  map.setZoom(9);
-  map.setCenter(marker.getPosition());
-  });
-     
-google.maps.event.addListener(map,'center_changed',function() {
-// 3 seconds after the center of the map has changed, pan back to the marker
-  window.setTimeout(function() {
-    map.panTo(marker.getPosition());
-  },3000);
-  });
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
