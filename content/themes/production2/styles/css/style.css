@@ -41,9 +41,11 @@
   margin: 0 auto;
   background-image: url("../../images/roger-Hodgson.jpg"); }
 
-.carousel-caption h2 {
+#contenu-site .carousel-caption h2 {
   text-transform: uppercase;
-  color: #fff !important; }
+  color: #fff;
+  letter-spacing: 1px;
+  font-weight: 400; }
 
 button.btn-savoir {
   font-family: "Raleway", sans-serif;
@@ -51,7 +53,11 @@ button.btn-savoir {
   margin-top: 9px;
   padding: 15px !important;
   font-size: 13px !important;
-  letter-spacing: 2px; }
+  letter-spacing: 2px;
+  font-weight: 400; }
+
+.carousel-caption {
+  text-shadow: none !important; }
 
 @media screen and (max-width: 768px) {
   .carousel .item {
@@ -61,14 +67,15 @@ button.btn-savoir {
     margin-bottom: 5px;
     padding: 10px !important;
     font-size: 10px !important;
-    letter-spacing: 2px; }
+    letter-spacing: 1px; }
 
   ol.carousel-indicators {
     margin-bottom: 0;
     bottom: 10; }
 
-  .carousel-caption h2 {
-    margin-bottom: 0; }
+  #contenu-site .carousel-caption h2 {
+    margin: 16px 0;
+    font-size: 17px; }
 
   #contenu-site h2.carousel-heure {
     margin-bottom: 20px;
@@ -84,30 +91,27 @@ button.btn-savoir {
     margin-bottom: 10px;
     padding: 15px !important;
     font-size: 13px !important;
-    letter-spacing: 2px; }
+    letter-spacing: 1px; }
 
   ol.carousel-indicators {
     margin-bottom: 0;
     bottom: 15; }
 
   #contenu-site .carousel-caption h2 {
-    margin-bottom: 5px; }
-
-  #contenu-site h2.carousel-heure {
-    margin-bottom: 40px;
-    margin-top: 5px; }
+    margin: 20px 0;
+    font-size: 24px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 114px; } }
+    padding-bottom: 110px; } }
 @media screen and (min-width: 992px) {
   .carousel .item {
     height: 570px; }
 
   button.btn-savoir {
     margin-bottom: 75px;
-    padding: 20px !important;
-    font-size: 16px !important;
-    letter-spacing: 4px; }
+    padding: 17px !important;
+    font-size: 15px !important;
+    letter-spacing: 2px; }
 
   ol.carousel-indicators {
     margin-bottom: 10px;
@@ -117,10 +121,10 @@ button.btn-savoir {
     margin-bottom: 50px; }
 
   #contenu-site .carousel-caption h1 {
-    margin-bottom: 50px; }
+    margin-bottom: 35px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 64px; } }
+    padding-bottom: 74px; } }
 #contenu-site {
   margin-top: 79px; }
 
@@ -131,30 +135,41 @@ body {
 #contenu-site h1 {
   font: 100% "Quicksand", sans-serif;
   color: #fff;
-  font-size: 32px;
   font-weight: 700;
   text-transform: uppercase; }
 
 #contenu-site h2 {
   font: 100% "Quicksand", sans-serif;
   color: #e82530;
-  font-size: 30px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 20px; }
+  margin: 55px 0; }
 
 #contenu-site h3 {
   font: 100% "Quicksand", sans-serif;
   color: #e82530;
-  font-size: 25px;
   font-weight: 700; }
 
 #contenu-site p {
   font-family: "Raleway", sans-serif;
-  font-size: 15px;
   line-height: 24px; }
 
 #contenu-site a {
+  color: #fff; }
+  #contenu-site a:hover {
+    text-decoration: none; }
+
+.fa {
+  width: 40px;
+  height: 40px;
+  background-color: #e82530;
+  border-radius: 50%;
+  padding-top: 10px;
+  font-size: 22px !important; }
+
+i {
+  text-align: center;
+  margin-left: 10px;
   color: #fff; }
 
 .btn-savoir {
@@ -189,44 +204,53 @@ button {
 
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 768px) {
+  #contenu-site {
+    margin-top: 66px; }
+
   #contenu-site h1 {
-    font-size: 32px; }
-
-  #contenu-site h2 {
-    font-size: 17px; }
-
-  #contenu-site h3 {
-    font-size: 11px; }
-
-  #contenu-site p {
-    font-size: 10px;
-    line-height: 16px; }
-
-  #contenu-site {
-    margin-top: 65px; } }
-@media screen and (min-width: 992px) {
-  #contenu-site {
-    margin-top: 104px; } }
-@media screen and (min-width: 1200px) {
-  p {
-    font-size: 10px; }
-
-  #contenu-site {
-    margin-top: 104px; } }
-/* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-  #contenu-site h1 {
-    font-size: 50px; }
+    font-size: 29px; }
 
   #contenu-site h2 {
     font-size: 24px; }
 
   #contenu-site h3 {
-    font-size: 13px; }
+    font-size: 20px; }
 
   #contenu-site p {
-    font-size: 11px; } }
+    font-size: 15px; } }
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  #contenu-site {
+    margin-top: 79px; }
+
+  #contenu-site h1 {
+    font-size: 45px; }
+
+  #contenu-site h2 {
+    font-size: 30px; }
+
+  #contenu-site h3 {
+    font-size: 25px; }
+
+  #contenu-site p {
+    font-size: 15px; } }
 /* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  #contenu-site {
+    margin-top: 104px; }
+
+  #contenu-site h1 {
+    font-size: 55px; }
+
+  #contenu-site h2 {
+    font-size: 30px; }
+
+  #contenu-site h3 {
+    font-size: 30px; }
+
+  #contenu-site p {
+    font-size: 16px; } }
+/* Large devices (large desktops, 1200px and up) */
 #logo {
   font: 100% "Quicksand", sans-serif;
   font-size: 20px;
@@ -313,9 +337,13 @@ button {
   -webkit-box-shadow: none; }
 
 #custom-search-input .btn {
-  border-color: #fff;
+  border-color: #fff; }
+  #custom-search-input .btn:hover, #custom-search-input .btn:focus {
+    background-color: #fff; }
+
+#custom-search-input .btn i {
   color: #e82530; }
-  #custom-search-input .btn:hover {
+  #custom-search-input .btn i:hover, #custom-search-input .btn i:focus {
     background-color: #fff;
     color: #651720;
     transition: all 0.2s linear; }
