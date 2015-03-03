@@ -67,8 +67,10 @@ Template Name: Programmation
 					'order' => 'ASC'
 				);
 
+				// Hook pour aller cherche les catégories actives (celles assignées à au moins un spectacle)
 				$categories = get_categories($args);
 
+				// Pour chaque catégorie active, affichage dans la liste
 				foreach($categories as $category) { 
 			    	echo '<li>
 							<a href="' . get_bloginfo('url') . '/programmation?selection_categorie=' . $category->name . '">' . $category->name . '</a>
@@ -90,10 +92,14 @@ Template Name: Programmation
 
 				wp_reset_postdata();
 
+				// Si un filtre par mois a été activé
 				if(isset( $_GET['selection_mois']) ){
 
-					$month = $_GET['selection_mois'];
+					// Récupération du mois sélectionné
+					$month = trim($_GET['selection_mois']);
+					$month = filter_var($month, FILTER_SANITIZE_STRING);	
 
+					// Les arguments de la query sont ajustés en conséquences
 					$args = array(
 						'posts_per_page'	=> -1,
 						'post_type' 		=> 'prestation',
@@ -110,6 +116,9 @@ Template Name: Programmation
 						)
 					);
 				}
+				// À noter que le filtre par catégories se trouve dans la page loopprestations.php
+				// car il agit sur les spectacles et non les prestations
+				// Donc, si aucun filtre par mois, query normale des prestations
 				else{
 
 					$args = array(
@@ -124,6 +133,7 @@ Template Name: Programmation
 				
 				$wp_query_prestations = new WP_Query($args);
 
+				
 				/**
 				 * Chargement du template de la loop d'affichage des spectacles.
 				 * Les paramètres d'affichage sont définis ci-haut, dépendement de la page chargée
