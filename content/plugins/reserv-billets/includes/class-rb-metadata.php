@@ -16,21 +16,22 @@ class RB_Metadata
 	const DEFAULT_PREPASS = null;
 	
 	// Valeurs par défaut des arguments du constructeur.
-	const DEFAULT_KEY          = null;
-	const DEFAULT_HTML_TYPE    = 'static';
-	const DEFAULT_DATA_TYPE    = 'text';
-	const DEFAULT_LABEL        = 'Metadata sans-label';
-	const DEFAULT_DEF_VALUE    = '';
-	const DEFAULT_VALIDATE_CB  = null;
-	const DEFAULT_IS_SAVED     = true;
-	const DEFAULT_IN_COLUMNS   = false;
-	const DEFAULT_IS_QUERY     = false;
-	const DEFAULT_METABOX_ARGS = null;
-	const DEFAULT_COLUMN_ARGS  = null;
-	const DEFAULT_ARGS_CB      = null;
+	const DEFAULT_KEY            = null;
+	const DEFAULT_HTML_TYPE      = 'static';
+	const DEFAULT_DATA_TYPE      = 'text';
+	const DEFAULT_LABEL          = 'Metadata sans-label';
+	const DEFAULT_DEF_VALUE      = '';
+	const DEFAULT_VALIDATE_CB    = null;
+	const DEFAULT_IS_SAVED       = true;
+	const DEFAULT_IN_COLUMNS     = false;
+	const DEFAULT_IS_QUERY       = false;
+	const DEFAULT_LIST_QUERY     = null;
+	const DEFAULT_DROPDOWN_QUERY = null;
+	const DEFAULT_COLUMN_QUERY   = null;
 	
 	// Types d'éléments HTML disponibles.
 	const HTML_TYPE_STATIC          = 'p';
+	const HTML_TYPE_STATIC_OLD      = 'static';
 	const HTML_TYPE_INPUT           = 'input';
 	const HTML_TYPE_ORDERED_LIST    = 'ol';
 	const HTML_TYPE_UNORDERED_LIST  = 'ul';
@@ -43,18 +44,21 @@ class RB_Metadata
 	// TODO trouver d'autres types d'éléments HTML à implémenter.
 	
 	// Types de données disponibles.
-	const DATA_TYPE_TEXT   = 'text';
-	const DATA_TYPE_NUMBER      = 'number';
+	const DATA_TYPE_TEXT     = 'text';
+	const DATA_TYPE_NUMBER   = 'number';
 	const DATA_TYPE_URL      = 'url';
 	const DATA_TYPE_FILE     = 'file';
 	const DATA_TYPE_CURRENCY = 'currency';
 	const DATA_TYPE_BOOL     = 'bool';
 	const DATA_TYPE_JSON     = 'json';
+	const DATA_TYPE_DATE     = 'date';
+	const DATA_TYPE_TIME     = 'time';
 	// TODO trouver d'autres types de données à implémenter.
 	
 	// Valeurs des constantes d'itération dans Render_HTML.
 	const FERMER_BALISE_CELLULE_TABLE = false;
 	const FERMER_BALISE_HTML_TYPE = true;
+
 	
 	//</editor-fold>
 	// ---
@@ -86,12 +90,18 @@ class RB_Metadata
 	
 	/** @var Bool Vrai si la metadata effectue une query pour afficher une ou des données. */
 	private $is_query;
-		
-	/** @var Array 
-	 * La liste des arguments mis dans WP_Query, incluant les autres arguments de liaisons, 
-	 * afin d'afficher la donnée dans une metabox.
+	
+	/** @var Array
+	 * Les arguments pour la fonction wp_list_{WP_Object} où {WP_Object} est le nom d'un objet de Wordpress 
+	 * au pluriel, tel que « pages », « authors », « categories », etc.
 	 */
-	private $metabox_query;
+	private $list_query;
+	
+	/** @var Array
+	 * Les arguments pour la fonction wp_dropdown_{WP_Object}, où {WP_Object} est le nom d'un objet de Wordpress 
+	 * au pluriel, tel que « pages », « authors », « categories », etc.
+	 */
+	private $dropdown_query;
 	
 	/** @var Array
 	 * La liste des arguments mis dans WP_Query, incluant les autres arguments de liaisons,
@@ -99,15 +109,13 @@ class RB_Metadata
 	 */
 	private $column_query;
 	
+	//</editor-fold>
 	// ---
 	//<editor-fold desc="// PROPRIÉTÉS AUTRES DE LA CLASSE">
 	//region Propriétés
 	
 	/** @var Bool Vrai si la metadata n'est pas affichée dans une metabox sous des conditions normales. */
 	private $is_hidden;
-	
-	/** @var Array la liste des arguments envoyés dans validate_cb */
-	private $args_cb;
 	
 	/** @var Array(String) La liste des data types qui peuvent être assignés directement dans le type de l'input. */
 	public static $compatible_data_types_with_input = array(
@@ -132,17 +140,18 @@ class RB_Metadata
 	{
 		// Déclarer les valeurs par défaut.
 		$defaults = array(
-			'key'          => self::DEFAULT_KEY,
-			'html_type'    => self::DEFAULT_HTML_TYPE,
-			'data_type'    => self::DEFAULT_DATA_TYPE,
-			'label'        => self::DEFAULT_LABEL,
-			'default'      => self::DEFAULT_DEF_VALUE,
-			'validate_cb'  => array( self::DEFAULT_VALIDATE_CB, self::DEFAULT_ARGS_CB ),
-			'is_saved'     => self::DEFAULT_IS_SAVED,
-			'in_columns'   => self::DEFAULT_IN_COLUMNS,
-			'is_query'     => self::DEFAULT_IS_QUERY,
-			'metabox_args' => self::DEFAULT_METABOX_ARGS,
-			'column_args'  => self::DEFAULT_COLUMN_ARGS,
+			'key'            => self::DEFAULT_KEY,
+			'html_type'      => self::DEFAULT_HTML_TYPE,
+			'data_type'      => self::DEFAULT_DATA_TYPE,
+			'label'          => self::DEFAULT_LABEL,
+			'default'        => self::DEFAULT_DEF_VALUE,
+			'validate_cb'    => self::DEFAULT_VALIDATE_CB,
+			'is_saved'       => self::DEFAULT_IS_SAVED,
+			'in_columns'     => self::DEFAULT_IN_COLUMNS,
+			'is_query'       => self::DEFAULT_IS_QUERY,
+			'list_query'     => self::DEFAULT_LIST_QUERY,
+			'dropdown_query' => self::DEFAULT_DROPDOWN_QUERY,
+			'column_query'   => self::DEFAULT_COLUMN_QUERY,
 		);
 		
 		// Ajouter les données
@@ -184,40 +193,38 @@ class RB_Metadata
 		
 	}
 	
+	public $count = 0;
+	
 	/**
 	 * Effectue le rendu en HTML de l'objet RB_Metadata.
 	 *
+	 * @param WP_Post  $post     Le post.
 	 * @param String   $retour   (o) Le contenu HTML de base, s'il y en a.
 	 * @param int|Null $iterator (o) La position dans l'itération.
 	 *                           __Null__                si y'a en ce moment aucune itération,
 	 *                           __ArrayIterator__       si on a un itérateur,
 	 *                           __Booléen__ à __True__  si l'itération doit fermer le balise HTML du type.
-	 *                           __Booléen__ à __False__ si l'itération doit fermer la balise HTML de la cellule 
-	 *                                                   de table.
+	 *                           __Booléen__ à __False__ si l'itération doit fermer la balise HTML de la cellule
+	 *                                                   de la table.
 	 * @param Bool     $is_child (o) Vrai si l'appel de render_html fut à partir d'un autre render_html.
 	 *                           En d'autres mots, si on a pas besoin de fermer la balise <td>, ce sera à vrai.
 	 *
 	 * @return String Le/les éléments HTML à afficher avec les bonnes données.
 	 */
-	public function render_html( $retour = '', $iterator = null, $is_child = false )
+	public function render_html( $post, $retour = '', $iterator = null, $is_child = false )
 	{
 		// Déclarer la valeur dans le $_GET par rapport au nom de la clé.
 		$value = '';
 		
-		// S'il y a la clé de la metadata dans la requête $_GET, la mettre dans la variable à cet insu.
-		if ( $iterator !== self::FERMER_BALISE_CELLULE_TABLE && array_key_exists( $this->get_key(), $_POST ) )
+		// S'il y a la clé de la metadata dans la requête, la mettre dans la variable à cet insu.
+		if ( get_post_meta( $this->get_key(), $post->ID ) )
 			$value = $_POST[$this->get_key()];
 		else // Sinon, afficher une erreur.
-			wp_die( "\$_GET n'avait aucunement de clé au nom de ".$this->get_key()."." );
+			wp_die( "\$_POST n'avait aucunement de clé au nom de ".$this->get_key()."." );
 		
 		// S'il n'y a pas d'itération, afficher la fin.
 		if ( is_null( $iterator ) ) {
-			$retour = '<td><label for="' . $this->get_key() . '"></label></td><td>';
-			//if ( $this->is_query() )
-			//{
-			//	// TODO transformation de la data par rapport au data_type.
-			//	$value = $this->render_metabox_query( $value, $iter );
-			//}
+			$retour = '<td><label for="' . $this->get_key() . '">'.$this->get_label().' :</label></td><td>';
 		}
 		elseif // Sinon, si l'itération est en fait un booléen à faux, retourner avec la fin de l'itération.
 			( $iterator === self::FERMER_BALISE_CELLULE_TABLE )
@@ -234,6 +241,7 @@ class RB_Metadata
 			 *            ---------------------
 			 */
 			case RB_Metadata::HTML_TYPE_STATIC:
+			case RB_Metadata::HTML_TYPE_STATIC_OLD:
 				if ( is_null( $iterator ) )
 					return '<p>' . $this->get_label() . ' : ' . $this->render_data( $value ) . '</p>';
 				else
@@ -251,9 +259,9 @@ class RB_Metadata
 				           . $this->render_attribute( 'type', 'text' ) 
 				           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
 				           . $this->render_attribute( 'name'.( $iterator instanceof ArrayIterator ? '[]' : '' ) )
-				           . $this->render_attribute( 'value', $this->render_data($value) ) 
+				           . $this->render_attribute( 'value', $this->render_data($value) )
 				           . '/>';
-				$retour = $this->render_html( $retour, false );
+				$retour = $this->render_html( $post, $retour, false );
 				break;
 			
 			/**           -----
@@ -267,7 +275,7 @@ class RB_Metadata
 				           . $this->render_attribute( 'name' ) // name="'.$this->get_key.'"
 				           . $this->render_attribute( 'value', $this->render_data($value) ) // la valeur.
 				           . '>';
-				$retour = $this->render_html( $retour, false );
+				$retour = $this->render_html( $post, $retour, false );
 				break;
 			
 			/**           ------------------------------
@@ -276,21 +284,10 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_ORDERED_LIST:
 			case RB_Metadata::HTML_TYPE_UNORDERED_LIST:
-				// Si l'itération est à null, mettre la variable de 
-				if ( is_null( $iterator ) ) {
-					$retour .= '<'.$this->get_html_type().'>';
-				} elseif ( $iterator === self::FERMER_BALISE_HTML_TYPE ) {
-					$retour .= '</' . $this->get_html_type() . '>';
-					return $is_child ? $retour : $this->render_html( $retour, self::FERMER_BALISE_CELLULE_TABLE );
-				}
-				
-				$retour .= '<li>' . '  ' . '</li>';
-				
-				if ( $iterator instanceof ArrayIterator ) {
-					$iterator->next();
-				}
-				
-				$retour = $this->render_html( $retour, $iterator, true );
+				$retour .= call_user_func(
+					'wp_list_'.$this->get_list_query()['type'],
+					$this->get_list_query()
+				);
 				break;
 			
 			/**           -------
@@ -298,15 +295,10 @@ class RB_Metadata
 			 *            -------
 			 */
 			case RB_Metadata::HTML_TYPE_SELECT:
-				if ( is_null( $iterator ) ) {
-					$retour .= '<' . $this->get_html_type() . '>';
-				} elseif ( $iterator === self::FERMER_BALISE_HTML_TYPE ) {
-					$retour .= '</' . $this->get_html_type() . '>';
-					return $is_child ? $retour : $this->render_html( $retour, self::FERMER_BALISE_CELLULE_TABLE );
-				}
-				
-				// TODO itération.
-				
+				$retour .= call_user_func(
+					'wp_dropdown_'.$this->get_dropdown_query()['type'], 
+					$this->get_dropdown_query()
+				);
 				break;
 			
 			/**           ------
@@ -315,11 +307,7 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_RADIO:
 				// TODO le rendu.
-				
 				// TODO itération.
-				
-				
-				
 				break;
 			
 			/**           ---------
@@ -328,7 +316,6 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_CHECKBOX:
 				// TODO le rendu.
-				
 				// TODO itération.
 				break;
 			
@@ -345,7 +332,7 @@ class RB_Metadata
 				           . $this->render_attribute( 'value', $this->render_data($value) )
 				           . '/>';
 				
-				$retour = $this->render_html( $retour, $iterator );
+				$retour = $this->render_html( $post, $retour, $iterator );
 				break;
 			
 			/**           -----
@@ -361,7 +348,7 @@ class RB_Metadata
 				           . $this->render_attribute( 'value', $this->render_data($value) )
 				           . '/>';
 				
-				$retour = $this->render_html( $retour, false );
+				$retour = $this->render_html( $post, $retour, false );
 				break;
 			
 			/**           -----------
@@ -370,6 +357,7 @@ class RB_Metadata
 			 */
 			default:
 				// TODO rendu par défaut avec input.
+				var_dump($this->get_html_type());
 				wp_die( "RENDER_HTML NOT WORKING" );
 				break;
 		endswitch;
@@ -378,8 +366,10 @@ class RB_Metadata
 	}
 	
 	/**
-	 * @param Mixed         $value    La valeur de la donnée.
-	 * @param ArrayIterator $iterator Si Integer, la position courante dans l'itération.<br />
+	 * Effectue le rendu des données.
+	 * 
+	 * @param Mixed              $value    La valeur de la donnée.
+	 * @param ArrayIterator|Null $iterator Si Integer, la position courante dans l'itération.<br />
 	 *                                Si String, la balise à entourer chaque donnée.
 	 * 
 	 * @return String Le/les éléments formatés en HTML.
@@ -460,7 +450,7 @@ class RB_Metadata
 				wp_die( "RENDER_DATA NOT WORKING" );
 				break;
 		endswitch;
-		
+
 		return $retour;
 	}
 	
@@ -504,10 +494,16 @@ class RB_Metadata
 	{
 		// Déclarer les valeurs par défaut.
 		
-		// Si la metabox_query réfère à un post_type, noter le post_type.
-		if ( $this->metabox_query[''] )
+		// Si la query d'itération n'est pas instanciée, la mettre à la query de la metabox.
+		if ( null === $iter_query )
 		{
-			// TODO la metabox_query.
+			
+			$iter_query = new WP_Query($this->metabox_query);
+		}
+		
+		if ( $iter_query->have_posts() )
+		{
+			$iter_query->get_posts();
 		}
 	}
 	
@@ -583,7 +579,15 @@ class RB_Metadata
 	 * 
 	 * @return Array|Null
 	 */
-	public function get_metabox_query() { return $this->metabox_query; }
+	public function get_list_query() { return $this->list_query; }
+	
+	
+	/**
+	 * TODO DESCR
+	 * 
+	 * @return Array|Null
+	 */
+	public function get_dropdown_query() { return $this->dropdown_query; }
 	
 	/** 
 	 * TODO DESCR
@@ -606,9 +610,9 @@ class RB_Metadata
 	/**
 	 * Setter de la clé.
 	 *
-	 * @param String $key La valeur de la clé à assigner à la Metadata
+	 * @param String $key La valeur de la clé à assigner à l'objet RB_Metadata
 	 *
-	 * @return Bool Vrai si la clé a été assignée à la Metadata
+	 * @return Bool Vrai si la clé a été assignée à l'objet RB_Metadata
 	 */
 	public function set_key( $key ) 
 	{
@@ -623,9 +627,9 @@ class RB_Metadata
 	/**
 	 * Setter du type de donnée de la Metadata.
 	 *
-	 * @param String $data_type La valeur du type de donnée à assigner à la Metadata.
+	 * @param String $data_type La valeur du type de donnée à assigner à l'objet RB_Metadata
 	 *
-	 * @return Bool Vrai si le type de donnée a été assigné à la Metadata.
+	 * @return Bool Vrai si le type de donnée a été assigné à l'objet RB_Metadata
 	 */
 	public function set_data_type( $data_type ) 
 	{
@@ -640,7 +644,7 @@ class RB_Metadata
 	/**
 	 * Setter de html_type.
 	 *
-	 * @param String $html_type La valeur de la propriété html_type assigner à l'objet RB_Metadata
+	 * @param String $html_type La valeur de la propriété html_type à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre html_type a été assignée à l'objet RB_Metadata
 	 */
@@ -657,7 +661,7 @@ class RB_Metadata
 	/**
 	 * Setter de label.
 	 *
-	 * @param String $label La valeur de la propriété label assigner à l'objet RB_Metadata
+	 * @param String $label La valeur de la propriété label à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre label a été assignée à l'objet RB_Metadata
 	 */
@@ -674,7 +678,7 @@ class RB_Metadata
 	/**
 	 * Setter de default.
 	 *
-	 * @param Mixed $default La valeur de la propriété default assigner à l'objet RB_Metadata
+	 * @param Mixed $default La valeur de la propriété default à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre default a été assignée à l'objet RB_Metadata
 	 */
@@ -691,7 +695,7 @@ class RB_Metadata
 	/**
 	 * Setter de validate_cb.
 	 *
-	 * @param String|Array $validate_cb La valeur de la propriété validate_cb assigner à l'objet RB_Metadata
+	 * @param String|Array $validate_cb La valeur de la propriété validate_cb à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre validate_cb a été assignée à l'objet RB_Metadata
 	 */
@@ -708,7 +712,7 @@ class RB_Metadata
 	/**
 	 * Setter de in_columns.
 	 *
-	 * @param String $in_columns La valeur de la propriété in_columns assigner à l'objet RB_Metadata
+	 * @param String $in_columns La valeur de la propriété in_columns à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre in_columns a été assignée à l'objet RB_Metadata
 	 */
@@ -725,7 +729,7 @@ class RB_Metadata
 	/**
 	 * Setter de is_query.
 	 *
-	 * @param Bool $is_query La valeur de la propriété is_query assigner à l'objet RB_Metadata
+	 * @param Bool $is_query La valeur de la propriété is_query à assigner à l'objet RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre is_query a été assignée à l'objet RB_Metadata
 	 */
@@ -753,27 +757,49 @@ class RB_Metadata
 	}
 	
 	/**
-	 * Setter de metabox_query.
+	 * Setter de list_query.
 	 *
-	 * @param String $metabox_query La valeur de la propriété metabox_query assigner à l'objet RB_Metadata
+	 * @param String $list_query La valeur de la propriété list_query à assigner à l'objet RB_Metadata
 	 *
-	 * @return Bool Vrai si la valeur du paramètre metabox_query a été assignée à l'objet RB_Metadata
+	 * @return Bool Vrai si la valeur du paramètre list_query a été assignée à l'objet RB_Metadata
 	 */
-	public function set_metabox_query( $metabox_query ) 
+	public function set_list_query( $list_query ) 
 	{
 		$defaults = array(
 			'post_type' => 'post',
-			'meta_key'  => null,
-			'post_attr' => 'id',
-		
+			// TODO les arguments par défaut.
 		);
 		
-		wp_parse_args( $this->metabox_query, $defaults );
+		wp_parse_args( $list_query, $defaults );
 		
-		$ok = $this->valider_metabox_query( $metabox_query );
+		$ok = $this->valider_list_query( $list_query );
 		
 		if ($ok)
-			$this->metabox_query = $metabox_query;
+			$this->list_query = $list_query;
+		
+		return $ok;
+	}
+	
+	/**
+	 * Setter de dropdown_query.
+	 *
+	 * @param String $dropdown_query La valeur de la propriété dropdown_query à assigner à l'objet RB_Metadata
+	 *
+	 * @return Bool Vrai si la valeur du paramètre dropdown_query a été assignée à l'objet RB_Metadata
+	 */
+	public function set_dropdown_query( $dropdown_query )
+	{
+		$defaults = array(
+			'post_type' => 'post',
+			// TODO les arguments par défaut.
+		);
+		
+		wp_parse_args( $dropdown_query, $defaults );
+		
+		$ok = $this->valider_dropdown_query( $dropdown_query );
+		
+		if ($ok)
+			$this->dropdown_query = $dropdown_query;
 		
 		return $ok;
 	}
@@ -787,6 +813,15 @@ class RB_Metadata
 	 */
 	public function set_column_query( $column_query ) 
 	{
+		// TODO vérification si c'est vide.
+		
+		$defaults = array(
+			'post_type' => 'post',
+			// TODO les arguments par défaut.
+		);
+		
+		wp_parse_args( $column_query, $defaults );
+		
 		$ok = $this->valider_column_query( $column_query );
 		
 		if ($ok)
@@ -822,8 +857,9 @@ class RB_Metadata
 	 */
 	private function valider_data_type( $data_type )
 	{
-		// TODO validateur
-		return true;
+		$var = array_search( $data_type, self::get_valid_data_types() );
+		var_dump($var);
+		return ( $var );
 	}
 	
 	/**
@@ -835,14 +871,7 @@ class RB_Metadata
 	 */
 	private function valider_html_type( $html_type ) 
 	{
-		$types = self::get_valid_data_types();
-		
-		foreach ( $types as $type )
-		{
-			
-		}
-		
-		return true;
+		return ( array_search( $html_type, self::get_valid_html_types() ) );
 	}
 	
 	/**
@@ -1004,18 +1033,30 @@ class RB_Metadata
 	}
 	
 	/**
-	 * Validateur de la propriété $metabox_query.
+	 * Validateur de la propriété $list_query.
 	 *
-	 * @param Array $metabox_query La valeur de la propriété metabox_query
+	 * @param Array $list_query La valeur de la propriété list_query
 	 *
 	 * @return Bool Vrai si c'est valide.
 	 */
-	private function valider_metabox_query( $metabox_query )
+	private function valider_list_query( $list_query )
 	{
 		// Retourne vrai si ça passe.
-		return ( !empty( $metabox_query ) && is_array( $metabox_query ) );
+		return ( is_null($list_query) || !empty( $list_query ) && is_array( $list_query ) );
 	}
 	
+	/**
+	 * Validateur de la propriété $dropdown_query.
+	 *
+	 * @param Array $dropdown_query La valeur de la propriété dropdown_query
+	 *
+	 * @return Bool Vrai si c'est valide.
+	 */
+	private function valider_dropdown_query( $dropdown_query )
+	{
+		// Retourne vrai si ça passe.
+		return ( is_null($dropdown_query) || !empty( $dropdown_query ) && is_array( $dropdown_query ) );
+	}
 	
 	/**
 	 * Validateur de la propriété $column_query.
@@ -1027,7 +1068,7 @@ class RB_Metadata
 	private function valider_column_query( $column_query )
 	{
 		// Retourne vrai si ça passe.
-		return ( !empty( $column_query ) && is_array( $column_query ) );
+		return ( is_null($column_query) || !empty( $column_query ) && is_array( $column_query ) );
 	}
-
+	//</editor-fold>
 }

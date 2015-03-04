@@ -20,6 +20,14 @@ class RB_Prestation_Admin extends RB_Admin
 	}
 	
 	/**
+	 *
+	 */
+	public function get_all_spectacle_titles()
+	{
+		
+	}
+	
+	/**
 	 * Effectue un rendu de la metabox des informations.
 	 *
 	 * @param WP_Post $prestation

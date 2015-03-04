@@ -320,50 +320,6 @@ abstract class RB_Admin
 			$counter = 0;
 		}
 		
-		
-		
-		/* ------------------- */
-		/* ---- METABOXES ---- */
-		/* ------------------- */
-		
-		// Instancier l'array des metaboxes.
-		$this->metaboxes = array();
-		
-		// Vérifier si les metaboxes sont pas mises par défaut.
-		if ( ! empty( $args->metaboxes ) )
-		{
-			// Parcourir chaque metabox.
-			foreach ( $args->metaboxes as $metabox_args )
-			{
-				$meta_keys = null;
-				
-				if ( array_key_exists( 'metadatas', $metabox_args ) )
-				{
-					$meta_keys = $metabox_args['metadatas'];
-					unset($metabox_args['metadatas']);
-				}
-				
-				// Créer un nouvel objet RB_Metabox.
-				$metabox_obj = new RB_Metabox( $metabox_args, $post_type );
-				
-				if ( is_array( $meta_keys ) && $nb_metadatas = count( $meta_keys ) > 0 )
-				{
-					for ( $i = 0; $i < $nb_metadatas; $i++ )
-					{
-						$metadata_instance = new RB_Metadata( $args->metadatas[$meta_keys[$i]] , $post_type, $meta_keys[$i] );
-						$metabox_obj->add_metadata( $metadata_instance );
-						unset( $args->metadatas[$meta_keys[ $i ]] );
-					}
-				}
-				
-				// Ajouter la metabox.
-				$this->metaboxes[] = $metabox_obj;
-				
-				// Incrémenter le compteur, au cas où on en a de besoin.
-				$counter++;
-			}
-		}
-		
 		/* ------------------- */
 		/* ---- METADATAS ---- */
 		/* ------------------- */
@@ -388,6 +344,52 @@ abstract class RB_Admin
 			
 			// Réinitialiser le compteur.
 			$counter = 0;
+		}
+		
+		/* ------------------- */
+		/* ---- METABOXES ---- */
+		/* ------------------- */
+		
+		// Instancier l'array des metaboxes.
+		$this->metaboxes = array();
+		
+		// Vérifier si les metaboxes sont pas mises par défaut.
+		if ( ! empty( $args->metaboxes ) )
+		{
+			// Parcourir chaque metabox.
+			foreach ( $args->metaboxes as $metabox_args )
+			{
+				$meta_keys = null;
+				
+				if ( array_key_exists( 'metadatas', $metabox_args ) )
+				{
+					$meta_keys = $metabox_args['metadatas'];
+					unset($metabox_args['metadatas']);
+				}
+				
+				// Créer un nouvel objet RB_Metabox.
+				$metabox_obj = new RB_Metabox( $metabox_args, $post_type );
+				$nb_metadatas = count( $meta_keys );
+				
+				if ( is_array( $meta_keys ) && $nb_metadatas > 0 )
+				{
+					for ( $i = 0; $i < $nb_metadatas; $i++ )
+					{
+						if ( array_key_exists( $meta_keys[$i], $this->metadatas ) )
+						{
+							/** @var RB_Metabox $metadata_instance */
+							$metadata_instance = $this->metadatas[$meta_keys[$i]];
+							$metabox_obj->add_metadata( $metadata_instance );
+						}
+					}
+				}
+				
+				// Ajouter la metabox.
+				$this->metaboxes[] = $metabox_obj;
+				
+				// Incrémenter le compteur, au cas où on en a de besoin.
+				$counter++;
+			}
 		}
 	}
 	
@@ -492,22 +494,6 @@ abstract class RB_Admin
 		{
 			// Ajouter la metabox.
 			$metabox->add();
-			
-			/** @var RB_Metadata $metadata */
-			foreach ( $this->metadatas as $metadata )
-			{
-				try 
-				{
-					if ( $metabox->get_metadata_by_key( $metadata->get_key() ) ) 
-					{
-						
-					}
-				} 
-				catch (ErrorException $e) 
-				{
-					
-				}
-			}
 		}
 	}
 	
@@ -528,6 +514,8 @@ abstract class RB_Admin
 		if ( $this->post_type != $post->post_type )
 			return;
 		
+		var_dump(get_post_meta($post_id));
+		
 		// Checks save status
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
@@ -540,7 +528,7 @@ abstract class RB_Admin
 			return;
 		
 		// Si ce n'est pas une révision, on fait de quoi de spécial!
-		if ( !$is_revision )
+		if ( $is_revision )
 		{
 			/** @var RB_Metadata $metadata */
 			$metadata = null;
@@ -562,6 +550,8 @@ abstract class RB_Admin
 				// Vérifier si la clé existe dans le $_POST.
 				if ( array_key_exists( $metadata->get_key() , $_POST ) )
 				{
+					$key = $metadata->get_key();
+					
 					// Vérfier si la fonction de validation n'est pas vide...
 					if ( !empty( $metadata->get_validate_cb() ) )
 					{
@@ -589,15 +579,17 @@ abstract class RB_Admin
 					}
 				}
 			}
-		}		
+		}
 		else
 		{
 			// TODO implémenter avec la classe RB_Metadata.
 			/** @var RB_Metadata $metadata */
 			foreach ( $this->metadatas as $metadata )
 			{
+				var_dump($metadata->get_key());
 				// Updater le post meta courant.
-				update_post_meta( $post_id, $metadata->get_key(), $metadata->get_default_value() );
+				add_post_meta( $post_id, $metadata->get_key(), $metadata->get_default_value() );
+				$_POST[$metadata->get_key()] = get_post_meta($post->ID, $metadata->get_key());
 			}
 		}
 		
@@ -617,12 +609,6 @@ abstract class RB_Admin
 	{
 		$retour = array();
 		
-		//var_dump( $columns );
-		
-		unset( $columns['date'] );
-		
-		//var_dump( $columns );	
-		
 		// Enlever toutes les colonnes à enlever.
 		foreach ( $this->hide_columns as $hidden_column_name )
 			unset( $columns[ $hidden_column_name ] );
@@ -637,6 +623,8 @@ abstract class RB_Admin
 				$retour[$key] = __( $metadata['name'] );
 			}
 		}
+		
+		unset( $columns['date'] );
 		
 		return array_merge( $columns, $retour );
 	}

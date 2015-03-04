@@ -97,6 +97,7 @@ abstract class RB_Section
 			// La sauvegarde du post.
 			$loader->queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 2 );
 			
+			
 			// Gérer les colonnes.
 			// TODO DÉCOMMENTER
 			//$loader->queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );

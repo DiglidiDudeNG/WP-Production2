@@ -44,7 +44,6 @@ class RB_Spectacle_Admin extends RB_Admin
 			'25'
 		);
 	}
-	
 	 
 	/**
 	 * Effectue un rendu de la metabox des informations.

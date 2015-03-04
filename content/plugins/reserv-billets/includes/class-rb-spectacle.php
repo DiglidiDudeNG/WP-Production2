@@ -78,21 +78,23 @@ class RB_Spectacle extends RB_Section
 			),
 			'metadatas' => array(
 				'rb_spectacle_liste_prestation_id' => array(
-					'html_type'     => 'link',
+					'html_type'     => 'ol',
 					'data_type'     => 'json',
 					'label'         => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
 					'is_query'      => true,
-					'metabox_query' => array(
+					'list_query'    => array(
 						'post_type' => 'prestation',
 						'meta_key'  => 'rb_prestation_spectacle_id',
-					    
-						// TODO trouver quoi envoyer comme meta_value.
+						
 					),
-					'column_query'  => array(
-						'post_type' => 'prestation',
-						'meta_key'  => 'rb_prestation_spectacle_id', // TODO adapter.
+					'column_query'       => array(
+						'post_type'      => 'prestation',
+						'meta_key'       => 'rb_prestation_spectacle_id', // TODO adapter.
+						'meta_value_num' => '%i',
+						'orderby'        => '',
+					    'order'          => 'DESC',
 					),
 				),
 				'rb_spectacle_artiste_site_url' => array(
@@ -131,7 +133,7 @@ class RB_Spectacle extends RB_Section
 				),
 			),
 			'metaboxes' => array(
-				array(
+				array( // Infos de l'artiste.
 					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
@@ -144,24 +146,24 @@ class RB_Spectacle extends RB_Section
 						'rb_spectacle_prix',
 					],
 				),
-				array(
+				array( // Infos des prestations.
 					'id'            => 'rb_spectacle_info_prestations',
 					'title'         => 'Infos des prestations',
 					'show_dashicon' => true,
 					'dashicon'      => 'tickets-alt',
 					'screen'        => 'spectacle',
-					'context'       => 'side',
+					'context'       => 'normal',
 					'priority'      => 'core',
 					'metadatas'     => [ 'rb_spectacle_liste_prestation_id' ],
 				),
-			    array(
+			    array( // Uploader d'images.
 		            'id'            => 'rb_spectacle_images',
 				    'title'         => "Images Promotionnelles",
 				    'show_dashicon' => true,
 				    'dashicon'      => 'format-gallery',
 				    'screen'        => 'spectacle',
 				    'context'       => 'side',
-				    'priority'      => 'high',
+				    'priority'      => 'core',
 				    'metadatas'     => [
 					    'rb_spectacle_img_mini',
 					    'rb_spectacle_img_caroussel_url',

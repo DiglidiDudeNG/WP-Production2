@@ -51,7 +51,6 @@ class RB_Prestation extends RB_Section
 	public function creer_objet_admin()
 	{
 		$default_billets = get_option('rb_billets_par_defaut', null);
-		var_dump($default_billets);
 		
 		// Définir la table d'arguments.
 		$args = array(
@@ -69,20 +68,20 @@ class RB_Prestation extends RB_Section
 			),
 			'metadatas' => array( // Les Metadatas.
 				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
-					'html_type'     => 'select',
-					'data_type'     => 'number',
-					'query_type'    => 'string',
-					'label'         => 'Spectacle',
-					'default'       => '0',
-					'in_columns'    => true,
-					'is_query'      => true,
-					'metabox_query' => array(
-						'post_type'  => 'spectacle',
-					), // TODO adapter à nouvelle façon.
-					'column_query'  => array( 
-						'post_type'  => 'spectacle',
-						'meta_key'   => '',
-					), // TODO adapter à nouvelle façon.
+					'html_type'      => 'select',
+					'data_type'      => 'number',
+					'query_type'     => 'string',
+					'label'          => 'Spectacle',
+					'default'        => '0',
+					'in_columns'     => true,
+					'is_query'       => true,
+					'dropdown_query' => array(
+						'post_type' => 'spectacle',
+					),
+					'column_query'   => array(
+						'post_type' => 'spectacle',
+						'meta_key'  => '%i',
+					),
 				),
 				'rb_prestation_date' => array( // La date.
 					'html_type'  => 'input',
