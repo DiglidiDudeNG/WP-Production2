@@ -1,0 +1,76 @@
+#contact .contact-adresse
+	margin-bottom: 40px
+	
+#contact a
+	color: $color-gris-fonce
+	margin: 5px 0
+
+#contact i
+	margin: 25px 0 15px 0
+
+#contact .contact-titre
+	margin: 10px 0
+	color: $color-red
+	
+#contact p
+	margin: 5px 0
+	
+    
+.google-maps iframe 
+	position: absolute
+	top: 0
+	left: 0
+	width: 100% !important
+	height: 100% !important
+    
+	
+//medias queries
+
+/* Extra small devices (phones, less than 768px) */
+@media (max-width: $screen-sm-min)
+	#contact .container
+		padding: 0 10%
+		
+	#contact p
+		line-height: 18px
+		
+	#contact .fa-first
+		margin: 0 0 15px 0
+		
+	.google-maps 
+		position: relative
+		padding-bottom: 60% // This is the aspect ratio
+		height: 0
+		overflow: hidden
+		margin-bottom: 20px
+		
+	#contact .contact-titre
+		font-size: 16px
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: $screen-sm-min)
+	#contact .container
+		padding: 0
+		
+	.google-maps 
+		position: relative
+		padding-bottom: 50% // This is the aspect ratio
+		height: 0
+		overflow: hidden
+		margin-bottom: 30px
+		
+	#contact .contact-titre
+		font-size: 18px
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: $screen-md-min)
+
+	.google-maps 
+		padding-bottom: 40% // This is the aspect ratio
+
+		
+	#contact .contact-titre
+		font-size: 20px
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: $screen-lg-min)

@@ -8,18 +8,6 @@ footer p
 	color: $color-white
 	margin: 0
 
-i
-	text-align: center
-	margin-left: 10px
-
-.fa
-	width: 40px
-	height: 40px
-	background-color: $color-red
-	border-radius: 50%
-	padding-top: 10px
-	font-size: 22px!important
-
 footer address
 	display: inline-block
 	margin-bottom: 0
@@ -28,7 +16,6 @@ footer div.reseau
 	display: inline-block
 	float: right
 	margin-top: 26px
-
 
 .footer-bottom
 	background-color: $color-red
@@ -43,7 +30,14 @@ footer div.reseau
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: $screen-sm-min)
 	footer div.reseau
-		margin-top: 12px
+		margin-top: 20px
+		float: center
+		
+	footer .footer-top, footer .footer-bottom
+		text-align: center
+
+	footer address
+		display: block
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: $screen-sm-min)
@@ -52,11 +46,6 @@ footer div.reseau
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: $screen-md-min)
 
-	footer
-		p:nth-child(1)
-			font-size: 17px
-		p:nth-child(2), p:nth-child(3), p:nth-child(4)
-			font-size: 15px
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: $screen-lg-min)

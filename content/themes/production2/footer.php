@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="footer-bottom">
-				<p  class="container">Copyright © 2015 { Parenthèse</p>				
+				<p  class="container">Copyright © 2015 Parenthèse</p>				
 			</div>
 		</footer>
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/jquery-1.11.1.min.js"></script>
