@@ -11,17 +11,17 @@
 	transition: opacity 1s
 
 //ajout des 3 images
-.carousel .image-un
-	+background-img
-	background-image: url('../../images/roger-Hodgson.jpg')
+// .carousel .image-un
+// 	+background-img
+// 	background-image: url('../../images/roger-Hodgson.jpg')
 
-.carousel .image-deux
-	+background-img
-	background-image: url('../../images/roger-Hodgson.jpg')
+// .carousel .image-deux
+// 	+background-img
+// 	background-image: url('../../images/roger-Hodgson.jpg')
 
-.carousel .image-trois
-	+background-img
-	background-image: url('../../images/roger-Hodgson.jpg')
+// .carousel .image-trois
+// 	+background-img
+// 	background-image: url('../../images/roger-Hodgson.jpg')
 
 // Mettre le h2 en majuscule
 #contenu-site .carousel-caption h2
@@ -47,8 +47,11 @@ button.btn-savoir
 
 @media screen and (max-width: $screen-sm-min)  // <768
 	.carousel .item
-		height: 300px
-
+		// height: 300px
+	
+	.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img
+		height: 300px!important
+		max-width: none!important
 
 	button.btn-savoir
 		margin-bottom: 5px
@@ -62,18 +65,19 @@ button.btn-savoir
 
 	#contenu-site .carousel-caption h2
 		margin: 16px 0
-		font-size: 17px
+		font-size: 14px
 
 	#contenu-site h2.carousel-heure
 		margin-bottom: 20px
 		margin-top: 0
 
 	#contenu-site .carousel-caption
-		padding-bottom: 54px
+		padding-bottom: 67px
 
 @media screen and (min-width: $screen-sm-min) // >768px
-	.carousel .item
-		height: 500px
+	.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img
+		height: 400px!important
+		max-width: none!important
 
 	button.btn-savoir
 		margin-bottom: 10px
@@ -90,12 +94,13 @@ button.btn-savoir
 		font-size: 24px
 
 	#contenu-site .carousel-caption
-		padding-bottom: 110px
+		padding-bottom: 50px
 
 @media screen and (min-width: $screen-md-min) // >992px
 
-	.carousel .item
-		height: 570px
+	.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img
+		height: 500px!important
+		max-width: auto!important
 
 	button.btn-savoir
 		margin-bottom: 75px

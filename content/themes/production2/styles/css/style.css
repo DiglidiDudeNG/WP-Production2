@@ -8,39 +8,6 @@
   -o-transition: opacity 1s;
   transition: opacity 1s; }
 
-.carousel .image-un {
-  background-repeat: no-repeat;
-  background-position: top center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  overflow: hidden;
-  margin: 0 auto;
-  background-image: url("../../images/roger-Hodgson.jpg"); }
-
-.carousel .image-deux {
-  background-repeat: no-repeat;
-  background-position: top center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  overflow: hidden;
-  margin: 0 auto;
-  background-image: url("../../images/roger-Hodgson.jpg"); }
-
-.carousel .image-trois {
-  background-repeat: no-repeat;
-  background-position: top center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  overflow: hidden;
-  margin: 0 auto;
-  background-image: url("../../images/roger-Hodgson.jpg"); }
-
 #contenu-site .carousel-caption h2 {
   text-transform: uppercase;
   color: #fff;
@@ -60,8 +27,9 @@ button.btn-savoir {
   text-shadow: none !important; }
 
 @media screen and (max-width: 768px) {
-  .carousel .item {
-    height: 300px; }
+  .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+    height: 300px !important;
+    max-width: none !important; }
 
   button.btn-savoir {
     margin-bottom: 5px;
@@ -75,17 +43,18 @@ button.btn-savoir {
 
   #contenu-site .carousel-caption h2 {
     margin: 16px 0;
-    font-size: 17px; }
+    font-size: 14px; }
 
   #contenu-site h2.carousel-heure {
     margin-bottom: 20px;
     margin-top: 0; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 54px; } }
+    padding-bottom: 67px; } }
 @media screen and (min-width: 768px) {
-  .carousel .item {
-    height: 500px; }
+  .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+    height: 400px !important;
+    max-width: none !important; }
 
   button.btn-savoir {
     margin-bottom: 10px;
@@ -102,10 +71,11 @@ button.btn-savoir {
     font-size: 24px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 110px; } }
+    padding-bottom: 50px; } }
 @media screen and (min-width: 992px) {
-  .carousel .item {
-    height: 570px; }
+  .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+    height: 500px !important;
+    max-width: auto !important; }
 
   button.btn-savoir {
     margin-bottom: 75px;
@@ -276,7 +246,8 @@ button {
   #navbar-parenthese .navbar-collapse {
     border-color: #fff; }
   #navbar-parenthese .navbar-form {
-    border: 0 transparent; }
+    border: 0 transparent;
+    margin-bottom: 1px; }
   #navbar-parenthese .navbar-toggle {
     margin-top: 12px;
     margin-bottom: 12px;
@@ -346,12 +317,22 @@ button {
     color: #651720;
     transition: all 0.2s linear; }
 
+/*TeLePHONE */
+#contenu-site p.telephone-header {
+  text-align: left;
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 400; }
+
 /* Extra small devices (phones, less than 768px) */
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   #logo {
     font-size: 25px;
-    padding: 25px; } }
+    padding: 25px; }
+
+  #contenu-site p.telephone-header {
+    text-align: right; } }
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   #logo {
@@ -525,6 +506,17 @@ button {
 footer p {
   color: #fff;
   margin: 0; }
+footer address {
+  display: inline-block;
+  margin-bottom: 0; }
+footer div.reseau {
+  display: inline-block;
+  float: right;
+  margin-top: 26px; }
+footer a {
+  color: #fff; }
+  footer a:hover {
+    color: #fff; }
 
 i {
   text-align: center;
@@ -537,15 +529,6 @@ i {
   border-radius: 50%;
   padding-top: 10px;
   font-size: 22px !important; }
-
-footer address {
-  display: inline-block;
-  margin-bottom: 0; }
-
-footer div.reseau {
-  display: inline-block;
-  float: right;
-  margin-top: 26px; }
 
 .footer-bottom {
   background-color: #e82530;
