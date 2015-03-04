@@ -169,21 +169,6 @@ i {
   text-align: center;
   margin-left: 10px;
   color: #fff; }
-  #contenu-site a:hover {
-    text-decoration: none; }
-
-.fa {
-  width: 40px;
-  height: 40px;
-  background-color: #e82530;
-  border-radius: 50%;
-  padding-top: 9px;
-  font-size: 22px !important; }
-
-i {
-  text-align: center;
-  margin-left: 10px;
-  color: #fff; }
 
 .btn-savoir {
   font: 100% "Quicksand", sans-serif;
