@@ -170,7 +170,6 @@ class RB_Metadata
 			{
 				// Si le paramètre a été assigné à notre objet avec succès, passer à la prochaine valeur.
 				if ( ! call_user_func( array( $this, 'set_' . $cle ), $param ) ) {
-					var_dump( $args );
 					// Si ça itère pas à la prochaine valeur, on affiche un erreur.
 					wp_die( __( "Le constructeur de <b>" . __CLASS__ . "</b> a retourné une erreur pour l'assignement du param <b>" . $cle . ".</b>" ) );
 				}
@@ -206,21 +205,17 @@ class RB_Metadata
 	 *                           __Booléen__ à __True__  si l'itération doit fermer le balise HTML du type.
 	 *                           __Booléen__ à __False__ si l'itération doit fermer la balise HTML de la cellule
 	 *                                                   de la table.
-	 * @param Bool     $is_child (o) Vrai si l'appel de render_html fut à partir d'un autre render_html.
-	 *                           En d'autres mots, si on a pas besoin de fermer la balise <td>, ce sera à vrai.
 	 *
 	 * @return String Le/les éléments HTML à afficher avec les bonnes données.
 	 */
-	public function render_html( $post, $retour = '', $iterator = null, $is_child = false )
+	public function render_html( $post, $retour = '', $iterator = null )
 	{
 		// Déclarer la valeur dans le $_GET par rapport au nom de la clé.
 		$value = '';
 		
 		// S'il y a la clé de la metadata dans la requête, la mettre dans la variable à cet insu.
-		if ( get_post_meta( $this->get_key(), $post->ID ) )
-			$value = $_POST[$this->get_key()];
-		else // Sinon, afficher une erreur.
-			wp_die( "\$_POST n'avait aucunement de clé au nom de ".$this->get_key()."." );
+		if ( $meta_value = get_post_meta( $post->ID, $this->get_key(), true ) )
+			$value = $meta_value;
 		
 		// S'il n'y a pas d'itération, afficher la fin.
 		if ( is_null( $iterator ) ) {
@@ -256,11 +251,11 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_INPUT:
 				$retour .= '<input '
-				           . $this->render_attribute( 'type', 'text' ) 
-				           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
-				           . $this->render_attribute( 'name'.( $iterator instanceof ArrayIterator ? '[]' : '' ) )
-				           . $this->render_attribute( 'value', $this->render_data($value) )
-				           . '/>';
+			           . $this->render_attribute( 'type', $this->get_type_attribute() )
+			           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
+			           . $this->render_attribute( 'name' )
+			           . $this->render_attribute( 'value', $this->render_data($value) )
+			           . '/>';
 				$retour = $this->render_html( $post, $retour, false );
 				break;
 			
@@ -270,11 +265,11 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_LINK:
 				$retour .= '<'.$this->get_html_type() // a
-				           . $this->render_attribute( 'href', $value ) // href="'.SOME_POST_STUFF.'"
-				           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
-				           . $this->render_attribute( 'name' ) // name="'.$this->get_key.'"
-				           . $this->render_attribute( 'value', $this->render_data($value) ) // la valeur.
-				           . '>';
+			           . $this->render_attribute( 'href', $value ) // href="'.SOME_POST_STUFF.'"
+			           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
+			           . $this->render_attribute( 'name' ) // name="'.$this->get_key.'"
+			           . $this->render_attribute( 'value', $this->render_data($value) ) // la valeur.
+			           . '>';
 				$retour = $this->render_html( $post, $retour, false );
 				break;
 			
@@ -285,7 +280,7 @@ class RB_Metadata
 			case RB_Metadata::HTML_TYPE_ORDERED_LIST:
 			case RB_Metadata::HTML_TYPE_UNORDERED_LIST:
 				$retour .= call_user_func(
-					'wp_list_'.$this->get_list_query()['type'],
+					sprintf( 'wp_list_%s', $this->get_list_query()['type'] ),
 					$this->get_list_query()
 				);
 				break;
@@ -296,7 +291,7 @@ class RB_Metadata
 			 */
 			case RB_Metadata::HTML_TYPE_SELECT:
 				$retour .= call_user_func(
-					'wp_dropdown_'.$this->get_dropdown_query()['type'], 
+					sprintf('wp_dropdown_%s', $this->get_dropdown_query()['type']), 
 					$this->get_dropdown_query()
 				);
 				break;
@@ -306,8 +301,7 @@ class RB_Metadata
 			 *            ------
 			 */
 			case RB_Metadata::HTML_TYPE_RADIO:
-				// TODO le rendu.
-				// TODO itération.
+				// Ne sera probablement pas implémenté.
 				break;
 			
 			/**           ---------
@@ -315,8 +309,7 @@ class RB_Metadata
 			 *            ---------
 			 */
 			case RB_Metadata::HTML_TYPE_CHECKBOX:
-				// TODO le rendu.
-				// TODO itération.
+				// Ne sera probablement pas implémenté.
 				break;
 			
 			/**           -----
@@ -326,11 +319,11 @@ class RB_Metadata
 			case RB_Metadata::HTML_TYPE_DATE:
 				// TODO le rendu.
 				$retour .= '<input '
-				           . $this->render_attribute( 'type', 'date' )
-				           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
-				           . $this->render_attribute( 'name'.( $iterator instanceof ArrayIterator ? '[]' : '' ) ) 
-				           . $this->render_attribute( 'value', $this->render_data($value) )
-				           . '/>';
+			           . $this->render_attribute( 'type', 'date' )
+			           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
+			           . $this->render_attribute( 'name' ) 
+			           . $this->render_attribute( 'value', $this->render_data($value) )
+			           . '/>';
 				
 				$retour = $this->render_html( $post, $retour, $iterator );
 				break;
@@ -342,11 +335,11 @@ class RB_Metadata
 			case RB_Metadata::HTML_TYPE_TIME:
 				// TODO le rendu.
 				$retour .= '<input '
-				           . $this->render_attribute( 'type', 'time' )
-				           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
-				           . $this->render_attribute( 'name'.( $iterator instanceof ArrayIterator ? '[]' : '' ) )
-				           . $this->render_attribute( 'value', $this->render_data($value) )
-				           . '/>';
+			           . $this->render_attribute( 'type', 'time' )
+			           . $this->render_attribute( 'id' ) // id="'.$this->get_key.'"
+			           . $this->render_attribute( 'name' )
+			           . $this->render_attribute( 'value', $this->render_data($value) )
+			           . '/>';
 				
 				$retour = $this->render_html( $post, $retour, false );
 				break;
@@ -362,7 +355,7 @@ class RB_Metadata
 				break;
 		endswitch;
 		
-		return $retour;
+		return $retour . "</tr><tr>";
 	}
 	
 	/**
@@ -380,30 +373,13 @@ class RB_Metadata
 		$retour = $value;
 		
 		switch ( $this->get_data_type() ) :
-			/**           -------
-			 * @data-type String
-			 *            -------
-			 */
+
 			case RB_Metadata::DATA_TYPE_TEXT:
-				// TODO le rendu.
-				break;
-			
-			/**           --------
-			 * @data-type Integer
-			 *            --------
-			 */
 			case RB_Metadata::DATA_TYPE_NUMBER:
-				// TODO le rendu.
-				break;
-			
-			/**           ------------
-			 * @data-type Adresse URL
-			 *            ------------
-			 */
 			case RB_Metadata::DATA_TYPE_URL:
 				// TODO le rendu.
 				break;
-			
+
 			/**           --------
 			 * @data-type Fichier
 			 *            --------
@@ -483,30 +459,6 @@ class RB_Metadata
 		return ' ' . $attribute . '="' . $shown_attr . '" ';
 	}
 	
-	/**
-	 * Effectue le query pour la metabox.
-	 *
-	 * @param Mixed    $valeur     La valeur à utiliser pour le query.
-	 * @param Int|Null $iter_html  L'itération courante du rendu du HTML.
-	 * @param Int|Null $iter_query L'itération courante de cette fonction-ci.
-	 */
-	private function render_metabox_query( $valeur, $iter_html = null, $iter_query = null )
-	{
-		// Déclarer les valeurs par défaut.
-		
-		// Si la query d'itération n'est pas instanciée, la mettre à la query de la metabox.
-		if ( null === $iter_query )
-		{
-			
-			$iter_query = new WP_Query($this->metabox_query);
-		}
-		
-		if ( $iter_query->have_posts() )
-		{
-			$iter_query->get_posts();
-		}
-	}
-	
 	//</editor-fold>
 	// ---
 	//<editor-fold desc="// GETTERS">
@@ -524,6 +476,49 @@ class RB_Metadata
 	 * @return String Le type de donnée.
 	 */
 	public function get_data_type() { return $this->data_type; }
+	
+	/**
+	 * Retourne la valeur pour l'attribut « type ».
+	 */
+	public function get_type_attribute() 
+	{
+		$retour = $this->get_data_type();
+		
+		switch ( $retour )
+		{
+			/**           --------
+			 * @data-type Fichier
+			 *            --------
+			 */
+			case RB_Metadata::DATA_TYPE_FILE:
+				// TODO le rendu.
+				break;
+			
+			/**           --------------------
+			 * @data-type Monnaie $$$ (float)
+			 *            --------------------
+			 */
+			case RB_Metadata::DATA_TYPE_CURRENCY:
+				// TODO le rendu.
+				$retour = 'number';
+				break;
+			
+			/**           -----------------
+			 * @data-type Booléen (0 ou 1)
+			 *            -----------------
+			 */
+			case RB_Metadata::DATA_TYPE_BOOL:
+				// TODO le rendu.
+				break;
+			
+			/** Par défaut. */
+			default:
+				$retour = $this->get_data_type();
+				break;
+		}
+		
+		return $retour;
+	}
 	
 	/**
 	 * Getter pour le type de modèle HTML utilisé pour afficher la valeur.
@@ -580,7 +575,6 @@ class RB_Metadata
 	 * @return Array|Null
 	 */
 	public function get_list_query() { return $this->list_query; }
-	
 	
 	/**
 	 * TODO DESCR
@@ -766,11 +760,11 @@ class RB_Metadata
 	public function set_list_query( $list_query ) 
 	{
 		$defaults = array(
-			'post_type' => 'post',
+			'type' => 'pages',
 			// TODO les arguments par défaut.
 		);
 		
-		wp_parse_args( $list_query, $defaults );
+		$list_query = wp_parse_args( $list_query, $defaults );
 		
 		$ok = $this->valider_list_query( $list_query );
 		
@@ -790,11 +784,11 @@ class RB_Metadata
 	public function set_dropdown_query( $dropdown_query )
 	{
 		$defaults = array(
-			'post_type' => 'post',
+			'type' => 'pages',
 			// TODO les arguments par défaut.
 		);
 		
-		wp_parse_args( $dropdown_query, $defaults );
+		$list_query = wp_parse_args( $dropdown_query, $defaults );
 		
 		$ok = $this->valider_dropdown_query( $dropdown_query );
 		
@@ -858,7 +852,6 @@ class RB_Metadata
 	private function valider_data_type( $data_type )
 	{
 		$var = array_search( $data_type, self::get_valid_data_types() );
-		var_dump($var);
 		return ( $var );
 	}
 	

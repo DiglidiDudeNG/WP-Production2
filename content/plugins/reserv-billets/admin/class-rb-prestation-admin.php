@@ -46,10 +46,6 @@ class RB_Prestation_Admin extends RB_Admin
 		// Pogner toutes les metadonnées.
 		$post_metas = get_post_meta( $prestation->ID );
 		
-		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY )
-			var_dump( $post_metas );
-		
 		?>
 		<table width="100%">
 		<tr>

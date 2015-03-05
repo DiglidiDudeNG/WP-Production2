@@ -60,10 +60,6 @@ class RB_Spectacle_Admin extends RB_Admin
 		// Pogner toutes les metadonnées.
 		$spectacle_metas = get_post_meta( $spectacle->ID );
 		
-		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY )
-			var_dump( $spectacle_metas );
-		
 		// Effectue la recherche des metadonnées.
 		foreach ( $this->metadatas as $meta_key => $meta_args )
 		{

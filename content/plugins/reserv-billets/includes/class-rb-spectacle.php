@@ -87,7 +87,6 @@ class RB_Spectacle extends RB_Section
 					'list_query'    => array(
 						'post_type' => 'prestation',
 						'meta_key'  => 'rb_prestation_spectacle_id',
-						
 					),
 					'column_query'       => array(
 						'post_type'      => 'prestation',
@@ -116,7 +115,7 @@ class RB_Spectacle extends RB_Section
 					'default'   => 1.00,
 				),
 				/* caroussel, bandeau et mini */
-				'rb_spectacle_img_mini' => array(
+				'rb_spectacle_img_mini_url' => array(
 					'html_type' => 'input',
 					'data_type' => 'file',
 					'label'     => __( "Image Miniature" ),
