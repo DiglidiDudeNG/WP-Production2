@@ -1,4 +1,10 @@
 <?php
+
+	require(locate_template("etape1.php"));
+
+?>
+
+<?php
 /*
 Template Name: Achat
 */
@@ -10,6 +16,8 @@ Template Name: Achat
 <div class="container">
 	<div class="achat-container">
 		<h2>Achat</h2>
+
+
 	</div>
 </div>
 
