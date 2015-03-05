@@ -74,8 +74,8 @@ button.btn-savoir {
     padding-bottom: 50px; } }
 @media screen and (min-width: 992px) {
   .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
-    height: 500px !important;
-    max-width: auto !important; }
+    height: auto !important;
+    width: 100% !important; }
 
   button.btn-savoir {
     margin-bottom: 75px;
@@ -94,7 +94,10 @@ button.btn-savoir {
     margin-bottom: 35px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 74px; } }
+    padding-bottom: 8px; } }
+@media screen and (min-width: 1200px) {
+  #contenu-site .carousel-caption {
+    padding-bottom: 75px; } }
 #contenu-site {
   margin-top: 79px; }
 
@@ -189,7 +192,7 @@ button {
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   #contenu-site {
-    margin-top: 79px; }
+    margin-top: 94px; }
 
   #contenu-site h1 {
     font-size: 45px; }
@@ -219,6 +222,9 @@ button {
   #contenu-site p {
     font-size: 16px; } }
 /* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  #contenu-site {
+    margin-top: 104px; } }
 #logo {
   font: 100% "Quicksand", sans-serif;
   font-size: 20px;
@@ -346,6 +352,12 @@ button {
   margin: 0 auto; }
   .postContainer img {
     max-width: 100%; }
+
+.title-month {
+  margin-bottom: 42px;
+  margin-top: 20px;
+  margin-left: 15px;
+  font-weight: 400 !important; }
 
 .spectacles-a-venir-container {
   padding-top: 2px; }

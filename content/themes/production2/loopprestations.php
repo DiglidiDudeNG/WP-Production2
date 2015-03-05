@@ -125,7 +125,7 @@
 								if(!isset($mois_prestation_precedente)){
 
 									// Affichage du mois de la prestation courante
-									echo "<div>$prestation_mois_full</div>";
+									echo "<h3 class='title-month'>$prestation_mois_full</h3>";
 								}
 								// Si le mois de la prestation courante n'est pas le même que le mois de la prestation précédente
 								elseif($prestation_mois_full !== $mois_prestation_precedente){
@@ -135,7 +135,7 @@
 									// Affichage du mois de la prestation courante
 									echo "</div>
 										  <div class='row'>
-										  	<div>$prestation_mois_full</div>";
+										  	<h3 class='title-month'>$prestation_mois_full</h3>";
 								}
 
 								// Récupération du mois de la prestation courante qui agira comme prestation précédente pour la prochaine évaluation
