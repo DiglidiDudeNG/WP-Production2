@@ -13,6 +13,22 @@ Template Name: Achat
 	</div>
 </div>
 
+<?php
+	//include_once("include/etape1.php");
+?>
+
+<?php
+	include_once("include/etape2.php");
+?>
+
+<?php
+	include_once("include/etape3.php");
+?>
+
+<?php
+	include_once("include/etape4.php");
+?>
+
 	<!-- fin du contenu de la page achat.php -->
 
 <?php get_footer(); ?>
