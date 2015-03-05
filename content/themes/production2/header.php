@@ -49,6 +49,7 @@
                   </div>
                 </div>
               </form>
+              <p class="telephone-header">Téléphone: 418 123 4567</p>
             </div>
           </div><!--/.nav-collapse -->
         </div>
