@@ -22,11 +22,11 @@ Template Name: Achat
 ?>
 
 <?php
-	//include_once("include/etape3.php");
+	include_once("include/etape3.php");
 ?>
 
 <?php
-	//include_once("include/etape4.php");
+	include_once("include/etape4.php");
 ?>
 
 	<!-- fin du contenu de la page achat.php -->
