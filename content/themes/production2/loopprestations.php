@@ -197,10 +197,14 @@
 
 				// Si recherche infructueuse
 				if($rechercheInfructueuse == true){
-				echo '<p>Aucun spectacle ne correspond à votre recherche</p>';
+				echo 	'<div class="rechercheInfructueuse">
+							<p>Aucun spectacle ne correspond à votre recherche.</p>
+						</div>';
 				}
 			}
 
 			// Si Query des prestations ne retourne aucun résultat
-			else echo '<p>Aucun spectacle à afficher</p>';
+			else echo 	'<div class="rechercheInfructueuse">
+							<p>Aucun spectacle à afficher.</p>
+						</div>';
 		?>
