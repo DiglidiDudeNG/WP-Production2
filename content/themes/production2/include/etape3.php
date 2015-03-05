@@ -25,5 +25,7 @@
 			<input type="text" name="verifcarte" id="verifcarte" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />  
 		</p>
 	</form>
+	
+	<button type="submit" class="btn">Étape suivante</button>
 
 </section>
