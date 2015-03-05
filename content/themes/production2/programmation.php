@@ -72,7 +72,7 @@ Template Name: Programmation
 
 					// Pour chaque catégorie active, affichage dans la liste
 					foreach($categories as $category) {
-				    	echo '<option data-link="' . get_bloginfo('url') . '/programmation?selection_categorie=' . $moisCourantValeur . '">' . $category->name . '</option>';
+				    	echo '<option data-link="' . get_bloginfo('url') . '/programmation?selection_categorie=' . $category->name . '">' . $category->name . '</option>';
 				    }
 				?>
 			</select>
