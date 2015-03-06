@@ -140,10 +140,9 @@
 	<!-- choix du type de carte -->
 	<label class="radio-inline">
 		<input type="radio" name="visa" id="visa" value="visa"> Visa
-	</label>
-	<label class="radio-inline">
 		<input type="radio" name="mastercard" id="mastercard" value="mastercard"> Mastercard
 	</label>
+
 
 	<!-- champs pour entrer les infos de la carte -->
 	<form>	
@@ -153,10 +152,10 @@
 		<p><label for="nocarte"> Numéro de la carte </label>
 			<input type="text" name="nocarte" id="nocarte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />  
 		</p>
-				<p><label for="expirationcarte"> Expiration </label>
+		<p><label for="expirationcarte"> Expiration </label>
 			<input type="text" name="expirationcarte" id="expirationcarte" value="<?php if (isset ($_POST['expirationcarte'])){ echo $expirationcarte;} ?>" required  />  
 		</p>
-				<p><label for="verifcarte"> No. de vérification </label>
+		<p><label for="verifcarte"> No. de vérification </label>
 			<input type="text" name="verifcarte" id="verifcarte" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />  
 		</p>
 	</form>
