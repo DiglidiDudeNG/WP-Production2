@@ -8,11 +8,9 @@
 	
 	<form class="form-horizontal">
 		<div class="form-group">
-		
-
-			<label for="inputEmail3" class="col-sm-2 control-label">Courriel</label>
+			<label for="courriel" class="col-sm-2 control-label">Courriel</label>
 			<div class="col-sm-10">
-				<input type="email" class="form-control" id="inputEmail3" placeholder="Courriel">
+				<input type="email" class="form-control" id="courriel" placeholder="Courriel">
 			</div>
 		</div>
 <!-- case à cocher du courriel -->
@@ -31,7 +29,7 @@
 	
 	<div class="adresse-facturation">
 		<p>Adresse de facturation</p> 
-		<form action="<?php the_permalink(); ?>" id="contactForm" method="post" onsubmit="return valider_contact(this);">
+		<form action="<?php the_permalink(); ?>" id="facturationform" method="post" onsubmit="return valider_contact(this);">
 		
 			<p><label for="nom"> Nom </label>
 				<input type="text" name="nom" id="nom" value="<?php if (isset ($_POST['nom'])){ echo $nom;} ?>" required  />   
@@ -77,30 +75,30 @@
 	<!-- Div pour mettre adresse de livraison si nécessaire à côté de l'autre adresse ou changer pour courriel ???  -->	
 	<div class="adresse-livraison">
 		<p>Adresse de livraison</p> 
-		<form action="<?php the_permalink(); ?>" id="contactForm" method="post" onsubmit="return valider_contact(this);">
+		<form action="<?php the_permalink(); ?>" id="livraisonform" method="post" onsubmit="return valider_contact(this);">
 		
-			<p><label for="nom"> Nom </label>
-				<input type="text" name="nom" id="nom" value="<?php if (isset ($_POST['nom'])){ echo $nom;} ?>" required  />   
+			<p><label for="noml"> Nom </label>
+				<input type="text" name="noml" id="noml" value="<?php if (isset ($_POST['noml'])){ echo $noml;} ?>" required  />   
 			</p>
 
-			<p><label for="prenom"> Prénom </label>
-				<input type="text" name="prenom" id="prenom" value="<?php if (isset ($_POST['prenom'])){ echo $prenom;} ?>" required  />  
+			<p><label for="prenoml"> Prénom </label>
+				<input type="text" name="prenoml" id="prenoml" value="<?php if (isset ($_POST['prenoml'])){ echo $prenoml;} ?>" required  />  
 			</p>
 			
-			<p><label for="adresse"> Adresse </label>
-				<input type="text" name="adresse" id="adresse" value="<?php if (isset ($_POST['adresse'])){ echo $adresse;} ?>" required  />  
+			<p><label for="adressel"> Adresse </label>
+				<input type="text" name="adressel" id="adressel" value="<?php if (isset ($_POST['adressel'])){ echo $adressel;} ?>" required  />  
 			</p>
 			
-			<p><label for="ville"> Ville </label>
-				<input type="text" name="ville" id="ville" value="<?php if (isset ($_POST['ville'])){ echo $ville;} ?>" required  />  
+			<p><label for="villel"> Ville </label>
+				<input type="text" name="villel" id="villel" value="<?php if (isset ($_POST['villel'])){ echo $villel;} ?>" required  />  
 			</p>
 			
-			<p><label for="codepostal"> Code postal </label>
-				<input type="text" name="codepostal" id="codepostal" value="<?php if (isset ($_POST['codepostal'])){ echo $codepostal;} ?>" required  />  
+			<p><label for="codepostall"> Code postal </label>
+				<input type="text" name="codepostall" id="codepostall" value="<?php if (isset ($_POST['codepostall'])){ echo $codepostall;} ?>" required  />  
 			</p>
 			
-			<p><label for="province"> Province </label>	
-				<select class="form-control" type="text" name="province" id="province" required >
+			<p><label for="provincel"> Province </label>	
+				<select class="form-control" type="text" name="provincel" id="provincel" required >
 					<option value="<?php if (isset ($_POST['alberta'])){ echo $alberta;} ?>">Alberta</option>
 					<option value="<?php if (isset ($_POST['cb'])){ echo $cb;} ?>">Colombie-Britanique</option>
 					<option value="<?php if (isset ($_POST['ipe'])){ echo $ipe;} ?>">Ile-du-Prince-Édouard</option>
@@ -116,8 +114,8 @@
 				</select>			
 			</p>
 			
-			<p><label for="pays"> Pays </label>
-				<input type="text" name="pays" id="pays" placeholder="Canada" value="<?php if (isset ($_POST['pays'])){ echo $pays;} ?>" required  />  
+			<p><label for="paysl"> Pays </label>
+				<input type="text" name="paysl" id="paysl" placeholder="Canada" value="<?php if (isset ($_POST['paysl'])){ echo $paysl;} ?>" required  />  
 			</p>
 		</div>	
 
@@ -174,7 +172,7 @@
 	<p>Bouton soumettre qui va effectuer l'achat, enlever un billet dans la bd et envoyer un courriel de confirmation et valider php</p>
 	<p> une autre page sera nécessaire pour afficher la confirmation ou avec un modal ou en ajax??? </p>
 
-	<form action="<?php the_permalink(); ?>" id="contactForm" method="post" onsubmit="return valider_contact(this);">	
+	<form action="<?php the_permalink(); ?>" id="formsubmit" method="post" onsubmit="return valider_contact(this);">	
 		<input type="hidden" name="submitted" id="submitted" value="true" /><button type="submit" class="btn">Commander</button>
 	</form>
 </section>
