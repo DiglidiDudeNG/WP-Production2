@@ -29,7 +29,7 @@
 	
 	<div class="adresse-facturation">
 		<p>Adresse de facturation</p> 
-		<form action="<?php the_permalink(); ?>" id="facturationform" method="post" onsubmit="return valider_contact(this);">
+		<form action="<?php the_permalink(); ?>" name="facturationform" id="facturationform" method="post" onsubmit="return valider_contact(this);">
 		
 			<p><label for="nom"> Nom </label>
 				<input type="text" name="nom" id="nom" value="<?php if (isset ($_POST['nom'])){ echo $nom;} ?>" required  />   
@@ -138,9 +138,9 @@
 <section id="paiement">			
 	<h2>Paiement</h2>  
 	<!-- choix du type de carte -->
-	<label class="radio-inline">
-		<input type="radio" name="visa" id="visa" value="visa"> Visa
-		<input type="radio" name="mastercard" id="mastercard" value="mastercard"> Mastercard
+	<label class="radio-inline" id="choixcarte">
+		<input type="radio" name="choixcarte" id="visa" value="visa"> Visa
+		<input type="radio" name="choixcarte" id="mastercard" value="mastercard"> Mastercard
 	</label>
 
 
@@ -152,7 +152,7 @@
 		<p><label for="nocarte"> Numéro de la carte </label>
 			<input type="text" name="nocarte" id="nocarte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />  
 		</p>
-		<p><label for="expirationcarte"> Expiration </label>
+		<p><label for="expirationcarte"> Expiration (mm/aa) </label>
 			<input type="text" name="expirationcarte" id="expirationcarte" value="<?php if (isset ($_POST['expirationcarte'])){ echo $expirationcarte;} ?>" required  />  
 		</p>
 		<p><label for="verifcarte"> No. de vérification </label>
