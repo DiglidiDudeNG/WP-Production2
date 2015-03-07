@@ -174,7 +174,7 @@
 													<div class="spectacle-content">
 														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
 														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
-														<a href="<?php echo bloginfo('url'); ?>/achat?etape1=true&id_prestation=<?php echo $prestation_id; ?>&id_spectacle=<?php echo $spectacle_courant_id; ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
+														<a href="<?php echo bloginfo('url'); ?>/achat?etape=1&id_prestation=<?php echo $prestation_id; ?>&id_spectacle=<?php echo $spectacle_courant_id; ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
 														<a href="<?php echo the_permalink(); ?>" class="button btn-spectacle-info">En savoir plus</a>
 													</div>
 												</div>
