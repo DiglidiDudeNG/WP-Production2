@@ -151,6 +151,9 @@
 											<div class="spectacle-front front">
 												<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
 												<div class="spectacle-info">
+													<!-- ICI METTRE CONDITION DE SI COMPLET -->
+													<!-- <div class="spectacle-bandeau">Complet</div> -->
+													<!-- / condition de si complet -->
 													<div class="spectacle-info-name">
 														<span class="text"><?php echo $prestation_title; ?></span>
 													</div>
@@ -174,8 +177,14 @@
 													<div class="spectacle-content">
 														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
 														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
-														<a href="<?php echo bloginfo('url'); ?>/achat?etape=1&id_prestation=<?php echo $prestation_id; ?>&id_spectacle=<?php echo $spectacle_courant_id; ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
-														<a href="<?php echo the_permalink(); ?>" class="button btn-spectacle-info">En savoir plus</a>
+														<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+															<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
+															<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
+															<input type="hidden" name="etape" id="etape" value="1">
+
+															<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
+														</form>
+														<a href="<?php echo the_permalink(); ?>" class="btn btn-parenthese">En savoir plus</a>
 													</div>
 												</div>
 											</div>
