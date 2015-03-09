@@ -8,7 +8,8 @@
 class RB_Prestation extends RB_Section
 {
 	/** @const  String Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'prestation';
+	const DEFAULT_SLUG = 'prestation';
+	const DEFAULT_NB_BILLETS = 500;
 	
 	/** @var RB_Prestation_Admin L'objet d'administration du post_type Prestation. */
 	public $admin;
@@ -49,6 +50,8 @@ class RB_Prestation extends RB_Section
 	 */
 	public function creer_objet_admin()
 	{
+		$default_billets = get_option('rb_billets_par_defaut', null);
+		
 		// Définir la table d'arguments.
 		$args = array(
 			'version'       => $this->get_version(),
@@ -65,37 +68,31 @@ class RB_Prestation extends RB_Section
 			),
 			'metadatas' => array( // Les Metadatas.
 				'rb_prestation_spectacle_id' => array( // L'ID du spectacle relié.
-					'type'          => 'input:select',
-					'name'          => 'Spectacle',
-					'default'       => '0',
-					'in_columns'    => true,
-					'is_query'      => true,
-					'metabox_query' => array(
-						'post_type'  => 'spectacle',
-					), // TODO adapter à nouvelle façon.
-					'column_query'  => array( 
-						'post_type'  => 'spectacle',
-						'meta_key'   => '',
-					), // TODO adapter à nouvelle façon.
+					'label'          => 'Spectacle',
+					'default'        => '0',
+					'in_columns'     => true,
+					'is_query'       => true,
+					'render_cb'      => array($this, 'render_rb_prestation_spectacle_id'),
 				),
 				'rb_prestation_date' => array( // La date.
-					'type'       => 'input:date',
-					'name'       => 'Date',
-					'default'    => '2014-02-15',
-					'in_columns' => true, 
-					// TODO ajouter le validate_cb
+					'label'      => 'Date',
+					'default'    => date("dd-MM-yyyy"),
+					'in_columns' => true,
+					'render_cb'  => array($this, 'render_rb_prestation_date'),
 				),
 				'rb_prestation_heure' => array( // L'heure.
-					'type'       => 'input:time',
-					'name'       => 'Heure',
-					'default'    => '01:00',
+					'label'      => 'Heure',
+					'default'    => '19:00',
 					'in_columns' => true,
-					// TODO ajouter le validate_cb
+					'render_cb'  => array($this, 'render_rb_prestation_heure'),
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
-					'name'       => 'Billets restants',
-					'default'    => get_option('rb_billets_par_defaut'),
+					'label'      => 'Billets restants',
+					'default'    => is_null($default_billets) 
+									? /*TRUE:*/  self::DEFAULT_NB_BILLETS 
+									: /*FALSE:*/ $default_billets,
 					'in_columns' => true,
+					'render_cb'  => array($this, 'render_rb_prestation_nb_billets'),
 				),
 			),
 			'metaboxes' => array(
@@ -103,7 +100,7 @@ class RB_Prestation extends RB_Section
 					'id'            => 'rb_prestation_general',
 					'title'         => 'Infos générales de la Prestation',
 					'show_dashicon' => true,
-					'callback_tag'  => 'info', // sera 'render_info_metabox'
+					'screen'        => 'prestation',
 					'context'       => 'normal',
 					'priority'      => 'high',
 					'metadatas'     => [ 'rb_prestation_spectacle_id', 'rb_prestation_date', 'rb_prestation_heure' ],
@@ -113,9 +110,9 @@ class RB_Prestation extends RB_Section
 					'title'         => 'Nb de billets restants',
 					'show_dashicon' => true,
 					'dashicon'      => 'tickets-alt',
-					'callback_tag'  => 'billets',
+					'screen'        => 'prestation',
 					'context'       => 'side',
-					'priority'      => 'high',
+					'priority'      => 'low',
 					'metadatas'     => [ 'rb_prestation_nb_billets' ],
 				)
 			),
@@ -132,18 +129,15 @@ class RB_Prestation extends RB_Section
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
-	 *
-	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_prestation_admin_hooks(RB_Loader $loader)
+	protected function define_other_hooks()
 	{
-		
+		// Ajoutez c'que vous voulez là !
 	}
 
-	/* ################################ */
-	/* DÉBUT DES FONCTIONS DE CALLBACKS */
-	/* ################################ */
-
+	/**
+	 * Crée le post-type.
+	 */
 	public function create_post_type()
 	{
 		// Déclarer les labels du post-type.
@@ -188,7 +182,7 @@ class RB_Prestation extends RB_Section
 			'menu_icon'           => 'dashicons-tickets-alt', // Icône bin sympa
 			'can_export'          => true, // Pour faire des backups.
 			'has_archive'         => true, // Eh, why not?
-			'exclude_from_search' => true, // On veut être capable de les rechercher.
+			'exclude_from_search' => true, // On veut PAS être capable de les rechercher.
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'post', // C'est pas vraiment un post.
@@ -196,5 +190,91 @@ class RB_Prestation extends RB_Section
 
 		// Enregistre le post-type à l'aide de la liste d'arguments.
 		register_post_type( 'prestation', $args );
+	}
+	
+	/**
+	 * render_rb_prestation_spectacle_id
+	 * 
+	 * @param int         $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_prestation_spectacle_id( $post_id, $metadata )
+	{
+		global $post;
+		
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$posts = get_posts(array(
+			'post_type'  => 'spectacle',
+        ));
+		
+		if ( ! empty( $posts ) ) 
+		{
+			$retour = "<select name='" . $metadata->get_key() . "' id='" . $metadata->get_key() . "'>\n";
+			
+			/** @var WP_Post $post */
+			foreach ($posts as $post) 
+			{
+				$retour .= '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+			}
+			
+			$retour .= "</select>\n";
+		}
+		else
+		{
+			$retour = "<p>Aucun spectacle trouvé.</p>";
+		}
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_prestation_date
+	 * 
+	 * @param int         $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_prestation_date( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="date" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '" />';
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_prestation_heure
+	 * 
+	 * @param int         $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_prestation_heure( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="time" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '" />';
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_prestation_nb_billets
+	 * 
+	 * @param int         $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_prestation_nb_billets( $post_id, $metadata ) {
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="number" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '" />';
+		
+		// TODO changer ça.
+		
+		return $retour;
 	}
 }

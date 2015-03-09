@@ -23,6 +23,10 @@ class RB_Spectacle extends RB_Section
 {
 	/** @const string Le nom de la slug par défaut. */
 	const SLUG_DEFAULT = 'spectacle';
+	
+	/** @var RB_Loader Le loader.
+	 */
+	public $loader;
 
 	/**
 	 * Constructeur. Fais pas mal de choses.
@@ -75,52 +79,97 @@ class RB_Spectacle extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
+				/* Liste des IDs des prestations. */
 				'rb_spectacle_liste_prestation_id' => array(
-					'type'          => 'link:json', // Premier = type d'HTML; Deuxième = type de variable.
-					'name'          => __( 'Liste des Prestations' ),
+					'label'         => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
 					'is_query'      => true,
-					'metabox_query' => array( 
+					'list_query'    => array(
 						'post_type' => 'prestation',
 						'meta_key'  => 'rb_prestation_spectacle_id',
-						 // TODO trouver quoi envoyer comme meta_value.
 					),
-				    'column_query' => array(
-					    'post_type'  => 'prestation',
-					    'meta_key'   => 'rb_prestation_spectacle_id', // TODO adapter.
-				    ),
+					'column_query'       => array(
+						'post_type'      => 'prestation',
+						'meta_key'       => 'rb_prestation_spectacle_id', // TODO adapter.
+						'meta_value_num' => '%i',
+						'orderby'        => '',
+					    'order'          => 'DESC',
+					),
+					'render_cb'          => array($this, 'render_rb_spectacle_liste_prestation_id')
 				),
+				/* Urls */
 				'rb_spectacle_artiste_site_url' => array(
-					'type'       => 'input:url',
-					'name'       => __( "URL du site de l'artiste" ),
-					'default'    => '#',
+					'label'     => __( "URL du site de l'artiste" ),
+					'default'   => '#',
+					'render_cb' => array($this, 'render_rb_spectacle_artiste_site_url'),
 				),
 				'rb_spectacle_artiste_facebook_url' => array(
-					'type'       => 'input:url',
-				    'name'       => __( "URL du Facebook de l'artiste" ),
-					'default'    => '#',
+				    'label'     => __( "URL du Facebook de l'artiste" ),
+					'default'   => '#',
+				    'render_cb' => array($this, 'render_rb_spectacle_artiste_facebook_url'),
 				),
+				/* Prix */
 				'rb_spectacle_prix' => array(
-					'type'       => 'input:currency',
-					'name'       => __( "Prix d'entrée pour une personne" ),
-					'default'    => 1.00,
+					'label'     => __( "Prix du billet" ),
+					'default'   => 1.00,
+					'render_cb' => array($this, 'render_rb_spectacle_prix'),
+				),
+				/* caroussel, bandeau et mini */
+				'rb_spectacle_img_mini_url' => array(
+					'label'     => __( "Image Miniature" ),
+					'is_file_upload' => true,
+					'render_cb' => array($this, 'render_rb_spectacle_img_mini_url'),
+				),
+				'rb_spectacle_img_caroussel_url' => array(
+					'label'     => __( "Image dans le Caroussel" ),
+					'is_file_upload' => true,
+					'render_cb' => array($this, 'render_rb_spectacle_img_caroussel_url'),
+				),
+				'rb_spectacle_img_bandeau_url' => array(
+					'label'     => __( "Image dans la Page du Spectacle (bandeau)" ),
+					'is_file_upload' => true,
+					'render_cb' => array($this, 'render_rb_spectacle_img_bandeau_url'),
 				),
 			),
 			'metaboxes' => array(
-				array(
+				array( // Infos de l'artiste.
 					'id'            => 'rb_spectacle_artiste_infos',
 					'title'         => 'Infos générales du Spectacle',
 					'show_dashicon' => true,
-					'callback_tag'  => 'info', // sera 'render_info_metabox'
+					'screen'        => 'spectacle',
 					'context'       => 'normal',
-					'priority'      => 'high',
+					'priority'      => 'core',
 					'metadatas'     => [
 						'rb_spectacle_artiste_site_url',
 						'rb_spectacle_artiste_facebook_url',
 						'rb_spectacle_prix',
 					],
-				)
+				),
+				array( // Infos des prestations.
+					'id'            => 'rb_spectacle_info_prestations',
+					'title'         => 'Infos des prestations',
+					'show_dashicon' => true,
+					'dashicon'      => 'tickets-alt',
+					'screen'        => 'spectacle',
+					'context'       => 'normal',
+					'priority'      => 'core',
+					'metadatas'     => [ 'rb_spectacle_liste_prestation_id' ],
+				),
+			    array( // Uploader d'images.
+		            'id'            => 'rb_spectacle_images',
+				    'title'         => "Images Promotionnelles",
+				    'show_dashicon' => true,
+				    'dashicon'      => 'format-gallery',
+				    'screen'        => 'spectacle',
+				    'context'       => 'side',
+				    'priority'      => 'core',
+				    'metadatas'     => [
+					    'rb_spectacle_img_mini_url',
+					    'rb_spectacle_img_caroussel_url',
+					    'rb_spectacle_img_bandeau_url',
+				    ],
+			    ),
 			),
 		);
 		
@@ -130,17 +179,18 @@ class RB_Spectacle extends RB_Section
 		return new $nom_classe( self::SLUG_DEFAULT, $args );
 	}
 	
+	
 	/**
 	 * Définit les hooks spécifiques au panneau d'administration des Spectacles.
+	 * 
+	 * Est là au cas où on a besoin d'autres hooks que ceux de la classe parent.
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
-	 *
-	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_spectacle_admin_hooks(RB_Loader $loader)
+	public function define_other_hooks()
 	{
-		
+		// Ajoutez c'que vous voulez là !
 	}
 
 	/**
@@ -198,5 +248,141 @@ class RB_Spectacle extends RB_Section
 
 		// Enregistre le post-type à l'aide de la liste d'arguments.
 		register_post_type( self::SLUG_DEFAULT, $args );
+	}
+	
+	/**
+	 * Effectue le rendu de rb_spectacle_liste_prestation_id.
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_liste_prestation_id( $post_id, $metadata )
+	{
+		// Déclarer variables locales
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$JSONtoArray = json_decode( false, '' );
+		$retour = '';
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_spectacle_artiste_site_url
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_artiste_site_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="url" id="' . $metadata->get_key() 
+		          . '" name="' . $metadata->get_key() 
+		          . '" value="' . $valeur . '" />';
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_spectacle_artiste_facebook_url
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_artiste_facebook_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="url" id="' . $metadata->get_key() 
+		          . '" name="' . $metadata->get_key() 
+		          . '" value="' . $valeur . '" />';
+		
+		return $retour;
+	}
+
+/**
+	 * render_rb_spectacle_prix
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_prix( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="number" id="' . $metadata->get_key() 
+		          . '" name="' . $metadata->get_key() 
+		          . '" min="1.00" max="999.00" step="0.01" value="' . $valeur . '" />';
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_spectacle_img_mini_url
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_mini_url( $post_id, $metadata )
+	{
+		return $this->render_img($post_id, $metadata);
+	}
+	
+	/**
+	 * render_rb_spectacle_img_caroussel_url
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_caroussel_url( $post_id, $metadata )
+	{
+		return $this->render_img($post_id, $metadata);
+	}
+	
+	/**
+	 * rb_spectacle_img_bandeau_url
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_bandeau_url( $post_id, $metadata )
+	{
+		return $this->render_img($post_id, $metadata);
+	}
+	
+	/**
+	 * Effectue le rendu d'une image.
+	 * 
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_img( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '';
+		
+		if ( '' == $valeur )
+			$retour .= '<p class="description">'.__( "Vous n'avez aucune image miniature attachée à ce spectacle." ).'</p>';
+		else
+			$retour .= '<img src="'.$valeur.'" width="100%" />';
+		
+		$retour .= '</p>';
+		
+		$retour .= '<input id="' . $metadata->get_key() . '" type="file" name="' . $metadata->get_key() . '" value="' . $valeur . '"/>';
+		
+		return $retour;
 	}
 }
