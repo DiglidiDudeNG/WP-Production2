@@ -42,22 +42,24 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div class="table-responsive">
 			<table class="table panier-resume">
 				<tbody>
 					<tr class="sous-total">
-						<td colspan="4"><strong>Sous-total</strong></td>
+						<td colspan="6"><strong>Sous-total</strong></td>
 						<td>14,50</td>
 					</tr>
 					<tr class="taxes">
-						<td colspan="4"><strong>TVQ 9.975%</strong></td>
+						<td colspan="6"><strong>TVQ 9.975%</strong></td>
 						<td>2,00$</td>
 					</tr>
 					<tr class="taxes">
-						<td colspan="4"><strong>TPS 5.0%</strong></td>
+						<td colspan="6"><strong>TPS 5.0%</strong></td>
 						<td>2,00$</td>
 					</tr>
 					<tr class="total">
-						<td colspan="4" class="label-total">
+						<td colspan="6" class="label-total">
 							<strong>Total</strong>
 						</td>
 						<td>16,67$</td>
@@ -65,5 +67,9 @@
 				</tbody>
 			</table>
 		</div>
+	</form>
+	<form action="#" method="post">
+		<input class="btn btn-parenthese" type="submit" value="Étape suivante">
+
 	</form>
 </section>

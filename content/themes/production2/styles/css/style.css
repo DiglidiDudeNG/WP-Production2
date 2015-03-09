@@ -336,7 +336,8 @@ button {
   text-align: left;
   font-size: 9px;
   letter-spacing: 2px;
-  font-weight: 400; }
+  font-weight: 400;
+  font-family: "Quicksand", sans-serif; }
 
 /* Extra small devices (phones, less than 768px) */
 /* Small devices (tablets, 768px and up) */
@@ -650,9 +651,24 @@ i {
 /* Large devices (large desktops, 1200px and up) */
 /*
  *
+ *Bouton etape
+ *
+ */
+.btn-parenthese {
+  color: #fff;
+  background: #e82530;
+  padding: 11px 22px !important;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700 !important;
+  text-transform: uppercase; }
+
+/*
+ *
  *PANIER DE COMMANDE
  *
  */
+@-moz-document url-prefix() {
+  display: table-cell; }
 .etapes-achat .etape {
   margin-bottom: 30px; }
 .etapes-achat .rond-etape {
@@ -698,12 +714,10 @@ table, tr {
     font-weight: 400;
     text-transform: none;
     color: #fff; }
-  .panier-detail tbody tr, .panier-detail tfoot tr {
-    border-bottom: 1px solid #e82530 !important; }
-    .panier-detail tbody tr td, .panier-detail tfoot tr td {
-      padding: 10px 0 10px 0;
-      vertical-align: inherit !important;
-      text-align: center; }
+  .panier-detail tbody tr td, .panier-detail tfoot tr td {
+    padding: 10px 0 10px 0;
+    vertical-align: inherit !important;
+    text-align: center; }
   .panier-detail .panier-item-image {
     padding-left: 4px;
     width: 125px; }
@@ -717,7 +731,8 @@ table, tr {
         transition: all 0.2s linear; }
   .panier-detail .panier-item-description h3 {
     margin-bottom: 20px;
-    font-size: 24px !important; }
+    font-size: 24px !important;
+    text-align: left; }
     .panier-detail .panier-item-description h3 .date-spectacle {
       font-size: 13px;
       color: #651720; }
@@ -769,7 +784,8 @@ table, tr {
     height: 30px;
     padding-top: 3px; }
   .panier-detail .panier-item-description h3 {
-    font-size: 18px !important; }
+    font-size: 18px !important;
+    text-align: left; }
   .panier-detail .panier-item-image .panier-item-image-vignette {
     border-radius: 50px;
     overflow: hidden;
