@@ -20,66 +20,18 @@ class RB_Prestation_Admin extends RB_Admin
 	}
 	
 	/**
-	 * Effectue un rendu de la metabox des informations.
+	 * Effectue le rendu de L'ID du spectacle.
 	 *
-	 * @param WP_Post $prestation
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
 	 */
-	public function render_prestation_info_metabox( $prestation )
+	public function render_rb_prestation_spectacle_id( $post_id, $metadata )
 	{
-		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
+		$valeur = get_post_meta( $post_id, $metadata->get_key() );
 		
-		echo print_r($_GET);
-		
-		$select_special = array_key_exists( 'spectacle_id', $_GET ) ? $_GET['spectacle_id'] : false;
-		
-		// Pogner toutes les metadonnées.
-		$post_metas = get_post_meta( $prestation->ID );
-		
-		// Afficher le debugger si on en a besoin.
-		if ( WP_DEBUG_DISPLAY )
-			var_dump( $post_metas );
-		
-		?>
-		<table width="100%">
-		<tr>
-		<td style="width: 25%"><label for="rb_prestation_spectacle_id"><?=$this->metadatas['rb_prestation_spectacle_id']['name']?> :</label></td>
-		<td>
-		<select style="width: 95%" name="rb_prestation_spectacle_id" id="rb_prestation_spectacle_id">
-		<?php
-		
-		$args = $this->metadatas['rb_prestation_spectacle_id']['metabox_query'];
-		
-		/** @var WP_Query $loop_spectacles */
-		$loop_spectacles = new WP_Query( $args );
-		
-		while ( $loop_spectacles->have_posts() ) :
-			$loop_spectacles->the_post(); ?>
-			<option value="<?php the_ID(); ?>" <?php
-			
-			selected( $post_metas['rb_prestation_spectacle_id'][0], is_int($select_special) ? $select_special : get_the_ID() );
-			?>><?php the_title(); ?></option>
-		<?php endwhile; ?>
-		</select>
-		</td>
-		<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
-			
-		</td>
-		</tr>
-		<tr>
-			<td><label for="rb_prestation_date"><?=$this->metadatas['rb_prestation_date']['name']?> :</label></td>
-			<td><input type="date" id="rb_prestation_date" name="rb_prestation_date"
-			           value="<?=$post_metas['rb_prestation_date'][0]?>" /></td>
-		</tr>
-		<tr>
-			<td><label for="rb_prestation_heure"><?=$this->metadatas['rb_prestation_heure']['name']?> :</label></td>
-			<td><input type="time" id="rb_prestation_heure" name="rb_prestation_heure"
-			           value="<?=$post_metas['rb_prestation_heure'][0]?>" /></td>
-		</tr>
-		</table>
-	<?php
+		return '';
 	}
 	
 	/**
@@ -91,11 +43,12 @@ class RB_Prestation_Admin extends RB_Admin
 	 */
 	public function post_saved( $post_id )
 	{
+		/** @var  */
 		global $wpdb;
 		
-		$post = get_post($post_id);
+		$titre = __("Prestation")." #".$post_id . ' - ' . _draft_or_post_title(get_post_meta($post_id, 'rb_prestation_spectacle_id'));
 		
-		$title = "Prestation #".$post->ID; // Todo rendre ça mieux.
+		$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $post_id ) );
 	}
 	
 	//	/**

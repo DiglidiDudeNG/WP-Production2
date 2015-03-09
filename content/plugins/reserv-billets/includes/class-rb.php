@@ -29,10 +29,7 @@ class RB
 	protected $is_admin;
 
 	/**
-	 * Constructeur. Fais pas mal de choses!
-	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > C't'une pas pire de bonne idée d'inspecter le code pour cte fonction-là!
+	 * Constructeur. Fais pas mal de choses.
 	 *
 	 * @param String|null $custom_slug Le nom du slug, si on en veut un différent
 	 *                                 de celui par défaut.
@@ -69,19 +66,32 @@ class RB
 		require_once 'generic/generic-rb-admin.php'; // RB_Admin
 
 		// Créer le Loader.
-		require_once 'class-rb-loader.php'; // RB_Loader
-		$this->loader = new RB_Loader( $this->get_version() );
-
-		// Créer l'objet RB_Spectacle.
-		require_once 'class-rb-spectacle.php'; // RB_Spectacle
-		$this->sections["spectacle"] = new RB_Spectacle( $this->loader );
-		
-		// Créer l'objet RB_Prestation.
-		require_once 'class-rb-prestation.php'; // RB_Spectacle
-		$this->sections["prestation"] = new RB_Prestation( $this->loader );
-		
-		// Inclure les metabox.
-		//require_once '';
+		try {
+			require_once 'class-rb-loader.php'; // RB_Loader
+			$this->loader = new RB_Loader( $this->get_version() );
+			
+			// Inclure la classe RB_Metadata.
+			require_once 'class-rb-metadata.php';
+			
+			// Inclure l'interface « Interface_RB_Metabox ».
+			require_once 'interfaces/interface-rb-metabox.php';
+			// Inclure la classe « RB_Metabox ».
+			require_once 'class-rb-metabox.php';
+			
+			// Inclure la classe « RB_Spectacle ».
+			require_once 'class-rb-spectacle.php';
+			// Créer l'objet « RB_Spectacle ».
+			$this->sections['spectacle'] = new RB_Spectacle( $this->loader );
+			
+			// Inclure la classe « RB_Prestation ».
+			require_once 'class-rb-prestation.php';
+			// Créer l'objet « RB_Prestation ».
+			$this->sections['prestation'] = new RB_Prestation( $this->loader );
+		} 
+		catch (Exception $e)
+		{
+			printf($e);
+		}
 	}
 
 	/**
@@ -89,7 +99,17 @@ class RB
 	 */
 	protected function define_hooks()
 	{
-		
+		RB_Loader::queue_action( 'post_edit_form_tag', $this, 'update_edit_form');
+	}
+	
+	/**
+	 * Echo le type d'encodage dans le form.
+	 * 
+	 * @action post_edit_form_tag
+	 */
+	function update_edit_form() 
+	{
+		echo ' enctype="multipart/form-data"';
 	}
 
 	/**
@@ -113,6 +133,6 @@ class RB
 	 */
 	public function run()
 	{
-		$this->loader->run();
+		RB_Loader::run();
 	}
 }
