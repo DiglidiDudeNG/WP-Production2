@@ -16,7 +16,9 @@
 
 
 
-	// Query pour avoir les infos du spectacles
+	/**********************************************
+	 * Query pour avoir les infos du spectacles
+	 **********************************************/
 	wp_reset_postdata();
 	$wp_query_spectacles = new WP_Query(
 		array(
@@ -32,7 +34,12 @@
 	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true );
 
 
-	// Query pour avoir les infos de la prestation reliée au spectacle
+
+
+
+	/*******************************************************************
+	 * Query pour avoir les infos de la prestation reliée au spectacle
+	 *******************************************************************/
 	wp_reset_postdata();
 	$wp_query_prestations = new WP_Query(
 		array(

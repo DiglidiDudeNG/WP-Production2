@@ -6,7 +6,7 @@
 		$etape = trim($_GET['etape']);;
 		$etape = filter_var($etape, FILTER_SANITIZE_STRING);
 
-		if( $etape ==="1" ){			
+		if( $etape === "1" ){			
 			require_once(locate_template("etape1-validation.php"));
 		}
 		else{
@@ -64,7 +64,7 @@ Template Name: Achat
 				require_once(locate_template("etape4-form.php"));
 			}
 			else{
-				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet <i>Programmation</i>";;
+				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
 			}
 		?>
 
