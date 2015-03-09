@@ -7,7 +7,7 @@
 
 <!-- formulaire courriel -->			
 	
-	<form class="form-horizontal" action="" method="post">
+	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="form-horizontal" id="infos_clients_form" name="infos_clients_form" onsubmit="return valider_contact(this);" >
 		<div class="form-group">
 			<label for="courriel" class="col-sm-2 control-label">Courriel</label>
 			<div class="col-sm-10">
@@ -24,13 +24,11 @@
 				</div>
 			</div>
 		</div>
-	</form>
 
 <!-- Formulaire adresse -->
 	
-	<div class="adresse-facturation">
-		<p>Adresse de facturation</p> 
-		<form action="<?php the_permalink(); ?>" id="facturationform" method="post" onsubmit="return valider_contact(this);">
+		<div class="adresse-facturation">
+			<p>Adresse de facturation</p>
 		
 			<p><label for="nom"> Nom </label>
 				<input type="text" name="nom" id="nom" value="<?php if (isset ($_POST['nom'])){ echo $nom;} ?>" required  />   
@@ -73,10 +71,10 @@
 				<input type="text" name="pays" id="pays" placeholder="Canada" value="<?php if (isset ($_POST['pays'])){ echo $pays;} ?>" required  />  
 			</p>
 		</div>
-	<!-- Div pour mettre adresse de livraison si nécessaire à côté de l'autre adresse ou changer pour courriel ???  -->	
-	<div class="adresse-livraison">
-		<p>Adresse de livraison</p> 
-		<form action="<?php the_permalink(); ?>" id="livraisonform" method="post" onsubmit="return valider_contact(this);">
+		
+		<!-- Div pour mettre adresse de livraison si nécessaire à côté de l'autre adresse ou changer pour courriel ???  -->	
+		<div class="adresse-livraison">
+			<p>Adresse de livraison</p> 
 		
 			<p><label for="noml"> Nom </label>
 				<input type="text" name="noml" id="noml" value="<?php if (isset ($_POST['noml'])){ echo $noml;} ?>" required  />   
