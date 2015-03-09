@@ -79,8 +79,6 @@ class RB_Spectacle extends RB_Section
 			'metadatas' => array(
 				/* Liste des IDs des prestations. */
 				'rb_spectacle_liste_prestation_id' => array(
-					'html_type'     => 'ol',
-					'data_type'     => 'json',
 					'label'         => __( 'Liste des Prestations' ),
 					'default'       => '{}',
 					'in_columns'    => true,
@@ -99,38 +97,26 @@ class RB_Spectacle extends RB_Section
 				),
 				/* Urls */
 				'rb_spectacle_artiste_site_url' => array(
-					'html_type' => 'input',
-					'data_type' => 'url',
 					'label'     => __( "URL du site de l'artiste" ),
 					'default'   => '#',
 				),
 				'rb_spectacle_artiste_facebook_url' => array(
-					'html_type' => 'input',
-					'data_type' => 'url',
 				    'label'     => __( "URL du Facebook de l'artiste" ),
 					'default'   => $_SERVER['REQUEST_URI'].'#',
 				),
 				/* Prix */
 				'rb_spectacle_prix' => array(
-					'html_type' => 'input',
-					'data_type' => 'currency',
 					'label'     => __( "Prix du billet" ),
 					'default'   => 1.00,
 				),
 				/* caroussel, bandeau et mini */
 				'rb_spectacle_img_mini_url' => array(
-					'html_type' => 'input',
-					'data_type' => 'file',
 					'label'     => __( "Image Miniature" ),
 				),
 				'rb_spectacle_img_caroussel_url' => array(
-					'html_type' => 'input',
-					'data_type' => 'file',
 					'label'     => __( "Image dans le Caroussel" ),
 				),
 				'rb_spectacle_img_bandeau_url' => array(
-					'html_type' => 'input',
-					'data_type' => 'file',
 					'label'     => __( "Image dans la Page du Spectacle (bandeau)" ),
 				),
 			),

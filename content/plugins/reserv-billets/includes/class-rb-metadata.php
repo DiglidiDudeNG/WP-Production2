@@ -17,38 +17,11 @@ class RB_Metadata
 	
 	// Valeurs par défaut des arguments du constructeur.
 	const DEFAULT_KEY            = null;
-	const DEFAULT_HTML_TYPE      = 'static';
-	const DEFAULT_DATA_TYPE      = 'text';
 	const DEFAULT_LABEL          = 'Metadata sans-label';
 	const DEFAULT_DEFAULT        = '';
 	const DEFAULT_IS_SAVED       = true;
 	const DEFAULT_IN_COLUMNS     = false;
 	const DEFAULT_IS_QUERY       = false;
-	
-	// Types d'éléments HTML disponibles.
-	const HTML_TYPE_STATIC          = 'p';
-	const HTML_TYPE_STATIC_OLD      = 'static';
-	const HTML_TYPE_INPUT           = 'input';
-	const HTML_TYPE_ORDERED_LIST    = 'ol';
-	const HTML_TYPE_UNORDERED_LIST  = 'ul';
-	const HTML_TYPE_LINK            = 'a';
-	const HTML_TYPE_SELECT          = 'select';
-	const HTML_TYPE_RADIO           = 'radio';
-	const HTML_TYPE_CHECKBOX        = 'checkbox';
-	const HTML_TYPE_DATE            = 'date';
-	const HTML_TYPE_TIME            = 'time';
-	// TODO trouver d'autres types d'éléments HTML à implémenter.
-	
-	// Types de données disponibles.
-	const DATA_TYPE_TEXT     = 'text';
-	const DATA_TYPE_NUMBER   = 'number';
-	const DATA_TYPE_URL      = 'url';
-	const DATA_TYPE_FILE     = 'file';
-	const DATA_TYPE_CURRENCY = 'currency';
-	const DATA_TYPE_JSON     = 'json';
-	const DATA_TYPE_DATE     = 'date';
-	const DATA_TYPE_TIME     = 'time';
-	// TODO trouver d'autres types de données à implémenter.
 	
 	//</editor-fold>
 	// ---
@@ -56,12 +29,6 @@ class RB_Metadata
 	
 	/** @var String La clé unique de la metabox. */
 	private $key;
-	
-	/** @var String Le type de donnée enregistrée dans la metadonnée. Sera traduite plus tard. */
-	private $data_type;
-	
-	/** @var String Le type d'affichage en HTML. Sera traduit plus tard. */
-	private $html_type;
 	
 	/** @var String Le label de la metadata, tel qu'affiché dans le label. */
 	private $label;
@@ -106,8 +73,6 @@ class RB_Metadata
 		// Déclarer les valeurs par défaut.
 		$defaults = array(
 			'key'            => self::DEFAULT_KEY,
-			'html_type'      => self::DEFAULT_HTML_TYPE,
-			'data_type'      => self::DEFAULT_DATA_TYPE,
 			'label'          => self::DEFAULT_LABEL,
 			'default'        => self::DEFAULT_DEFAULT,
 			'is_saved'       => self::DEFAULT_IS_SAVED,
@@ -165,19 +130,6 @@ class RB_Metadata
 	 */
 	public function get_key() { return $this->key; }
 	
-	/**
-	 * Getter pour le type de donnée.
-	 * 
-	 * @return String Le type de donnée.
-	 */
-	public function get_data_type() { return $this->data_type; }
-	
-	/**
-	 * Getter pour le type de modèle HTML utilisé pour afficher la valeur.
-	 * 
-	 * @return String Le type de modèle HTML utilisé pour afficher la valeur.
-	 */
-	public function get_html_type() { return $this->html_type; }
 	
 	/**
 	 * TODO DESCR
@@ -245,40 +197,6 @@ class RB_Metadata
 		
 		if ($ok)
 			$this->key = $key;
-		
-		return $ok;
-	}
-	
-	/**
-	 * Setter du type de donnée de la Metadata.
-	 *
-	 * @param String $data_type La valeur du type de donnée à assigner à l'objet RB_Metadata
-	 *
-	 * @return Bool Vrai si le type de donnée a été assigné à l'objet RB_Metadata
-	 */
-	public function set_data_type( $data_type ) 
-	{
-		$ok = $this->valider_data_type( $data_type );
-		
-		if ($ok)
-			$this->data_type = $data_type;
-		
-		return $ok;
-	}
-	
-	/**
-	 * Setter de html_type.
-	 *
-	 * @param String $html_type La valeur de la propriété html_type à assigner à l'objet RB_Metadata
-	 *
-	 * @return Bool Vrai si la valeur du paramètre html_type a été assignée à l'objet RB_Metadata
-	 */
-	public function set_html_type( $html_type )
-	{
-		$ok = $this->valider_html_type( $html_type );
-		
-		if ($ok)
-			$this->html_type = $html_type;
 		
 		return $ok;
 	}
@@ -399,94 +317,7 @@ class RB_Metadata
 		return true;
 	}
 	
-	/**
-	 * Validateur du type de donnée.
-	 *
-	 * @param String $data_type La valeur du type de donnée.
-	 *
-	 * @return Bool Vrai si c'est valide.
-	 */
-	private function valider_data_type( $data_type )
-	{
-		$var = array_search( $data_type, self::get_valid_data_types() );
-		return ( $var );
-	}
 	
-	/**
-	 * Validateur du type d'élément HTML.
-	 * 
-	 * @param String $html_type La valeur du type d'élément HTML.
-	 * 
-	 * @return Bool Vrai si c'est valide.
-	 */
-	private function valider_html_type( $html_type ) 
-	{
-		return ( array_search( $html_type, self::get_valid_html_types() ) );
-	}
-	
-	/**
-	 * Pogne les constantes des types de données valides de la classe RB_Metadata.
-	 *
-	 * TODO vérifier si ça vaut la peine d'avoir ça.
-	 *
-	 * @return array La liste des types de données valides.
-	 */
-	public static function get_valid_data_types()
-	{
-		return self::get_constants_by_prefix( 'RB_Metadata', 'DATA_TYPE_' );
-	}
-	
-	/**
-	 * Pogne les constantes des types d'éléments HTML valides de la classe RB_Metadata.
-	 *
-	 * TODO vérifier si ça vaut la peine d'avoir ça.
-	 *
-	 * @return array La liste des types d'éléments HTML valides.
-	 */
-	public static function get_valid_html_types()
-	{
-		return self::get_constants_by_prefix( 'RB_Metadata', 'HTML_TYPE_' );
-	}
-	
-	/**
-	 * Filtre parmis les constantes dans la classe RB_Metadata.
-	 *
-	 * TODO vérifier si ça vaut la peine d'avoir ça.
-	 *
-	 * @link http://php.net/manual/en/function.get-defined-constants.php#60399
-	 *
-	 * @param String $class  Le nom de la classe où pogner les constantes.
-	 * @param String $prefix Le préfixe pour les constantes de la même catégorie.
-	 *
-	 * @return array La liste des constantes correspondantes au préfixe et qui sont dans la classe spécifiée.
-	 * @throws \ErrorException
-	 */
-	public static function get_constants_by_prefix( $class, $prefix )
-	{
-		// Déclarer les variables locales.
-		$reflect = new ReflectionClass( $class );
-		$constants = $reflect->getConstants();
-		$dump = array();
-		
-		// Parcourir l'array de constantes.
-		foreach ( $constants as $key => $value)
-		{
-			// Checker si la constante courante contient le prefixe.
-			if ( substr( $key, 0, strlen( $prefix ) ) == $prefix )
-			{
-				// Pogner le reste de la valeur.
-				$key = substr( $key, strlen($prefix) - 1 );
-				// Mettre la constante dans la clé.
-				$dump[ $key ] = $value;
-			}
-		}
-		
-		// Si y'a rien trouvé, lancer une erreur!
-		if ( empty( $dump ) )
-			throw new ErrorException("Erreur, aucune constante valide trouvée dans RB_Metadata.");
-		
-		return $dump;
-	}
 	
 	/**
 	 * Validateur du libellé.
