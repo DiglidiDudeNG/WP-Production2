@@ -149,6 +149,9 @@
 											<div class="spectacle-front front">
 												<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
 												<div class="spectacle-info">
+													<!-- ICI METTRE CONDITION DE SI COMPLET -->
+													<!-- <div class="spectacle-bandeau">Complet</div> -->
+													<!-- / condition de si complet -->
 													<div class="spectacle-info-name">
 														<span class="text"><?php echo $prestation_title; ?></span>
 													</div>
