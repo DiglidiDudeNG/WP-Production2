@@ -1,24 +1,15 @@
 <?php
 
 	// Vérification de l'étape d'achat en cours
-	if( isset($_GET['etape']) ){
-
-		$etape = trim($_GET['etape']);;
-		$etape = filter_var($etape, FILTER_SANITIZE_STRING);
-
-		if( $etape === "1" ){			
-			require_once(locate_template("etape1-validation.php"));
-		}
-		else{
-			wp_redirect( home_url() ); exit;		
-		}
-	}
-	elseif( isset($_POST['etape']) ){
+		if( isset($_POST['etape']) ){
 
 		$etape = trim($_POST['etape']);;
 		$etape = filter_var($etape, FILTER_SANITIZE_STRING);
 
-		if($etape === "2"){
+		if($etape === "1"){
+			require_once(locate_template("etape1-validation.php"));
+		}
+		elseif($etape === "2"){
 			require_once(locate_template("etape2-validation.php"));
 		}
 		elseif($etape === "3"){

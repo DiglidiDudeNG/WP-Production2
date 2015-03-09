@@ -178,6 +178,10 @@
 														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
 														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
 														<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+															<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
+															<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
+															<input type="hidden" name="etape" id="etape" value="1">
+
 															<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
 														</form>
 														<a href="<?php echo the_permalink(); ?>" class="btn btn-parenthese">En savoir plus</a>
