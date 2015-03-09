@@ -1,18 +1,21 @@
 
-
 /*
  *
  *
  *PANIER DE COMMANDE
  *
  */
-@-moz-document url-prefix() 
-	fieldset 
-	display: table-cell
+
+@-moz-document url-prefix()
+	.panier-detail, .panier-resume
+		float: left
+	.btn-achat
+		float: right
 
 .etapes-achat
 	.etape
 		margin-bottom: 30px
+		clear: both
 	.rond-etape
 		display: block
 		height: 44px
@@ -116,6 +119,9 @@ table, tr
 		background-color: $color-red
 		td
 			color: $color-white
+
+input.btn-achat
+	margin-bottom: 20px
 /* Small devices (tablets, 768px and up)*/
 @media screen and (max-width: $screen-sm-min)  // <768
 	.table-responsive

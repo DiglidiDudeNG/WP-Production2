@@ -67,9 +67,6 @@
 				</tbody>
 			</table>
 		</div>
-	</form>
-	<form action="#" method="post">
-		<input class="btn btn-parenthese" type="submit" value="Étape suivante">
-
+		<input class="btn btn-parenthese btn-achat" type="submit" value="Étape suivante >">
 	</form>
 </section>

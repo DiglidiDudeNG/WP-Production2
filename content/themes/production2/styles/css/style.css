@@ -170,9 +170,28 @@ i {
     text-decoration: none;
     transition: all 0.2s linear; }
 
+.btn-parenthese {
+  color: #fff;
+  background-color: #e82530;
+  padding: 12px 13px !important;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700 !important;
+  font-family: "Quicksand", sans-serif; }
+  .btn-parenthese:hover {
+    background-color: #651720;
+    color: #fff !important;
+    text-decoration: none;
+    transition: all 0.2s linear; }
+
 button {
   border-style: none;
   text-decoration: none; }
+
+.btn-left {
+  float: left;
+  margin-right: 15px; }
 
 #logo {
   font: 100% "Quicksand", sans-serif;
@@ -287,7 +306,7 @@ button {
   background-color: transparent; }
   @media (min-width: 768px) {
     #navbar-parenthese .menu-item a {
-      font-size: 15px;
+      font-size: 14px;
       letter-spacing: 2px;
       padding: 15px 11px; } }
   @media (min-width: 992px) {
@@ -651,26 +670,18 @@ i {
 /* Large devices (large desktops, 1200px and up) */
 /*
  *
- *Bouton etape
- *
- */
-.btn-parenthese {
-  color: #fff;
-  background: #e82530;
-  padding: 11px 22px !important;
-  font-family: "Quicksand", sans-serif;
-  font-weight: 700 !important;
-  text-transform: uppercase; }
-
-/*
- *
  *PANIER DE COMMANDE
  *
  */
 @-moz-document url-prefix() {
-  display: table-cell; }
+  .panier-detail, .panier-resume {
+    float: left; }
+
+  .btn-achat {
+    float: right; } }
 .etapes-achat .etape {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  clear: both; }
 .etapes-achat .rond-etape {
   display: block;
   height: 44px;
@@ -773,6 +784,9 @@ table, tr {
     background-color: #e82530; }
     .panier-resume .total td {
       color: #fff; }
+
+input.btn-achat {
+  margin-bottom: 20px; }
 
 /* Small devices (tablets, 768px and up) */
 @media screen and (max-width: 768px) {

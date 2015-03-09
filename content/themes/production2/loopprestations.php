@@ -175,8 +175,10 @@
 													<div class="spectacle-content">
 														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
 														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
-														<a href="<?php echo the_permalink(); ?>" class="button btn-spectacle-info btn-margin-right">Acheter</a>
-														<a href="<?php echo the_permalink(); ?>" class="button btn-spectacle-info">En savoir plus</a>
+														<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+															<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
+														</form>
+														<a href="<?php echo the_permalink(); ?>" class="btn btn-parenthese">En savoir plus</a>
 													</div>
 												</div>
 											</div>
