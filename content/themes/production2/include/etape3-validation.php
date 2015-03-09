@@ -5,17 +5,17 @@
 	/***********************************************************
 	 * Récupération et assainissement des champs du formulaire
 	 ***********************************************************/
-	$email = trim($_POST['email']);
-	$email = filter_var($email, FILTER_SANITIZE_STRING);
+	$courriel = trim($_POST['email']);
+	$courriel = filter_var($courriel, FILTER_SANITIZE_STRING);
 
-	if( empty($email) ) {
-		$erreurEmail = true;
-		$messageErreurEmail = "*Champs requis";
+	if( empty($courriel) ) {
+		$erreurCourriel = true;
+		$messageErreurCourriel = "*Champs requis";
 	}
-	elseif(preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/", $email) == false)
+	elseif(preg_match("/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/", $courriel) == false)
 	{
-		$erreurEmail = true;
-		$messageErreurEmail = "*Veuillez entrer une adresse courriel valide";
+		$erreurCourriel = true;
+		$messageErreurCourriel = "*Veuillez entrer une adresse courriel valide";
 	}
 
 	$nom = $_POST['nom'];

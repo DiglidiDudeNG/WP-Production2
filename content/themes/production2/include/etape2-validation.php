@@ -17,25 +17,24 @@
 	 **********************************/
 	if( empty($nb_billets) ){
 
-		echo "Veuillez entrer un nombre de billets";
+		$messageErreurNbBillets = "*Champs requis";
 
 		$val_etape_2 = false;
 	}
 	elseif( !preg_match('/^\d+$/', $nb_billets) ){
 
-		echo "Veuillez entrer un nombre de billets valide";
+		$messageErreurNbBillets = "*Veuillez entrer un nombre de billets valide";
 
 		$val_etape_2 = false;
 	}
 	elseif( $nb_billets >= 50 ){
 
-		echo "Veuillez contacter le gérant pour les achats de 50 billets et plus";
+		$messageErreurNbBillets = "*Veuillez contacter le gérant pour les achats de 50 billets et plus";
 
 		$val_etape_2 = false;
 	}
 	else{
-		echo "Bravo vous êtes capable d'entrer un chiffre";
-
+		
 		$val_etape_2 = true;
 
 		$_SESSION['nb_billets'] = $nb_billets;

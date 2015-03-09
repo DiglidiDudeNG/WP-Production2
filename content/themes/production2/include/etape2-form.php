@@ -1,4 +1,33 @@
+<?php
+	
+	/** 
+	 * Si les variables de messages d'erreur ne sont pas initialisées,
+	 * on les initialise avec des strings vides
+	 */
+	if( !isset($messageErreurCourriel) ) 		{ $messageErreurCourriel=""; }
+	if( !isset($messageErreurNom) ) 			{ $messageErreurNom=""; }
+	if( !isset($messageErreurPrenom) ) 			{ $messageErreurPrenom=""; }
+	if( !isset($messageErreurAdresse) ) 		{ $messageErreurAdresse=""; }
+	if( !isset($messageErreurVille) ) 			{ $messageErreurVille=""; }
+	if( !isset($messageErreurCodepostal) ) 		{ $messageErreurCodepostal=""; }
+	if( !isset($messageErreurProvince) ) 		{ $messageErreurProvince=""; }
+	if( !isset($messageErreurPays) ) 			{ $messageErreurPays=""; }
 
+
+	if( !isset($messageErreurNom1) ) 			{ $messageErreurNom1=""; }
+	if( !isset($messageErreurPrenom1) ) 		{ $messageErreurPrenom1=""; }
+	if( !isset($messageErreurAdresse1) ) 		{ $messageErreurAdresse1=""; }
+	if( !isset($messageErreurVille1) ) 			{ $messageErreurVille1=""; }
+	if( !isset($messageErreurCodepostal1) ) 	{ $messageErreurCodepostal1=""; }
+	if( !isset($messageErreurProvince1) ) 		{ $messageErreurProvince1=""; }
+	if( !isset($messageErreurPays1) ) 			{ $messageErreurPays1=""; }
+
+
+
+
+
+
+?>
 
 
 <!-- Début du formulaire -->
