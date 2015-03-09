@@ -10,6 +10,14 @@ Template Name: Achat
 <div class="container">
 	<div class="achat-container">
 		<h2>Achat</h2>
+		<section class="etapes-achat">
+		<?php
+			include_once("include/cdt-etape1.php");
+			include_once("include/cdt-etape2.php");
+			// include_once("include/cdt-etape3.php");
+			// include_once("include/cdt-etape4.php");
+		?>
+		</section>
 	</div>
 </div>
 
