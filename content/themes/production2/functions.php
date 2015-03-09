@@ -69,4 +69,13 @@
 	add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
 
+	/** Hook pour permettre d'utiliser les variables de sessions dans le thème */
+	add_action('init', 'myStartSession', 1);
+
+	function myStartSession() {
+	    if(!session_id()) {
+	        session_start();
+	    }
+	}
+
 ?>
