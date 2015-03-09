@@ -20,12 +20,21 @@ class RB_Prestation_Admin extends RB_Admin
 	}
 	
 	/**
+	 * Effectue le rendu de L'ID du spectacle.
 	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
 	 */
-	public function get_all_spectacle_titles()
+	public function render_rb_prestation_spectacle_id( $post_id, $metadata )
 	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key() );
 		
+		return '';
 	}
+	
+	
 	
 	/**
 	 * Effectue un rendu de la metabox des informations.
@@ -69,7 +78,7 @@ class RB_Prestation_Admin extends RB_Admin
 		</select>
 		</td>
 		<td rowspan="3" style="width: 50%; background-color: #aaa; border-radius: 8px;" id="rb_preview_spectacle">
-			
+		
 		</td>
 		</tr>
 		<tr>

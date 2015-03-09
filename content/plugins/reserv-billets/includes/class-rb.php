@@ -66,26 +66,32 @@ class RB
 		require_once 'generic/generic-rb-admin.php'; // RB_Admin
 
 		// Créer le Loader.
-		require_once 'class-rb-loader.php'; // RB_Loader
-		$this->loader = new RB_Loader( $this->get_version() );
-		
-		// Inclure la classe RB_Metadata.
-		require_once 'class-rb-metadata.php';
-		
-		// Inclure l'interface « Interface_RB_Metabox ».
-		require_once 'interfaces/interface-rb-metabox.php';
-		// Inclure la classe « RB_Metabox ».
-		require_once 'class-rb-metabox.php';
-		
-		// Inclure la classe « RB_Spectacle ».
-		require_once 'class-rb-spectacle.php';
-		// Créer l'objet « RB_Spectacle ».
-		$this->sections['spectacle'] = new RB_Spectacle( $this->loader );
-		
-		// Inclure la classe « RB_Prestation ».
-		require_once 'class-rb-prestation.php';
-		// Créer l'objet « RB_Prestation ».
-		$this->sections['prestation'] = new RB_Prestation( $this->loader );
+		try {
+			require_once 'class-rb-loader.php'; // RB_Loader
+			$this->loader = new RB_Loader( $this->get_version() );
+			
+			// Inclure la classe RB_Metadata.
+			require_once 'class-rb-metadata.php';
+			
+			// Inclure l'interface « Interface_RB_Metabox ».
+			require_once 'interfaces/interface-rb-metabox.php';
+			// Inclure la classe « RB_Metabox ».
+			require_once 'class-rb-metabox.php';
+			
+			// Inclure la classe « RB_Spectacle ».
+			require_once 'class-rb-spectacle.php';
+			// Créer l'objet « RB_Spectacle ».
+			$this->sections['spectacle'] = new RB_Spectacle( $this->loader );
+			
+			// Inclure la classe « RB_Prestation ».
+			require_once 'class-rb-prestation.php';
+			// Créer l'objet « RB_Prestation ».
+			$this->sections['prestation'] = new RB_Prestation( $this->loader );
+		} 
+		catch (Exception $e)
+		{
+			printf($e);
+		}
 	}
 
 	/**
@@ -117,6 +123,6 @@ class RB
 	 */
 	public function run()
 	{
-		$this->loader->run();
+		RB_Loader::run();
 	}
 }

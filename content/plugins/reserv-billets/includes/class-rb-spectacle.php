@@ -77,6 +77,7 @@ class RB_Spectacle extends RB_Section
 				// TODO ajouter des scripts si possible.
 			),
 			'metadatas' => array(
+				/* Liste des IDs des prestations. */
 				'rb_spectacle_liste_prestation_id' => array(
 					'html_type'     => 'ol',
 					'data_type'     => 'json',
@@ -96,6 +97,7 @@ class RB_Spectacle extends RB_Section
 					    'order'          => 'DESC',
 					),
 				),
+				/* Urls */
 				'rb_spectacle_artiste_site_url' => array(
 					'html_type' => 'input',
 					'data_type' => 'url',
@@ -108,6 +110,7 @@ class RB_Spectacle extends RB_Section
 				    'label'     => __( "URL du Facebook de l'artiste" ),
 					'default'   => $_SERVER['REQUEST_URI'].'#',
 				),
+				/* Prix */
 				'rb_spectacle_prix' => array(
 					'html_type' => 'input',
 					'data_type' => 'currency',
@@ -186,10 +189,8 @@ class RB_Spectacle extends RB_Section
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
-	 *
-	 * @param   RB_Loader $loader Un pointeur vers le loader.
 	 */
-	public function define_other_hooks( RB_Loader $loader )
+	public function define_other_hooks()
 	{
 		// Ajoutez c'que vous voulez là !
 	}

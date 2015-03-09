@@ -44,78 +44,148 @@ class RB_Spectacle_Admin extends RB_Admin
 			'25'
 		);
 	}
-	 
+	
 	/**
-	 * Effectue un rendu de la metabox des informations.
+	 * Effectue le rendu de rb_spectacle_liste_prestation_id.
 	 *
-	 * @param WP_Post $spectacle
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
 	 */
-	public function render_spectacle_info_metabox( $spectacle )
+	public function render_rb_spectacle_liste_prestation_id( $post_id, $metadata )
 	{
-		// Éviter que quelqu'un puisse éditer s'il a pas les droits.
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
+		// Déclarer variables locales
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$JSONtoArray = json_decode( false, '' );
+		$retour = '';
 		
-		// Pogner toutes les metadonnées.
-		$spectacle_metas = get_post_meta( $spectacle->ID );
 		
-		// Effectue la recherche des metadonnées.
-		foreach ( $this->metadatas as $meta_key => $meta_args )
-		{
-			
-		}
 		
-		?>
-		<table width="100%">
-		<tr>
-			<td style="width: 25%"><label for="rb_spectacle_liste_prestation_id"><?php
-					echo $this->metadatas['rb_spectacle_liste_prestation_id']['name'];
-					?> :</label></td>
-			<td>
-				<ul>
-				<?php
-				$args = $this->metadatas['rb_spectacle_list_prestation_id']['metabox_query'];
-				
-				/** @var WP_Query $loop_prestation */
-				$loop_prestation = new WP_Query( $args );
-				
-				if ($loop_prestation->post_count == 0) echo "<li><b>Aucune.</b> <a href='".admin_url()."post-new.php?post_type=prestation'>Ajouter --></a></li>";
-				
-				while ( $loop_prestation->have_posts() ) :
-					$loop_prestation->the_post(); ?>
-					<li><?php
-					the_ID();
-					?> : <?php
-					the_title();
-					echo " (".get_post_meta( get_the_ID(), 'rb_prestation_date', true ).")";
-					?></li>
-				<?php endwhile; ?>
-				</ul>
-			</td>
-		</tr>
-		<tr>
-			<td><label for="rb_spectacle_artiste_site_url"><?=
-					$this->metadatas['rb_spectacle_artiste_site_url']['name']?> :</label></td>
-			<td><input type="url" id="rb_spectacle_artiste_site_url" name="rb_spectacle_artiste_site_url"
-			           value="<?=$spectacle_metas['rb_spectacle_artiste_site_url'][0]?>" /></td>
-		</tr>
-		<tr>
-			<td><label for="rb_spectacle_artiste_facebook_url"><?=
-					$this->metadatas['rb_spectacle_artiste_facebook_url']['name']?> :</label></td>
-			<td><input type="url" id="rb_spectacle_artiste_facebook_url" name="rb_spectacle_artiste_facebook_url"
-			           value="<?=$spectacle_metas['rb_spectacle_artiste_facebook_url'][0]?>" /></td>
-		</tr>
-		<tr>
-			<td><label for="rb_spectacle_prix"><?=
-					$this->metadatas['rb_spectacle_prix']['name']?> :</label></td>
-			<td><input type="number" id="rb_spectacle_prix" name="rb_spectacle_prix" 
-				       min="1.00" max="999.00" step="0.01" value="<?=$spectacle_metas['rb_spectacle_prix'][0]?>" /> $</td>
-		</tr>
-		</table>
-	<?php
+		return $retour;
 	}
 	
+	/**
+	 * 
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_artiste_site_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="url" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '?>" />';
+		
+		
+		
+		return $retour;
+	}
 	
+	/**
+	 * 
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_artiste_facebook_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="url" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '?>" />';
+		
+		return $retour;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_prix( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="number" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" min="1.00" max="999.00" step="0.01" value="' . $valeur . '?>" />';
+		
+		
+		
+		return $retour;
+	}
+	
+	/**
+	 *
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_mini_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true, true );
+		$retour = '<input id="'.$metadata->get_html_type().'" type="file" name="'.$metadata->get_key().'" value="'.$valeur.'" size="5" />' . '<p class="description">';
+		
+		if ('' == $valeur)
+			$retour .= __( "Vous n'avez aucune image miniature attachée à ce spectacle." );
+		else
+			$retour .= $valeur;
+		
+		$retour .= '</p>';
+		
+		return $retour;
+		
+		// https://tommcfarlin.com/wordpress-upload-meta-box/
+	}
+	
+	/**
+	 *
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_caroussel_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input id="'.$metadata->get_key().'" type="file" name="'.$metadata->get_key().'" value="'.$valeur.'" size="5" />' . '<p class="description">';
+		
+		if ('' == $valeur)
+			$retour .= __( "Vous n'avez aucune image miniature attachée à ce spectacle." );
+		else
+			$retour .= $valeur;
+		
+		$retour .= '</p>';
+		
+		return $retour;
+	}
+	
+	/**
+	 *
+	 *
+	 * @param             $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_spectacle_img_bandeau_url( $post_id, $metadata )
+	{
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input id="' . $metadata->get_key() . '" type="file" name="' . $metadata->get_key() . '" value="' . $valeur . '" size="5" />' . '<p class="description">';
+		
+		if ( '' == $valeur )
+			$retour .= __( "Vous n'avez aucune image miniature attachée à ce spectacle." );
+		else
+			$retour .= $valeur;
+		
+		$retour .= '</p>';
+		
+		return $retour;
+	}
 }
 

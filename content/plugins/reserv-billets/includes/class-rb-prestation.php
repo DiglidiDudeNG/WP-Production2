@@ -75,21 +75,13 @@ class RB_Prestation extends RB_Section
 					'default'        => '0',
 					'in_columns'     => true,
 					'is_query'       => true,
-					'dropdown_query' => array(
-						'post_type' => 'spectacle',
-					),
-					'column_query'   => array(
-						'post_type' => 'spectacle',
-						'meta_key'  => '%i',
-					),
 				),
 				'rb_prestation_date' => array( // La date.
 					'html_type'  => 'input',
 					'data_type'  => 'date',
 					'label'      => 'Date',
-					'default'    => date("Y-m-d") || '2014-02-15', // Aujourd'hui, ou ma date de fête, parce que!
+					'default'    => date("Y-m-d") || '2014-02-15',
 					'in_columns' => true, 
-					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_heure' => array( // L'heure.
                     'html_type'  => 'input',
@@ -97,7 +89,6 @@ class RB_Prestation extends RB_Section
 					'label'      => 'Heure',
 					'default'    => '19:00',
 					'in_columns' => true,
-					// TODO ajouter le validate_cb
 				),
 				'rb_prestation_nb_billets' => array( // Le nombre de billets restants.
                     'html_type'  => 'static',
@@ -143,10 +134,8 @@ class RB_Prestation extends RB_Section
 	 *
 	 * @access  protected
 	 * @see     RB::define_all_admin_hooks
-	 *
-	 * @param   \RB_Loader $loader Un pointeur vers le loader.
 	 */
-	protected function define_other_hooks(RB_Loader $loader)
+	protected function define_other_hooks()
 	{
 		// Ajoutez c'que vous voulez là !
 	}

@@ -332,6 +332,13 @@ abstract class RB_Admin
 			{
 				// Mettre les valeurs de style par défaut au style courant.
 				
+				// Checker s'il n'y a pas de clé "render_cb" pour l'array d'arguments.
+				if ( !array_key_exists( 'render_cb', $metadata_args ) )
+				{
+					// Si y'en a pas, en mettre un par défaut.
+					$metadata_args['render_cb'] = array($this, 'render_'.$key);
+				}
+				
 				// Créer l'objet RB_Metadata à l'aide des arguments.
 				$metadata_args = new RB_Metadata( $metadata_args, $post_type, $key );
 				
@@ -361,6 +368,7 @@ abstract class RB_Admin
 			{
 				$meta_keys = null;
 				
+				// Checker si les metadatas sont inclus dans les paramètres.
 				if ( array_key_exists( 'metadatas', $metabox_args ) )
 				{
 					$meta_keys = $metabox_args['metadatas'];
@@ -377,7 +385,7 @@ abstract class RB_Admin
 					{
 						if ( array_key_exists( $meta_keys[$i], $this->metadatas ) )
 						{
-							/** @var RB_Metabox $metadata_instance */
+							/** @var RB_Metadata $metadata_instance */
 							$metadata_instance = $this->metadatas[$meta_keys[$i]];
 							$metabox_obj->add_metadata( $metadata_instance );
 						}
@@ -746,23 +754,9 @@ abstract class RB_Admin
 	 * @param array    $pieces Un array d'arguments.
 	 * @param WP_Query $query  L'instance de la query Wordpress.
 	 */
-	final public function advanced_orderby_columns( $pieces, $query )
+	final public function advanced_orderby_columns( $pieces, $query ) 
 	{
 		
-	}
-	
-	/**
-	 * Transforme le metatype en array et le vérifie.
-	 * 
-	 * @param $metatype
-	 */
-	final private static function verify_meta_html_type( $metatype )
-	{
-		switch ($metatype)
-		{
-			case '':
-				break;
-		}
 	}
 	
 	/**
@@ -779,28 +773,6 @@ abstract class RB_Admin
 		$keyt = trim($key);
 		
 		return ( $keyt{0} == '_' );
-	}
-	
-	/**
-	 * @param String $metakey La clé de la metadata.
-	 *
-	 * @return mixed La valeur du type html.
-	 */
-	final public function get_html_type( $metakey )
-	{
-		$var = explode( ':', $this->metadatas[$metakey]['type'] );
-		return $var[0];
-	}
-	
-	/**
-	 * @param String $metakey La clé de la metadata.
-	 *
-	 * @return mixed La valeur du type de var.
-	 */
-	final public function get_var_type( $metakey )
-	{
-		$var = explode( ':', $this->metadatas[$metakey]['type'] );
-		return $var[0];
 	}
 	
 	/**
