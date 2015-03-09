@@ -2,60 +2,64 @@
 <?php
 get_header();
 ?>
-<?php the_post();
+<?php
 
-$spectacle_id = $post->ID;
-$spectacle_titre = get_the_title();
-$spectacle_content = get_the_content();
-$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true);
-$spectacle_fb = get_post_meta( $post->ID, 'rb_spectacle_artiste_facebook_url', true);
-$spectacle_url = get_post_meta( $post->ID, 'rb_spectacle_artiste_site_url', true);
-$spectacle_categorie = get_the_category($post->id);
-$spectacle_cat[0] ->cat_name;
+	the_post();
 
-//'meta_query'		=> array(
-	//	array(
-		//'key'		=> 'rb_prestation_spectacle_id',
-	//	'value'		=> array ($spectacle_id)
-		//)
-	 // )
-	  
-	  
-$args = array(
-	'posts_per_page'	=> -1,
-	'post_type' 		=> 'prestation',
-	//'order'				=> 'ACS',
-	//'order_by'			=> 'meta_value',
-	'meta_key'       	=> 'rb_prestation_spectacle_id',
-	'meta value'		=> '$spectacle_id'
+	$spectacle_id = $post->ID;
+	$spectacle_titre = get_the_title();
+	$spectacle_content = get_the_content();
+	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true);
+	$spectacle_fb = get_post_meta( $post->ID, 'rb_spectacle_artiste_facebook_url', true);
+	$spectacle_url = get_post_meta( $post->ID, 'rb_spectacle_artiste_site_url', true);
+	$spectacle_categorie = get_the_category($post->id);
+	$spectacle_cat[0] ->cat_name;
+
+	//'meta_query'		=> array(
+		//	array(
+			//'key'		=> 'rb_prestation_spectacle_id',
+		//	'value'		=> array ($spectacle_id)
+			//)
+		 // )
+		  
+		  
+	$args = array(
+		'posts_per_page'	=> -1,
+		'post_type' 		=> 'prestation',
+		'order'				=> 'ACS',
+		'order_by'			=>'meta_value',
+		'meta_key'			=> 'rb_prestation_date',
+		'meta_query'		=> array(
+			array(
+				'key'			=> 'rb_prestation_spectacle_id',
+				'value'			=> $spectacle_id
+				)
+			)		
+		);
 	
-	);
-	
+
+	wp_reset_postdata();
+
 	$wp_query_prestations = new WP_Query($args);
 
-if($wp_query_prestations->have_posts())
+	if($wp_query_prestations->have_posts())
 	{
-	while ($wp_query_prestations->have_posts())
+		$prestation_id = array();
+		$prestation_date = array();
+		$prestation_heure = array();
+
+		while ($wp_query_prestations->have_posts())
 		{
-			$wp_query_prestations->the_post();
-			
-			$prestation_id = array();
-			$prestation_date = array();
-			$prestation_heure = array();
-			$prestation_permalink = array();
-			
-			array_push($prestation_id, $post->ID);
-			
-			
-			$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
-			$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
-			$prestation_permalink = get_permalink();
-			
-			
+				$wp_query_prestations->the_post();
+				
+				
+				array_push($prestation_id, $post->ID);
+				array_push($prestation_date, get_post_meta( $post->ID, 'rb_prestation_date', true ) );
+				array_push($prestation_heure, get_post_meta( $post->ID, 'rb_prestation_heure', true ) );
+
 		}
 	}	
-var_dump($prestation_id);
-	//var_dump($spectacle_id, $spectacle_titre, $spectacle_content, $spectacle_prix, $spectacle_fb, $spectacle_url);
+
 	
 ?>
 
