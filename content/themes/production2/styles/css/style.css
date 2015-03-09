@@ -124,6 +124,13 @@ body {
   color: #e82530;
   font-weight: 700; }
 
+#contenu-site h4 {
+  font: 100% "Quicksand", sans-serif;
+  color: #D9D9D9;
+  font-weight: 700;
+  text-align: center;
+  font-size: 18px; }
+
 #contenu-site p {
   font-family: "Raleway", sans-serif;
   line-height: 24px; }
@@ -136,7 +143,7 @@ body {
   height: 40px;
   background-color: #e82530;
   border-radius: 50%;
-  padding-top: 10px;
+  padding-top: 9px;
   font-size: 22px !important; }
 
 i {
@@ -401,6 +408,14 @@ button {
   .spectacle-front .spectacle-info-date {
     bottom: 0;
     left: 0; }
+  .spectacle-front .spectacle-bandeau {
+    text-align: center;
+    background-color: rgba(232, 37, 48, 0.6);
+    text-transform: uppercase;
+    padding: 0.5em;
+    font-size: 14px;
+    color: #fff;
+    font-family: "Quicksand", sans-serif; }
 
 .spectacle-back {
   position: absolute;
@@ -545,14 +560,6 @@ i {
   text-align: center;
   margin-left: 10px; }
 
-.fa {
-  width: 40px;
-  height: 40px;
-  background-color: #e82530;
-  border-radius: 50%;
-  padding-top: 10px;
-  font-size: 22px !important; }
-
 .footer-bottom {
   background-color: #e82530;
   color: #fff;
@@ -641,6 +648,144 @@ i {
   #contact .contact-titre {
     font-size: 20px; } }
 /* Large devices (large desktops, 1200px and up) */
+/*
+ *
+ *PANIER DE COMMANDE
+ *
+ */
+.etapes-achat .etape {
+  margin-bottom: 30px; }
+.etapes-achat .rond-etape {
+  display: block;
+  height: 44px;
+  width: 44px;
+  line-height: 44px;
+  -moz-border-radius: 22px;
+  border-radius: 22px;
+  background-color: #D9D9D9;
+  color: #ffffff;
+  text-align: center;
+  font-size: 25px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  margin: auto;
+  background-color: #e82530; }
+.etapes-achat h4 {
+  color: #e82530 !important; }
+
+table, tr {
+  border-color: #e82530; }
+
+.panier-detail th {
+  border-bottom: none !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+  text-align: center; }
+  .panier-detail th:first-child {
+    padding-left: 35px;
+    text-align: left;
+    width: 50%; }
+
+.panier-detail {
+  width: 100%;
+  font-family: "Quicksand", sans-serif;
+  margin-bottom: 0 !important; }
+  .panier-detail thead {
+    background-color: #e82530;
+    text-transform: uppercase;
+    border: transparent;
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: none;
+    color: #fff; }
+  .panier-detail tbody tr, .panier-detail tfoot tr {
+    border-bottom: 1px solid #e82530 !important; }
+    .panier-detail tbody tr td, .panier-detail tfoot tr td {
+      padding: 10px 0 10px 0;
+      vertical-align: inherit !important;
+      text-align: center; }
+  .panier-detail .panier-item-image {
+    padding-left: 4px;
+    width: 125px; }
+    .panier-detail .panier-item-image .panier-item-image-vignette {
+      border-radius: 77px;
+      overflow: hidden;
+      width: 150px; }
+      .panier-detail .panier-item-image .panier-item-image-vignette img {
+        width: 150px;
+        height: 150px;
+        transition: all 0.2s linear; }
+  .panier-detail .panier-item-description h3 {
+    margin-bottom: 20px;
+    font-size: 24px !important; }
+    .panier-detail .panier-item-description h3 .date-spectacle {
+      font-size: 13px;
+      color: #651720; }
+  .panier-detail .panier-item-prix, .panier-detail .panier-item-total {
+    font-size: 18px;
+    color: #e82530;
+    font-weight: 400;
+    text-align: center; }
+  .panier-detail .panier-item-quantite input {
+    font-size: 21px;
+    font-weight: 700;
+    color: #e82530;
+    padding: 0;
+    text-align: center;
+    width: 95px;
+    height: 48px;
+    line-height: 48px;
+    letter-spacing: 1px;
+    border: 2px solid #e82530; }
+
+.table-responsive {
+  overflow-x: visible !important; }
+
+.panier-resume {
+  margin: 0 0 30px 0;
+  width: 100%;
+  font-family: "Quicksand", sans-serif; }
+  .panier-resume td:first-child, .panier-resume td.last {
+    text-align: right;
+    width: auto; }
+  .panier-resume td {
+    font-size: 17px;
+    color: #e82530;
+    padding: 16px 5px;
+    text-transform: none;
+    text-align: right; }
+  .panier-resume .total {
+    background-color: #e82530; }
+    .panier-resume .total td {
+      color: #fff; }
+
+/* Small devices (tablets, 768px and up) */
+@media screen and (max-width: 768px) {
+  .table-responsive {
+    border: 1px solid #e82530 !important; }
+
+  .panier-detail .fa {
+    width: 30px;
+    height: 30px;
+    padding-top: 3px; }
+  .panier-detail .panier-item-description h3 {
+    font-size: 18px !important; }
+  .panier-detail .panier-item-image .panier-item-image-vignette {
+    border-radius: 50px;
+    overflow: hidden;
+    width: 100px; }
+    .panier-detail .panier-item-image .panier-item-image-vignette img {
+      width: 100px;
+      height: 100px; }
+  .panier-detail .panier-item-quantite input {
+    width: 50px;
+    height: 50px;
+    font-size: 16px; } }
+/*
+ *
+ *INFORMATIONS CLIENT
+ *
+ */
 /*CUSTOM */
 .spectacle-filtre {
   float: right; }
