@@ -49,7 +49,6 @@ Template Name: Achat
 <div class="container">
 	<div class="achat-container">
 		<h2>Achat</h2>
-	
 		<?php
 			if( $etape === "1" || $val_etape_2 === false ){
 				require_once(locate_template("etape1-form.php"));
