@@ -178,7 +178,8 @@ i {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 700 !important;
-  font-family: "Quicksand", sans-serif; }
+  font-family: "Quicksand", sans-serif;
+  clear: both; }
   .btn-parenthese:hover {
     background-color: #651720;
     color: #fff !important;
@@ -336,7 +337,8 @@ button {
 #custom-search-input .form-control {
   border: 0;
   box-shadow: none;
-  -webkit-box-shadow: none; }
+  -webkit-box-shadow: none;
+  height: 34px !important; }
 
 #custom-search-input .btn {
   border-color: #fff; }
@@ -720,11 +722,12 @@ table, tr {
   .panier-detail thead {
     background-color: #e82530;
     text-transform: uppercase;
-    border: transparent;
-    font-size: 18px;
-    font-weight: 400;
-    text-transform: none;
-    color: #fff; }
+    border: transparent; }
+    .panier-detail thead th {
+      font-size: 18px;
+      font-weight: 400;
+      text-transform: none;
+      color: #fff; }
   .panier-detail tbody tr td, .panier-detail tfoot tr td {
     padding: 10px 0 10px 0;
     vertical-align: inherit !important;
@@ -786,7 +789,8 @@ table, tr {
       color: #fff; }
 
 input.btn-achat {
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  float: right; }
 
 /* Small devices (tablets, 768px and up) */
 @media screen and (max-width: 768px) {
@@ -816,6 +820,58 @@ input.btn-achat {
  *INFORMATIONS CLIENT
  *
  */
+.input-group-addon:focus, .form-control:focus {
+  border-color: #651720 !important;
+  outline: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important; }
+
+.form-control {
+  height: 45px !important; }
+
+select.form-control {
+  border-radius: 0;
+  -webkit-appearance: none; }
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none; }
+
+input[type="radio"] + div:before,
+input[type="checkbox"] + div:before {
+  font-family: "FontAwesome";
+  padding-right: 3px;
+  font-size: 19px;
+  color: #e82530; }
+
+input[type="radio"] + div:before {
+  content: ""; }
+
+input[type="radio"]:checked + div:before {
+  content: ""; }
+
+input[type="checkbox"] + div:before {
+  content: ""; }
+
+input[type="checkbox"]:checked + div:before {
+  content: ""; }
+
+input {
+  font-family: "Quicksand", sans-serif !important; }
+
+.input-group-addon {
+  min-width: 150px;
+  text-align: left !important;
+  background-color: transparent !important;
+  font-family: "Quicksand", sans-serif; }
+
+.info-condition {
+  margin: 10px 0 20px 0; }
+  .info-condition .bouton-commentaire {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    margin-left: 10px; }
+
 /*CUSTOM */
 .spectacle-filtre {
   float: right; }

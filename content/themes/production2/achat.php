@@ -38,7 +38,7 @@ Template Name: Achat
 	<!-- début du contenu de la page achat.php -->
 
 <div class="container">
-	<div class="achat-container">
+	<div class="achat-container etapes-achat">
 		<h2>Achat</h2>
 	
 		<?php
@@ -67,7 +67,7 @@ Template Name: Achat
 ?>
 
 <?php
-	include_once("include/etape2.php");
+	// include_once("include/etape2.php");
 ?>
 
 
