@@ -49,7 +49,16 @@ $(document).ready(function() {  //Référence: http://contactmetrics.com/blog/va
 //nom
 var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 
+validnom();
+validprenom();
+validadresse();
+validville();
+validpays();
+validcourriel();
+validcodepostal();
 
+//nom
+	function validnom(){
 		$('#nom').on('focusout', function() {
 			var input=$(this);
 			//var nonvide=input.val().substring(1); // avoir au moins 2 caractères
@@ -65,8 +74,10 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
+	};
 
 //prénom
+	function validprenom(){
 		$('#prenom').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
@@ -81,8 +92,10 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
+	};
 
 //adresse
+	function validadresse(){
 		$('#adresse').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
@@ -97,8 +110,10 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
+	}
 
 //ville
+	function validville(){
 		$('#ville').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
@@ -113,7 +128,9 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
-
+	};
+//pays	
+	function validpays(){
 		$('#pays').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
@@ -128,11 +145,12 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
-
+	};
 
 
 		
-		//Courriel
+//Courriel
+	function validcourriel(){
 		$('#courriel').on('focusout', function() {
 			var input=$(this);
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,15}(?:\.[a-z]{2,3})?)$/i // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -148,8 +166,10 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
+	};
 
-		//Code postal
+//Code postal
+	function validcodepostal(){
 		$('#codepostal').on('focusout', function() {
 			var input=$(this);
 			var repostal = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; //vérifie le code postal
@@ -164,12 +184,79 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 					input.after( "<p>Entrez un code postal valide (A1A1A1)</p>" );}
 				}		
 		});
+	};
 
-		//No carte de crédit
-//$("input[type=checkbox][checked]"); // All checkboxes in the document that are checked pour case à cocher
-//$('#element option[value="visa"]').attr("selected", "selected"); // savoir si une case a été sélectionnée
+	// carte de crédit
 
-//nom du détenteur de la carte de crédit
+		
+//vérifie si un bouton est cliqué
+		$('.carte').on('focusout', function() { // En sortant d'un champs d'info de la carte de crédit
+			if($('input[name=choixcarte]').is(':checked')) { // vérifie si un bouton est coché
+			//si oui		
+
+			}
+			else{
+			
+				if(
+					$("#choixcarte").next().is("p")){
+				}
+				else{
+					$("#choixcarte input").removeClass("valid").addClass("invalid");
+					$("#choixcarte input").after( "<p>Veuillez choisir un type de carte.</p>" );
+				}
+			}
+
+		});
+		
+		//valide si visa ou master
+			$('input[name=choixcarte]').on('change', function(){
+					var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();
+								
+					if(valeur_selectionnee=="visa"){ // si Visa est sélectionné
+						$('#nocarte').on('focusout', function() {
+							
+							var input=$(this);
+							var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
+							var is_visa = revisa.test(input.val());
+							if(is_visa){
+								input.removeClass("invalid").addClass("valid");
+								$(".nocarte p").remove();
+							}
+							else{
+								input.removeClass("valid").addClass("invalid");
+								if (input.next().is("p")){					
+								}
+								else{
+									input.after( "<p>Entrez un numéro de carte valide.</p>" );
+								}
+							}						
+						});
+					}
+					else if(valeur_selectionnee=="mastercard"){		
+						$('#nocarte').on('focusout', function() {
+							var input=$(this);
+							var remaster = /^5[1-5][0-9]{14}$/;
+							var is_master=remaster.test(input.val());
+							if(is_master){
+								input.removeClass("invalid").addClass("valid");
+								$(".nocarte p").remove();
+							}
+							else{
+								input.removeClass("valid").addClass("invalid");
+								if (input.next().is("p")){					
+								}
+								else{
+									input.after( "<p>Entrez un numéro de carte valide.</p>" );
+								}
+							}
+						});
+					}				
+				});
+		
+
+		
+		//nom du détenteur de la carte de crédit
+	function validnomcredit(){
 		$('#nomdetenteur').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
@@ -184,25 +271,7 @@ var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 				}
 			}
 		});
-
-		$('#nocarte').on('select', function() {
-			//var input=$(this);
-			if ('#choixcarte.checked==true'){  // vérifier Visa
-				var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
-				var is_visa = revisa.test(input.val());
-				if(is_visa){input.removeClass("invalid").addClass("valid");}
-				else{input.removeClass("valid").addClass("invalid");}
-			}
-			else{ // vérifier Mastercard
-				var remaster = /^5[1-5][0-9]{14}$/;
-				var is_master=remaster.test(input.val());
-				if(is_master){input.removeClass("invalid").addClass("valid");}
-				else{input.removeClass("valid").addClass("invalid");}
-			}
-
-		});
-
-
+	};
 		//Expiration carte de crédit
 		$('#expirationcarte').on('focusout', function() {
 			var input=$(this);
