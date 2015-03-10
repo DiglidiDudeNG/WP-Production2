@@ -5,6 +5,7 @@ $(document).ready(function() {  //Référence: http://contactmetrics.com/blog/va
 
 var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 
+//étape 2 formulaire du haut
 validnom();
 validprenom();
 validadresse();
@@ -13,9 +14,20 @@ validpays();
 validcourriel();
 validcodepostal();
 
+//étape 2 formulaire du bas
+validnoml();
+validprenoml();
+validadressel();
+validvillel();
+validpaysl();
+validcourriell();
+validcodepostall();
+
+
+//étape 2 formulaire du haut
 //nom
 	function validnom(){
-		$('#nom').on('change', function() {
+		$('#nom').on('blur', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
@@ -29,7 +41,7 @@ validcodepostal();
 
 //prénom
 	function validprenom(){
-		$('#prenom').on('change', function() {
+		$('#prenom').on('blur', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
@@ -43,7 +55,7 @@ validcodepostal();
 
 //adresse
 	function validadresse(){
-		$('#adresse').on('change', function() {
+		$('#adresse').on('blur', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
@@ -57,7 +69,7 @@ validcodepostal();
 
 //ville
 	function validville(){
-		$('#ville').on('change', function() {
+		$('#ville').on('blur', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
@@ -70,7 +82,7 @@ validcodepostal();
 	};
 //pays	
 	function validpays(){
-		$('#pays').on('change', function() {
+		$('#pays').on('blur', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
@@ -82,12 +94,10 @@ validcodepostal();
 			}
 		});
 	};
-
-
 		
 //Courriel
 	function validcourriel(){
-		$('#courriel').on('change', function() {
+		$('#courriel').on('blur', function() {
 			var input=$(this);
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,15}(?:\.[a-z]{2,3})?)$/i ;
 			var is_email=re.test(input.val());
@@ -102,7 +112,7 @@ validcodepostal();
 
 //Code postal
 	function validcodepostal(){
-		$('#codepostal').on('change', function() {
+		$('#codepostal').on('blur', function() {
 			var input=$(this);
 			var repostal = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; //vérifie le code postal
 			var is_postal=repostal.test(input.val()); 
@@ -114,8 +124,109 @@ validcodepostal();
 			}
 		});
 	};
+//étape 2 formulaire principal du bas
 
-	// carte de crédit
+//nom
+	function validnoml(){
+		$('#noml').on('blur', function() {
+			var input=$(this);
+			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
+			if(is_validgen){
+				input.removeClass("invalid").addClass("valid");		
+				$("span.messageErreurNoml").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurNoml').text(" Entrez un nom valide." );
+			}
+		});
+	};
+
+//prénom
+	function validprenoml(){
+		$('#prenoml').on('blur', function() {
+			var input=$(this);
+			var is_validgen= reggen.test(input.val());
+			if(is_validgen){
+				input.removeClass("invalid").addClass("valid");		
+				$("span.messageErreurPrenoml").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurPrenoml').text(" Entrez un prénom valide." );
+			}
+		});
+	};
+
+//adresse
+	function validadressel(){
+		$('#adressel').on('blur', function() {
+			var input=$(this);
+			var is_validgen= reggen.test(input.val());
+			if(is_validgen){
+				input.removeClass("invalid").addClass("valid");		
+				$("span.messageErreurAdressel").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurAdressel').text(" Entrez une adresse valide" );
+			}
+		});
+	}
+
+//ville
+	function validvillel(){
+		$('#villel').on('blur', function() {
+			var input=$(this);
+			var is_validgen= reggen.test(input.val());
+			if(is_validgen){
+				input.removeClass("invalid").addClass("valid");		
+				$("span.messageErreurVillel").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurVillel').text(" Entrez un nom de ville valide." );
+			}
+		});
+	};
+//pays	
+	function validpaysl(){
+		$('#paysl').on('blur', function() {
+			var input=$(this);
+			var is_validgen= reggen.test(input.val());
+			if(is_validgen){
+				input.removeClass("invalid").addClass("valid");		
+				$("span.messageErreurPaysl").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurPaysl').text(" Entrez un nom de pays valide." );
+			}
+		});
+	};
+		
+//Courriel
+	function validcourriell(){
+		$('#courriell').on('blur', function() {
+			var input=$(this);
+			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,15}(?:\.[a-z]{2,3})?)$/i ;
+			var is_email=re.test(input.val());
+			if(is_email){
+				input.removeClass("invalid").addClass("valid");
+				$("span.messageErreurCourriell").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurCourriell').text(" Entrez un courriel valide (courriel@aaa.bbb)" );
+			}
+		});
+	};
+
+//Code postal
+	function validcodepostall(){
+		$('#codepostall').on('blur', function() {
+			var input=$(this);
+			var repostal = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; //vérifie le code postal
+			var is_postal=repostal.test(input.val()); 
+			if(is_postal){
+				input.removeClass("invalid").addClass("valid");
+				$("span.messageErreurCodepostall").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurCodepostall').text("Entrez un code postal valide (A1A1A1)." );	
+			}
+		});
+	};
+
+
+// --------------- carte de crédit --------------------------------
 
 		
 //vérifie si un bouton est cliqué

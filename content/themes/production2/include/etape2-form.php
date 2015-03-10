@@ -160,6 +160,7 @@
 						<span class="input-group-addon">Nom</span>
 						<input class="form-control" type="text" name="noml" id="noml" placeholder="Nom" value="<?php if (isset ($_POST['noml'])){ echo $noml;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurNoml"></span>
 				</div>
 				<!-- Prénom -->
 				<div class="form-group">
@@ -168,6 +169,7 @@
 						<span class="input-group-addon">Prénom</span>
 						<input class="form-control" type="text" name="prenoml" id="prenoml" placeholder="Prénom" value="<?php if (isset ($_POST['prenoml'])){ echo $prenoml;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurPrenoml"></span>
 				</div>
 				<!-- ADRESSE -->
 				<div class="form-group">
@@ -176,6 +178,7 @@
 						<span class="input-group-addon">Adresse</span>
 						<input class="form-control" type="text" name="adressel" id="adressel" placeholder="Adresse" value="<?php if (isset ($_POST['adressel'])){ echo $adressel;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurAdressel"></span>
 				</div>
 				<!-- Code postal -->
 				<div class="form-group">
@@ -184,6 +187,7 @@
 						<span class="input-group-addon">Code postal</span>
 						<input class="form-control" type="text" name="codepostall" id="codepostall" placeholder="Code postal" value="<?php if (isset ($_POST['codepostall'])){ echo $codepostall;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurCodepostall"></span>
 				</div>
 				<!-- Ville -->
 				<div class="form-group">
@@ -192,6 +196,7 @@
 						<span class="input-group-addon">Ville</span>
 						<input class="form-control" type="text" name="villel" id="villel" placeholder="Ville" value="<?php if (isset ($_POST['villel'])){ echo $villel;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurVillel"></span>
 				</div>
 				<!-- Province -->
 				<div class="form-group">
@@ -221,6 +226,7 @@
 						<span class="input-group-addon">Pays</span>
 						<input class="form-control" type="text" name="paysl" id="paysl" placeholder="Pays" value="<?php if (isset ($_POST['paysl'])){ echo $paysl;} ?>" required  />
 					</div>
+					<span class="erreur messageErreurPaysl"></span>
 				</div>
 			</div>
 		</div>
