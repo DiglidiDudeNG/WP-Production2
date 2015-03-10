@@ -10,7 +10,7 @@
  */
 class RB
 {
-	/** @var Array[RB_Section] La liste des instances des classes de chaque section. */
+	/** @var Array{RB_Section} La liste des instances des classes de chaque section. */
 	protected $sections;
 
 	/** @var String Le numéro de version. Pas sûr de garder ça longtemps. */
@@ -20,7 +20,7 @@ class RB
 	public static $is_admin;
 
 	/**
-	 * Constructeur. Fais pas mal de choses.
+	 * Constructeur.
 	 */
 	public function __construct()
 	{
@@ -39,8 +39,6 @@ class RB
 
 	/**
 	 * Charge les dépendances du programme.
-	 *
-	 * Lorsqu'on crée une nouvelle
 	 *
 	 * @see RB_Spectacle_Admin
 	 */
@@ -74,9 +72,7 @@ class RB
 				require_once $filename;
 			
 			// Inclure tout ce qui se trouve dans le dossier « prestation »
-			foreach (glob("spectacle/*.php") as $filename)
-				/** @noinspection PhpIncludeInspection */
-				require_once $filename;
+			
 			
 			// Inclure la classe « RB_Spectacle ».
 			require_once 'class-rb-spectacle.php';
@@ -103,13 +99,32 @@ class RB
 	}
 	
 	/**
-	 * Echo le type d'encodage dans le form.
+	 * Echo le type d'encodage.
+	 * 
+	 * Utilisé surtout dans les formulaires.
 	 * 
 	 * @action post_edit_form_tag
 	 */
-	function update_edit_form() 
+	public function update_edit_form() 
 	{
 		echo ' enctype="multipart/form-data"';
+	}
+	
+	/**
+	 * Inclues tous les fichiers dans un path.
+	 * 
+	 * @param String $path      La destination relative vers le dossier où pognera les fichiers PHP à inclure.
+	 * @param String $filetype  Le type de fichier à inclure. Sera « .php » par défaut.
+	 * 
+	 * @throws \Exception
+	 */
+	public function include_dir($path = ".", $filetype = ".php")
+	{
+		foreach (glob($path."/*".$filetype) as $filename)
+		{
+			if ( $filename ) require_once $filename;
+			else throw new Exception( "Erreur dans l'ajout des fichiers dans le path: \"".$path."\"" );
+		}
 	}
 
 	/**
@@ -125,14 +140,15 @@ class RB
 	}
 
 	/**
-	 * Fait battre la classe de ses propres ailes, tel un ange!
-	 * ♩ ♩ ♫ Aaaaaleluia~!!! (bis) ♫ ♩ ♫
-	 *
-	 * ...plus sérieusement, ça exécute cette partie du plugin, en appelant les instructions
-	 * d'exécution du loader.
+	 * Exécute le programme.
+	 * 
+	 * Appèle la fonction statique d'exécution de la classe statique RB_Loader afin d'ajouter les
+	 * actions et les filtres dans l'environnement de Wordpress. 
+	 * Ces actions ont été mises dans une "file d'attente" afin d'éviter de modifier les processus de base de Wordpress.
 	 */
 	public function run()
 	{
+		// Appeler la fonction d'exécution de la classe statique RB_Loader.
 		RB_Loader::run();
 	}
 }

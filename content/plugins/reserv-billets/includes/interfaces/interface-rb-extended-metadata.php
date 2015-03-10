@@ -6,7 +6,7 @@
 interface RB_Extended_Metadata
 {
 	const RENDER_ACTION_PREFIX = "rb_";
-	const THEME_FILTER_PREFIX = "";
+	const THEME_FILTER_PREFIX = "rb_";
 	
 	/**
 	 * Constructeur d'un objet Metadata.
@@ -20,9 +20,9 @@ interface RB_Extended_Metadata
 	public function __construct( array $args, $post_type = 'post', $key = null );
 	
 	/**
-	 * Mets à jour la metadata par rapport à l'ID du post courant.
+	 * Met à jour la metadata du post.
 	 *
-	 * @param Int          $post_id   L'ID du post qui va être affecté.
+	 * @param Int          $post_id   L'ID du post affecté.
 	 * @param String|Int   $val       La nouvelle valeur appliquée.
 	 *
 	 * @return String|Bool            L'ID de la meta si elle n'existait pas,
@@ -32,21 +32,24 @@ interface RB_Extended_Metadata
 	public function update( $post_id, $val = null );
 	
 	/**
-	 * Effectue le rendu de la metadata dans les metaboxes.
-	 * 
-	 * @return mixed
+	 * Effectue le rendu de la metadata dans le panneau d'administration.
+	 *
+	 * @param Bool $echo Vrai si le rendu doit être retourné, faux s'il doit être echoé.
+	 *
+	 * @return Void|String Soit rien, soit le rendu.
 	 */
-	public function render();
+	public function render($echo = true);
 	
 	/**
-	 * Ajoute l'action pour l'echo.
-	 * 
-	 * @return mixed
+	 * Ajoute l'action pour l'echo dans le thème.
 	 */
 	public function add_echo_action();
 	
 	/**
-	 * @return mixed
+	 * Valide la donnée entrée pour le post-meta.
+	 * 
+	 * @return Bool|WP_Error Vrai si la validation fut un succès, <br/>
+	 *                       ou un objet WP_Error sinon.
 	 */
 	public function validate_data();
 }

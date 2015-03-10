@@ -202,12 +202,13 @@ class RB_Prestation extends RB_Section
 	public function render_rb_prestation_spectacle_id( $post_id, $metadata )
 	{
 		global $post;
+		$poargs = array(
+			'post_type'      => 'spectacle',
+			'posts_per_page' => '-1',
+		);
 		
 		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
-		$posts = get_posts(array(
-			'post_type'      => 'spectacle',
-            'posts_per_page' => '-1',
-        ));
+		$posts = get_posts();
 		
 		if ( ! empty( $posts ) ) 
 		{

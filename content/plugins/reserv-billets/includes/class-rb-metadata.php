@@ -1,11 +1,15 @@
 <?php
 
+
+if ( class_exists("RB_Metadata") )
+	return;
+
 /**
- * Class RB_Metadata
- * 
- * La classe représentant une metadonnée.
- * 
- * @see add_post_meta()
+ * Modèle de Metadonnée.
+ *
+ * La classe générique représentant une metadonnée.
+ *
+ * @see get_post_meta()
  * @see update_post_meta()
  */
 class RB_Metadata
@@ -29,22 +33,16 @@ class RB_Metadata
 	
 	/** @var String La clé unique de la metabox. */
 	private $key;
-	
 	/** @var String Le label de la metadata, tel qu'affiché dans le label. */
 	private $label;
-	
 	/** @var int|string La valeur par défaut de la metadata, qu'on assigne lors de la création d'un nouveau post. */
 	private $default;
-	
 	/** @var Bool Vrai si la valeur sera sauvegardée. Évite les requêtes $_GET qui ont l'air louches... */
 	private $is_saved;
-	
 	/** @var Bool Vrai si la valeur est affichée dans une colonne. */
 	private $in_columns;
-	
 	/** @var Bool Vrai si la sauvegarde est un upload de fichier. */
 	private $is_file_upload;
-	
 	/** @var Callable Le callable pour le rendu. */
 	private $render_cb;
 	
@@ -111,6 +109,7 @@ class RB_Metadata
 	 *
 	 * @param Int          $post_id   L'ID du post qui va être affecté.
 	 * @param String|Int   $val       La nouvelle valeur appliquée.
+	 * 
 	 * @return String|Bool            L'ID de la meta si elle n'existait pas, 
 	 *                                Vrai si l'update a fonctionné, 
 	 *                                Faux sinon.
@@ -119,20 +118,7 @@ class RB_Metadata
 	{
 		$retour = false;
 		
-		// If the user uploaded an image, let's upload it to the server
-		if ( $this->is_file_upload() && !empty( $_FILES[$this->get_key()]['name'] ) )
-		{
-			// Upload the goal image to the uploads directory, resize the image, then upload the resized version
-			$goal_image_file = wp_upload_bits( $_FILES[$this->get_key()]['name'], null, file_get_contents($_FILES[$this->get_key()]['tmp_name']) );
-			
-			// Set post meta about this image. Need the comment ID and need the path.
-			if ( false == $goal_image_file['error'] )
-			{
-				// Since we've already added the key for this, we'll just update it with the file.
-				$retour = update_post_meta( $post_id, $this->get_key(), $goal_image_file['url'] );
-			}
-		}
-		elseif (isset($_REQUEST[$this->get_key()]))
+		if (isset($_REQUEST[$this->get_key()]))
 		{
 			// Si la valeur en params d'entrée est nulle, mettre celle de la requête.
 			if (is_null( $val ))
