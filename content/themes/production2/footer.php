@@ -24,6 +24,7 @@
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/classie.js"></script>
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/script.js"></script>
+	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/validation_achat.js"></script>
 	<script>
 
 		(function() {
