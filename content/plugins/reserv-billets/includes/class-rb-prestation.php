@@ -216,7 +216,8 @@ class RB_Prestation extends RB_Section
 			/** @var WP_Post $post */
 			foreach ($posts as $post) 
 			{
-				$retour .= '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+				$retour .= '<option value="'.$post->ID.'" '.selected($post->ID, $valeur, false).' >'
+				           .$post->post_title.'</option>';
 			}
 			
 			$retour .= "</select>\n";
