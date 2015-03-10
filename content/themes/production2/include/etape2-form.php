@@ -1,3 +1,32 @@
+<?php
+	
+	/** 
+	 * Si les variables de messages d'erreur ne sont pas initialisées,
+	 * on les initialise avec des strings vides
+	 */
+	if( !isset($messageErreurCourriel) ) 		{ $messageErreurCourriel=""; }
+	if( !isset($messageErreurNom) ) 			{ $messageErreurNom=""; }
+	if( !isset($messageErreurPrenom) ) 			{ $messageErreurPrenom=""; }
+	if( !isset($messageErreurAdresse) ) 		{ $messageErreurAdresse=""; }
+	if( !isset($messageErreurVille) ) 			{ $messageErreurVille=""; }
+	if( !isset($messageErreurCodepostal) ) 		{ $messageErreurCodepostal=""; }
+	if( !isset($messageErreurProvince) ) 		{ $messageErreurProvince=""; }
+	if( !isset($messageErreurPays) ) 			{ $messageErreurPays=""; }
+
+
+	if( !isset($messageErreurNoml) ) 			{ $messageErreurNoml=""; }
+	if( !isset($messageErreurPrenoml) ) 		{ $messageErreurPrenoml=""; }
+	if( !isset($messageErreurAdressel) ) 		{ $messageErreurAdressel=""; }
+	if( !isset($messageErreurVillel) ) 			{ $messageErreurVillel=""; }
+	if( !isset($messageErreurCodepostall) ) 	{ $messageErreurCodepostall=""; }
+	if( !isset($messageErreurProvincel) ) 		{ $messageErreurProvincel=""; }
+	if( !isset($messageErreurPaysl) ) 			{ $messageErreurPaysl=""; }
+
+?>
+
+
+
+
 <!-- ÉTAPE 2 -->
 <section id="information-client">
 	<div class="col-md-6 col-md-offset-3 etape">
