@@ -14,13 +14,13 @@
 	if( !isset($messageErreurPays) ) 			{ $messageErreurPays=""; }
 
 
-	if( !isset($messageErreurNom1) ) 			{ $messageErreurNom1=""; }
-	if( !isset($messageErreurPrenom1) ) 		{ $messageErreurPrenom1=""; }
-	if( !isset($messageErreurAdresse1) ) 		{ $messageErreurAdresse1=""; }
-	if( !isset($messageErreurVille1) ) 			{ $messageErreurVille1=""; }
-	if( !isset($messageErreurCodepostal1) ) 	{ $messageErreurCodepostal1=""; }
-	if( !isset($messageErreurProvince1) ) 		{ $messageErreurProvince1=""; }
-	if( !isset($messageErreurPays1) ) 			{ $messageErreurPays1=""; }
+	if( !isset($messageErreurNoml) ) 			{ $messageErreurNoml=""; }
+	if( !isset($messageErreurPrenoml) ) 		{ $messageErreurPrenoml=""; }
+	if( !isset($messageErreurAdressel) ) 		{ $messageErreurAdressel=""; }
+	if( !isset($messageErreurVillel) ) 			{ $messageErreurVillel=""; }
+	if( !isset($messageErreurCodepostall) ) 	{ $messageErreurCodepostall=""; }
+	if( !isset($messageErreurProvincel) ) 		{ $messageErreurProvincel=""; }
+	if( !isset($messageErreurPaysl) ) 			{ $messageErreurPaysl=""; }
 
 
 
