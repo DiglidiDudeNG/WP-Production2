@@ -50,12 +50,6 @@
 
 ?>
 
-
-
-
-
-
-
 <!-- PARTIE CHLOE >>>> -->
 <section class="commande">
 	<!-- ÉTAPE 1 -->
@@ -95,12 +89,9 @@
 							<input type="number" id="nb_billets" name="nb_billets" value="1">
 						</td>
 						<td class="panier-item-total">
-						<!-- METTRE CONDITION DE PRIX PAR RAPPORT AUX NB DE BILLETS -->
+							<!-- METTRE CONDITION DE PRIX PAR RAPPORT AUX NB DE BILLETS -->
 							<?php echo $spectacle_prix ?>$
 							<!-- // -->
-						</td>
-						<td class="panier-item-delete">
-							<i class="fa fa-times"></i>
 						</td>
 					</tr>
 				</tbody>
@@ -116,19 +107,19 @@
 					<tr class="taxes">
 						<td colspan="6"><strong>TVQ 9.975%</strong></td>
 						<td>
-							<?php 
+							<?php
 								$spectacle_tvq = $spectacle_prix*0.09975;
 								echo round($spectacle_tvq, 2);
-						 	?>$
+							?>$
 						</td>
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TPS 5.0%</strong></td>
 						<td>
-							<?php 
+							<?php
 								$spectacle_tps = $spectacle_prix*0.05;
 								echo round($spectacle_tps, 2);
-						 	?>$
+							?>$
 						</td>
 					</tr>
 					<tr class="total">
@@ -136,17 +127,19 @@
 							<strong>Total</strong>
 						</td>
 						<td>
-							<?php 
+							<?php
 								$spectacle_gtotal = $spectacle_prix+$spectacle_tps+$spectacle_tvq;
 								echo round($spectacle_gtotal, 2);
-						 	?>$
+							?>$
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		<!-- Mettre l'adresse de départ du site -->
+		<a class="btn btn-parenthese btn-achat" href="">Annuler</a>
 		<input type="hidden" name="etape" id="etape" value="2">
-		<input class="btn btn-parenthese btn-achat" type="submit" value="Étape suivante >">
+		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>
 

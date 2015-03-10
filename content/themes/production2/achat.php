@@ -57,7 +57,10 @@ Template Name: Achat
 				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
 			}
 		?>
-
+<?php 
+	// include("include/etape2-form.php");
+	// include("include/etape3-form.php");
+ ?>
 	</div>
 </div>
 

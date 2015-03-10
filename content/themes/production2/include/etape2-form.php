@@ -133,23 +133,19 @@
 				</label>
 				<!-- // -->
 			</div>
-
 			<div class="col-md-6">
 				<!-- PAR LA POSTE -->
 				<!-- METTRE LA CONDITION DE FAIRE APPARAITRE LE bouton pour adresse differente -->
-
 				<label class="info-condition" for="parPoste">
 					<input type="radio" name="envoi" id="parPoste" value="poste-envoie"/>
 					<div><span class="bouton-commentaire">Envoyer les billets par la poste (+ 2.00$)</span></div>
 				</label>
-
 				<!-- UTILISER LADRESSE PLUS HAUT -->
 				<!-- METTRE LA CONDITION DE FAIRE APPARAITRE LE FORMULAIRE SI LADRESSE EST DIFFÉRENTE DE PLUS HAUT -->
 				<label for="AdresseLivraison" class="info-condition">
 					<input type="checkbox" name="AdresseLivraison" id="AdresseLivraison" value="AdresseLivraison"/>
 					<div><span class="bouton-commentaire">Utiliser une autre adresse de livraison</span></div>
 				</label>
-
 				<!-- NOM -->
 				<div class="form-group">
 					<label for="noml" class="control-label sr-only">Nom</label>
@@ -221,7 +217,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- Mettre l'adresse de départ du site -->
+		<a class="btn btn-parenthese btn-achat" href="">Annuler</a>
 		<input type="hidden" name="etape" id="etape" value="3">
-		<input class="btn btn-parenthese btn-achat" type="submit" value="Étape suivante >">
+		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>

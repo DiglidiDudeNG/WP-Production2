@@ -1,29 +1,66 @@
-<!-- Formulaire paiement -->
+<!-- ÉTAPE 2 -->
 <section id="paiement">
-	<h2>Paiement</h2>
-	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="form-horizontal" id="paiement_form" name="paiement_form">
-		<!-- choix du type de carte -->
-		<label class="radio-inline">
-			<input type="radio" name="visa" id="visa" value="visa"> Visa
-		</label>
-		<label class="radio-inline">
-			<input type="radio" name="mastercard" id="mastercard" value="mastercard"> Mastercard
-		</label>
+	<div class="col-md-6 col-md-offset-3 etape">
+		<div class="rond-etape">3</div>
+		<h4>Paiement</h4>
+	</div>
+	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="" id="paiement_form" name="paiement_form">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="carte-width">
+					<label class="info-condition" for="visa">
+						<input type="radio" name="carte" id="visa" value="visa"/>
+						<div><span class="bouton-commentaire"><img class="push-card" alt="visa" src="<?php echo IMAGES; ?>/credit-card/visa-icon.svg">Visa</span></div>
+					</label>
+				</div>
+				<div class="carte-width">
+					<label class="info-condition" for="master">
+						<input type="radio" name="carte" id="master" value="master"/>
+						<div><span class="bouton-commentaire"><img class="push-card" alt="mastercard" src="<?php echo IMAGES; ?>/credit-card/master-icon.svg">Mastercard</span></div>
+					</label>
+				</div>
+				<!-- champs pour entrer les infos de la carte -->
+				
+				<!-- numéro de la carte -->
+				<div class="form-group">
+					<label for="nocarte" class="control-label sr-only">Numéro de la carte</label>
+					<div class="input-group">
+						<span class="input-group-addon">Numéro de la carte</span>
+						<input class="form-control" type="text" name="nocarte" id="nocarte" placeholder="Numéro de la carte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />
+					</div>
+				</div>
+				<!-- NOM DU DÉTENTEUR -->
+				<div class="form-group">
+					<label for="nomdetenteur" class="control-label sr-only">Nom du détenteur</label>
+					<div class="input-group">
+						<span class="input-group-addon">Nom du détenteur</span>
+						<input class="form-control" type="text" name="nomdetenteur" id="nomdetenteur" placeholder="Nom du détenteur" value="<?php if (isset ($_POST['nomdetenteur'])){ echo $nomdetenteur;} ?>" required  />
+					</div>
+				</div>
+				<!-- date dexpiration -->
+				<div class="form-group">
+					<label for="expirationcarte" class="control-label sr-only">Date d'expériration</label>
+					<div class="input-group">
+						<span class="input-group-addon">Date d'expériration</span>
+						<input style="width: 95px" class="form-control" type="text" name="expirationmois" id="expirationmois" placeholder="Mois" value="<?php if (isset ($_POST['expirationmois'])){ echo $expirationmois;} ?>" required  />
+						<input style="width: 95px" class="form-control" type="text" name="expirationannee" id="expirationcarte" placeholder="Année" value="<?php if (isset ($_POST['expirationannee'])){ echo $expirationannee;} ?>" required  />
 
-		<!-- champs pour entrer les infos de la carte -->
-
-		<p><label for="nomdetenteur"> Nom du détenteur </label>
-			<input type="text" name="nom_detenteur" id="nomdetenteur" value="<?php if (isset ($_POST['nomdetenteur'])){ echo $nomdetenteur;} ?>" required  />
-		</p>
-		<p><label for="nocarte"> Numéro de la carte </label>
-			<input type="text" name="nocarte" id="nocarte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />
-		</p>
-				<p><label for="expirationcarte"> Expiration </label>
-			<input type="text" name="expirationcarte" id="expirationcarte" value="<?php if (isset ($_POST['expirationcarte'])){ echo $expirationcarte;} ?>" required  />
-		</p>
-				<p><label for="verifcarte"> No. de vérification </label>
-			<input type="text" name="verifcarte" id="verifcarte" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />
-		</p>
+					</div>
+				</div>
+				<!-- numéro de vérification -->
+				<div class="form-group">
+					<label for="verifcarte" class="control-label sr-only">No. de vérification</label>
+					<div class="input-group">
+						<span class="input-group-addon">No. de vérification</span>
+						<input  class="form-control" type="text" name="verifcarte" id="verifcarte" placeholder="No. de vérification" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />
+					</div>
+				</div>
+				<!-- // -->
+			</div>
+		</div>
+		<!-- Mettre l'adresse de départ du site -->
+		<a class="btn btn-parenthese btn-achat" href="">Annuler</a>
+		<input type="hidden" name="etape" id="etape" value="3">
+		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
-
 </section>
