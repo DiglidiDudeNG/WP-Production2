@@ -58,8 +58,8 @@ Template Name: Achat
 			}
 		?>
 <?php 
-	// include("include/etape2-form.php");
-	// include("include/etape3-form.php");
+	include("include/etape2-form.php");
+	include("include/etape3-form.php");
  ?>
 	</div>
 </div>

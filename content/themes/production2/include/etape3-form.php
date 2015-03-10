@@ -20,7 +20,7 @@
 					</label>
 				</div>
 				<!-- champs pour entrer les infos de la carte -->
-				
+			
 				<!-- numéro de la carte -->
 				<div class="form-group">
 					<label for="nocarte" class="control-label sr-only">Numéro de la carte</label>
