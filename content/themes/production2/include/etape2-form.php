@@ -245,7 +245,6 @@
 						</div>
 						<span class="erreur messageErreurPaysl"><?php echo $messageErreurPaysl; ?></span>
 					</div>
-					<span class="erreur messageErreurPaysl"></span>
 				</div>
 
 
