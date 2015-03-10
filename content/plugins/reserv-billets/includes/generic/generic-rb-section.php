@@ -8,17 +8,11 @@
  */
 abstract class RB_Section
 {
-	/** @const String Le nom de la slug par défaut. */
-	const DEFAULT_SLUG = 'rb-x-slug';
-	
-	/** @var String Le nom du post-type. */
-	public $post_type;
-
-	/** @var String L'identifiant de la slug */
-	protected $slug;
-
 	/** @var String Le numéro de version. Pas sûr de garder ça longtemps. */
 	protected $version;
+	
+	/** @var String Le nom du post-type. */
+	protected $post_type;
 	
 	/** @var RB_Admin L'objet d'administration du post_type Prestation. */
 	public $admin;
@@ -32,12 +26,10 @@ abstract class RB_Section
 	 * @access public
 	 *
 	 * @param string         $post_type Le nom du post-type.
-	 * @param null|RB_Loader $loader Le loader qui va être appelé pour les hooks.
 	 */
 	public function __construct( $post_type )
 	{
 		// Définir le nom de la slug, pour les URLs.
-		$this->slug = self::DEFAULT_SLUG;
 
 		// Définir le numéro de version. (À changer de temps en temps)
 		$this->version = '0.8.0';
@@ -68,8 +60,6 @@ abstract class RB_Section
 	
 	/**
 	 * Définit tous les hooks de la fonction
-	 *
-	 * @param \RB_Loader $loader
 	 */
 	protected function define_hooks()
 	{
@@ -155,10 +145,9 @@ abstract class RB_Section
 	abstract public function creer_objet_admin();
 	
 	/**
+	 * Définis les hooks extras, si possible.
 	 * 
 	 * Est là au cas où on a besoin d'autres hooks que ceux de la classe parent.
-	 * 
-	 * @param \RB_Loader $loader
 	 */
 	abstract protected function define_other_hooks();
 }

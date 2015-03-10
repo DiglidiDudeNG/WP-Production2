@@ -31,7 +31,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/** @var RB_Spectacle $rb */
 $rb = null;
 
 // Prendre la classe de base du plugin.
@@ -83,15 +82,12 @@ function rb_installation()
 function rb_deactivation()
 {
 	// TODO le processus de désactivation.
-
+	
 	// Note: Les post-types se désenregistrent automatiquement lors de la désinstallation d'un plugin, donc pas vraiment besoin de faire quoi que ce soit là-dessus.
-
+	
 	//...cependant, y faut flusher les liens permanents; Ça, t'as pas le choix!
 	flush_rewrite_rules();
 }
-
-// Ajouter la fonction d'init ci-dessus à l'action d'initialisation.
-//add_action( "init", "reserv_billets_init" );
 
 // Enregistrer le hook pour l'activation du plugin.
 register_activation_hook( __FILE__, "rb_installation" );

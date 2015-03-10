@@ -134,9 +134,11 @@ class RB_Metadata
 		}
 		elseif (isset($_REQUEST[$this->get_key()]))
 		{
+			// Si la valeur en params d'entrée est nulle, mettre celle de la requête.
 			if (is_null( $val ))
 				$val = $_REQUEST[ $this->get_key() ];
-				
+			
+			// Mettre à jour le post meta.
 			$retour = update_post_meta( $post_id, $this->get_key(), $val );
 		}
 		

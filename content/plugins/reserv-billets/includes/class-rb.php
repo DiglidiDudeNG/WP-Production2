@@ -10,35 +10,20 @@
  */
 class RB
 {
-	/** @const String Le nom de la slug par défaut. */
-	const SLUG_DEFAULT = 'rb-slug';
-
-	/** @var RB_Loader Le loader de l'élément. */
-	protected $loader;
-
 	/** @var Array[RB_Section] La liste des instances des classes de chaque section. */
 	protected $sections;
-
-	/** @var String L'identifiant de la slug */
-	protected $slug;
 
 	/** @var String Le numéro de version. Pas sûr de garder ça longtemps. */
 	protected $version;
 
 	/** @var bool Détermine si l'utilisateur est admin. */
-	protected $is_admin;
+	public static $is_admin;
 
 	/**
 	 * Constructeur. Fais pas mal de choses.
-	 *
-	 * @param String|null $custom_slug Le nom du slug, si on en veut un différent
-	 *                                 de celui par défaut.
 	 */
-	public function __construct($custom_slug = NULL)
+	public function __construct()
 	{
-		// Définir le nom de la slug, pour les URLs.
-		$this->slug = (is_null($custom_slug) ? self::SLUG_DEFAULT : $custom_slug);
-
 		// Définir le numéro de version. (À changer de temps en temps)
 		$this->version = '0.4.0';
 
@@ -67,30 +52,45 @@ class RB
 
 		// Créer le Loader.
 		try {
-			require_once 'class-rb-loader.php'; // RB_Loader
-			$this->loader = new RB_Loader( $this->get_version() );
+			// Inclure les interfaces.
+			foreach (glob("interfaces/*.php") as $filename) {
+				/** @noinspection PhpIncludeInspection */
+				require_once $filename;
+			}
+			
+			// Inclure le loader statique.
+			// Puisqu'il est utilisé dans un contexte statique, pas besoin de créer d'instance!
+			require_once 'class-rb-loader.php';
 			
 			// Inclure la classe RB_Metadata.
 			require_once 'class-rb-metadata.php';
 			
-			// Inclure l'interface « Interface_RB_Metabox ».
-			require_once 'interfaces/interface-rb-metabox.php';
 			// Inclure la classe « RB_Metabox ».
 			require_once 'class-rb-metabox.php';
+			
+			// Inclure tout ce qui se trouve dans le dossier « prestation »
+			foreach (glob("prestation/*.php") as $filename)
+				/** @noinspection PhpIncludeInspection */
+				require_once $filename;
+			
+			// Inclure tout ce qui se trouve dans le dossier « prestation »
+			foreach (glob("spectacle/*.php") as $filename)
+				/** @noinspection PhpIncludeInspection */
+				require_once $filename;
 			
 			// Inclure la classe « RB_Spectacle ».
 			require_once 'class-rb-spectacle.php';
 			// Créer l'objet « RB_Spectacle ».
-			$this->sections['spectacle'] = new RB_Spectacle( $this->loader );
+			$this->sections['spectacle'] = new RB_Spectacle();
 			
 			// Inclure la classe « RB_Prestation ».
 			require_once 'class-rb-prestation.php';
 			// Créer l'objet « RB_Prestation ».
-			$this->sections['prestation'] = new RB_Prestation( $this->loader );
+			$this->sections['prestation'] = new RB_Prestation();
 		} 
-		catch (Exception $e)
+		catch (Exception $e) // Si y'a une exception, 
 		{
-			printf($e);
+			wp_die( "Erreur non-trouvée." );
 		}
 	}
 

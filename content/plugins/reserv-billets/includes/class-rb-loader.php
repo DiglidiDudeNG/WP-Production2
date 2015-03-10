@@ -14,20 +14,9 @@ class RB_Loader
 	const ARGS_ACCEPTÉS_DÉFAUT = 1; // Le nb d'arguments acceptés par défaut des callbacks des hooks.
 
 	/** @var Array Les actions */
-	protected static $actions;
+	protected static $actions = array();
 	/** @var Array Les filtres */
-	protected static $filters;
-
-	/**
-	 * Constructeur.
-	 *
-	 * Crée les listes de queues d'actions et de filtres.
-	 */
-	public function __construct()
-	{
-		self::$actions = array();
-		self::$filters = array();
-	}
+	protected static $filters = array();
 
 	/**
 	 * Ajoute une action à la liste.
@@ -66,12 +55,8 @@ class RB_Loader
 	/**
 	 * Ajoute un hook dans l'exécution de Wordpress.
 	 *
-	 * N'ayant nul besoin de savoir le type de hook impliqué, cette fonction représente vulgairement
-	 * l'immigré mexicain illégal qui prend tes meubles et qui les transporte dans le camion de déménagement!
-	 *
-	 * > NOTE DE FÉLIX: <br />
-	 * > On va changer cte description-là, assurément.
-	 *
+	 * 
+	 * 
 	 * @see   RB_Loader::queue_action
 	 * @see   RB_Loader::queue_filter
 	 * @see   add_action
@@ -85,8 +70,8 @@ class RB_Loader
 	 * @param int    $priorité      La priorité d'exécution.
 	 * @param int    $args_acceptés Le nb d'arguments acceptés par le callback.
 	 *
-	 * @return Array La liste des hooks auquel on a ajouté un hook avec les 3
-	 *                 derniers paramètres.
+	 * @return Array                La liste des hooks auquel on a ajouté un hook avec les 3
+	 *                              derniers paramètres.
 	 */
 	private static function add(array $hookListe, $tag, $composant, $fnCallback, $priorité, $args_acceptés)
 	{
