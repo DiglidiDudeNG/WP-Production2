@@ -7,13 +7,14 @@ get_header();
 	the_post();
 
 	$spectacle_id = $post->ID;
+	$spectacle_image = get_post_meta( $post->ID, 'rb_spectacle_img_bandeau_url', true);
 	$spectacle_titre = get_the_title();
 	$spectacle_content = get_the_content();
 	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true);
 	$spectacle_fb = get_post_meta( $post->ID, 'rb_spectacle_artiste_facebook_url', true);
 	$spectacle_url = get_post_meta( $post->ID, 'rb_spectacle_artiste_site_url', true);
-	$spectacle_categorie = get_the_category($post->id);
-	$spectacle_cat[0] ->cat_name;
+	//$spectacle_categorie = get_the_category($post->ID);
+	//$spectacle_cat[category_nicename] ->cat_name;
 
 		  
 	$args = array(
@@ -61,7 +62,7 @@ get_header();
 	<div id="contenu-spect">
 		<div class="row">
 		  <div class="col-xs-12">	
-			<img class="singleImage" src="<?php echo IMAGES; ?>/CCR.jpg" style="width:100%" alt="photo du groupe"/>
+			<img class="singleImage" src="<?php echo $spectacle_image; ?>" style="width:100%" alt="photo du groupe"/>
 		  </div>
 		</div>
 			<section class="singleTop">
@@ -69,8 +70,18 @@ get_header();
 			  <div class="row">	
 			    <div class="col-sm-8 col-xs-4">
 					<h3 class="singleTitre"><?php echo $spectacle_titre; ?></h3>
-					<div class="singlePrestation"><?php echo $spectacle_categorie; ?></div>
 					
+					<div class="singlePrestation"><?php //echo $spectacle_categorie[$i]; ?>
+					
+					<?php 
+						
+						foreach (get_the_category() as $spectacle_categorie){
+						
+						echo $spectacle_categorie->cat_name;
+						
+						}  
+					?>
+					</div>
 					<?php 
 						$length = count($prestation_date);
 						for($i = 0; $i < $length; $i++)
