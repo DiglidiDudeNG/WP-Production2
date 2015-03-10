@@ -591,10 +591,14 @@ footer div.reseau {
   border-style: none;
   text-decoration: none;
   text-transform: none;
+  letter-spacing: 1px !important;
   padding: 8px; }
 
 #contenu-spect tr {
   border-color: #e82530; }
+
+#contenu-spect .sociaux {
+  margin: 15px 0px; }
 
 #contenu-spect .siteweb {
   text-transform: uppercase;
