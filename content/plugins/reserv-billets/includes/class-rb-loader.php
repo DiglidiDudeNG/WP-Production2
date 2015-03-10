@@ -14,9 +14,9 @@ class RB_Loader
 	const ARGS_ACCEPTÉS_DÉFAUT = 1; // Le nb d'arguments acceptés par défaut des callbacks des hooks.
 
 	/** @var Array Les actions */
-	protected $actions;
+	protected static $actions;
 	/** @var Array Les filtres */
-	protected $filters;
+	protected static $filters;
 
 	/**
 	 * Constructeur.
@@ -25,8 +25,8 @@ class RB_Loader
 	 */
 	public function __construct()
 	{
-		$this->actions = array();
-		$this->filters = array();
+		self::$actions = array();
+		self::$filters = array();
 	}
 
 	/**
@@ -37,13 +37,13 @@ class RB_Loader
 	 *
 	 * @param String   $tag           L'identifiant de l'action. Exemple: "init"
 	 * @param Mixed    $composant     Le composant (objet) ayant la fonction à assigner à l'action.
-	 * @param Callback $fnCallback    La fonction dans la composante qui sera appelée par l'action.
+	 * @param Callable $fnCallback    La fonction dans la composante qui sera appelée par l'action.
 	 * @param int      $priorité      La priorité d'exécution de l'action.
 	 * @param int      $args_acceptés Le nb d'arguments acceptés par le callback de l'action.
 	 */
-	public function queue_action( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
+	public static function queue_action( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
 	{
-		$this->actions = self::add( $this->actions, $tag, $composant, $fnCallback, $priorité, $args_acceptés );
+		self::$actions = self::add( self::$actions, $tag, $composant, $fnCallback, $priorité, $args_acceptés );
 	}
 
 	/**
@@ -58,9 +58,9 @@ class RB_Loader
 	 * @param int      $priorité      La priorité d'exécution du filtre.
 	 * @param int      $args_acceptés Le nb d'arguments acceptés par le callback du filtre.
 	 */
-	public function queue_filter( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
+	public static function queue_filter( $tag, $composant, $fnCallback, $priorité = self::PRIORITÉ_DÉFAUT, $args_acceptés = self::ARGS_ACCEPTÉS_DÉFAUT )
 	{
-		$this->filters = self::add( $this->filters, $tag, $composant, $fnCallback, $priorité, $args_acceptés );
+		self::$filters = self::add( self::$filters, $tag, $composant, $fnCallback, $priorité, $args_acceptés );
 	}
 
 	/**
@@ -109,10 +109,10 @@ class RB_Loader
 	 *
 	 * @see   RB_Spectacle::run()
 	 */
-	public function run()
+	public static function run()
 	{
 		// Parcourir l'array de filtres qui ont été assignés à l'avance.
-		foreach ( $this->filters as $filter ) {
+		foreach ( self::$filters as $filter ) {
 			// Ajouter un filtre à WP.
 			add_filter(
 				$filter['tag'],
@@ -123,7 +123,7 @@ class RB_Loader
 		}
 
 		// Parcourir l'array d'actions qui ont été assignées à l'avance.
-		foreach ( $this->actions as $action ) {
+		foreach ( self::$actions as $action ) {
 			// Ajouter une action à WP.
 			add_action(
 				$action['tag'],

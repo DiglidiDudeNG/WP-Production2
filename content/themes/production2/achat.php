@@ -1,7 +1,7 @@
 <?php
 
 	// Vérification de l'étape d'achat en cours
-	if( isset($_POST['etape']) ){
+		if( isset($_POST['etape']) ){
 
 		$etape = trim($_POST['etape']);;
 		$etape = filter_var($etape, FILTER_SANITIZE_STRING);
@@ -40,7 +40,6 @@ Template Name: Achat
 <div class="container">
 	<div class="achat-container etapes-achat">
 		<h2>Achat</h2>
-	
 		<?php
 			if( $etape === "1" || $val_etape_2 === false ){
 				require_once(locate_template("include/etape1-form.php"));
@@ -62,13 +61,6 @@ Template Name: Achat
 	</div>
 </div>
 
-<?php
-	//include_once("include/etape1.php");
-?>
-
-<?php
-	// include_once("include/etape2.php");
-?>
 
 
 	<!-- fin du contenu de la page achat.php -->
