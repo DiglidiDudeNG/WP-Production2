@@ -6,17 +6,6 @@
  *
  * Le contrôleur principal des spectacles.
  * 
- * TODO rendre **DRY**.
- * 
- * 
- * NOTES POUR LES SPECTACLES:
- * ajouter 2 photos a chaque spectacles ........
- * champs
-	 * url de l'artiste   
-	 * facebook de l'artiste  
-	 * prix
-	 * categorie (rock-alternatif, pop, seventies)
- *
  * @package RB
  */
 class RB_Spectacle extends RB_Section
@@ -52,7 +41,7 @@ class RB_Spectacle extends RB_Section
 		// Ça va réduire le load.
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-spectacle-admin.php';
+			require_once __RB_PLUGIN_DIR__ . 'admin/class-rb-spectacle-admin.php';
 		}
 	}
 	

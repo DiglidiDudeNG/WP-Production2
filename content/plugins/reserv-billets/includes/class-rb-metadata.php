@@ -1,9 +1,5 @@
 <?php
 
-
-if ( class_exists("RB_Metadata") )
-	return;
-
 /**
  * Modèle de Metadonnée.
  *
@@ -109,9 +105,9 @@ class RB_Metadata
 	 *
 	 * @param Int          $post_id   L'ID du post qui va être affecté.
 	 * @param String|Int   $val       La nouvelle valeur appliquée.
-	 * 
-	 * @return String|Bool            L'ID de la meta si elle n'existait pas, 
-	 *                                Vrai si l'update a fonctionné, 
+	 *
+	 * @return String|Bool            L'ID de la meta si elle n'existait pas,
+	 *                                Vrai si l'update a fonctionné,
 	 *                                Faux sinon.
 	 */
 	public function update( $post_id, $val = null )
@@ -137,7 +133,7 @@ class RB_Metadata
 	
 	/**
 	 * Getter pour la clé.
-	 * 
+	 *
 	 * @return String La clé.
 	 */
 	public function get_key() { return $this->key; }
@@ -145,49 +141,49 @@ class RB_Metadata
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return String
 	 */
 	public function get_label() { return $this->label; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Int|String
 	 */
 	public function get_default_value() { return $this->default; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Bool
 	 */
 	public function is_in_columns() { return $this->in_columns; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Bool
 	 */
 	public function is_saved() { return $this->is_saved; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Bool
 	 */
 	public function is_hidden() { return $this->is_hidden; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Callable
 	 */
 	public function get_render_cb() { return $this->render_cb; }
 	
 	/**
 	 * TODO DESCR
-	 * 
+	 *
 	 * @return Bool
 	 */
 	public function is_file_upload() { return $this->is_file_upload; }
@@ -203,7 +199,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la clé a été assignée à l'objet RB_Metadata
 	 */
-	public function set_key( $key ) 
+	public function set_key( $key )
 	{
 		$ok = $this->valider_key( $key );
 		
@@ -220,7 +216,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre label a été assignée à l'objet RB_Metadata
 	 */
-	public function set_label( $label ) 
+	public function set_label( $label )
 	{
 		$ok = $this->valider_label( $label );
 		
@@ -237,7 +233,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre default a été assignée à l'objet RB_Metadata
 	 */
-	public function set_default( $default ) 
+	public function set_default( $default )
 	{
 		$ok = $this->valider_default( $default );
 		
@@ -254,7 +250,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre in_columns a été assignée à l'objet RB_Metadata
 	 */
-	public function set_in_columns( $in_columns ) 
+	public function set_in_columns( $in_columns )
 	{
 		$ok = is_bool( $in_columns );
 		
@@ -266,8 +262,8 @@ class RB_Metadata
 	
 	/**
 	 * Setter de is_saved.
-	 * 
-	 * @param Bool $is_saved 
+	 *
+	 * @param Bool $is_saved
 	 *
 	 * @return Bool
 	 */
@@ -284,7 +280,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre render_cb a été assignée à l'objet RB_Metadata
 	 */
-	public function set_render_cb( $render_cb ) 
+	public function set_render_cb( $render_cb )
 	{
 		$ok = $this->valider_render_cb( $render_cb );
 		if ($ok) $this->render_cb = $render_cb;
@@ -298,7 +294,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si la valeur du paramètre is_file_upload a été assignée à l'objet is_file_upload
 	 */
-	public function set_is_file_upload( $is_file_upload ) 
+	public function set_is_file_upload( $is_file_upload )
 	{
 		$ok = is_bool( $is_file_upload );
 		if ($ok) $this->is_file_upload = $is_file_upload;
@@ -311,9 +307,9 @@ class RB_Metadata
 	
 	/**
 	 * Validateur de la clé.
-	 * 
+	 *
 	 * @param String $key La valeur de la clé.
-	 * 
+	 *
 	 * @return Bool Vrai si c'est valide.
 	 */
 	private function valider_key( $key )
@@ -330,7 +326,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si c'est valide.
 	 */
-	private function valider_label( $label )
+	protected function valider_label( $label )
 	{
 		// TODO validateur
 		return true;
@@ -343,7 +339,7 @@ class RB_Metadata
 	 *
 	 * @return Bool Vrai si c'est valide.
 	 */
-	private function valider_default( $default )
+	protected function valider_default( $default )
 	{
 		// TODO validateur
 		return true;
@@ -354,7 +350,7 @@ class RB_Metadata
 	 *
 	 * @return bool
 	 */
-	private function valider_render_cb( $render_cb ) 
+	protected function valider_render_cb( $render_cb )
 	{
 		return is_null($render_cb) || is_callable($render_cb);
 	}

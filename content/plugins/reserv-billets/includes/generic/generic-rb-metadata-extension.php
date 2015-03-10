@@ -1,23 +1,32 @@
 <?php
-/**
- * interface-rb-extend-metadata.php
- */
 
-interface RB_Extended_Metadata
+/**
+ * Module d'extension de RB_Metadata.
+ */
+abstract class RB_Metadata_Extension extends RB_Metadata
 {
 	const RENDER_ACTION_PREFIX = "rb_";
 	const THEME_FILTER_PREFIX = "rb_";
 	
+	/** @var Array La liste d'arguments pour le constructeur. */
+	public $construct_args;
+	
 	/**
-	 * Constructeur d'un objet Metadata.
-	 *
-	 * @param array  $args      Les arguments de l'objet.
-	 * @param string $post_type Le post-type.
-	 * @param string $key       La clé.
+	 * Constructeur de l'extension de la Metadata.
 	 *
 	 * @throws \ErrorException
 	 */
-	public function __construct( array $args, $post_type = 'post', $key = null );
+	public function __construct()
+	{
+		parent::__construct( array(), "", "" );
+	}
+	
+	/**
+	 * Retourne le type du post.
+	 * 
+	 * @return String Le type du post.
+	 */
+	abstract protected function get_post_type();
 	
 	/**
 	 * Met à jour la metadata du post.
@@ -29,7 +38,10 @@ interface RB_Extended_Metadata
 	 *                                Vrai si l'update a fonctionné,
 	 *                                Faux sinon.
 	 */
-	public function update( $post_id, $val = null );
+	public function update( $post_id, $val = null ) {
+		return parent::update($post_id, $val);
+	}
+	
 	
 	/**
 	 * Effectue le rendu de la metadata dans le panneau d'administration.
@@ -38,12 +50,12 @@ interface RB_Extended_Metadata
 	 *
 	 * @return Void|String Soit rien, soit le rendu.
 	 */
-	public function render($echo = true);
+	abstract public function render($echo = true);
 	
 	/**
 	 * Ajoute l'action pour l'echo dans le thème.
 	 */
-	public function add_echo_action();
+	abstract public function add_echo_action();
 	
 	/**
 	 * Valide la donnée entrée pour le post-meta.
@@ -51,5 +63,5 @@ interface RB_Extended_Metadata
 	 * @return Bool|WP_Error Vrai si la validation fut un succès, <br/>
 	 *                       ou un objet WP_Error sinon.
 	 */
-	public function validate_data();
+	abstract public function validate_data();
 }

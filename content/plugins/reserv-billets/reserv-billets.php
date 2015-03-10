@@ -26,23 +26,25 @@
  * If not, see http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
+define( '__RB_PLUGIN_DIR__', plugin_dir_path( __FILE__ ) );
+
 // Protection extra contre les script-kiddies!
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/** @var RB $rb La classe-noyau du plugin. */
 $rb = null;
 
 // Prendre la classe de base du plugin.
 /** @noinspection PhpIncludeInspection */
-require_once plugin_dir_path( __FILE__ ) . "includes/class-rb.php";
+require_once __RB_PLUGIN_DIR__ . "includes/class-rb.php";
 
 /**
  * Cette fonction sera appelée lors de l'exécution du plugin.
  */
 function reserv_billets_exec()
 {
-	// TODO la fonction d'init.
 	$rb = new RB();
 	$rb->run();
 }

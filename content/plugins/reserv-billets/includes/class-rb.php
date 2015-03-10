@@ -44,17 +44,13 @@ class RB
 	 */
 	private function load_all_dependencies()
 	{
-		// Pogner les classes abstraites.
-		require_once 'generic/generic-rb-section.php'; // RB_Section
-		require_once 'generic/generic-rb-admin.php'; // RB_Admin
-
 		// Créer le Loader.
 		try {
 			// Inclure les interfaces.
-			foreach (glob("interfaces/*.php") as $filename) {
-				/** @noinspection PhpIncludeInspection */
-				require_once $filename;
-			}
+			$this->include_dir("interfaces");
+			
+			// Inclure les classes génériques (abstraites).
+			$this->include_dir("generic");
 			
 			// Inclure le loader statique.
 			// Puisqu'il est utilisé dans un contexte statique, pas besoin de créer d'instance!
@@ -66,13 +62,15 @@ class RB
 			// Inclure la classe « RB_Metabox ».
 			require_once 'class-rb-metabox.php';
 			
-			// Inclure tout ce qui se trouve dans le dossier « prestation »
-			foreach (glob("prestation/*.php") as $filename)
-				/** @noinspection PhpIncludeInspection */
-				require_once $filename;
+			// Inclure tout ce qui se trouve dans le dossier « spectacle »
+			$this->include_dir("spectacle");
+			$this->include_dir("spectacle/metadatas");
+			$this->include_dir("spectacle/metaboxes");
 			
 			// Inclure tout ce qui se trouve dans le dossier « prestation »
-			
+			$this->include_dir("prestation");
+			$this->include_dir("prestation/metadatas");
+			$this->include_dir("prestation/metaboxes");
 			
 			// Inclure la classe « RB_Spectacle ».
 			require_once 'class-rb-spectacle.php';
@@ -86,7 +84,7 @@ class RB
 		} 
 		catch (Exception $e) // Si y'a une exception, 
 		{
-			wp_die( "Erreur non-trouvée." );
+			wp_die( var_export($e) );
 		}
 	}
 
@@ -105,25 +103,27 @@ class RB
 	 * 
 	 * @action post_edit_form_tag
 	 */
-	public function update_edit_form() 
+	public function update_edit_form()
 	{
 		echo ' enctype="multipart/form-data"';
 	}
 	
 	/**
 	 * Inclues tous les fichiers dans un path.
-	 * 
-	 * @param String $path      La destination relative vers le dossier où pognera les fichiers PHP à inclure.
-	 * @param String $filetype  Le type de fichier à inclure. Sera « .php » par défaut.
-	 * 
-	 * @throws \Exception
+	 *
+	 * @param String $path       La destination relative vers le dossier où pognera les fichiers PHP à inclure.
+	 * @param string $rootfolder Le dossier parent par rapport à la racine du plugin.
+	 *
+	 * @throws \Exception Si l'un des fichiers n'existe pas.
 	 */
-	public function include_dir($path = ".", $filetype = ".php")
+	public static function include_dir($path = ".", $rootfolder = 'includes/')
 	{
-		foreach (glob($path."/*".$filetype) as $filename)
+		$regex_path = __RB_PLUGIN_DIR__.$rootfolder.$path."/*.php";
+		
+		foreach ( glob( $regex_path ) as $filename )
 		{
 			if ( $filename ) require_once $filename;
-			else throw new Exception( "Erreur dans l'ajout des fichiers dans le path: \"".$path."\"" );
+			else throw new Exception( "Erreur dans l'ajout des fichiers dans le path: \"".$regex_path."\"" );
 		}
 	}
 

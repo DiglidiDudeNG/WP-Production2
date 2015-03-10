@@ -3,7 +3,7 @@
 /**
  * Class RB_Prestation
  *
- * Les prestations.
+ * Le contrôleur principal des spectacles.
  */
 class RB_Prestation extends RB_Section
 {
@@ -36,7 +36,7 @@ class RB_Prestation extends RB_Section
 	{
 		if ( $this->is_admin ) {
 			/** @noinspection PhpIncludeInspection */
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-rb-'.$this->post_type.'-admin.php';
+			require_once __RB_PLUGIN_DIR__ . 'admin/class-rb-'.$this->post_type.'-admin.php';
 		}
 	}
 	
