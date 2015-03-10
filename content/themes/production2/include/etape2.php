@@ -7,7 +7,7 @@
 <!-- formulaire courriel -->			
 	
 	<form class="form-horizontal">
-		<div class="form-group">
+		<div class="form-group courriel">
 			<label for="courriel" class="col-sm-2 control-label">Courriel</label>
 			<div class="col-sm-10">
 				<input type="email" class="form-control" id="courriel" placeholder="Courriel">
@@ -30,28 +30,33 @@
 	<div class="adresse-facturation">
 		<p>Adresse de facturation</p> 
 		<form action="<?php the_permalink(); ?>" name="facturationform" id="facturationform" method="post" onsubmit="return valider_contact(this);">
-		
-			<p><label for="nom"> Nom </label>
+			<div class="nom">
+				<label for="nom"> Nom </label>
 				<input type="text" name="nom" id="nom" value="<?php if (isset ($_POST['nom'])){ echo $nom;} ?>" required  />   
-			</p>
+			</div>
 
-			<p><label for="prenom"> Prénom </label>
-				<input type="text" name="prenom" id="prenom" value="<?php if (isset ($_POST['prenom'])){ echo $prenom;} ?>" required  />  
-			</p>
-			
-			<p><label for="adresse"> Adresse </label>
+			<div class="prenom">
+				<label for="prenom"> Prénom </label>
+				<input type="text" name="prenom" id="prenom" class="prenom" value="<?php if (isset ($_POST['prenom'])){ echo $prenom;} ?>" required  />  
+			</div>
+
+			<div class="adresse">
+				<label for="adresse"> Adresse </label>
 				<input type="text" name="adresse" id="adresse" value="<?php if (isset ($_POST['adresse'])){ echo $adresse;} ?>" required  />  
-			</p>
+			</div>
+
+			<div class="ville">
+				<label for="ville"> Ville </label>
+				<input type="text" name="ville" id="ville" value="<?php if (isset ($_POST['ville'])){ echo $ville;} ?>" required  />  				
+			</div>
 			
-			<p><label for="ville"> Ville </label>
-				<input type="text" name="ville" id="ville" value="<?php if (isset ($_POST['ville'])){ echo $ville;} ?>" required  />  
-			</p>
-			
-			<p><label for="codepostal"> Code postal </label>
-				<input type="text" name="codepostal" id="codepostal" value="<?php if (isset ($_POST['codepostal'])){ echo $codepostal;} ?>" required  />  
-			</p>
+			<div class="codepostal">
+				<label for="codepostal" > Code postal </label>
+				<input type="text" name="codepostal" id="codepostal"   value="<?php if (isset ($_POST['codepostal'])){ echo $codepostal;} ?>" required  />  
+			</div>
 			<!-- liste déroulante des provinces -->
-			<p><label for="province"> Province </label>	
+			<div class="province">
+				<label for="province"> Province </label>	
 				<select class="form-control" type="text" name="province" id="province" required >
 					<option value="<?php if (isset ($_POST['alberta'])){ echo $alberta;} ?>">Alberta</option>
 					<option value="<?php if (isset ($_POST['cb'])){ echo $cb;} ?>">Colombie-Britanique</option>
@@ -66,11 +71,12 @@
 					<option value="<?php if (isset ($_POST['tno'])){ echo $tno;} ?>">Territoire de Nord-Ouest</option>
 					<option value="<?php if (isset ($_POST['yukon'])){ echo $yukon;} ?>">Yukon</option>
 				</select>			
-			</p>
+			</div>
 			
-			<p><label for="pays"> Pays </label>
+			<div class="pays">
+				<label for="pays"> Pays </label>
 				<input type="text" name="pays" id="pays" placeholder="Canada" value="<?php if (isset ($_POST['pays'])){ echo $pays;} ?>" required  />  
-			</p>
+			</div>
 		</div>
 	<!-- Div pour mettre adresse de livraison si nécessaire à côté de l'autre adresse ou changer pour courriel ???  -->	
 	<div class="adresse-livraison">
@@ -97,7 +103,7 @@
 				<input type="text" name="codepostall" id="codepostall" value="<?php if (isset ($_POST['codepostall'])){ echo $codepostall;} ?>" required  />  
 			</p>
 			
-			<p><label for="provincel"> Province </label>	
+			<div class="provincel"><label for="provincel"> Province </label>	
 				<select class="form-control" type="text" name="provincel" id="provincel" required >
 					<option value="<?php if (isset ($_POST['alberta'])){ echo $alberta;} ?>">Alberta</option>
 					<option value="<?php if (isset ($_POST['cb'])){ echo $cb;} ?>">Colombie-Britanique</option>
@@ -112,11 +118,11 @@
 					<option value="<?php if (isset ($_POST['tno'])){ echo $tno;} ?>">Territoire de Nord-Ouest</option>
 					<option value="<?php if (isset ($_POST['yukon'])){ echo $yukon;} ?>">Yukon</option>
 				</select>			
-			</p>
+			</div>
 			
-			<p><label for="paysl"> Pays </label>
+			<div class="paysl"><label for="paysl"> Pays </label>
 				<input type="text" name="paysl" id="paysl" placeholder="Canada" value="<?php if (isset ($_POST['paysl'])){ echo $paysl;} ?>" required  />  
-			</p>
+			</div>
 		</div>	
 
 	<!-- checkbox pour livraison -->
@@ -146,18 +152,18 @@
 
 	<!-- champs pour entrer les infos de la carte -->
 	<form>	
-		<p><label for="nomdetenteur"> Nom du détenteur </label>
+		<div class="nomdetenteur"><label for="nomdetenteur"> Nom du détenteur </label>
 			<input type="text" name="nom_detenteur" id="nomdetenteur" value="<?php if (isset ($_POST['nomdetenteur'])){ echo $nomdetenteur;} ?>" required  />  
-		</p>		
-		<p><label for="nocarte"> Numéro de la carte </label>
+		</div>		
+		<div class="nocarte"><label for="nocarte"> Numéro de la carte </label>
 			<input type="text" name="nocarte" id="nocarte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />  
-		</p>
-		<p><label for="expirationcarte"> Expiration (mm/aa) </label>
+		</div>
+		<div class="expirationcarte"><label for="expirationcarte"> Expiration (mm/aa) </label>
 			<input type="text" name="expirationcarte" id="expirationcarte" value="<?php if (isset ($_POST['expirationcarte'])){ echo $expirationcarte;} ?>" required  />  
-		</p>
-		<p><label for="verifcarte"> No. de vérification </label>
+		</div>
+		<div class="verifcarte"><label for="verifcarte"> No. de vérification </label>
 			<input type="text" name="verifcarte" id="verifcarte" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />  
-		</p>
+		</div>
 	</form>
 
 </section>
