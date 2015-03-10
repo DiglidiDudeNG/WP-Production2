@@ -789,8 +789,7 @@ table, tr {
       color: #fff; }
 
 input.btn-achat {
-  margin-bottom: 20px;
-  float: right; }
+  margin-bottom: 20px; }
 
 /* Small devices (tablets, 768px and up) */
 @media screen and (max-width: 768px) {

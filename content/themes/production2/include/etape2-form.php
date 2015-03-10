@@ -192,7 +192,12 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" name="etape" id="etape" value="3">
-		<input class="btn btn-parenthese btn-achat" type="submit" value="Étape suivante >">
+		<div class="row">
+			<!-- Mettre l'adresse de départ du site -->
+			<a class="btn btn-parenthese btn-achat" href="">Annuler la commande</a>
+
+			<input type="hidden" name="etape" id="etape" value="3">
+			<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
+		</div>
 	</form>
 </section>

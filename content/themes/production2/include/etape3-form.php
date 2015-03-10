@@ -24,6 +24,13 @@
 				<p><label for="verifcarte"> No. de vérification </label>
 			<input type="text" name="verifcarte" id="verifcarte" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />
 		</p>
+		<div class="row">
+			<!-- Mettre l'adresse de départ du site -->
+			<a class="btn btn-parenthese btn-achat" href="">Annuler la commande</a>
+
+			<input type="hidden" name="etape" id="etape" value="3">
+			<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
+		</div>
 	</form>
 
 </section>

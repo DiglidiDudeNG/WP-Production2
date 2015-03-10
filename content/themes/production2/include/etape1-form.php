@@ -56,9 +56,6 @@
 							<?php echo $spectacle_prix ?>$
 							<!-- // -->
 						</td>
-						<td class="panier-item-delete">
-							<i class="fa fa-times"></i>
-						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -102,7 +99,10 @@
 				</tbody>
 			</table>
 		</div>
+		<!-- Mettre l'adresse de départ du site -->
+		<a class="btn btn-parenthese btn-achat" href="">Annuler la commande</a>
+
 		<input type="hidden" name="etape" id="etape" value="2">
-		<input class="btn btn-parenthese btn-achat" type="submit" value="Étape suivante >">
+		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>
