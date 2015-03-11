@@ -41,24 +41,25 @@ Template Name: Achat
 	<div class="achat-container etapes-achat">
 		<h2>Achat</h2>
 		<?php
-			if( $etape === "1" || $val_etape_2 === false ){
-				require_once(locate_template("include/etape1-form.php"));
-			}
-			elseif( $val_etape_2 === true || $val_etape_3 === false ){
-				require_once(locate_template("include/etape2-form.php"));
-			}
-			elseif( $val_etape_3 === true || $val_etape_4 === false ){
-				require_once(locate_template("include/etape3-form.php"));
-			}
-			elseif( $val_etape_4 === true ){
-				require_once(locate_template("include/etape4-form.php"));
-			}
-			else{
-				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
-			}
+			// if( $etape === "1" || $val_etape_2 === false ){
+			// 	require_once(locate_template("include/etape1-form.php"));
+			// }
+			// elseif( $val_etape_2 === true || $val_etape_3 === false ){
+			// 	require_once(locate_template("include/etape2-form.php"));
+			// }
+			// elseif( $val_etape_3 === true || $val_etape_4 === false ){
+			// 	require_once(locate_template("include/etape3-form.php"));
+			// }
+			// elseif( $val_etape_4 === true ){
+			// 	require_once(locate_template("include/etape4-form.php"));
+			// }
+			// else{
+			// 	echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
+			// }
 		?>
 
-		<?php include("include/etape4-form.php"); ?>
+				<?php include("include/etape5-form.php"); ?>
+
 	</div>
 </div>
 

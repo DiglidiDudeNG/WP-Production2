@@ -897,8 +897,24 @@ input {
  * Resume de la commande
  *
  */
+.bloc-info, .bloc-confirmation {
+  margin-bottom: 20px; }
+
 .panier-detail-resume th:first-child {
   padding-left: 12px; }
+.panier-detail-resume .label-resume {
+  text-align: left; }
+.panier-detail-resume .total {
+  background-color: #e82530;
+  color: #fff; }
+  .panier-detail-resume .total .label-total {
+    font-size: 16px; }
+
+.bloc-confirmation {
+  margin-top: 30px;
+  margin-bottom: 181px; }
+  .bloc-confirmation .bloc-btn {
+    margin-top: 40px; }
 
 /*CUSTOM */
 .spectacle-filtre {
