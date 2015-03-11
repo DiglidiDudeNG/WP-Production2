@@ -8,18 +8,24 @@
 	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="" id="paiement_form" name="paiement_form">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<div class="carte-width">
+				 <div class="carte-width">
 					<label class="info-condition" for="visa">
-						<input type="radio" class="info-condition" for="visa" name="carte" id="visa" value="visa"/>
+						<input type="radio" name="carte" id="visa" value="visa"/>
 						<div><span class="bouton-commentaire"><img class="push-card" alt="visa" src="<?php echo IMAGES; ?>/credit-card/visa-icon.svg">Visa</span></div>
 					</label>
 				</div>
 				<div class="carte-width">
 					<label class="info-condition" for="master">
-						<input type="radio" class="info-condition" for="master" name="carte" id="master" value="master"/>
+						<input type="radio" name="carte" id="master" value="master"/>
 						<div><span class="bouton-commentaire"><img class="push-card" alt="mastercard" src="<?php echo IMAGES; ?>/credit-card/master-icon.svg">Mastercard</span></div>
 					</label>
-				</div>
+				</div> 
+
+				<!-- <label class="radio-inline" id="choixcarte">
+					<input type="radio" name="choixcarte" id="visa" value="visa" /> Visa
+					<input type="radio" name="choixcarte" id="mastercard" value="mastercard" /> Mastercard
+				</label> -->
+
 				<span class="erreur messageErreurChoixcarte"><?php echo $messageErreurChoixcarte; ?></span>
 				<!-- champs pour entrer les infos de la carte -->
 			
@@ -45,7 +51,7 @@
 				<div class="form-group">
 					<label for="expirationcarte" class="control-label sr-only">Date d'expériration</label>
 					<div class="input-group">
-						<span class="input-group-addon">Date d'expériration</span>
+						<span class="input-group-addon">Date d'expiration</span>
 						<input style="width: 95px" class="form-control" type="text" name="expirationmois" class="carte" id="expirationmois" placeholder="Mois" value="<?php if (isset ($_POST['expirationmois'])){ echo $expirationmois;} ?>" required  />
 						<input style="width: 95px" class="form-control" type="text" name="expirationannee" class="carte" id="expirationcarte" placeholder="Année" value="<?php if (isset ($_POST['expirationannee'])){ echo $expirationannee;} ?>" required  />
 					</div>

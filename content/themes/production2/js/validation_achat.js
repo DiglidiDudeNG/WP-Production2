@@ -26,8 +26,7 @@ validcodepostall();
 //étape 3: Validation carte de crédit
 //validdisablecredit();
 validNocarte();
-validExpcreditMois();
-validExpcreditAn();
+validExpcredit();
 validNomcredit();
 validNoverif();
 
@@ -243,7 +242,7 @@ validNoverif();
 	champscredit.attr('disabled','disabled');	
 };*/
 
-var champscredit= $('#nocarte');
+/*var champscredit= $('#nocarte');
 //vérifie si un bouton est cliqué
 		$('input[name=carte]').on('click', function(){ // En sortant d'un champs d'info de la carte de crédit		
 
@@ -254,7 +253,7 @@ var champscredit= $('#nocarte');
 				validNomcredit();
 				validNoverif();
 
-		});
+		});*/
 		
 //valide si visa ou master
 	function validNocarte(){
@@ -278,7 +277,7 @@ var champscredit= $('#nocarte');
 					}						
 				//});
 			}
-			else if(valeur_selectionnee=="mastercard"){		
+			else if(valeur_selectionnee=="master"){		
 				//$('#nocarte').on('blur', function() {
 					var input=$(this);
 					var remaster = /^5[1-5][0-9]{14}$/;
@@ -305,52 +304,77 @@ var champscredit= $('#nocarte');
 
 	//nom du détenteur de la carte de crédit
 	function validNomcredit(){
-		$('#nomdetenteur').on('focusout', function() {
+		$('#nomdetenteur').on('blur', function() {
+
 			var input=$(this);
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
 				$("span.messageErreurNomdetenteur").empty();}
 			else{input.removeClass("valid").addClass("invalid");
-				$('span.messageErreurNomdetenteur').text( "Vous devez entrer le nom inscrit sur la carte." );
+				$('span.messageErreurNomdetenteur').text( "Vous devez entrer le nom inscrit sur la carte." );		
 			}
 		});
 	};
 
 	//Expiration carte de crédit
-	function validExpcreditMois(){
-		$('#expirationcarte').on('focusout', function() {
-			var input=$(this);
-			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
-			var is_exp=reexp.test(input.val());
-			if(is_exp){
-				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurExpcarte").empty();}
-			else{input.removeClass("valid").addClass("invalid");
-				$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaa)" );
-			}
-		});
-	};
+	function validExpcredit(){
+		var mois = $('#expirationmois');
+		var annee = $('#expirationcarte');
 
-	function validExpcreditAn(){
-		$('#expirationmois').on('focusout', function() {
-			var input=$(this);
-			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
-			var is_exp=reexp.test(input.val());
-			if(is_exp){
-				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurExpcarte").empty();}
-			else{input.removeClass("valid").addClass("invalid");
-				$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaa)" );
-			}
-		});
-	};
+		validExpcreditMois();
+		validExpcreditAn();
 
+		function validExpcreditMois(){
+			mois.on('blur', function() {
+				var input=$(this);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth()+1;
+
+				if((input.val() >= 1) && (input.val() <= 12)){
+					input.removeClass("invalid").addClass("valid");
+					$("span.messageErreurExpcarte").empty();}
+				else{input.removeClass("valid").addClass("invalid");
+					$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)" );					
+				}				
+			});
+		};
+
+		function validExpcreditAn(){	
+			annee.on('blur', function() {
+				var input=$(this);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth()+1;
+				var mois = $('#expirationmois');
+
+				if(input.val() == year){
+					if(mois.val() > month){
+						input.removeClass("invalid").addClass("valid");
+						$("span.messageErreurExpcarte").empty();
+					}
+					else{mois.removeClass("valid").addClass("invalid");
+						$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)");
+					}
+				}
+
+				else if ((input.val() >= year)&& (input.val() <= 2050)) {				
+					input.removeClass("invalid").addClass("valid");
+					$("span.messageErreurExpcarte").empty();
+				}
+
+				else{input.removeClass("valid").addClass("invalid");
+					$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)" );
+				}
+			});
+		};
+	};
 
 
 	//No. validation carte de crédit
 	function validNoverif(){
-		$('#verifcarte').on('focusout', function() {
+		$('#verifcarte').on('blur', function() {
 			var input=$(this);
 			var revalid = /^[0-9]{3}$/;
 			var is_validc=revalid.test(input.val());
