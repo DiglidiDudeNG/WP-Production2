@@ -25,10 +25,11 @@ validcodepostall();
 
 //étape 3: Validation carte de crédit
 //validdisablecredit();
-/*validnocarte();
-validexpcredit();
-validnomcredit();
-validnoverif();*/
+validNocarte();
+validExpcreditMois();
+validExpcreditAn();
+validNomcredit();
+validNoverif();
 
 
 //étape 2 formulaire du haut informations client
@@ -242,134 +243,123 @@ validnoverif();*/
 	champscredit.attr('disabled','disabled');	
 };*/
 
+var champscredit= $('#nocarte');
 //vérifie si un bouton est cliqué
-		$('.carte').on('blur', function() { // En sortant d'un champs d'info de la carte de crédit
-		var champscredit= $('#nomdetenteur, #nocarte, #expirationcarte, #verifcarte');
-		var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();	
-			if($('input[name=choixcarte]').is(':checked')) { // vérifie si un bouton est coché
-			//si oui		
-				$('#choixcarte').after( "<p>"+valeur_selectionnee+"</p>" );
+		$('input[name=carte]').on('click', function(){ // En sortant d'un champs d'info de la carte de crédit		
+
 				champscredit.attr('enabled','enabled');
-				validnocarte();
-				validexpcredit();
-				validnomcredit();
-				validnoverif();
-			}
-			else{
-				champscredit.attr('disabled','disabled');
-				$('#choixcarte').after( "<p>Choisir une carte.</p>" );
-				if ($('input[name=choixcarte]').is(':checked')){
-					champscredit.attr('enabled','enabled');
-					validnocarte();
-					validexpcredit();
-					validnomcredit();
-					validnoverif();
-				}
-			}
+				validNocarte();
+				validExpcreditMois();
+				validExpcreditAn();
+				validNomcredit();
+				validNoverif();
 
 		});
 		
 //valide si visa ou master
-	function validnocarte(){
-		$('input[name=choixcarte]').on('change', function(){
-			var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();
-						
+	function validNocarte(){
+		//$('input[name=carte]').on('click', function(){
+			$('#nocarte').on('blur', function(){
+			var valeur_selectionnee = $('input[type=radio][name=carte]:checked').val();			
 			if(valeur_selectionnee=="visa"){ // si Visa est sélectionné
-				$('#nocarte').on('focusout', function() {
+				//$('#nocarte').on('blur', function() {
 					
 					var input=$(this);
 					var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
 					var is_visa = revisa.test(input.val());
 					if(is_visa){
 						input.removeClass("invalid").addClass("valid");
-						$(".nocarte p").remove();
+						$("span.messageErreurNocarte").empty();
+						$("span.messageErreurChoixcarte").empty();
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-						if (input.next().is("p")){					
-						}
-						else{
-							input.after( "<p>Entrez un numéro de carte valide.</p>" );
-						}
+							$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
 					}						
-				});
+				//});
 			}
 			else if(valeur_selectionnee=="mastercard"){		
-				$('#nocarte').on('focusout', function() {
+				//$('#nocarte').on('blur', function() {
 					var input=$(this);
 					var remaster = /^5[1-5][0-9]{14}$/;
 					var is_master=remaster.test(input.val());
 					if(is_master){
 						input.removeClass("invalid").addClass("valid");
-						$(".nocarte p").remove();
+						$("span.messageErreurNocarte").empty();
+						$("span.messageErreurChoixcarte").empty();
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-						if (input.next().is("p")){					
-						}
-						else{
-							input.after( "<p>Entrez un numéro de carte valide.</p>" );
-						}
+							$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
+						
 					}
-				});
-			}				
+				//});
+			}	
+			else{
+				$('span.messageErreurChoixcarte').text( "Veuillez choisir une carte." );
+			}
+			
 		});
 	};
 
-		
+
 	//nom du détenteur de la carte de crédit
-	function validnomcredit(){
+	function validNomcredit(){
 		$('#nomdetenteur').on('focusout', function() {
 			var input=$(this);
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$(".nomdetenteur p").remove();}
+				$("span.messageErreurNomdetenteur").empty();}
 			else{input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
-				}
-				else{
-					input.after( "<p>Vous devez entrer le nom inscrit sur la carte.</p>" );
-				}
+				$('span.messageErreurNomdetenteur').text( "Vous devez entrer le nom inscrit sur la carte." );
 			}
 		});
 	};
 
 	//Expiration carte de crédit
-	function validexpcredit(){
+	function validExpcreditMois(){
 		$('#expirationcarte').on('focusout', function() {
 			var input=$(this);
 			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
 			var is_exp=reexp.test(input.val());
 			if(is_exp){
 				input.removeClass("invalid").addClass("valid");
-				$(".expirationcarte p").remove();}
+				$("span.messageErreurExpcarte").empty();}
 			else{input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
-				}
-				else{
-					input.after( "<p>Entrez une date d'expiration valide (mmaa)</p>" );
-				}
+				$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaa)" );
 			}
 		});
 	};
 
+	function validExpcreditAn(){
+		$('#expirationmois').on('focusout', function() {
+			var input=$(this);
+			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
+			var is_exp=reexp.test(input.val());
+			if(is_exp){
+				input.removeClass("invalid").addClass("valid");
+				$("span.messageErreurExpcarte").empty();}
+			else{input.removeClass("valid").addClass("invalid");
+				$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaa)" );
+			}
+		});
+	};
+
+
+
 	//No. validation carte de crédit
-	function validnoverif(){
+	function validNoverif(){
 		$('#verifcarte').on('focusout', function() {
 			var input=$(this);
 			var revalid = /^[0-9]{3}$/;
 			var is_validc=revalid.test(input.val());
 			if(is_validc){
 				input.removeClass("invalid").addClass("valid");
-				$(".verifcarte p").remove();}
+				$("span.messageErreurNoverif").empty();}
 			else{
 				input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
-				}
-				else{
-					input.after( "<p>Entrez un numéro valide (000)</p>" );
-				}
+				$('span.messageErreurNoverif').text( "Entrez un numéro valide (000)" );
 			}
 		});
 	};
