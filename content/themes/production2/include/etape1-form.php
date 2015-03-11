@@ -100,9 +100,20 @@
 							>
 						</td>
 						<td class="panier-item-total">
-							<!-- METTRE CONDITION DE PRIX PAR RAPPORT AUX NB DE BILLETS -->
-							<?php echo $spectacle_prix ?>$
-							<!-- // -->
+							<?php 
+
+								if( isset($_POST['nb_billets']) ){
+									$sousTotal = $spectacle_prix * $_POST['nb_billets'];
+								}
+								else{
+									$sousTotal = $spectacle_prix * 1;
+								}
+
+								$sousTotal = number_format((float)$sousTotal, 2, '.', '');
+								echo $sousTotal;
+							?>
+								$
+
 						</td>
 					</tr>
 				</tbody>
@@ -116,14 +127,15 @@
 				<tbody>
 					<tr class="sous-total">
 						<td colspan="6"><strong>Sous-total</strong></td>
-						<td><?php echo $spectacle_prix ?>$</td>
+						<td><?php echo $sousTotal ?>$</td>
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TVQ 9.975%</strong></td>
 						<td>
 							<?php
-								$spectacle_tvq = $spectacle_prix*0.09975;
-								echo round($spectacle_tvq, 2);
+								$spectacle_tvq = $sousTotal*0.09975;
+								$spectacle_tvq = number_format((float)$spectacle_tvq, 2, '.', '');
+								echo $spectacle_tvq;
 							?>$
 						</td>
 					</tr>
@@ -131,8 +143,9 @@
 						<td colspan="6"><strong>TPS 5.0%</strong></td>
 						<td>
 							<?php
-								$spectacle_tps = $spectacle_prix*0.05;
-								echo round($spectacle_tps, 2);
+								$spectacle_tps = $sousTotal*0.05;
+								$spectacle_tps = number_format((float)$spectacle_tps, 2, '.', '');
+								echo $spectacle_tps;
 							?>$
 						</td>
 					</tr>
@@ -142,8 +155,9 @@
 						</td>
 						<td>
 							<?php
-								$spectacle_gtotal = $spectacle_prix+$spectacle_tps+$spectacle_tvq;
-								echo round($spectacle_gtotal, 2);
+								$spectacle_gtotal = $sousTotal+$spectacle_tps+$spectacle_tvq;
+								$spectacle_gtotal = number_format((float)$spectacle_gtotal, 2, '.', '');
+								echo $spectacle_gtotal;
 							?>$
 						</td>
 					</tr>
@@ -151,8 +165,9 @@
 			</table>
 		</div>
 		<!-- Mettre l'adresse de départ du site -->
-		<a class="btn btn-parenthese btn-achat" href="">Annuler</a>
+		<a class="btn btn-parenthese btn-achat" href="<?php echo home_url(); ?>">Annuler</a>
 		<input type="hidden" name="etape" id="etape" value="2">
+		<input type="hidden" name="spectacle_prix" value="<?php echo $spectacle_prix; ?>">
 		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>

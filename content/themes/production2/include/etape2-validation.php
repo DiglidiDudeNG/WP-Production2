@@ -56,10 +56,33 @@
 		$val_etape_2 = false;
 	}
 	else{
-		
+		// Si tout est valide, on récupère les infos
 		$val_etape_2 = true;
 
+
+		$spectacle_prix = $_POST['spectacle_prix'];	
+
+		$sousTotal = $nb_billets * $spectacle_prix;		
+		$sousTotal = number_format((float)$sousTotal, 2, '.', '');
+
+		$spectacle_tvq = $sousTotal*0.09975;
+		$spectacle_tvq = number_format((float)$spectacle_tvq, 2, '.', '');
+
+		$spectacle_tps = $sousTotal*0.05;
+		$spectacle_tps = number_format((float)$spectacle_tps, 2, '.', '');
+
+		$spectacle_gtotal = $sousTotal + $spectacle_tvq + $spectacle_tps;
+		$spectacle_gtotal = number_format((float)$spectacle_gtotal, 2, '.', '');
+
+
 		$_SESSION['nb_billets'] = $nb_billets;
+		$_SESSION['spectacle_prix'] = $spectacle_prix;
+		$_SESSION['sousTotal'] = $sousTotal;
+		$_SESSION['spectacle_tvq'] = $spectacle_tvq;
+		$_SESSION['spectacle_tps'] = $spectacle_tps;
+		$_SESSION['spectacle_gtotal'] = $spectacle_gtotal;
+
+
 	}
 
 
