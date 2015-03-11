@@ -3,11 +3,9 @@
 	<h2>Paiement</h2>
 	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="form-horizontal" id="paiement_form" name="paiement_form">
 		<!-- choix du type de carte -->
-		<label class="radio-inline">
-			<input type="radio" name="visa" id="visa" value="visa"> Visa
-		</label>
-		<label class="radio-inline">
-			<input type="radio" name="mastercard" id="mastercard" value="mastercard"> Mastercard
+		<label class="radio-inline" id="choixcarte">
+			<input type="radio" name="choixcarte" id="visa" value="visa" /> Visa
+			<input type="radio" name="choixcarte" id="mastercard" value="mastercard" /> Mastercard
 		</label>
 
 		<!-- champs pour entrer les infos de la carte -->
@@ -27,7 +25,6 @@
 	</form>
 
 </section>
-
 
 
 <?php 

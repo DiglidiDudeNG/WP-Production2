@@ -5,7 +5,7 @@ $(document).ready(function() {  //Référence: http://contactmetrics.com/blog/va
 
 var reggen= /^[A-Za-zÀ-ÿ0-9\-. ]{2,50}$/;
 
-//étape 2 formulaire du haut
+//étape 2: formulaire du haut info client
 validnom();
 validprenom();
 validadresse();
@@ -14,7 +14,7 @@ validpays();
 validcourriel();
 validcodepostal();
 
-//étape 2 formulaire du bas
+//étape 2: formulaire du bas adresse de livraison
 validnoml();
 validprenoml();
 validadressel();
@@ -23,8 +23,14 @@ validpaysl();
 validcourriell();
 validcodepostall();
 
+//étape 3: Validation carte de crédit
+validnocarte();
+validexpcredit();
+validnomcredit();
+validnoverif();
 
-//étape 2 formulaire du haut
+
+//étape 2 formulaire du haut informations client
 //nom
 	function validnom(){
 		$('#nom').on('blur', function() {
@@ -124,7 +130,7 @@ validcodepostall();
 			}
 		});
 	};
-//étape 2 formulaire principal du bas
+//étape 2 formulaire principal du bas adresse de livraison
 
 //nom
 	function validnoml(){
@@ -248,54 +254,55 @@ validcodepostall();
 
 		});
 		
-		//valide si visa ou master
-			$('input[name=choixcarte]').on('change', function(){
-					var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();
-								
-					if(valeur_selectionnee=="visa"){ // si Visa est sélectionné
-						$('#nocarte').on('focusout', function() {
-							
-							var input=$(this);
-							var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
-							var is_visa = revisa.test(input.val());
-							if(is_visa){
-								input.removeClass("invalid").addClass("valid");
-								$(".nocarte p").remove();
-							}
-							else{
-								input.removeClass("valid").addClass("invalid");
-								if (input.next().is("p")){					
-								}
-								else{
-									input.after( "<p>Entrez un numéro de carte valide.</p>" );
-								}
-							}						
-						});
+//valide si visa ou master
+	function validnocarte(){
+		$('input[name=choixcarte]').on('change', function(){
+			var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();
+						
+			if(valeur_selectionnee=="visa"){ // si Visa est sélectionné
+				$('#nocarte').on('focusout', function() {
+					
+					var input=$(this);
+					var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
+					var is_visa = revisa.test(input.val());
+					if(is_visa){
+						input.removeClass("invalid").addClass("valid");
+						$(".nocarte p").remove();
 					}
-					else if(valeur_selectionnee=="mastercard"){		
-						$('#nocarte').on('focusout', function() {
-							var input=$(this);
-							var remaster = /^5[1-5][0-9]{14}$/;
-							var is_master=remaster.test(input.val());
-							if(is_master){
-								input.removeClass("invalid").addClass("valid");
-								$(".nocarte p").remove();
-							}
-							else{
-								input.removeClass("valid").addClass("invalid");
-								if (input.next().is("p")){					
-								}
-								else{
-									input.after( "<p>Entrez un numéro de carte valide.</p>" );
-								}
-							}
-						});
-					}				
+					else{
+						input.removeClass("valid").addClass("invalid");
+						if (input.next().is("p")){					
+						}
+						else{
+							input.after( "<p>Entrez un numéro de carte valide.</p>" );
+						}
+					}						
 				});
-		
+			}
+			else if(valeur_selectionnee=="mastercard"){		
+				$('#nocarte').on('focusout', function() {
+					var input=$(this);
+					var remaster = /^5[1-5][0-9]{14}$/;
+					var is_master=remaster.test(input.val());
+					if(is_master){
+						input.removeClass("invalid").addClass("valid");
+						$(".nocarte p").remove();
+					}
+					else{
+						input.removeClass("valid").addClass("invalid");
+						if (input.next().is("p")){					
+						}
+						else{
+							input.after( "<p>Entrez un numéro de carte valide.</p>" );
+						}
+					}
+				});
+			}				
+		});
+	};
 
 		
-		//nom du détenteur de la carte de crédit
+	//nom du détenteur de la carte de crédit
 	function validnomcredit(){
 		$('#nomdetenteur').on('focusout', function() {
 			var input=$(this);
@@ -312,7 +319,9 @@ validcodepostall();
 			}
 		});
 	};
-		//Expiration carte de crédit
+
+	//Expiration carte de crédit
+	function validexpcredit(){
 		$('#expirationcarte').on('focusout', function() {
 			var input=$(this);
 			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
@@ -328,8 +337,10 @@ validcodepostall();
 				}
 			}
 		});
+	};
 
-		//No. validation carte de crédit
+	//No. validation carte de crédit
+	function validnoverif(){
 		$('#verifcarte').on('focusout', function() {
 			var input=$(this);
 			var revalid = /^[0-9]{3}$/;
@@ -344,9 +355,9 @@ validcodepostall();
 				else{
 					input.after( "<p>Entrez un numéro valide (000)</p>" );
 				}
-
 			}
 		});
+	};
 
 		
 
