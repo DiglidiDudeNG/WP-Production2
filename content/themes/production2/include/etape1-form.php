@@ -137,7 +137,7 @@
 			</table>
 		</div>
 		<!-- Mettre l'adresse de départ du site -->
-		<a class="btn btn-parenthese btn-achat" href="">Annuler</a>
+		<a class="btn btn-parenthese btn-achat-2" href="">Annuler</a>
 		<input type="hidden" name="etape" id="etape" value="2">
 		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
