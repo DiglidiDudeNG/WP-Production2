@@ -42,6 +42,7 @@ get_header();
 		$prestation_id = array();
 		$prestation_date = array();
 		$prestation_heure = array();
+		$nb_billets_restant = array();
 
 		while ($wp_query_prestations->have_posts())
 		{
@@ -50,7 +51,8 @@ get_header();
 				
 				array_push($prestation_id, $post->ID);
 				array_push($prestation_date, get_post_meta( $post->ID, 'rb_prestation_date', true ) );
-				array_push($prestation_heure, get_post_meta( $post->ID, 'rb_prestation_heure', true ) );
+				array_push($prestation_heure, get_post_meta( $post->ID, 'rb_prestation_heure', true ) );				
+				array_push($nb_billets_restant, get_post_meta( $post->ID, 'rb_prestation_nb_billets', true ) );
 
 		}
 	}	
@@ -123,12 +125,28 @@ get_header();
 										<td><?php echo $prestation_date[$i]; ?></td>
 										<td><?php echo $spectacle_prix; ?> $</td>
 										<td>
-											<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
-												<input type="hidden" name="id_prestation" id="id_prestation<?php echo $i; ?>" value="<?php echo $prestation_id[$i]; ?>">
-												<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_id; ?>">
-												<input type="hidden" name="etape" id="etape" value="1">
-												<input type="submit" class="btn-spectacle-info btn-tab" value="Acheter">
-											</form>
+
+
+										<?php
+
+											if ( $nb_billets_restant[$i] > 0 ){
+										?>
+												<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+													<input type="hidden" name="id_prestation" id="id_prestation<?php echo $i; ?>" value="<?php echo $prestation_id[$i]; ?>">
+													<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_id; ?>">
+													<input type="hidden" name="etape" id="etape" value="1">
+													<input type="submit" class="btn-spectacle-info btn-tab" value="Acheter">
+												</form>
+										<?php
+											}
+											else{
+										?>
+												<button class="btn btn-parenthese btn-left">COMPLET</button>
+										<?php
+											}
+										?>
+
+
 										</td>
 									</tr>
 									<?php
