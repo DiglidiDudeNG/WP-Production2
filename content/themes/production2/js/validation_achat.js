@@ -24,10 +24,11 @@ validcourriell();
 validcodepostall();
 
 //étape 3: Validation carte de crédit
-validnocarte();
+//validdisablecredit();
+/*validnocarte();
 validexpcredit();
 validnomcredit();
-validnoverif();
+validnoverif();*/
 
 
 //étape 2 formulaire du haut informations client
@@ -234,21 +235,35 @@ validnoverif();
 
 // --------------- carte de crédit --------------------------------
 
-		
+// mettre les champs disable jusqu'à ce qu'un type de carte soit choisi
+
+/*function validdisablecredit(){
+	var champscredit= $('#nomdetenteur, #nocarte, #expirationcarte, #verifcarte');
+	champscredit.attr('disabled','disabled');	
+};*/
+
 //vérifie si un bouton est cliqué
-		$('.carte').on('focusout', function() { // En sortant d'un champs d'info de la carte de crédit
+		$('.carte').on('blur', function() { // En sortant d'un champs d'info de la carte de crédit
+		var champscredit= $('#nomdetenteur, #nocarte, #expirationcarte, #verifcarte');
+		var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();	
 			if($('input[name=choixcarte]').is(':checked')) { // vérifie si un bouton est coché
 			//si oui		
-
+				$('#choixcarte').after( "<p>"+valeur_selectionnee+"</p>" );
+				champscredit.attr('enabled','enabled');
+				validnocarte();
+				validexpcredit();
+				validnomcredit();
+				validnoverif();
 			}
 			else{
-			
-				if(
-					$("#choixcarte").next().is("p")){
-				}
-				else{
-					$("#choixcarte input").removeClass("valid").addClass("invalid");
-					$("#choixcarte input").after( "<p>Veuillez choisir un type de carte.</p>" );
+				champscredit.attr('disabled','disabled');
+				$('#choixcarte').after( "<p>Choisir une carte.</p>" );
+				if ($('input[name=choixcarte]').is(':checked')){
+					champscredit.attr('enabled','enabled');
+					validnocarte();
+					validexpcredit();
+					validnomcredit();
+					validnoverif();
 				}
 			}
 
