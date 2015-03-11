@@ -13,8 +13,9 @@ get_header();
 	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true);
 	$spectacle_fb = get_post_meta( $post->ID, 'rb_spectacle_artiste_facebook_url', true);
 	$spectacle_url = get_post_meta( $post->ID, 'rb_spectacle_artiste_site_url', true);
-	//$spectacle_categorie = get_the_category($post->ID);
-	//$spectacle_cat[category_nicename] ->cat_name;
+	$spectacle_categorie = get_the_category($post->ID);
+	$spectacle_categorie = $spectacle_categorie[0] -> cat_name;
+
 
 		  
 	$args = array(
@@ -27,9 +28,9 @@ get_header();
 			array(
 				'key'			=> 'rb_prestation_spectacle_id',
 				'value'			=> $spectacle_id
-				)
-			)		
-		);
+			)
+		)		
+	);
 	
 
 	wp_reset_postdata();
@@ -71,16 +72,9 @@ get_header();
 			    <div class="col-sm-8 col-xs-4">
 					<h3 class="singleTitre"><?php echo $spectacle_titre; ?></h3>
 					
-					<div class="singlePrestation"><?php //echo $spectacle_categorie[$i]; ?>
+					<div class="singlePrestation"><?php echo $spectacle_categorie; ?>
 					
-					<?php 
-						
-						foreach (get_the_category() as $spectacle_categorie){
-						
-						echo $spectacle_categorie->cat_name;
-						
-						}  
-					?>
+					
 					</div>
 					<?php 
 						$length = count($prestation_date);
@@ -119,19 +113,21 @@ get_header();
 									</tr>
 									
 									<?php 
-									$length = count($prestation_date);
-									for($i = 0; $i < $length; $i++)
-									{
+
+										$length = count($prestation_date);
+										for($i = 0; $i < $length; $i++)
+										{
 									
 									?>
 									<tr>
 										<td><?php echo $prestation_date[$i]; ?></td>
 										<td><?php echo $spectacle_prix; ?> $</td>
-										<td><form action="<?php echo bloginfo('url'); ?>/achat" method="post">
-											<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
-											<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
-											<input type="hidden" name="etape" id="etape" value="1">
-											<input type="submit" class="btn-spectacle-info btn-tab" value="Acheter">
+										<td>
+											<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+												<input type="hidden" name="id_prestation" id="id_prestation<?php echo $i; ?>" value="<?php echo $prestation_id[$i]; ?>">
+												<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_id; ?>">
+												<input type="hidden" name="etape" id="etape" value="1">
+												<input type="submit" class="btn-spectacle-info btn-tab" value="Acheter">
 											</form>
 										</td>
 									</tr>
