@@ -207,6 +207,19 @@
 			$_SESSION['provincel'] = $province;
 			$_SESSION['paysl'] = $pays;
 		}
+		elseif( $envoi == 'courriel-envoie' ){
+
+			if( isset($_SESSION['noml']) ){				
+				unset($_SESSION['noml']);
+				unset($_SESSION['prenoml']);
+				unset($_SESSION['adressel']);
+				unset($_SESSION['villel']);
+				unset($_SESSION['codepostall']);
+				unset($_SESSION['provincel']);
+				unset($_SESSION['paysl']);
+			}
+			
+		}
 
 	}
 
