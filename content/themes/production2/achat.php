@@ -61,4 +61,8 @@ Template Name: Achat
 </div>
 	<!-- fin du contenu de la page achat.php -->
 
+<?php 
+	include("include/etape3-form.php");
+ ?>
+
 <?php get_footer(); ?>
