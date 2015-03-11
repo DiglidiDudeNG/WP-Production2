@@ -16,7 +16,7 @@
 
 	$spectacle_titre = get_the_title();
 	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true );
-
+	$spectacle_image_mini = get_post_meta( $post->ID, 'rb_spectacle_img_mini_url', true);
 
 
 
@@ -73,9 +73,7 @@
 					<tr class="ligne-item">
 						<td class="panier-item-image">
 							<div class="panier-item-image-vignette">
-								<!-- METTRE LA VARIABLE DE L'IMAGE -->
-								<img src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
-								<!-- // -->
+								<img src="<?php echo $spectacle_image_mini ?>">
 							</div>
 						</td>
 						<td class="panier-item-description">

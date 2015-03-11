@@ -117,6 +117,7 @@
 								// Récupération du titre et de la description courte du spectacle courant
 								$prestation_title = get_the_title();
 								$prestation_excerpt = get_the_excerpt();
+								$spectacle_image_mini = get_post_meta( $post->ID, 'rb_spectacle_img_mini_url', true);
 
 
 								/************************************************************
@@ -149,7 +150,7 @@
 									<div class="postContainer col-md-4 col-sm-6">
 										<article class="spectacle flip-js">
 											<div class="spectacle-front front">
-												<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
+												<img class="spectacle-cover" alt="" src="<?php echo $spectacle_image_mini; ?>">
 												<div class="spectacle-info">
 													<!-- ICI METTRE CONDITION DE SI COMPLET -->
 													<!-- <div class="spectacle-bandeau">Complet</div> -->
