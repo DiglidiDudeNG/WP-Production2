@@ -82,26 +82,21 @@
 							<h3 class="nom-spectacle"><?php echo $spectacle_titre ?><br>
 							<span class="date-spectacle"><?php echo $prestation_date ?> à <?php echo $prestation_heure ?></span></h3>
 						</td>
-						<td class="panier-item-prix">
-							<?php echo $spectacle_prix ?>$
-						</td>
+						<td class="panier-item-prix"><?php echo $spectacle_prix ?>$</td>
 						<td class="panier-item-quantite">
 							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>" 
 								<?php
-
 									if( isset($_POST['nb_billets']) ){
 										echo 'value="' . $_POST['nb_billets'] . '"';
 									}
 									else{
 										echo 'value="1"';
 									}
-
 								?>
 							>
 						</td>
-						<td class="panier-item-total">
+						<td class="panier-item-total sous-total-text">
 							<?php 
-
 								if( isset($_POST['nb_billets']) ){
 									$sousTotal = $spectacle_prix * $_POST['nb_billets'];
 								}
@@ -127,11 +122,11 @@
 				<tbody>
 					<tr class="sous-total">
 						<td colspan="6"><strong>Sous-total</strong></td>
-						<td><?php echo $sousTotal ?>$</td>
+						<td class="sous-total-text"><?php echo $sousTotal ?>$</td>
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TVQ 9.975%</strong></td>
-						<td>
+						<td class="tvq-text">
 							<?php
 								$spectacle_tvq = $sousTotal*0.09975;
 								$spectacle_tvq = number_format((float)$spectacle_tvq, 2, '.', '');
@@ -141,7 +136,7 @@
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TPS 5.0%</strong></td>
-						<td>
+						<td class="tps-text">
 							<?php
 								$spectacle_tps = $sousTotal*0.05;
 								$spectacle_tps = number_format((float)$spectacle_tps, 2, '.', '');
@@ -153,7 +148,7 @@
 						<td colspan="6" class="label-total">
 							<strong>Total</strong>
 						</td>
-						<td>
+						<td class="gtotal-text">
 							<?php
 								$spectacle_gtotal = $sousTotal+$spectacle_tps+$spectacle_tvq;
 								$spectacle_gtotal = number_format((float)$spectacle_gtotal, 2, '.', '');
