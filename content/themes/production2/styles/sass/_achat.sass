@@ -9,8 +9,8 @@
 @-moz-document url-prefix()
 	.panier-detail, .panier-resume
 		float: left
-	.btn-achat
-		float: right
+	.btn-achat-2
+		float: left
 
 .etapes-achat
 	.etape
@@ -227,3 +227,28 @@ input
 .push-card
 	margin-right: 10px
 	vertical-align: top!important
+
+/*
+ *
+ *
+ * Resume de la commande
+ *
+ */
+.bloc-info, .bloc-confirmation
+	margin-bottom: 20px
+
+.panier-detail-resume 
+	th:first-child
+		padding-left: 12px
+	.label-resume
+		text-align: left
+	.total
+		background-color: $color-red
+		color: $color-white
+		.label-total
+			font-size: 16px
+.bloc-confirmation
+	margin-top: 30px
+	margin-bottom: 181px
+	.bloc-btn
+		margin-top: 40px
