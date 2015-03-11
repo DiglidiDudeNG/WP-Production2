@@ -37,6 +37,8 @@
 
 	$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 	$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
+	$nb_billets_restants = get_post_meta( $post->ID, 'rb_prestation_nb_billets', true );
+
 
 ?>
 
@@ -84,7 +86,18 @@
 							<?php echo $spectacle_prix ?>$
 						</td>
 						<td class="panier-item-quantite">
-							<input type="number" id="nb_billets" name="nb_billets" value="1">
+							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>" 
+								<?php
+
+									if( isset($_POST['nb_billets']) ){
+										echo 'value="' . $_POST['nb_billets'] . '"';
+									}
+									else{
+										echo 'value="1"';
+									}
+
+								?>
+							>
 						</td>
 						<td class="panier-item-total">
 							<!-- METTRE CONDITION DE PRIX PAR RAPPORT AUX NB DE BILLETS -->
@@ -94,6 +107,9 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<p class="erreur"><?php echo $messageErreurNbBillets; ?></p>
+
 		</div>
 		<div class="table-responsive">
 			<table class="table panier-resume">
@@ -142,8 +158,3 @@
 </section>
 
 
-
-
-
-
-<p class="erreur"><?php echo $messageErreurNbBillets; ?></p>
