@@ -56,12 +56,14 @@ Template Name: Achat
 			else{
 				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
 			}
-				include("include/etape3-form.php");
-
 		?>
+
+		<?php include("include/etape4-form.php"); ?>
 	</div>
 </div>
-	<!-- fin du contenu de la page achat.php -->
 
+
+
+	<!-- fin du contenu de la page achat.php -->
 
 <?php get_footer(); ?>

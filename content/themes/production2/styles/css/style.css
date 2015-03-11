@@ -16,7 +16,7 @@
   font-weight: 400; }
 
 button.btn-savoir {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   margin-bottom: 7px;
   margin-top: 9px;
   padding: 15px !important;
@@ -132,7 +132,7 @@ body {
   font-size: 18px; }
 
 #contenu-site p {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   line-height: 24px; }
 
 #contenu-site a:hover {
@@ -475,7 +475,7 @@ button {
   font-weight: 700; }
 
 .spectacle-description {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   color: #323232;
   margin: 0;
   height: 193px;
@@ -892,6 +892,14 @@ input {
   margin-right: 10px;
   vertical-align: top !important; }
 
+/*
+ *
+ * Resume de la commande
+ *
+ */
+.panier-detail-resume th:first-child {
+  padding-left: 12px; }
+
 /*CUSTOM */
 .spectacle-filtre {
   float: right; }
@@ -1088,5 +1096,84 @@ div.cs-active {
 
 .cs-select li.cs-optgroup > span {
   cursor: default; }
+
+#contact label {
+  display: inline-block;
+  width: 100px;
+  text-align: right; }
+
+#contact_submit {
+  padding-left: 100px; }
+
+#contact div {
+  margin-top: 1em; }
+
+textarea {
+  vertical-align: top;
+  height: 5em; }
+
+.error {
+  display: none;
+  margin-left: 10px; }
+
+.error_show {
+  color: red;
+  margin-left: 10px; }
+
+input.invalid, textarea.invalid {
+  border: 2px solid red; }
+
+#information-client input.valid, textarea.valid {
+  border: 2px solid green;
+  background-color: white !important; }
+
+#information-client .erreur {
+  color: red; }
+
+#contenu-spect .singleTop {
+  background-color: #e82530;
+  padding: 1px 15px 15px 15px; }
+
+#contenu-spect .singleTitre {
+  color: #fff; }
+
+#contenu-spect .singlePrestation {
+  color: #fff;
+  font-size: 12px; }
+
+#contenu-spect p.descrip {
+  color: #323232;
+  font-size: 15px; }
+
+#contenu-spect .singleBottom {
+  padding: 36px 0px; }
+
+#contenu-spect .tabBillets {
+  background-color: #e82530;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase !important; }
+
+#contenu-spect table tbody tr {
+  border-bottom: 1px solid #e82530;
+  background-color: #f3f3f3; }
+
+#contenu-spect .btn-tab {
+  border-style: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 1px !important;
+  padding: 8px; }
+
+#contenu-spect tr {
+  border-color: #e82530; }
+
+#contenu-spect .sociaux {
+  margin: 15px 0px; }
+
+#contenu-spect .siteweb {
+  text-transform: uppercase;
+  color: #e82530 !important;
+  margin: 15px; }
 
 /*# sourceMappingURL=style.css.map */
