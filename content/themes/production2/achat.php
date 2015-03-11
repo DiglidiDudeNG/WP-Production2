@@ -59,9 +59,6 @@ Template Name: Achat
 		?>
 	</div>
 </div>
-
-
-
 	<!-- fin du contenu de la page achat.php -->
 
 <?php get_footer(); ?>
