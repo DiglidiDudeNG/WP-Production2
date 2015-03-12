@@ -1139,11 +1139,11 @@ textarea {
 input.invalid, textarea.invalid {
   border: 2px solid red; }
 
-#information-client input.valid, textarea.valid {
+#paiement input.valid, #information-client input.valid, textarea.valid {
   border: 2px solid green;
   background-color: white !important; }
 
-#information-client .erreur {
+#information-client .erreur, #paiement .erreur {
   color: red; }
 
 #contenu-spect .singleTop {
