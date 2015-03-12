@@ -30,7 +30,8 @@ validExpcredit();
 validNomcredit();
 validNoverif();
 
-
+var valid = false;
+	
 //étape 2 formulaire du haut informations client
 //nom
 	function validnom(){
@@ -39,9 +40,12 @@ validNoverif();
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurNom").empty();}
+				$("span.messageErreurNom").empty();
+				valid = true;
+			}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurNom').text(" Entrez un nom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -53,9 +57,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPrenom").empty();}
+				$("span.messageErreurPrenom").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPrenom').text(" Entrez un prénom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -67,9 +73,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurAdresse").empty();}
+				$("span.messageErreurAdresse").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurAdresse').text(" Entrez une adresse valide" );
+				valid = false;
 			}
 		});
 	}
@@ -81,9 +89,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurVille").empty();}
+				$("span.messageErreurVille").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurVille').text(" Entrez un nom de ville valide." );
+				valid = false;
 			}
 		});
 	};
@@ -94,10 +104,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPays").empty();}
+				$("span.messageErreurPays").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
-
 				$('span.messageErreurPays').text(" Entrez un nom de pays valide." );
+				valid = false;
 			}
 		});
 	};
@@ -110,9 +121,11 @@ validNoverif();
 			var is_email=re.test(input.val());
 			if(is_email){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCourriel").empty();}
+				$("span.messageErreurCourriel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCourriel').text(" Entrez un courriel valide (courriel@aaa.bbb)" );
+				valid = false;
 			}
 		});
 	};
@@ -125,9 +138,11 @@ validNoverif();
 			var is_postal=repostal.test(input.val()); 
 			if(is_postal){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCodepostal").empty();}
+				$("span.messageErreurCodepostal").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
-				$('span.messageErreurCodepostal').text("Entrez un code postal valide (A1A1A1)." );	
+				$('span.messageErreurCodepostal').text("Entrez un code postal valide (A1A1A1)." );
+				valid = false;
 			}
 		});
 	};
@@ -140,9 +155,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurNoml").empty();}
+				$("span.messageErreurNoml").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurNoml').text(" Entrez un nom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -154,9 +171,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPrenoml").empty();}
+				$("span.messageErreurPrenoml").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPrenoml').text(" Entrez un prénom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -168,9 +187,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurAdressel").empty();}
+				$("span.messageErreurAdressel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurAdressel').text(" Entrez une adresse valide" );
+				valid = false;
 			}
 		});
 	}
@@ -182,9 +203,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurVillel").empty();}
+				$("span.messageErreurVillel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurVillel').text(" Entrez un nom de ville valide." );
+				valid = false;
 			}
 		});
 	};
@@ -195,9 +218,11 @@ validNoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPaysl").empty();}
+				$("span.messageErreurPaysl").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPaysl').text(" Entrez un nom de pays valide." );
+				valid = false;
 			}
 		});
 	};
@@ -210,9 +235,11 @@ validNoverif();
 			var is_email=re.test(input.val());
 			if(is_email){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCourriell").empty();}
+				$("span.messageErreurCourriell").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCourriell').text(" Entrez un courriel valide (courriel@aaa.bbb)" );
+				valid = false;
 			}
 		});
 	};
@@ -225,13 +252,25 @@ validNoverif();
 			var is_postal=repostal.test(input.val()); 
 			if(is_postal){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCodepostall").empty();}
+				$("span.messageErreurCodepostall").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCodepostall').text("Entrez un code postal valide (A1A1A1)." );	
+				valid = false;
 			}
 		});
 	};
 
+$("#infos_clients_form").submit(function(e){	
+var idToCheck = $('#pays, #nom, #prenom, #adresse, #ville, #courriel, #codepostal, #paysl, #noml, #prenoml, #adressel, #villel, #courriell, #codepostall');
+	if (idToCheck.hasClass('invalid')){
+	e.preventDefault(); 
+	alert(valid);
+}
+else{
+		alert(valid);
+}
+}); // prevent default
 
 // --------------- carte de crédit --------------------------------
 
@@ -388,11 +427,19 @@ validNoverif();
 		});
 	};
 
-		
+
+
+
+
+	/*$("#paiement_form").submit(function(e){
+		alert('test du submit credit');		
+		e.preventDefault(); 	
+	});*/
+
 
 // A modifier selon comment on met la page
 	//After Form Submitted Validation
-	$("#contact_submit button").click(function(event){
+	/*$(".btn-achat").click(function(event){
 		var form_data=$("#contact").serializeArray();
 		var error_free=true;
 		for (var input in form_data){
@@ -408,8 +455,8 @@ validNoverif();
 		else{
 			alert('No errors: Form will be submitted');
 		}
-	});
+	});*/
 	
 	
 	
-});
+}); //document ready
