@@ -33,6 +33,8 @@
 		})();
 	</script>
 	<!-- fin footer -->
+	<!-- Les images utilisées pour les artistes ne sont pas libres de droit -->
+	<!-- La majeure partie du contenu provient de Wikipédia -->
 
 </body>
 </html>
