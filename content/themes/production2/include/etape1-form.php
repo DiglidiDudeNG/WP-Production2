@@ -45,7 +45,7 @@
 
 
 <?php
-	
+
 	if( !isset($messageErreurNbBillets) ){
 		$messageErreurNbBillets = "";
 	}
@@ -68,14 +68,13 @@
 						<th class="panier-item-prix-header">Prix</th>
 						<th class="panier-item-quantite-header">Quantité</th>
 						<th class="panier-item-total-header">Total</th>
-						<th class="panier-item-delete-header"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr class="ligne-item">
 						<td class="panier-item-image">
 							<div class="panier-item-image-vignette">
-								<img src="<?php echo $spectacle_image_mini ?>">
+								<img alt="<?php echo $spectacle_titre ?>" src="<?php echo $spectacle_image_mini ?>">
 							</div>
 						</td>
 						<td class="panier-item-description">
@@ -84,7 +83,7 @@
 						</td>
 						<td class="panier-item-prix"><?php echo $spectacle_prix ?>$</td>
 						<td class="panier-item-quantite">
-							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>" 
+							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>"
 								<?php
 									if( isset($_POST['nb_billets']) ){
 										echo 'value="' . $_POST['nb_billets'] . '"';
@@ -96,7 +95,7 @@
 							>
 						</td>
 						<td class="panier-item-total sous-total-text">
-							<?php 
+							<?php
 								if( isset($_POST['nb_billets']) ){
 									$sousTotal = $spectacle_prix * $_POST['nb_billets'];
 								}
@@ -121,11 +120,11 @@
 			<table class="table panier-resume">
 				<tbody>
 					<tr class="sous-total">
-						<td colspan="6"><strong>Sous-total</strong></td>
+						<td><strong>Sous-total</strong></td>
 						<td class="sous-total-text"><?php echo $sousTotal ?>$</td>
 					</tr>
 					<tr class="taxes">
-						<td colspan="6"><strong>TVQ 9.975%</strong></td>
+						<td><strong>TVQ 9.975%</strong></td>
 						<td class="tvq-text">
 							<?php
 								$spectacle_tvq = $sousTotal*0.09975;
@@ -135,7 +134,7 @@
 						</td>
 					</tr>
 					<tr class="taxes">
-						<td colspan="6"><strong>TPS 5.0%</strong></td>
+						<td><strong>TPS 5.0%</strong></td>
 						<td class="tps-text">
 							<?php
 								$spectacle_tps = $sousTotal*0.05;
@@ -145,7 +144,7 @@
 						</td>
 					</tr>
 					<tr class="total">
-						<td colspan="6" class="label-total">
+						<td class="label-total">
 							<strong>Total</strong>
 						</td>
 						<td class="gtotal-text">

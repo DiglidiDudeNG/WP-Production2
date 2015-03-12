@@ -107,7 +107,7 @@
 					<label for="province" class="control-label sr-only">Province</label>
 					<div class="input-group">
 						<span class="input-group-addon">Province</span>
-						<select class="form-control" type="text" name="province" id="province"  >
+						<select class="form-control" name="province" id="province"  >
 							<option value="alberta">Alberta</option>
 							<option value="cb">Colombie-Britanique</option>
 							<option value="ipe">Ile-du-Prince-Édouard</option>
@@ -142,7 +142,7 @@
 				<!-- PAR COURRIEL -->
 				<label for="parCourriel" class="info-condition">
 					<input type="radio" name="envoi" id="parCourriel" value="courriel-envoie"/>
-					<div><span class="bouton-commentaire">Envoyer les billets par courriel</span></div>
+					<div class="radio-post"><span class="bouton-commentaire">Envoyer les billets par courriel</span></div>
 				</label>
 				<p class="erreur messageErreurEnvoi"><?php echo $messageErreurEnvoi; ?></p>
 				<!-- // -->
@@ -152,7 +152,7 @@
 				<!-- METTRE LA CONDITION DE FAIRE APPARAITRE LE bouton pour adresse differente -->
 				<label class="info-condition" for="parPoste">
 					<input type="radio" name="envoi" id="parPoste" value="poste-envoie"/>
-					<div><span class="bouton-commentaire">Envoyer les billets par la poste (+ 2.00$)</span></div>
+					<div class="radio-post"><span class="bouton-commentaire">Envoyer les billets par la poste (+ 2.00$)</span></div>
 				</label>
 
 				<!-- UTILISER LADRESSE PLUS HAUT -->
@@ -161,7 +161,7 @@
 				<div class="adresseLivraisonDifferenteWrapper" style="display: none;">
 					<label for="AdresseLivraison" class="info-condition">
 						<input type="checkbox" name="AdresseLivraison" id="AdresseLivraison" value="AdresseLivraison"/>
-						<div><span class="bouton-commentaire">Utiliser une autre adresse de livraison</span></div>
+						<div class="radio-post"><span class="bouton-commentaire">Utiliser une autre adresse de livraison</span></div>
 					</label>
 				</div>
 
@@ -219,7 +219,7 @@
 						<label for="provincel" class="control-label sr-only">Province</label>
 						<div class="input-group">
 							<span class="input-group-addon">Province</span>
-							<select class="form-control" type="text" name="provincel" id="provincel"  >
+							<select class="form-control" name="provincel" id="provincel"  >
 								<option value="alberta">Alberta</option>
 								<option value="cb">Colombie-Britanique</option>
 								<option value="ipe">Ile-du-Prince-Édouard</option>

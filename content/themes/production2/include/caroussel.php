@@ -99,27 +99,27 @@
 				</div>
 			</div>
 
-			<!-- <div class="item image-deux">
+			<div class="item image-deux">
 				<img src="<?php echo $spectacle_image[1]; ?>" alt="<?php echo $spectacle_titre[1]; ?>">
 				<div class="carousel-caption">
 					<h1><?php echo $spectacle_titre[1]; ?></h1>
 					<h2><?php echo $prestation_date[1]; ?> à
 						<span class="carousel-heure"><?php echo $prestation_heure[1]; ?></span>
 					</h2>
-					<a href="<?php echo $spectacle_permalink[1]; ?>"><button class="btn-savoir">En savoir plus</button></a>
+					<a href="<?php echo $spectacle_permalink[1]; ?>" class="btn-savoir">En savoir plus</a>
 				</div>
-			</div> -->
+			</div>
 
-			<!-- <div class="item image-trois">
+			<div class="item image-trois">
 				<img src="<?php echo $spectacle_image[2]; ?>" alt="<?php echo $spectacle_titre[2]; ?>">
 				<div class="carousel-caption">
 					<h1><?php echo $spectacle_titre[2]; ?></h1>
 					<h2><?php echo $prestation_date[2]; ?> à
 						<span class="carousel-heure"><?php echo $prestation_heure[2]; ?></span>
 					</h2>
-					<a href="<?php echo $spectacle_permalink[2]; ?>"><button class="btn-savoir">En savoir plus</button></a>
+					<a href="<?php echo $spectacle_permalink[2]; ?>" class="btn-savoir">En savoir plus</a>
 				</div>
-			</div> -->
+			</div>
 
 		</div>
 	</div>

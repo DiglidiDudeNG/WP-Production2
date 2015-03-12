@@ -111,7 +111,7 @@ get_header();
 									}
 									else{
 								?>
-								<button disabled class="btn btn-parenthese btn-left">COMPLET</button>
+								<button disabled class="btn btn-spectacle-info btn-tab">Complet</button>
 								<?php
 									}
 								?>

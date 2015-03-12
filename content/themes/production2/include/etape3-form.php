@@ -29,7 +29,7 @@
 					<label for="nocarte" class="control-label sr-only">Numéro de la carte</label>
 					<div class="input-group">
 						<span class="input-group-addon">Numéro de la carte</span>
-						<input class="form-control" type="text" name="nocarte" class="carte" id="nocarte" placeholder="Numéro de la carte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />
+						<input class="form-control carte" type="text" name="nocarte" id="nocarte" placeholder="Numéro de la carte" value="<?php if (isset ($_POST['nocarte'])){ echo $nocarte;} ?>" required  />
 					</div>
 					<span class="erreur messageErreurNocarte"><?php echo $messageErreurNocarte; ?></span>
 				</div>
@@ -38,7 +38,7 @@
 					<label for="nomdetenteur" class="control-label sr-only">Nom du détenteur</label>
 					<div class="input-group">
 						<span class="input-group-addon">Nom du détenteur</span>
-						<input class="form-control" type="text" name="nomdetenteur" class="carte" id="nomdetenteur" placeholder="Nom du détenteur" value="<?php if (isset ($_POST['nomdetenteur'])){ echo $nomdetenteur;} ?>" required  />
+						<input class="form-control carte" type="text" name="nomdetenteur" id="nomdetenteur" placeholder="Nom du détenteur" value="<?php if (isset ($_POST['nomdetenteur'])){ echo $nomdetenteur;} ?>" required  />
 					</div>
 					<span class="erreur messageErreurNomdetenteur"><?php echo $messageErreurNomdetenteur; ?></span>
 				</div>
@@ -47,8 +47,8 @@
 					<label for="expirationcarte" class="control-label sr-only">Date d'expériration</label>
 					<div class="input-group">
 						<span class="input-group-addon">Date d'expiration</span>
-						<input style="width: 95px" class="form-control" type="text" name="expirationmois" class="carte" id="expirationmois" placeholder="Mois" value="<?php if (isset ($_POST['expirationmois'])){ echo $expirationmois;} ?>" required  />
-						<input style="width: 95px" class="form-control" type="text" name="expirationannee" class="carte" id="expirationcarte" placeholder="Année" value="<?php if (isset ($_POST['expirationannee'])){ echo $expirationannee;} ?>" required  />
+						<input style="width: 95px" class="form-control carte" type="text" name="expirationmois" id="expirationmois" placeholder="Mois" value="<?php if (isset ($_POST['expirationmois'])){ echo $expirationmois;} ?>" required  />
+						<input style="width: 95px" class="form-control carte" type="text" name="expirationannee" id="expirationcarte" placeholder="Année" value="<?php if (isset ($_POST['expirationannee'])){ echo $expirationannee;} ?>" required  />
 					</div>
 					<span class="erreur messageErreurExpcarte"><?php echo $messageErreurExpcarte; ?></span>
 				</div>
@@ -57,7 +57,7 @@
 					<label for="verifcarte" class="control-label sr-only">No. de vérification</label>
 					<div class="input-group">
 						<span class="input-group-addon">No. de vérification</span>
-						<input  class="form-control" type="text" name="verifcarte" class="carte" id="verifcarte" placeholder="No. de vérification" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />
+						<input  class="form-control carte" type="text" name="verifcarte" id="verifcarte" placeholder="No. de vérification" value="<?php if (isset ($_POST['verifcarte'])){ echo $verifcarte;} ?>" required  />
 					</div>
 					<span class="erreur messageErreurNoverif"><?php echo $messageErreurNoverif; ?></span>
 				</div>

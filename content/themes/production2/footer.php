@@ -1,4 +1,3 @@
-</div>
 	<!-- début footer -->
 		<footer>
 			<div class="footer-top">
