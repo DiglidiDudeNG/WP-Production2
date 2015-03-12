@@ -1,5 +1,8 @@
 <?php
 
+	session_destroy();
+	session_start();
+
 
 	// Récupération du ID de la prestation
 	$id_prestation = trim($_POST['id_prestation']);
