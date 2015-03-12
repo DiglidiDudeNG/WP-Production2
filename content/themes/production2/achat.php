@@ -54,7 +54,7 @@ Template Name: Achat
 				require_once(locate_template("include/etape4-form.php"));
 			}
 			else{
-				echo "<p>Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"</p>";
+				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
 			}
 		?>
 	</div>

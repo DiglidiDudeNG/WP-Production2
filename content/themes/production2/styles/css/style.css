@@ -566,23 +566,20 @@ button {
   height: auto;
   padding: 25px 10px; }
 
-footer {
-  position: relative;
-  width: 100%; }
-  footer p {
-    color: #fff;
-    margin: 0; }
-  footer address {
-    display: inline-block;
-    margin-bottom: 0; }
-  footer div.reseau {
-    display: inline-block;
-    float: right;
-    margin-top: 26px; }
-  footer a {
+footer p {
+  color: #fff;
+  margin: 0; }
+footer address {
+  display: inline-block;
+  margin-bottom: 0; }
+footer div.reseau {
+  display: inline-block;
+  float: right;
+  margin-top: 26px; }
+footer a {
+  color: #fff; }
+  footer a:hover {
     color: #fff; }
-    footer a:hover {
-      color: #fff; }
 
 i {
   text-align: center;
@@ -1142,11 +1139,11 @@ textarea {
 input.invalid, textarea.invalid {
   border: 2px solid red; }
 
-#paiement input.valid, #information-client input.valid, textarea.valid {
+#information-client input.valid, textarea.valid {
   border: 2px solid green;
   background-color: white !important; }
 
-#information-client .erreur, #paiement .erreur {
+#information-client .erreur {
   color: red; }
 
 #contenu-spect .singleTop {
