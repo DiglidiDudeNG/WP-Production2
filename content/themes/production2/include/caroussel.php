@@ -37,8 +37,8 @@
 
 				while ($wp_query_spectacle->have_posts())
 				{
-					$wp_query_spectacle->the_post();						
-					
+					$wp_query_spectacle->the_post();
+
 					array_push($spectacle_id, $post->ID);
 					array_push($spectacle_image, get_post_meta( $post->ID, 'rb_spectacle_img_caroussel_url', true ) );
 					array_push($spectacle_titre, get_the_title() );
@@ -81,13 +81,13 @@
 
 						array_push($prestation_date, $prestation_date_temp);
 						array_push($prestation_heure, $prestation_heure_temp);
-						
+
 					}
 				}
 			}
 
 		?>
-			
+
 			<div class="item active image-un">
 				<img src="<?php echo $spectacle_image[0]; ?>" alt="<?php echo $spectacle_titre[0]; ?>">
 				<div class="carousel-caption">
@@ -95,22 +95,22 @@
 					<h2><?php echo $prestation_date[0]; ?> à
 						<span class="carousel-heure"><?php echo $prestation_heure[0]; ?></span>
 					</h2>
-					<a href="<?php echo $spectacle_permalink[0]; ?>"><button class="btn-savoir">En savoir plus</button></a>					
+					<a href="<?php echo $spectacle_permalink[0]; ?>" class="btn-savoir">En savoir plus</a>
 				</div>
 			</div>
 
-			<div class="item image-deux">
+			<!-- <div class="item image-deux">
 				<img src="<?php echo $spectacle_image[1]; ?>" alt="<?php echo $spectacle_titre[1]; ?>">
 				<div class="carousel-caption">
-					<h1><?php echo $spectacle_titre[1]; ?></h1>					
+					<h1><?php echo $spectacle_titre[1]; ?></h1>
 					<h2><?php echo $prestation_date[1]; ?> à
 						<span class="carousel-heure"><?php echo $prestation_heure[1]; ?></span>
 					</h2>
 					<a href="<?php echo $spectacle_permalink[1]; ?>"><button class="btn-savoir">En savoir plus</button></a>
 				</div>
-			</div>
-			
-			<div class="item image-trois">
+			</div> -->
+
+			<!-- <div class="item image-trois">
 				<img src="<?php echo $spectacle_image[2]; ?>" alt="<?php echo $spectacle_titre[2]; ?>">
 				<div class="carousel-caption">
 					<h1><?php echo $spectacle_titre[2]; ?></h1>
@@ -119,7 +119,7 @@
 					</h2>
 					<a href="<?php echo $spectacle_permalink[2]; ?>"><button class="btn-savoir">En savoir plus</button></a>
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</div>

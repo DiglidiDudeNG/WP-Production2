@@ -15,7 +15,7 @@
   letter-spacing: 1px;
   font-weight: 400; }
 
-button.btn-savoir {
+a.btn-savoir {
   font-family: "Quicksand", sans-serif;
   margin-bottom: 7px;
   margin-top: 9px;
@@ -32,7 +32,7 @@ button.btn-savoir {
     height: 300px !important;
     max-width: none !important; }
 
-  button.btn-savoir {
+  a.btn-savoir {
     margin-bottom: 5px;
     padding: 10px !important;
     font-size: 10px !important;
@@ -72,7 +72,7 @@ button.btn-savoir {
     font-size: 24px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 50px; } }
+    padding-bottom: 85px; } }
 @media screen and (min-width: 992px) {
   .carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
     height: auto !important;
@@ -95,10 +95,10 @@ button.btn-savoir {
     margin-bottom: 35px; }
 
   #contenu-site .carousel-caption {
-    padding-bottom: 8px; } }
+    padding-bottom: 100px; } }
 @media screen and (min-width: 1200px) {
   #contenu-site .carousel-caption {
-    padding-bottom: 75px; } }
+    padding-bottom: 120px; } }
 #contenu-site {
   margin-top: 79px; }
 
