@@ -43,10 +43,10 @@
 
 					// Chaque partie de la date est placée dans une variable
 					// strftime doit être utilisé pour le format en français
-					$prestation_jourDeSemaine = strftime("%a", $new_date);
-					$prestation_jourDuMois = strftime("%d", $new_date);
-					$prestation_mois_court = strftime("%b", $new_date);
-					$prestation_mois_full = strftime("%B", $new_date);
+					$prestation_jourDeSemaine = utf8_encode(strftime("%a", $new_date));
+					$prestation_jourDuMois = utf8_encode(strftime("%d", $new_date));
+					$prestation_mois_court = utf8_encode(strftime("%b", $new_date));
+					$prestation_mois_full = utf8_encode(strftime("%B", $new_date));
 
 
 
