@@ -191,9 +191,9 @@
 															if ( $nb_billets_restants > 0 ){
 														?>
 																<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
-																	<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
-																	<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
-																	<input type="hidden" name="etape" id="etape" value="1">
+																	<input type="hidden" name="id_prestation" value="<?php echo $prestation_id ?>">
+																	<input type="hidden" name="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
+																	<input type="hidden" name="etape" value="1">
 
 																	<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
 																</form>
