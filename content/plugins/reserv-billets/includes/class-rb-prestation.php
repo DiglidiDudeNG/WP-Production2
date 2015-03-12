@@ -194,6 +194,7 @@ class RB_Prestation extends RB_Section
 		global $post;
 		$args = array(
 			'post_type'      => 'spectacle',
+			'posts_per_page' => -1,
 		);
 		
 		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
