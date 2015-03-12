@@ -21,12 +21,7 @@
 					</label>
 				</div> 
 
-				<!-- <label class="radio-inline" id="choixcarte">
-					<input type="radio" name="choixcarte" id="visa" value="visa" /> Visa
-					<input type="radio" name="choixcarte" id="mastercard" value="mastercard" /> Mastercard
-				</label> -->
-
-				<span class="erreur messageErreurChoixcarte"><?php echo $messageErreurChoixcarte; ?></span>
+				<span id="boutonCarte" class="erreur messageErreurChoixcarte"><?php echo $messageErreurChoixcarte; ?></span>
 				<!-- champs pour entrer les infos de la carte -->
 			
 				<!-- numéro de la carte -->

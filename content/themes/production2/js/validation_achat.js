@@ -261,38 +261,17 @@ var valid = false;
 		});
 	};
 
-$("#infos_clients_form").submit(function(e){	
-var idToCheck = $('#pays, #nom, #prenom, #adresse, #ville, #courriel, #codepostal, #paysl, #noml, #prenoml, #adressel, #villel, #courriell, #codepostall');
-	if (idToCheck.hasClass('invalid')){
-	e.preventDefault(); 
-	alert(valid);
-}
-else{
-		alert(valid);
-}
-}); // prevent default
+	// empêcher de continuer sur la prochaine page si un champ est vide ou mal rempli
+	$("#infos_clients_form").submit(function(e){	
+		var idToCheck = $('#pays, #nom, #prenom, #adresse, #ville, #courriel, #codepostal, #paysl, #noml, #prenoml, #adressel, #villel, #courriell, #codepostall');
+			if ((idToCheck.hasClass('invalid'))||(idToCheck == "")){
+			e.preventDefault(); 
+		}
+	});
+
 
 // --------------- carte de crédit --------------------------------
 
-// mettre les champs disable jusqu'à ce qu'un type de carte soit choisi
-
-/*function validdisablecredit(){
-	var champscredit= $('#nomdetenteur, #nocarte, #expirationcarte, #verifcarte');
-	champscredit.attr('disabled','disabled');	
-};*/
-
-/*var champscredit= $('#nocarte');
-//vérifie si un bouton est cliqué
-		$('input[name=carte]').on('click', function(){ // En sortant d'un champs d'info de la carte de crédit		
-
-				champscredit.attr('enabled','enabled');
-				validNocarte();
-				validExpcreditMois();
-				validExpcreditAn();
-				validNomcredit();
-				validNoverif();
-
-		});*/
 		
 //valide si visa ou master
 	function validNocarte(){
@@ -312,7 +291,7 @@ else{
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-							$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
+						$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
 					}						
 				//});
 			}
@@ -328,13 +307,14 @@ else{
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-							$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
+						$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
 						
 					}
 				//});
 			}	
 			else{
 				$('span.messageErreurChoixcarte').text( "Veuillez choisir une carte." );
+				$('#nocarte').removeClass("valid").addClass("invalid");
 			}
 			
 		});
@@ -427,36 +407,13 @@ else{
 		});
 	};
 
-
-
-
-
-	/*$("#paiement_form").submit(function(e){
-		alert('test du submit credit');		
-		e.preventDefault(); 	
-	});*/
-
-
-// A modifier selon comment on met la page
-	//After Form Submitted Validation
-	/*$(".btn-achat").click(function(event){
-		var form_data=$("#contact").serializeArray();
-		var error_free=true;
-		for (var input in form_data){
-			var element=$("#contact_"+form_data[input]['name']);
-			var valid=element.hasClass("valid");
-			var error_element=$("span", element.parent());
-			if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
-			else{error_element.removeClass("error_show").addClass("error");}
+// empêcher de continuer sur la prochaine page si un champ est vide ou mal rempli
+	$("#paiement_form").submit(function(e){	
+		var idToCheckCredit = $('#nocarte,#nomdetenteur, #expirationmois, #expirationcarte, #verifcarte, #boutonCarte');
+			if ((idToCheckCredit.hasClass('invalid'))||(idToCheck == "")){
+			e.preventDefault(); 
 		}
-		if (!error_free){
-			event.preventDefault(); 
-		}
-		else{
-			alert('No errors: Form will be submitted');
-		}
-	});*/
-	
+	});
 	
 	
 }); //document ready
