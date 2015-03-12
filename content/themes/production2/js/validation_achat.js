@@ -24,12 +24,14 @@ validcourriell();
 validcodepostall();
 
 //étape 3: Validation carte de crédit
-validnocarte();
-validexpcredit();
-validnomcredit();
-validnoverif();
+//validdisablecredit();
+validNocarte();
+validExpcredit();
+validNomcredit();
+validNoverif();
 
-
+var valid = false;
+	
 //étape 2 formulaire du haut informations client
 //nom
 	function validnom(){
@@ -38,9 +40,12 @@ validnoverif();
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurNom").empty();}
+				$("span.messageErreurNom").empty();
+				valid = true;
+			}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurNom').text(" Entrez un nom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -52,9 +57,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPrenom").empty();}
+				$("span.messageErreurPrenom").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPrenom').text(" Entrez un prénom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -66,9 +73,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurAdresse").empty();}
+				$("span.messageErreurAdresse").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurAdresse').text(" Entrez une adresse valide" );
+				valid = false;
 			}
 		});
 	}
@@ -80,9 +89,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurVille").empty();}
+				$("span.messageErreurVille").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurVille').text(" Entrez un nom de ville valide." );
+				valid = false;
 			}
 		});
 	};
@@ -93,10 +104,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPays").empty();}
+				$("span.messageErreurPays").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
-
 				$('span.messageErreurPays').text(" Entrez un nom de pays valide." );
+				valid = false;
 			}
 		});
 	};
@@ -109,9 +121,11 @@ validnoverif();
 			var is_email=re.test(input.val());
 			if(is_email){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCourriel").empty();}
+				$("span.messageErreurCourriel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCourriel').text(" Entrez un courriel valide (courriel@aaa.bbb)" );
+				valid = false;
 			}
 		});
 	};
@@ -124,9 +138,11 @@ validnoverif();
 			var is_postal=repostal.test(input.val()); 
 			if(is_postal){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCodepostal").empty();}
+				$("span.messageErreurCodepostal").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
-				$('span.messageErreurCodepostal').text("Entrez un code postal valide (A1A1A1)." );	
+				$('span.messageErreurCodepostal').text("Entrez un code postal valide (A1A1A1)." );
+				valid = false;
 			}
 		});
 	};
@@ -139,9 +155,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurNoml").empty();}
+				$("span.messageErreurNoml").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurNoml').text(" Entrez un nom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -153,9 +171,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPrenoml").empty();}
+				$("span.messageErreurPrenoml").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPrenoml').text(" Entrez un prénom valide." );
+				valid = false;
 			}
 		});
 	};
@@ -167,9 +187,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurAdressel").empty();}
+				$("span.messageErreurAdressel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurAdressel').text(" Entrez une adresse valide" );
+				valid = false;
 			}
 		});
 	}
@@ -181,9 +203,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurVillel").empty();}
+				$("span.messageErreurVillel").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurVillel').text(" Entrez un nom de ville valide." );
+				valid = false;
 			}
 		});
 	};
@@ -194,9 +218,11 @@ validnoverif();
 			var is_validgen= reggen.test(input.val());
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$("span.messageErreurPaysl").empty();}
+				$("span.messageErreurPaysl").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurPaysl').text(" Entrez un nom de pays valide." );
+				valid = false;
 			}
 		});
 	};
@@ -209,9 +235,11 @@ validnoverif();
 			var is_email=re.test(input.val());
 			if(is_email){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCourriell").empty();}
+				$("span.messageErreurCourriell").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCourriell').text(" Entrez un courriel valide (courriel@aaa.bbb)" );
+				valid = false;
 			}
 		});
 	};
@@ -224,163 +252,168 @@ validnoverif();
 			var is_postal=repostal.test(input.val()); 
 			if(is_postal){
 				input.removeClass("invalid").addClass("valid");
-				$("span.messageErreurCodepostall").empty();}
+				$("span.messageErreurCodepostall").empty();
+				valid = true;}
 			else{input.removeClass("valid").addClass("invalid");
 				$('span.messageErreurCodepostall').text("Entrez un code postal valide (A1A1A1)." );	
+				valid = false;
 			}
 		});
 	};
+
+	// empêcher de continuer sur la prochaine page si un champ est vide ou mal rempli
+	$("#infos_clients_form").submit(function(e){	
+		var idToCheck = $('#pays, #nom, #prenom, #adresse, #ville, #courriel, #codepostal, #paysl, #noml, #prenoml, #adressel, #villel, #courriell, #codepostall');
+			if ((idToCheck.hasClass('invalid'))||(idToCheck == "")){
+			e.preventDefault(); 
+		}
+	});
 
 
 // --------------- carte de crédit --------------------------------
 
 		
-//vérifie si un bouton est cliqué
-		$('.carte').on('focusout', function() { // En sortant d'un champs d'info de la carte de crédit
-			if($('input[name=choixcarte]').is(':checked')) { // vérifie si un bouton est coché
-			//si oui		
-
-			}
-			else{
-			
-				if(
-					$("#choixcarte").next().is("p")){
-				}
-				else{
-					$("#choixcarte input").removeClass("valid").addClass("invalid");
-					$("#choixcarte input").after( "<p>Veuillez choisir un type de carte.</p>" );
-				}
-			}
-
-		});
-		
 //valide si visa ou master
-	function validnocarte(){
-		$('input[name=choixcarte]').on('change', function(){
-			var valeur_selectionnee = $('input[type=radio][name=choixcarte]:checked').val();
-						
+	function validNocarte(){
+		//$('input[name=carte]').on('click', function(){
+			$('#nocarte').on('blur', function(){
+			var valeur_selectionnee = $('input[type=radio][name=carte]:checked').val();			
 			if(valeur_selectionnee=="visa"){ // si Visa est sélectionné
-				$('#nocarte').on('focusout', function() {
+				//$('#nocarte').on('blur', function() {
 					
 					var input=$(this);
 					var revisa = /^4[0-9]{12}(?:[0-9]{3})?$/;
 					var is_visa = revisa.test(input.val());
 					if(is_visa){
 						input.removeClass("invalid").addClass("valid");
-						$(".nocarte p").remove();
+						$("span.messageErreurNocarte").empty();
+						$("span.messageErreurChoixcarte").empty();
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-						if (input.next().is("p")){					
-						}
-						else{
-							input.after( "<p>Entrez un numéro de carte valide.</p>" );
-						}
+						$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
 					}						
-				});
+				//});
 			}
-			else if(valeur_selectionnee=="mastercard"){		
-				$('#nocarte').on('focusout', function() {
+			else if(valeur_selectionnee=="master"){		
+				//$('#nocarte').on('blur', function() {
 					var input=$(this);
 					var remaster = /^5[1-5][0-9]{14}$/;
 					var is_master=remaster.test(input.val());
 					if(is_master){
 						input.removeClass("invalid").addClass("valid");
-						$(".nocarte p").remove();
+						$("span.messageErreurNocarte").empty();
+						$("span.messageErreurChoixcarte").empty();
 					}
 					else{
 						input.removeClass("valid").addClass("invalid");
-						if (input.next().is("p")){					
-						}
-						else{
-							input.after( "<p>Entrez un numéro de carte valide.</p>" );
-						}
+						$('span.messageErreurNocarte').text( "Entrez un numéro de carte valide." );
+						
 					}
-				});
-			}				
+				//});
+			}	
+			else{
+				$('span.messageErreurChoixcarte').text( "Veuillez choisir une carte." );
+				$('#nocarte').removeClass("valid").addClass("invalid");
+			}
+			
 		});
 	};
 
-		
+
 	//nom du détenteur de la carte de crédit
-	function validnomcredit(){
-		$('#nomdetenteur').on('focusout', function() {
+	function validNomcredit(){
+		$('#nomdetenteur').on('blur', function() {
+
 			var input=$(this);
 			var is_validgen= reggen.test(input.val()); //test au fur et à mesure
 			if(is_validgen){
 				input.removeClass("invalid").addClass("valid");		
-				$(".nomdetenteur p").remove();}
+				$("span.messageErreurNomdetenteur").empty();}
 			else{input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
-				}
-				else{
-					input.after( "<p>Vous devez entrer le nom inscrit sur la carte.</p>" );
-				}
+				$('span.messageErreurNomdetenteur').text( "Vous devez entrer le nom inscrit sur la carte." );		
 			}
 		});
 	};
 
 	//Expiration carte de crédit
-	function validexpcredit(){
-		$('#expirationcarte').on('focusout', function() {
-			var input=$(this);
-			var reexp = /^(0[1-9]|1[0-2])\/?(1[5-9]|2[0-9])$/;
-			var is_exp=reexp.test(input.val());
-			if(is_exp){
-				input.removeClass("invalid").addClass("valid");
-				$(".expirationcarte p").remove();}
-			else{input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
+	function validExpcredit(){
+		var mois = $('#expirationmois');
+		var annee = $('#expirationcarte');
+
+		validExpcreditMois();
+		validExpcreditAn();
+
+		function validExpcreditMois(){
+			mois.on('blur', function() {
+				var input=$(this);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth()+1;
+
+				if((input.val() >= 1) && (input.val() <= 12)){
+					input.removeClass("invalid").addClass("valid");
+					$("span.messageErreurExpcarte").empty();}
+				else{input.removeClass("valid").addClass("invalid");
+					$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)" );					
+				}				
+			});
+		};
+
+		function validExpcreditAn(){	
+			annee.on('blur', function() {
+				var input=$(this);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth()+1;
+				var mois = $('#expirationmois');
+
+				if(input.val() == year){
+					if(mois.val() > month){
+						input.removeClass("invalid").addClass("valid");
+						$("span.messageErreurExpcarte").empty();
+					}
+					else{mois.removeClass("valid").addClass("invalid");
+						$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)");
+					}
 				}
-				else{
-					input.after( "<p>Entrez une date d'expiration valide (mmaa)</p>" );
+
+				else if ((input.val() >= year)&& (input.val() <= 2050)) {				
+					input.removeClass("invalid").addClass("valid");
+					$("span.messageErreurExpcarte").empty();
 				}
-			}
-		});
+
+				else{input.removeClass("valid").addClass("invalid");
+					$('span.messageErreurExpcarte').text( "Entrez une date d'expiration valide (mmaaaa)" );
+				}
+			});
+		};
 	};
 
+
 	//No. validation carte de crédit
-	function validnoverif(){
-		$('#verifcarte').on('focusout', function() {
+	function validNoverif(){
+		$('#verifcarte').on('blur', function() {
 			var input=$(this);
 			var revalid = /^[0-9]{3}$/;
 			var is_validc=revalid.test(input.val());
 			if(is_validc){
 				input.removeClass("invalid").addClass("valid");
-				$(".verifcarte p").remove();}
+				$("span.messageErreurNoverif").empty();}
 			else{
 				input.removeClass("valid").addClass("invalid");
-				if (input.next().is("p")){					
-				}
-				else{
-					input.after( "<p>Entrez un numéro valide (000)</p>" );
-				}
+				$('span.messageErreurNoverif').text( "Entrez un numéro valide (000)" );
 			}
 		});
 	};
 
-		
-
-// A modifier selon comment on met la page
-	//After Form Submitted Validation
-	$("#contact_submit button").click(function(event){
-		var form_data=$("#contact").serializeArray();
-		var error_free=true;
-		for (var input in form_data){
-			var element=$("#contact_"+form_data[input]['name']);
-			var valid=element.hasClass("valid");
-			var error_element=$("span", element.parent());
-			if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
-			else{error_element.removeClass("error_show").addClass("error");}
-		}
-		if (!error_free){
-			event.preventDefault(); 
-		}
-		else{
-			alert('No errors: Form will be submitted');
+// empêcher de continuer sur la prochaine page si un champ est vide ou mal rempli
+	$("#paiement_form").submit(function(e){	
+		var idToCheckCredit = $('#nocarte,#nomdetenteur, #expirationmois, #expirationcarte, #verifcarte, #boutonCarte');
+			if ((idToCheckCredit.hasClass('invalid'))||(idToCheck == "")){
+			e.preventDefault(); 
 		}
 	});
 	
 	
-	
-});
+}); //document ready
