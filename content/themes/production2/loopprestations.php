@@ -150,7 +150,7 @@
 
 									
 									<div class="postContainer col-md-4 col-sm-6">
-										<article class="spectacle flip-js">
+										<div class="spectacle flip-js">
 											<div class="spectacle-front front">
 												<img class="spectacle-cover" alt="" src="<?php echo $spectacle_image_mini; ?>">
 												<div class="spectacle-info">
@@ -206,7 +206,7 @@
 													</div>
 												</div>
 											</div>
-										</article>
+										</div>
 									</div>
 
 
