@@ -119,8 +119,6 @@ class RB_Metabox
 			$this->get_context(),     // Le contexte. ex. "side", "normal" ou "advanced".
 			$this->get_priority()     // La priorité d'ajout de la metabox.
 		);
-		
-		// TODO: faire un remove_meta_box() durant la désactivation.
 	}
 	
 	/**

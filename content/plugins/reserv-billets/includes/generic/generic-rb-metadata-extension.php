@@ -5,8 +5,7 @@
  */
 abstract class RB_Metadata_Extension extends RB_Metadata
 {
-	const RENDER_ACTION_PREFIX = "rb_";
-	const THEME_FILTER_PREFIX = "rb_";
+	// TODO la classe.
 	
 	/** @var Array La liste d'arguments pour le constructeur. */
 	public $construct_args;
@@ -18,7 +17,7 @@ abstract class RB_Metadata_Extension extends RB_Metadata
 	 */
 	public function __construct()
 	{
-		parent::__construct( array(), "", "" );
+		parent::__construct( $this->construct_args );
 	}
 	
 	/**
@@ -42,7 +41,6 @@ abstract class RB_Metadata_Extension extends RB_Metadata
 		return parent::update($post_id, $val);
 	}
 	
-	
 	/**
 	 * Effectue le rendu de la metadata dans le panneau d'administration.
 	 *
@@ -59,9 +57,11 @@ abstract class RB_Metadata_Extension extends RB_Metadata
 	
 	/**
 	 * Valide la donnée entrée pour le post-meta.
-	 * 
-	 * @return Bool|WP_Error Vrai si la validation fut un succès, <br/>
+	 *
+	 * @param Mixed $val La nouvelle valeur à valider.
+	 *
+	 * @return Bool|\WP_Error Vrai si la validation fut un succès, <br/>
 	 *                       ou un objet WP_Error sinon.
 	 */
-	abstract public function validate_data();
+	abstract public function valider_nouvelle_valeur( $val );
 }

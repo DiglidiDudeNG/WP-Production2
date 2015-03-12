@@ -41,6 +41,9 @@ abstract class RB_Section
 		// (Réduit le temps de chargement; Chaque seconde compte, ti-gars!)
 		$this->is_admin = is_admin();
 		
+		// Load la dépendance de l'admin, si ça existe.
+		$this->load_admin_dependency();
+		
 		// Charger les dépendances dans la mémoire, dont les sous-classes Admin et Loader.
 		$this->load_dependencies();
 
@@ -56,7 +59,21 @@ abstract class RB_Section
 	 * @access public
 	 * @see RB::load_all_dependencies
 	 */
-	abstract public function load_dependencies();
+	public function load_dependencies() { }
+	
+	/**
+	 * Load la dépendance de l'admin.
+	 */
+	public function load_admin_dependency()
+	{
+		$filepath = __RB_PLUGIN_DIR__ . 'admin/class-rb-'.$this->post_type.'-admin.php';
+		
+		if ( $this->is_admin && file_exists( $filepath ) ) 
+		{
+			/** @noinspection PhpIncludeInspection */
+			require_once $filepath;
+		}
+	}
 	
 	/**
 	 * Définit tous les hooks de la fonction
@@ -86,19 +103,22 @@ abstract class RB_Section
 			RB_Loader::queue_action( 'save_post', $this->admin, 'save_custom_post', 10, 3 );
 			
 			// Gérer les colonnes.
-			// TODO DÉCOMMENTER
+			// TODO DÉCOMMENTER ET IMPLÉMENTER:
+			// TODO - set_post_list_columns()
+			// TODO - display_custom_columns_data()
+			// TODO - sort_custom_columns()
+			// TODO - orderby_custom_columns()
+			// TODO - advanced_orderby_columns()
 			//RB_Loader::queue_filter( 'manage_'.$this->post_type.'_posts_columns', $this->admin, 'set_post_list_columns', 10, 1 );
 			//
 			//RB_Loader::queue_action( 'manage_'.$this->post_type.'_posts_custom_column', $this->admin, 'display_custom_columns_data', 10, 2 );
 			//
 			//RB_Loader::queue_filter( 'manage_edit-'.$this->post_type.'_sortable_columns', $this->admin, 'sort_custom_columns' );
 			//
+			// <<< peut être pre_get_posts
 			//RB_Loader::queue_action( 'pre_get_posts', $this->admin, 'orderby_custom_columns', 10, 1 );
-			// TODO FIN DÉCOMMENTER
 			
 			//RB_Loader::queue_filter( 'posts_clauses', $this->admin, 'advanced_orderby_columns', 10, 2 );
-			
-			//RB_Loader::queue_filter( 'request', $this->admin, 'orderby_custom_columns' );
 			
 			RB_Loader::queue_action( 'post_edit_form_tag', $this, 'include_post_form_enctype' );
 			

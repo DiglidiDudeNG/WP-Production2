@@ -551,11 +551,15 @@ abstract class RB_Admin
 		//var_dump( $columns );
 		
 		// Ajouter toutes les colonnes à ajouter.
+		/**
+		 * @var int $key
+		 * @var RB_Metadata $metadata
+		 */
 		foreach ( $this->metadatas as $key => $metadata )
 		{
 			if ( $metadata['in_columns'] )
 			{
-				$retour[$key] = __( $metadata['name'] );
+				$retour[$key] = __( $metadata->get_label() );
 			}
 		}
 		
@@ -578,10 +582,11 @@ abstract class RB_Admin
 	{
 		global $post;
 		
+		/** @var RB_Metadata $col */
 		$col = $this->metadatas[$column];
 		
 		// Si ça doit être affiché dans les colonnes...
-		if ( $col['in_columns'] )
+		if ( $col->is_in_columns() )
 		{
 			$meta_value = get_post_meta( $post_id, $column, true );
 			if ( WP_DEBUG_DISPLAY )
@@ -670,17 +675,6 @@ abstract class RB_Admin
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Ajoute des arguments pour le triage de valeurs spécifiques.
-	 * 
-	 * @param array    $pieces Un array d'arguments.
-	 * @param WP_Query $query  L'instance de la query Wordpress.
-	 */
-	final public function advanced_orderby_columns( $pieces, $query ) 
-	{
-		
 	}
 	
 	/**

@@ -8,7 +8,7 @@
 class RB_Prestation extends RB_Section
 {
 	/** @const  String Le nom de la slug par défaut. */
-	const DEFAULT_SLUG = 'prestation';
+	const DEFAULT_SLUG = 'rb_prestation_';
 	const DEFAULT_NB_BILLETS = 500;
 	
 	/** @var RB_Prestation_Admin L'objet d'administration du post_type Prestation. */
@@ -23,22 +23,6 @@ class RB_Prestation extends RB_Section
 	{
 		parent::__construct( 'prestation' );
 	}
-
-	/**
-	 * Charge les dépendances du programme.
-	 *
-	 * Lorsqu'on crée une nouvelle
-	 *
-	 * @access public
-	 * @see    RB::load_all_dependencies
-	 */
-	public function load_dependencies()
-	{
-		if ( $this->is_admin ) {
-			/** @noinspection PhpIncludeInspection */
-			require_once __RB_PLUGIN_DIR__ . 'admin/class-rb-'.$this->post_type.'-admin.php';
-		}
-	}
 	
 	/**
 	 * Crée L'objet admin.
@@ -49,6 +33,7 @@ class RB_Prestation extends RB_Section
 	 */
 	public function creer_objet_admin()
 	{
+		// TODO envoyer ça dans la méthode « update($post_id) » de « RB_Prestation_Nb_Billets ».
 		$default_billets = get_option('rb_billets_par_defaut', null);
 		
 		// Définir la table d'arguments.
@@ -58,8 +43,8 @@ class RB_Prestation extends RB_Section
 			'hide_columns'  => array( 'date', 'author', 'comments' ),
 			'styles'        => array( // Les styles
 				array( // Un style par défaut.
-					'handle'   => $this->slug . 'prestation_admin',
-					'filepath' => 'css/rb-prestation-admin.css',
+			       'handle'   => self::DEFAULT_SLUG . 'admin',
+			       'filepath' => 'css/'.str_replace(self::DEFAULT_SLUG, '_', '-').'admin.css',
 				)
 			),
 			'scripts' => array( // Les scripts.
@@ -93,6 +78,11 @@ class RB_Prestation extends RB_Section
 					'in_columns' => true,
 					'render_cb'  => array($this, 'render_rb_prestation_nb_billets'),
 				),
+				'rb_prestation_billets_vendus' => array(
+					'label' => 'Billets restants',
+					'default'    => 0,
+					'render_cb'  => array($this, 'render_rb_prestation_billets_vendus'),
+				),
 			),
 			'metaboxes' => array(
 				array( // La metabox générale.
@@ -106,13 +96,13 @@ class RB_Prestation extends RB_Section
 				),
 				array( // La metabox des billets.
 					'id'            => 'rb_prestation_billets',
-					'title'         => 'Nb de billets restants',
+					'title'         => 'Billets',
 					'show_dashicon' => true,
 					'dashicon'      => 'tickets-alt',
 					'screen'        => 'prestation',
 					'context'       => 'side',
 					'priority'      => 'low',
-					'metadatas'     => [ 'rb_prestation_nb_billets' ],
+					'metadatas'     => [ 'rb_prestation_nb_billets', 'rb_prestation_billets_vendus' ],
 				)
 			),
 		);
@@ -188,7 +178,7 @@ class RB_Prestation extends RB_Section
 		);
 
 		// Enregistre le post-type à l'aide de la liste d'arguments.
-		register_post_type( 'prestation', $args );
+		register_post_type( $this->post_type, $args );
 	}
 	
 	/**
@@ -202,13 +192,12 @@ class RB_Prestation extends RB_Section
 	public function render_rb_prestation_spectacle_id( $post_id, $metadata )
 	{
 		global $post;
-		$poargs = array(
+		$args = array(
 			'post_type'      => 'spectacle',
-			'posts_per_page' => '-1',
 		);
 		
 		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
-		$posts = get_posts();
+		$posts = get_posts($args);
 		
 		if ( ! empty( $posts ) ) 
 		{
@@ -274,6 +263,23 @@ class RB_Prestation extends RB_Section
 	public function render_rb_prestation_nb_billets( $post_id, $metadata ) {
 		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
 		$retour = '<input type="number" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '" />';
+		
+		// TODO changer ça.
+		
+		return $retour;
+	}
+	
+	/**
+	 * render_rb_prestation_nb_billets
+	 *
+	 * @param int         $post_id
+	 * @param RB_Metadata $metadata
+	 *
+	 * @return string
+	 */
+	public function render_rb_prestation_billets_vendus( $post_id, $metadata ) {
+		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
+		$retour = '<input type="number" id="' . $metadata->get_key() . '" name="' . $metadata->get_key() . '" value="' . $valeur . '" disabled="disabled" />';
 		
 		// TODO changer ça.
 		

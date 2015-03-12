@@ -46,8 +46,11 @@ class RB
 	{
 		// Créer le Loader.
 		try {
-			// Inclure les interfaces.
-			$this->include_dir("interfaces");
+			// Inclure la classe RB_Metadata.
+			require_once 'class-rb-metadata.php';
+			
+			// Inclure la classe « RB_Metabox ».
+			require_once 'class-rb-metabox.php';
 			
 			// Inclure les classes génériques (abstraites).
 			$this->include_dir("generic");
@@ -56,11 +59,8 @@ class RB
 			// Puisqu'il est utilisé dans un contexte statique, pas besoin de créer d'instance!
 			require_once 'class-rb-loader.php';
 			
-			// Inclure la classe RB_Metadata.
-			require_once 'class-rb-metadata.php';
-			
-			// Inclure la classe « RB_Metabox ».
-			require_once 'class-rb-metabox.php';
+			// Inclure les classes de gestion des settings.
+			$this->include_dir('settings');
 			
 			// Inclure tout ce qui se trouve dans le dossier « spectacle »
 			$this->include_dir("spectacle");
@@ -75,12 +75,12 @@ class RB
 			// Inclure la classe « RB_Spectacle ».
 			require_once 'class-rb-spectacle.php';
 			// Créer l'objet « RB_Spectacle ».
-			$this->sections['spectacle'] = new RB_Spectacle();
+			$this->sections['spectacle'] = new RB_Spectacle("spectacle");
 			
 			// Inclure la classe « RB_Prestation ».
 			require_once 'class-rb-prestation.php';
 			// Créer l'objet « RB_Prestation ».
-			$this->sections['prestation'] = new RB_Prestation();
+			$this->sections['prestation'] = new RB_Prestation("prestation");
 		} 
 		catch (Exception $e) // Si y'a une exception, 
 		{
