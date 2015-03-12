@@ -7,7 +7,7 @@
  * 
  * @property-read String 
  */
-class RB_Metabox implements RB_Interface_Metabox
+class RB_Metabox
 {
 	const DASHICON_VALIDE_MAIS_SANS_PREFIXE = 2;
 	
