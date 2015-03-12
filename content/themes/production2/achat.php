@@ -56,6 +56,8 @@ Template Name: Achat
 			else{
 				echo "<p>Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"</p>";
 			}
+		// 	include("include/etape4-form.php");
+		// 	include("include/etape5-form.php");
 		?>
 	</div>
 </div>
