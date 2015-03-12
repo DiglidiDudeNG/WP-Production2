@@ -6,7 +6,7 @@
 				{
 					$wp_query_prestations->the_post();
 
-					/** 
+					/**
 					 * Récupération des infos des prestations
 					 *
 					 * @var string  $prestation_title 			Titre de la prestation
@@ -53,7 +53,7 @@
 					/******************************
 					 * Filtre de recherche
 					 ******************************
-					 */					
+					 */
 					// Si une recherche a été effectuée
 					if(isset($_POST['srch-term'])){
 
@@ -78,7 +78,7 @@
 
 						// Récupération de la valeur du filtre de catégorie
 						$categorie = trim($_GET['selection_categorie']);
-						$categorie = filter_var($categorie, FILTER_SANITIZE_STRING);				
+						$categorie = filter_var($categorie, FILTER_SANITIZE_STRING);
 					}
 					// Si pas de filtre de catégorie
 					else{
@@ -105,7 +105,7 @@
 					);
 
 					if($wp_query_spectacles->have_posts())
-					{						
+					{
 						while ($wp_query_spectacles->have_posts())
 						{
 							$wp_query_spectacles->the_post();
@@ -148,7 +148,7 @@
 
 								?>
 
-									
+
 									<div class="postContainer col-md-4 col-sm-6">
 										<div class="spectacle flip-js">
 											<div class="spectacle-front front">
@@ -167,7 +167,7 @@
 													</div>
 												</div>
 												<div class="spectacle-info-date">
-													<?php echo $prestation_jourDeSemaine; ?> 
+													<?php echo $prestation_jourDeSemaine; ?>
 													<span class="number"><?php echo $prestation_jourDuMois; ?></span>
 													<?php echo $prestation_mois_court; ?>
 												</div>
@@ -178,7 +178,7 @@
 														<span class="text"><?php echo $prestation_title; ?></span>
 													</div>
 													<div class="spectacle-info-date">
-														<?php echo $prestation_jourDeSemaine; ?> 
+														<?php echo $prestation_jourDeSemaine; ?>
 														<span class="number"><?php echo $prestation_jourDuMois; ?></span>
 														<?php echo $prestation_mois_court; ?>
 													</div>
@@ -200,7 +200,7 @@
 														<?php
 															}
 														?>
-																
+
 
 														<a href="<?php echo the_permalink(); ?>" class="btn btn-parenthese">En savoir plus</a>
 													</div>
