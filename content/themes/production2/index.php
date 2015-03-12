@@ -23,10 +23,10 @@
 				wp_reset_postdata();
 				$args = array(
 						'posts_per_page'	=> 12,
-							'post_type' 		=> 'prestation',
-									'order'				=> 'ACS',
-								'order_by'			=> 'meta_value',
-						'meta_key'       	=> 'rb_prestation_date'
+						'post_type' 		=> 'prestation',
+						'meta_key'			=> 'rb_prestation_date',
+			            'orderby'			=> 'meta_value',
+			            'order'				=> 'ASC'
 				);
 				$wp_query_prestations = new WP_Query($args);
 				/**
