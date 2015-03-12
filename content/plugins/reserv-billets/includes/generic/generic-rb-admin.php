@@ -557,9 +557,9 @@ abstract class RB_Admin
 		 */
 		foreach ( $this->metadatas as $key => $metadata )
 		{
-			if ( $metadata['in_columns'] )
+			if ( $metadata->is_in_columns() )
 			{
-				$retour[$key] = __( $metadata->get_label() );
+				$retour[$key] = __( $metadata->get_key() );
 			}
 		}
 		

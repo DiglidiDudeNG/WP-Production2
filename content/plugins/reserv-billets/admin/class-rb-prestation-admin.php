@@ -48,7 +48,7 @@ class RB_Prestation_Admin extends RB_Admin
 		
 		$titre = __("Prestation")." #".$post_id . ' - ' . _draft_or_post_title(get_post_meta($post_id, 'rb_prestation_spectacle_id'));
 		
-		$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'ID' => $post_id ) );
+		$wpdb->update( $wpdb->posts, array( 'post_title' => $titre ), array( 'p' => $post_id ) );
 	}
 	
 	//	/**

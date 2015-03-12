@@ -232,8 +232,17 @@ class RB_Spectacle extends RB_Section
 	{
 		// Déclarer variables locales
 		$valeur = get_post_meta( $post_id, $metadata->get_key(), true );
-		$JSONtoArray = json_decode( false, '' );
+		
+		if ( empty($valeur) )
+			$valeur = '{}';
+			
+		$JSONtoArray = json_decode( $valeur );
 		$retour = '';
+		
+		foreach ( $JSONtoArray as $id )
+		{
+			$retour .= $id . "<br />";
+		}
 		
 		return $retour;
 	}
