@@ -37,6 +37,8 @@
 
 	$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 	$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
+	$nb_billets_restants = get_post_meta( $post->ID, 'rb_prestation_nb_billets', true );
+
 
 ?>
 
@@ -80,43 +82,65 @@
 							<h3 class="nom-spectacle"><?php echo $spectacle_titre ?><br>
 							<span class="date-spectacle"><?php echo $prestation_date ?> à <?php echo $prestation_heure ?></span></h3>
 						</td>
-						<td class="panier-item-prix">
-							<?php echo $spectacle_prix ?>$
-						</td>
+						<td class="panier-item-prix"><?php echo $spectacle_prix ?>$</td>
 						<td class="panier-item-quantite">
-							<input type="number" id="nb_billets" name="nb_billets" value="1">
+							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>" 
+								<?php
+									if( isset($_POST['nb_billets']) ){
+										echo 'value="' . $_POST['nb_billets'] . '"';
+									}
+									else{
+										echo 'value="1"';
+									}
+								?>
+							>
 						</td>
-						<td class="panier-item-total">
-							<!-- METTRE CONDITION DE PRIX PAR RAPPORT AUX NB DE BILLETS -->
-							<?php echo $spectacle_prix ?>$
-							<!-- // -->
+						<td class="panier-item-total sous-total-text">
+							<?php 
+								if( isset($_POST['nb_billets']) ){
+									$sousTotal = $spectacle_prix * $_POST['nb_billets'];
+								}
+								else{
+									$sousTotal = $spectacle_prix * 1;
+								}
+
+								$sousTotal = number_format((float)$sousTotal, 2, '.', '');
+								echo $sousTotal;
+							?>
+								$
+
 						</td>
 					</tr>
 				</tbody>
 			</table>
+
+			<p class="erreur"><?php echo $messageErreurNbBillets; ?></p>
+
 		</div>
 		<div class="table-responsive">
 			<table class="table panier-resume">
 				<tbody>
 					<tr class="sous-total">
 						<td colspan="6"><strong>Sous-total</strong></td>
-						<td><?php echo $spectacle_prix ?>$</td>
+						<td class="sous-total-text"><?php echo $sousTotal ?>$</td>
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TVQ 9.975%</strong></td>
-						<td>
+						<td class="tvq-text">
 							<?php
-								$spectacle_tvq = $spectacle_prix*0.09975;
-								echo round($spectacle_tvq, 2);
+								$spectacle_tvq = $sousTotal*0.09975;
+								$spectacle_tvq = number_format((float)$spectacle_tvq, 2, '.', '');
+								echo $spectacle_tvq;
 							?>$
 						</td>
 					</tr>
 					<tr class="taxes">
 						<td colspan="6"><strong>TPS 5.0%</strong></td>
-						<td>
+						<td class="tps-text">
 							<?php
-								$spectacle_tps = $spectacle_prix*0.05;
-								echo round($spectacle_tps, 2);
+								$spectacle_tps = $sousTotal*0.05;
+								$spectacle_tps = number_format((float)$spectacle_tps, 2, '.', '');
+								echo $spectacle_tps;
 							?>$
 						</td>
 					</tr>
@@ -124,26 +148,24 @@
 						<td colspan="6" class="label-total">
 							<strong>Total</strong>
 						</td>
-						<td>
+						<td class="gtotal-text">
 							<?php
-								$spectacle_gtotal = $spectacle_prix+$spectacle_tps+$spectacle_tvq;
-								echo round($spectacle_gtotal, 2);
+								$spectacle_gtotal = $sousTotal+$spectacle_tps+$spectacle_tvq;
+								$spectacle_gtotal = number_format((float)$spectacle_gtotal, 2, '.', '');
+								echo $spectacle_gtotal;
 							?>$
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<!-- Mettre l'adresse de départ du site -->
-		<a class="btn btn-parenthese btn-achat-2" href="">Annuler</a>
+
+		<a class="btn btn-parenthese btn-achat-2" href="<?php echo home_url(); ?>">Annuler</a>
+
 		<input type="hidden" name="etape" id="etape" value="2">
+		<input type="hidden" name="spectacle_prix" value="<?php echo $spectacle_prix; ?>">
 		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>
 
 
-
-
-
-
-<p class="erreur"><?php echo $messageErreurNbBillets; ?></p>
