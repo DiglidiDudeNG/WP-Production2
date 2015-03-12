@@ -38,7 +38,7 @@ Template Name: Achat
 	<!-- début du contenu de la page achat.php -->
 
 <div class="container">
-	<div class="achat-container">
+	<div class="achat-container etapes-achat">
 		<h2>Achat</h2>
 		<?php
 			if( $etape === "1" || $val_etape_2 === false ){
@@ -54,10 +54,9 @@ Template Name: Achat
 				require_once(locate_template("include/etape4-form.php"));
 			}
 			else{
-				echo "Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"";
+				echo "<p>Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"</p>";
 			}
 		?>
-
 	</div>
 </div>
 

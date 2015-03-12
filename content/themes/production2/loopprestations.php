@@ -20,6 +20,8 @@
 					$prestation_spectacle_id = get_post_meta( $post->ID, 'rb_prestation_spectacle_id', true );
 					$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 					$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
+					$nb_billets_restants = get_post_meta( $post->ID, 'rb_prestation_nb_billets', true );
+
 
 					$prestation_id = $post->ID;
 
@@ -117,6 +119,7 @@
 								// Récupération du titre et de la description courte du spectacle courant
 								$prestation_title = get_the_title();
 								$prestation_excerpt = get_the_excerpt();
+								$spectacle_image_mini = get_post_meta( $post->ID, 'rb_spectacle_img_mini_url', true);
 
 
 								/************************************************************
@@ -149,11 +152,16 @@
 									<div class="postContainer col-md-4 col-sm-6">
 										<article class="spectacle flip-js">
 											<div class="spectacle-front front">
-												<img class="spectacle-cover" alt="" src="<?php echo IMAGES; ?>/mini-walkOffTheEarth.jpg">
+												<img class="spectacle-cover" alt="" src="<?php echo $spectacle_image_mini; ?>">
 												<div class="spectacle-info">
-													<!-- ICI METTRE CONDITION DE SI COMPLET -->
-													<!-- <div class="spectacle-bandeau">Complet</div> -->
-													<!-- / condition de si complet -->
+													<?php
+														// Si la prestation est complète
+														if ( $nb_billets_restants <= 0 ){
+													?>
+															<div class="spectacle-bandeau">Complet</div>
+													<?php
+														}
+													?>
 													<div class="spectacle-info-name">
 														<span class="text"><?php echo $prestation_title; ?></span>
 													</div>
@@ -177,13 +185,23 @@
 													<div class="spectacle-content">
 														<span class="spectacle-time"><?php echo $prestation_date; ?> à <?php echo $prestation_heure; ?></span>
 														<p class="spectacle-description"><?php echo $prestation_excerpt; ?></p>
-														<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
-															<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
-															<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
-															<input type="hidden" name="etape" id="etape" value="1">
 
-															<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
-														</form>
+														<?php
+															// S'il reste des billets, le formulaire d'achat est disponible
+															if ( $nb_billets_restants > 0 ){
+														?>
+																<form action="<?php echo bloginfo('url'); ?>/achat" method="post">
+																	<input type="hidden" name="id_prestation" id="id_prestation" value="<?php echo $prestation_id ?>">
+																	<input type="hidden" name="id_spectacle" id="id_spectacle" value="<?php echo $spectacle_courant_id ?>">
+																	<input type="hidden" name="etape" id="etape" value="1">
+
+																	<input type="submit" class="btn btn-parenthese btn-left" value="Acheter">
+																</form>
+														<?php
+															}
+														?>
+																
+
 														<a href="<?php echo the_permalink(); ?>" class="btn btn-parenthese">En savoir plus</a>
 													</div>
 												</div>

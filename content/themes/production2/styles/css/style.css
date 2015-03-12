@@ -16,7 +16,7 @@
   font-weight: 400; }
 
 button.btn-savoir {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   margin-bottom: 7px;
   margin-top: 9px;
   padding: 15px !important;
@@ -132,7 +132,7 @@ body {
   font-size: 18px; }
 
 #contenu-site p {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   line-height: 24px; }
 
 #contenu-site a:hover {
@@ -173,12 +173,13 @@ i {
 .btn-parenthese {
   color: #fff;
   background-color: #e82530;
-  padding: 12px 13px !important;
+  padding: 12px 9px !important;
   font-size: 12px !important;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 700 !important;
-  font-family: "Quicksand", sans-serif; }
+  font-family: "Quicksand", sans-serif;
+  clear: both; }
   .btn-parenthese:hover {
     background-color: #651720;
     color: #fff !important;
@@ -199,6 +200,9 @@ button {
   letter-spacing: 4px;
   font-weight: 700;
   color: #fff; }
+
+.clear-both {
+  clear: both; }
 
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 768px) {
@@ -336,7 +340,8 @@ button {
 #custom-search-input .form-control {
   border: 0;
   box-shadow: none;
-  -webkit-box-shadow: none; }
+  -webkit-box-shadow: none;
+  height: 34px !important; }
 
 #custom-search-input .btn {
   border-color: #fff; }
@@ -470,7 +475,7 @@ button {
   font-weight: 700; }
 
 .spectacle-description {
-  font-family: "Raleway", sans-serif;
+  font-family: "Quicksand", sans-serif;
   color: #323232;
   margin: 0;
   height: 193px;
@@ -677,8 +682,8 @@ i {
   .panier-detail, .panier-resume {
     float: left; }
 
-  .btn-achat {
-    float: right; } }
+  .btn-achat-2 {
+    float: left; } }
 .etapes-achat .etape {
   margin-bottom: 30px;
   clear: both; }
@@ -720,11 +725,12 @@ table, tr {
   .panier-detail thead {
     background-color: #e82530;
     text-transform: uppercase;
-    border: transparent;
-    font-size: 18px;
-    font-weight: 400;
-    text-transform: none;
-    color: #fff; }
+    border: transparent; }
+    .panier-detail thead th {
+      font-size: 18px;
+      font-weight: 400;
+      text-transform: none;
+      color: #fff; }
   .panier-detail tbody tr td, .panier-detail tfoot tr td {
     padding: 10px 0 10px 0;
     vertical-align: inherit !important;
@@ -816,6 +822,100 @@ input.btn-achat {
  *INFORMATIONS CLIENT
  *
  */
+.input-group-addon:focus, .form-control:focus {
+  border-color: #651720 !important;
+  outline: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important; }
+
+.form-control {
+  height: 45px !important; }
+
+select.form-control {
+  border-radius: 0;
+  -webkit-appearance: none; }
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none; }
+
+input[type="radio"] + div:before,
+input[type="checkbox"] + div:before {
+  font-family: "FontAwesome";
+  padding-right: 3px;
+  margin-top: 2px;
+  font-size: 19px;
+  color: #e82530; }
+
+input[type="radio"] + div:before {
+  content: ""; }
+
+input[type="radio"]:checked + div:before {
+  content: "";
+  padding-right: 0; }
+
+input[type="checkbox"] + div:before {
+  content: ""; }
+
+input[type="checkbox"]:checked + div:before {
+  content: "";
+  padding-right: 0; }
+
+input {
+  font-family: "Quicksand", sans-serif !important; }
+
+.input-group-addon {
+  min-width: 165px;
+  text-align: left !important;
+  background-color: transparent !important;
+  font-family: "Quicksand", sans-serif; }
+
+.info-condition {
+  margin: 10px 0 20px 0; }
+  .info-condition .bouton-commentaire {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    margin-left: 10px; }
+
+/*
+ *
+ * MeTHODE DE PAIEMENT
+ *
+ */
+.carte-width {
+  width: 50%;
+  float: left; }
+  .carte-width .bouton-commentaire {
+    vertical-align: text-bottom !important; }
+
+.push-card {
+  margin-right: 10px;
+  vertical-align: top !important; }
+
+/*
+ *
+ * Resume de la commande
+ *
+ */
+.bloc-info, .bloc-confirmation {
+  margin-bottom: 20px; }
+
+.panier-detail-resume th:first-child {
+  padding-left: 12px; }
+.panier-detail-resume .label-resume {
+  text-align: left; }
+.panier-detail-resume .total {
+  background-color: #e82530;
+  color: #fff; }
+  .panier-detail-resume .total .label-total {
+    font-size: 16px; }
+
+.bloc-confirmation {
+  margin-top: 30px;
+  margin-bottom: 181px; }
+  .bloc-confirmation .bloc-btn {
+    margin-top: 40px; }
+
 /*CUSTOM */
 .spectacle-filtre {
   float: right; }
@@ -1012,5 +1112,84 @@ div.cs-active {
 
 .cs-select li.cs-optgroup > span {
   cursor: default; }
+
+#contact label {
+  display: inline-block;
+  width: 100px;
+  text-align: right; }
+
+#contact_submit {
+  padding-left: 100px; }
+
+#contact div {
+  margin-top: 1em; }
+
+textarea {
+  vertical-align: top;
+  height: 5em; }
+
+.error {
+  display: none;
+  margin-left: 10px; }
+
+.error_show {
+  color: red;
+  margin-left: 10px; }
+
+input.invalid, textarea.invalid {
+  border: 2px solid red; }
+
+#paiement input.valid, #information-client input.valid, textarea.valid {
+  border: 2px solid green;
+  background-color: white !important; }
+
+#information-client .erreur, #paiement .erreur {
+  color: red; }
+
+#contenu-spect .singleTop {
+  background-color: #e82530;
+  padding: 1px 15px 15px 15px; }
+
+#contenu-spect .singleTitre {
+  color: #fff; }
+
+#contenu-spect .singlePrestation {
+  color: #fff;
+  font-size: 12px; }
+
+#contenu-spect p.descrip {
+  color: #323232;
+  font-size: 15px; }
+
+#contenu-spect .singleBottom {
+  padding: 36px 0px; }
+
+#contenu-spect .tabBillets {
+  background-color: #e82530;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase !important; }
+
+#contenu-spect table tbody tr {
+  border-bottom: 1px solid #e82530;
+  background-color: #f3f3f3; }
+
+#contenu-spect .btn-tab {
+  border-style: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 1px !important;
+  padding: 8px; }
+
+#contenu-spect tr {
+  border-color: #e82530; }
+
+#contenu-spect .sociaux {
+  margin: 15px 0px; }
+
+#contenu-spect .siteweb {
+  text-transform: uppercase;
+  color: #e82530 !important;
+  margin: 15px; }
 
 /*# sourceMappingURL=style.css.map */

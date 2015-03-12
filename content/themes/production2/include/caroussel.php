@@ -12,30 +12,30 @@
 		<div class="carousel-inner" role="listbox">
 			
 			<div class="item active image-un">
-				<img src="<?php echo IMAGES; ?>/roger-Hodgson.jpg" alt="Coldplay">
+				<img src="<?php echo IMAGES; ?>/redhotchilipeppers-carousel.jpg" alt="Coldplay">
 				<div class="carousel-caption">
-					<h1>Creedence Clearwater</h1>
-					<h2>25 janvier 2015 à
+					<h1>Red Hot Chili Peppers</h1>
+					<h2>25 Avril 2015 à
 					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>
 			</div>
 
 			<div class="item image-deux">
-				<img src="<?php echo IMAGES; ?>/roger-Hodgson.jpg" alt="Roger Waters">
+				<img src="<?php echo IMAGES; ?>/alex-nevsky-carousel.jpg" alt="Roger Waters">
 				<div class="carousel-caption">
-					<h1>Roger Waters</h1>
-					<h2>25 janvier 2015 à
+					<h1>Alex Nevsky</h1>
+					<h2>2 Mai 2015 à
 					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>
 			</div>
 			
 			<div class="item image-trois">
-				<img src="<?php echo IMAGES; ?>/roger-Hodgson.jpg" alt="The Killers">
+				<img src="<?php echo IMAGES; ?>/imagine-dragons-carousel.jpg" alt="The Killers">
 				<div class="carousel-caption">
-					<h1>The Killers</h1>
-					<h2>25 janvier 2015 à
+					<h1>Imagine Dragons</h1>
+					<h2>5 Mai 2015 à
 					<span class="carousel-heure">20:00</span></h2>
 					<button class="btn-savoir">En savoir plus</button>
 				</div>

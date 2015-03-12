@@ -10,8 +10,8 @@
 						<p><a href="mailto:info@salleperenthese.com">info@salleperenthese.com</a></p>
 					</address>
 					<div class="reseau">
-						<a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-						<a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+						<a target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+						<a target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
 					</div>
 				</div>
 			</div>
@@ -24,6 +24,7 @@
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/classie.js"></script>
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/script.js"></script>
+	<script type="text/javascript" src="<?php echo SCRIPTS; ?>/validation_achat.js"></script>
 	<script>
 
 		(function() {
