@@ -2,13 +2,15 @@
 
 /**
  * Class RB_Metabox
- *
+ * 
  * L'objet Metabox qui crée et manage les metabox.
  * 
- * @see add_metabox()
+ * @property-read String 
  */
-class RB_Metabox
+class RB_Metabox implements RB_Interface_Metabox
 {
+	const DASHICON_VALIDE_MAIS_SANS_PREFIXE = 2;
+	
 	const DEFAULT_ID = "rb_metabox_bleh";
 	const DEFAULT_TITLE = 'Metabox Sans-Nom';
 	const DEFAULT_SHOW_DASHICON = false;
@@ -21,28 +23,51 @@ class RB_Metabox
 	// ---
 	//<editor-fold desc="// PROPRIÉTÉS POUR LE CONSTRUCTEUR">
 	
-	/** @var String L'attribut ID affiché dans le rendu HTML. */
+	/** @var String
+	 * L'attribut ID affiché dans le rendu HTML.
+	 */
 	private $id;
-	/** @var String Le texte affiché dans le header de la metabox. */
+	
+	/** @var String
+	 * Le texte affiché dans le header de la metabox.
+	 */
 	private $title;
-	/** @var Bool   Vrai si le Dashicon doit être affiché après le titre de la metabox. */
+	
+	/** @var Bool
+	 * Vrai si le Dashicon doit être affiché après le titre de la metabox.
+	 */
 	private $show_dashicon;
-	/** @var String La classe du dashicon à afficher. Si vide, ce sera celle définie à la racine des args. */
+	
+	/** @var String
+	 * La classe du dashicon à afficher.
+	 * Si vide, ce sera celle définie à la racine des args.
+	 */
 	private $dashicon;
-	/** @var String L'écran où sera affiché le metabox. Peut avoir la valeur d'un post_type. */
+	
+	/** @var String
+	 * L'écran où sera affiché le metabox.
+	 * Peut avoir la valeur d'un post_type.
+	 */
 	private $screen;
-	/** @var String Le contexte. ex: 'side', 'normal' ou 'advanced' */
+	
+	/** @var String
+	 * Le contexte. ex: 'side', 'normal' ou 'advanced'
+	 */
 	private $context;
-	/** @var String La priorité. ex: 'core' */
+	
+	/** @var String
+	 * La priorité. ex: 'core'
+	 */
 	private $priority;
 	
 	//</editor-fold>
 	// ---
 	//<editor-fold desc="// PROPRIÉTÉS UNIQUES DE LA CLASSE">
 	
-	/** @var Bool   Le booléen qui détermine si le screen est un post-type. */
+	/** @var Bool Le booléen qui détermine si le screen est un post-type. */
 	private $in_post_type = false;
-	/** @var Array  La liste de metadatas qui feront parti de la metabox. */
+	
+	/** @var Array La liste de metadatas qui feront parti de la metabox. */
 	private $metadatas;
 	
 	//</editor-fold>
@@ -75,11 +100,11 @@ class RB_Metabox
 		
 		// Parser les arguments par défaut dans l'array d'arguments de construction de l'objet.
 		$args = wp_parse_args( $args, $defaults );
-		
-		// Effectuer l'ajout de chacune des propriétés de la classe.
+			
+			// Effectuer l'ajout de chacune des propriétés de la classe.
 		foreach ( $args as $cle => $param )
 		{
-			try
+			try 
 			{
 				// Si la méthode existe, checker si la méthode du setter par rapport à la clé existe.
 				if ( method_exists( $this, 'set_'.$cle ) )
@@ -91,8 +116,8 @@ class RB_Metabox
 						wp_die( __( "Le constructeur de <b>" . __CLASS__ . "</b> a retourné une erreur pour l'assignement du param <b>" . $cle . ".</b>" ) );
 					}
 				}
-			}
-			catch (BadMethodCallException $e)
+			} 
+			catch (BadMethodCallException $e) 
 			{
 				// TODO catching.
 			}
@@ -105,7 +130,7 @@ class RB_Metabox
 	
 	/**
 	 * Ajoute la Metabox dans l'environement Wordpress.
-	 *
+	 * 
 	 * @return bool Vrai si l'ajout a été un succès, faux sinon.
 	 */
 	public function add()
@@ -119,11 +144,13 @@ class RB_Metabox
 			$this->get_context(),     // Le contexte. ex. "side", "normal" ou "advanced".
 			$this->get_priority()     // La priorité d'ajout de la metabox.
 		);
+		
+		// TODO: faire un remove_meta_box() durant la désactivation.
 	}
 	
 	/**
 	 * Effectue le rendu du contenu de la metabox.
-	 *
+	 * 
 	 * @param WP_Post $post Instance du post.
 	 */
 	public function render( $post )
@@ -137,10 +164,8 @@ class RB_Metabox
 			/** @var RB_Metadata $meta */
 			foreach ( $this->metadatas as $meta ) :
 				echo '<p><label for="'.$meta->get_key().'">'.$meta->get_label().' :</label></p><p class="">';
+				echo call_user_func( $meta->get_render_cb(), $post->ID, $meta );
 				echo "</p>";
-				echo null == $meta->get_render_cb()
-					? get_post_meta( $post->ID, $meta->get_key(), true )
-					: call_user_func( $meta->get_render_cb(), $post->ID, $meta );
 			endforeach;
 		}
 		else
@@ -149,13 +174,13 @@ class RB_Metabox
 			/** @var RB_Metadata $meta */
 			foreach ( $this->metadatas as $meta ) :
 				echo '<tr><td><label for="'.$meta->get_key().'">'.$meta->get_label().' :</label></td><td>';
-				echo null == $meta->get_render_cb()
-					? get_post_meta( $post->ID, $meta->get_key(), true )
-					: call_user_func( $meta->get_render_cb(), $post->ID, $meta );
+				echo call_user_func( $meta->get_render_cb(), $post->ID, $meta );
 				echo "</td></tr>";
 			endforeach;
 			echo '</table>';
 		}
+		
+		
 	}
 	
 	/**
@@ -253,10 +278,10 @@ class RB_Metabox
 	
 	/**
 	 * Retourne toutes les metadatas.
-	 *
+	 * 
 	 * @return Array
 	 */
-	public function get_all_metadatas()
+	public function get_all_metadatas() 
 	{
 		return $this->metadatas;
 	}
@@ -374,7 +399,7 @@ class RB_Metabox
 		
 		if ( $ok )
 			$this->screen = $screen;
-		
+
 		return $ok;
 	}
 	
@@ -414,7 +439,7 @@ class RB_Metabox
 	
 	/**
 	 * @param RB_Metadata $metadata_inst Une instance de la metadata.
-	 *
+	 * 
 	 * @return Bool Vrai si ça a passé.
 	 */
 	public function add_metadata( $metadata_inst )

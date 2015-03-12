@@ -114,7 +114,20 @@ class RB_Metadata
 	{
 		$retour = false;
 		
-		if (isset($_REQUEST[$this->get_key()]))
+		// If the user uploaded an image, let's upload it to the server
+		if ( $this->is_file_upload() && !empty( $_FILES[$this->get_key()]['name'] ) )
+		{
+			// Upload the goal image to the uploads directory, resize the image, then upload the resized version
+			$goal_image_file = wp_upload_bits( $_FILES[$this->get_key()]['name'], null, file_get_contents($_FILES[$this->get_key()]['tmp_name']) );
+			
+			// Set post meta about this image. Need the comment ID and need the path.
+			if ( false == $goal_image_file['error'] )
+			{
+				// Since we've already added the key for this, we'll just update it with the file.
+				$retour = update_post_meta( $post_id, $this->get_key(), $goal_image_file['url'] );
+			}
+		}
+		elseif (isset($_REQUEST[$this->get_key()]))
 		{
 			// Si la valeur en params d'entrée est nulle, mettre celle de la requête.
 			if (is_null( $val ))
