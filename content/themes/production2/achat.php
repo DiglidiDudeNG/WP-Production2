@@ -18,6 +18,9 @@
 		elseif($etape === "4"){
 			require_once(locate_template("include/etape4-validation.php"));
 		}
+		elseif($etape === "5"){
+			require_once(locate_template("include/etape5-validation.php"));
+		}
 		else{
 			wp_redirect( home_url() ); exit;		
 		}
@@ -50,14 +53,17 @@ Template Name: Achat
 			elseif( $val_etape_3 === true || $val_etape_4 === false ){
 				require_once(locate_template("include/etape3-form.php"));
 			}
-			elseif( $val_etape_4 === true ){
+			elseif( $val_etape_4 === true || $val_etape_5 === false){
 				require_once(locate_template("include/etape4-form.php"));
+			}
+			elseif( $val_etape_5 === true ){
+				require_once(locate_template("include/etape5-form.php"));
 			}
 			else{
 				echo "<p>Un problème est survenu dans le processus d'achat. Veuillez retourner à la liste de spectacles par l'onglet \"Programmation\"</p>";
 			}
-		// 	include("include/etape4-form.php");
-		// 	include("include/etape5-form.php");
+		 	include("include/etape4-form.php");
+		 	include("include/etape5-form.php");
 		?>
 	</div>
 </div>
