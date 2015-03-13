@@ -4,11 +4,10 @@
 		<div class="rond-etape">3</div>
 		<h4>Paiement</h4>
 	</div>
-
 	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="" id="paiement_form" name="paiement_form">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				 <div class="carte-width">
+				<div class="carte-width">
 					<label class="info-condition" for="visa">
 						<input type="radio" name="carte" id="visa" value="visa"/>
 						<div><span class="bouton-commentaire"><img class="push-card" alt="visa" src="<?php echo IMAGES; ?>/credit-card/visa-icon.svg">Visa</span></div>
@@ -19,11 +18,10 @@
 						<input type="radio" name="carte" id="master" value="master"/>
 						<div><span class="bouton-commentaire"><img class="push-card" alt="mastercard" src="<?php echo IMAGES; ?>/credit-card/master-icon.svg">Mastercard</span></div>
 					</label>
-				</div> 
-
+				</div>
 				<span id="boutonCarte" class="erreur messageErreurChoixcarte"><?php echo $messageErreurChoixcarte; ?></span>
 				<!-- champs pour entrer les infos de la carte -->
-			
+				
 				<!-- numéro de la carte -->
 				<div class="form-group">
 					<label for="nocarte" class="control-label sr-only">Numéro de la carte</label>

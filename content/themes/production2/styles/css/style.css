@@ -682,7 +682,10 @@ i {
     float: left; }
 
   .btn-achat-2 {
-    float: left; } }
+    float: left; }
+
+  .carte-width {
+    float: none !important; } }
 .etapes-achat .etape {
   margin-bottom: 30px;
   clear: both; }
