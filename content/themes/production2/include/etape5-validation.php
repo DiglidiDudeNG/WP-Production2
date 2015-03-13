@@ -58,7 +58,7 @@
 // une fois le bouton submit appuyé et validation correct envoyer courriel: 
 	
 		$destinataire = $courriel; // courriel du client
-		$from: "kboisvert3@gmail.com";
+		$from = "kboisvert3@gmail.com";
 		$subject = "Votre commande"; //sujet du courriel que le client reçoit
 		$message = "Bonjour ".$nom . ", 
 			Voici un résumé de votre commande: <br/> 
