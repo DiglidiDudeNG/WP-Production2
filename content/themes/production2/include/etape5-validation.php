@@ -57,10 +57,10 @@
 
 // une fois le bouton submit appuyé et validation correct envoyer courriel: 
 	
-		$from = $_SESSION['courriel']; // courriel du client
-		$nom = $_SESSION['nom']; //nom du client
-		$subject1 = "Votre commande"; //sujet du courriel que le client reçoit
-		$message1 = "Bonjour ".$nom . ", 
+		$destinataire = $courriel; // courriel du client
+		$from: "kboisvert3@gmail.com";
+		$subject = "Votre commande"; //sujet du courriel que le client reçoit
+		$message = "Bonjour ".$nom . ", 
 			Voici un résumé de votre commande: <br/> 
 			<h3>Informations client</h3>
 			<p>Bonjour ". $nom; $prenom;
@@ -74,14 +74,40 @@
 			
 		$headers = "MIME-Version: 1.0\r\n"; 
 		$headers .= "Content-type: text/html; charset=utf-8\r\n";  
-		$headers .= "From: <karineboisvert@hotmail.com >" ; //moi 
+		$headers .= "From:". $from; 
 
-		mail($from,$subject1,$message,$headers); //courriel envoyé au client
+		mail($destinataire,$subject,$message,$headers); //courriel envoyé au client
 
 		 
 	$mailSent = true;
+	session_destroy();
 		 
-	
-		
+	////
+		//Informations de l'usager pour le courriel de confirmation
+   /* $destinataire = $_SESSION['email'];
+    $from = "livraison@bbqchickenpower.com";
+    $nom = $_SESSION['nom'];
+    $sujet = "Livraison BBQ Chicken Power";
+
+    //Message du courriel qui contient les infos de livraison et les infos de la commande
+    $message = "Merci d'avoir commander chez BBQ Chicken Power! \n"
+    			. "Si les informations suivantes sont inexactes, veuillez nous appeler dans les plus brefs délais au 418-444-4444: \n\n" 
+    			. "Adresse de livraison: \n" 
+    			. $_SESSION['nom'] . "\n"
+    			. $_SESSION['adresse'] . "\n"
+    			. $_SESSION['ville'] . "\n"
+    			. $_SESSION['codePostal'] . "\n"
+    			. $_SESSION['telephone'] . "\n\n"
+    			. $commande;
+
+    $headers = "De:" . $from;
+
+    //Envoi du courriel de confirmation
+    mail($destinataire,$sujet,$message,$headers);
+
+    //Maintenant que la commande et le courriel sont envoyés,
+    //On détruit toutes les informations de l'usager
+	session_destroy();
+		*/
 
 
