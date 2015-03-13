@@ -96,7 +96,7 @@ Template Name: Programmation
 							'posts_per_page'	=> -1,
 							'post_type' 		=> 'prestation',
 							'meta_key'       	=> 'rb_prestation_date',
-							'order_by'			=> 'meta_value',
+							'orderby'			=> 'meta_value',
 							'order'				=> 'ASC',
 							'meta_query'		=> array(
 								array(
@@ -117,7 +117,7 @@ Template Name: Programmation
 							'posts_per_page'	=> -1,
 							'post_type' 		=> 'prestation',
 							'meta_key'       	=> 'rb_prestation_date',
-							'order_by'			=> 'meta_value',
+							'orderby'			=> 'meta_value',
 							'order'				=> 'ASC'
 						);
 					}

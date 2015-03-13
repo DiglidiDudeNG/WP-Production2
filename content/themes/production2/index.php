@@ -23,10 +23,11 @@
 				wp_reset_postdata();
 				$args = array(
 						'posts_per_page'	=> 12,
-							'post_type' 		=> 'prestation',
-							'meta_key'       	=> 'rb_prestation_date',
-							'order_by'			=> 'meta_value',
-							'order'				=> 'ASC'			);
+							'post_type' 	=> 'prestation',
+							'orderby'		=> 'meta_value',
+							'meta_key'      => 'rb_prestation_date',
+							'order'			=> 'ASC'
+				);
 				$wp_query_prestations = new WP_Query($args);
 				/**
 				* Chargement du template de la loop d'affichage des spectacles.

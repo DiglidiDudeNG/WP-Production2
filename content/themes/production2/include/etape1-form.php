@@ -18,6 +18,8 @@
 	$spectacle_prix = get_post_meta( $post->ID, 'rb_spectacle_prix', true );
 	$spectacle_image_mini = get_post_meta( $post->ID, 'rb_spectacle_img_mini_url', true);
 
+	$_SESSION['spectacle_titre'] = $spectacle_titre;
+
 
 
 
@@ -38,6 +40,23 @@
 	$prestation_date = get_post_meta( $post->ID, 'rb_prestation_date', true );
 	$prestation_heure = get_post_meta( $post->ID, 'rb_prestation_heure', true );
 	$nb_billets_restants = get_post_meta( $post->ID, 'rb_prestation_nb_billets', true );
+
+	// Set local français-canada
+	setlocale(LC_ALL, 'frc', 'fr_CA');
+
+	// Conversion de la string de date de la BD en format time ('d-m-Y')
+	$new_date = strtotime($prestation_date);
+
+	// Chaque partie de la date est placée dans une variable
+	// strftime doit être utilisé pour le format en français
+	$prestation_jourDeSemaine = utf8_encode(strftime("%A", $new_date));
+	$prestation_jourDuMois = utf8_encode(strftime("%d", $new_date));
+	$prestation_mois_full = utf8_encode(strftime("%B", $new_date));
+
+	$prestation_date = $prestation_jourDeSemaine . ' ' . $prestation_jourDuMois . ' ' . $prestation_mois_full;
+
+	$_SESSION['prestation_date'] = $prestation_date;
+	$_SESSION['prestation_heure'] = $prestation_heure;
 
 
 ?>
