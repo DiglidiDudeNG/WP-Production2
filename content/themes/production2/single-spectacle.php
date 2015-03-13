@@ -15,8 +15,8 @@ get_header();
 	$args = array(
 			'posts_per_page'	=> -1,
 				'post_type' 		=> 'prestation',
-						'order'				=> 'ACS',
-					'order_by'			=>'meta_value',
+						'order'				=> 'ASC',
+					'orderby'			=>'meta_value',
 					'meta_key'			=> 'rb_prestation_date',
 				'meta_query'		=> array(
 			array(
@@ -73,10 +73,10 @@ get_header();
 	</section>
 	<section class="singleBottom container">
 		<div class="row">
-			<div class="col-sm-8 col-xs-4">
+			<div class="col-sm-8 col-xs-12">
 				<p class="descrip"><?php echo $spectacle_content; ?></p>
 			</div>
-			<div class="col-sm-4 col-xs-2">
+			<div class="col-sm-4 col-xs-12">
 				<table class="table">
 					<thead>
 						<tr>
