@@ -25,19 +25,12 @@
 
 ?>
 
-
-
-
 <!-- ÉTAPE 2 -->
 <section id="information-client">
 	<div class="col-md-6 col-md-offset-3 etape">
 		<div class="rond-etape">2</div>
 		<h4>Information client</h4>
 	</div>
-
-
-
-
 	<!-- fomulaire #1 -->
 	<!-- partie de l'information du client -->
 	<form action="<?php echo bloginfo('url'); ?>/achat" method="post" class="" id="infos_clients_form" name="infos_clients_form" onsubmit="return valider_contact(this);" >
@@ -154,19 +147,14 @@
 					<input type="radio" name="envoi" id="parPoste" value="poste-envoie"/>
 					<div class="radio-post"><span class="bouton-commentaire">Envoyer les billets par la poste (+ 2.00$)</span></div>
 				</label>
-
 				<!-- UTILISER LADRESSE PLUS HAUT -->
 				<!-- METTRE LA CONDITION DE FAIRE APPARAITRE LE FORMULAIRE SI LADRESSE EST DIFFÉRENTE DE PLUS HAUT -->
-
 				<div class="adresseLivraisonDifferenteWrapper" style="display: none;">
 					<label for="AdresseLivraison" class="info-condition">
 						<input type="checkbox" name="AdresseLivraison" id="AdresseLivraison" value="AdresseLivraison"/>
 						<div class="radio-post"><span class="bouton-commentaire">Utiliser une autre adresse de livraison</span></div>
 					</label>
 				</div>
-
-
-
 				<div class="formLivraisonWrapper" style="display: none;">
 					<!-- NOM -->
 					<div class="form-group">
@@ -185,7 +173,7 @@
 							<span class="input-group-addon">Prénom</span>
 							<input class="form-control" type="text" name="prenoml" id="prenoml" placeholder="Prénom" value="<?php if (isset ($_POST['prenoml'])){ echo $prenoml;} ?>"   />
 						</div>
-						<span class="erreur messageErreurPrenoml"><?php echo $messageErreurPrenoml; ?></span> 
+						<span class="erreur messageErreurPrenoml"><?php echo $messageErreurPrenoml; ?></span>
 					</div>
 					<!-- ADRESSE -->
 					<div class="form-group">
@@ -246,10 +234,6 @@
 						<span class="erreur messageErreurPaysl"><?php echo $messageErreurPaysl; ?></span>
 					</div>
 				</div>
-
-
-
-
 			</div>
 		</div>
 		<!-- Mettre l'adresse de départ du site -->

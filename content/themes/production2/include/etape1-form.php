@@ -103,14 +103,14 @@
 						<td class="panier-item-prix"><?php echo $spectacle_prix ?>$</td>
 						<td class="panier-item-quantite">
 							<input type="number" id="nb_billets" name="nb_billets" min="1" max="<?php echo $nb_billets_restants; ?>"
-								<?php
-									if( isset($_POST['nb_billets']) ){
-										echo 'value="' . $_POST['nb_billets'] . '"';
-									}
-									else{
-										echo 'value="1"';
-									}
-								?>
+							<?php
+								if( isset($_POST['nb_billets']) ){
+									echo 'value="' . $_POST['nb_billets'] . '"';
+								}
+								else{
+									echo 'value="1"';
+								}
+							?>
 							>
 						</td>
 						<td class="panier-item-total sous-total-text">
@@ -121,19 +121,15 @@
 								else{
 									$sousTotal = $spectacle_prix * 1;
 								}
-
 								$sousTotal = number_format((float)$sousTotal, 2, '.', '');
 								echo $sousTotal;
 							?>
-								$
-
+							$
 						</td>
 					</tr>
 				</tbody>
 			</table>
-
 			<p class="erreur"><?php echo $messageErreurNbBillets; ?></p>
-
 		</div>
 		<div class="table-responsive">
 			<table class="table panier-resume">
@@ -177,13 +173,9 @@
 				</tbody>
 			</table>
 		</div>
-
 		<a class="btn btn-parenthese btn-achat-2" href="<?php echo home_url(); ?>">Annuler</a>
-
 		<input type="hidden" name="etape" id="etape" value="2">
 		<input type="hidden" name="spectacle_prix" value="<?php echo $spectacle_prix; ?>">
 		<input class="btn btn-parenthese btn-achat pull-right" type="submit" value="Étape suivante >">
 	</form>
 </section>
-
-
