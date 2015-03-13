@@ -58,30 +58,78 @@
 // une fois le bouton submit appuyé et validation correct envoyer courriel: 
 	
 		$destinataire = $courriel; // courriel du client
-		$from = "kboisvert3@gmail.com";
+		$from = "livraison@bbqchickenpower.com";
 		$subject = "Votre commande"; //sujet du courriel que le client reçoit
 		
-		$message = "Bonjour ". $prenom. ", <br/> 
-			Voici un résumé de votre commande: <br/>"
-		?>	
-		<h3 style="margin-top: 0px">Informations client</h3>
-
+		$message = "Bonjour ". $prenom .", <br /> 
 			
-					
-			____ <br/> 
-
-	
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th>Résumé de la commande</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<h3>". $spectacle_titre ."<br>
+								<span>". $prestation_date." à ". $prestation_heure."</span><br />
+								<span>Billets : ".$nb_billets." X</span></h3>
+								
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+						<td><strong>Sous-total</strong></td>
+						<td>". $sousTotal." $</td>
+					</tr>
+					<tr>
+						<td><strong>TVQ 9.975%</strong></td>
+						<td>
+							". $spectacle_tvq." $
+						</td>
+					</tr>
+					<tr>
+						<td><strong>TPS 5.0%</strong></td>
+						<td>
+							". $spectacle_tps." $
+						</td>
+					</tr>					
+					<tr>
+						<td><strong>Frais de livraison</strong></td>
+						<td>
+							". $fraisLivraison ." $
+						</td>
+					</tr>					
+					<tr>
+						<td>
+							<strong>Total</strong>
+						</td>
+						<td>
+							". $spectacle_gtotal ." $
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+			<br />
+			<br />
+			<br />
+			<p>___________________________________________________________</p>
 			Ceci est un courriel automatique. Merci de ne pas y repondre."; 
-	<?php		
+			
 		$headers = "MIME-Version: 1.0\r\n"; 
 		$headers .= "Content-type: text/html; charset=utf-8\r\n";  
 		$headers .= "From: <karineboisvert@hotmail.com >"; 
 
+		//ini_set("sendmail_from","karineboisvert@hotmail.com ");
 		mail($destinataire,$subject,$message,$headers); //courriel envoyé au client
 
 		 
 	$mailSent = true;
-	session_destroy();
+	//session_destroy();
 		 
 
 
