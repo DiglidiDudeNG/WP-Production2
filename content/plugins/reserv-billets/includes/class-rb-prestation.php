@@ -79,7 +79,7 @@ class RB_Prestation extends RB_Section
 					'render_cb'  => array($this, 'render_rb_prestation_nb_billets'),
 				),
 				'rb_prestation_billets_vendus' => array(
-					'label' => 'Billets restants',
+					'label' => 'Billets vendus',
 					'default'    => 0,
 					'render_cb'  => array($this, 'render_rb_prestation_billets_vendus'),
 				),

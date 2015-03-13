@@ -1,41 +1,54 @@
 <?php
 
-	/* Paiement */
-
+	
 	/***********************************************************
-	 * Récupération et assainissement des champs du formulaire
+	 * Update du nombre de billets dans la BD
 	 ***********************************************************/
 
+	$val_etape_5 = true;
 
-		$val_etape_5 = true;
+	$nb_billets 	= $_SESSION['nb_billets'];
+	$id_prestation 	= $_SESSION['id_prestation'];
+
+	$totalBillets_vendus = get_post_meta($id_prestation, 'rb_prestation_billets_vendus', true);
+	$totalBillets_vendus += $nb_billets;
+
+	$totalBillets_restants = get_post_meta($id_prestation, 'rb_prestation_nb_billets', true);
+	$totalBillets_restants -= $nb_billets;
+
+	update_post_meta($id_prestation, 'rb_prestation_billets_vendus', $totalBillets_vendus);
+	update_post_meta($id_prestation, 'rb_prestation_nb_billets', $totalBillets_restants);
+
+
+
+	/***********************************************************
+	 * Récupération des infos clients
+	 ***********************************************************/
 		
 		// Récupération des infos du client
 		$courriel 	= $_SESSION['courriel'];
 		$nom 		= $_SESSION['nom'];
-		$prenom 	= $_SESSION['prenom'];
-		$adresse 	= $_SESSION['adresse'];
-		$ville 		= $_SESSION['ville'];
-		$codepostal = $_SESSION['codepostal'];
-		$province	= $_SESSION['province'];
-		$pays 		= $_SESSION['pays'];
+		$prenom 	= $_SESSION['prenom'];		
 		$envoi 		= $_SESSION['envoi'];
 		
-		// Récupération des infos de livraison
-		$noml 			= $_SESSION['noml'];
-		$prenoml 		= $_SESSION['prenoml'];
-		$adressel 		= $_SESSION['adressel'];
-		$villel 		= $_SESSION['villel'];
-		$codepostall 	= $_SESSION['codepostall'];
-		$provincel		= $_SESSION['provincel'];
-		$paysl 			= $_SESSION['paysl'];
-
-		$modeDeLivraison = "Envoi postal";
-		$fraisLivraison	= "2.00";
-
+		// Récupération des infos de livraison s'il y en a
+		if( isset($_SESSION['noml']) ){
+			$noml 			= $_SESSION['noml'];
+			$prenoml 		= $_SESSION['prenoml'];
+			$adressel 		= $_SESSION['adressel'];
+			$villel 		= $_SESSION['villel'];
+			$codepostall 	= $_SESSION['codepostall'];
+			$provincel		= $_SESSION['provincel'];
+			$paysl 			= $_SESSION['paysl'];
+			$fraisLivraison	= "2.00";
+			$modeDeLivraison = "Envoi postal";
+		}
+		else{
+			$fraisLivraison	= "0.00";
+			$modeDeLivraison = "Courriel";
+		}		
 
 		// Récupération des infos du spectacle
-		$id_prestation 		= $_SESSION['id_prestation'];
-		$id_spectacle 		= $_SESSION['id_spectacle'];
 		$spectacle_titre 	= $_SESSION['spectacle_titre'];
 		$prestation_date 	= $_SESSION['prestation_date'];
 		$prestation_heure 	= $_SESSION['prestation_heure'];
@@ -47,18 +60,18 @@
 		$spectacle_tvq 		= $_SESSION['spectacle_tvq'];
 		$spectacle_tps		= $_SESSION['spectacle_tps'];
 		$spectacle_gtotal 	= $_SESSION['spectacle_gtotal'] + $fraisLivraison;
+		$spectacle_gtotal 	= number_format((float)$spectacle_gtotal, 2, '.', '');
 
 
 		
 		
-// _____________________ ENVVOIE DU COURRIEL ____________________  
+// _____________________ ENVOIE DU COURRIEL ____________________  
 
 // Envoyer un courriel avec les infos mais pas de message pour nous 
 
 // une fois le bouton submit appuyé et validation correct envoyer courriel: 
 	
 		$destinataire = $courriel; // courriel du client
-		$from = "livraison@bbqchickenpower.com";
 		$subject = "Votre commande"; //sujet du courriel que le client reçoit
 		
 		$message = "Bonjour ". $prenom .", <br /> 
@@ -80,38 +93,63 @@
 							</td>
 						</tr>
 					</tbody>
-					<tfoot>
-					<tr>
-						<td><strong>Sous-total</strong></td>
-						<td>". $sousTotal." $</td>
-					</tr>
-					<tr>
-						<td><strong>TVQ 9.975%</strong></td>
-						<td>
-							". $spectacle_tvq." $
-						</td>
-					</tr>
-					<tr>
-						<td><strong>TPS 5.0%</strong></td>
-						<td>
-							". $spectacle_tps." $
-						</td>
-					</tr>					
-					<tr>
-						<td><strong>Frais de livraison</strong></td>
-						<td>
-							". $fraisLivraison ." $
-						</td>
-					</tr>					
-					<tr>
-						<td>
-							<strong>Total</strong>
-						</td>
-						<td>
-							". $spectacle_gtotal ." $
-						</td>
-					</tr>
-					</tfoot>
+					<tbody>
+						<tr>
+							<td><strong>Sous-total</strong></td>
+							<td>". $sousTotal." $</td>
+						</tr>
+						<tr>
+							<td><strong>TVQ 9.975%</strong></td>
+							<td>
+								". $spectacle_tvq." $
+							</td>
+						</tr>
+						<tr>
+							<td><strong>TPS 5.0%</strong></td>
+							<td>
+								". $spectacle_tps." $
+							</td>
+						</tr>					
+						<tr>
+							<td><strong>Frais de livraison</strong></td>
+							<td>
+								". $fraisLivraison ." $
+							</td>
+						</tr>					
+						<tr>
+							<td>
+								<strong>Total</strong>
+							</td>
+							<td>
+								". $spectacle_gtotal ." $
+							</td>
+						</tr>
+					</tbody>													
+					<tfoot>";
+
+
+			if( $modeDeLivraison == "Envoi postal" ){
+				$message .="<tr>
+								<td><strong>Adresse de livraison :</strong></td>							
+							</tr>					
+							<tr>
+								<td>
+									" . $prenoml . " " . $noml . "<br>"
+									  .	$adressel . "<br>"
+									  . $villel . ", " . $provincel . ", " . $codepostall . "<br>"
+									  .	$paysl . "
+
+								</td>						
+							</tr>";
+			}
+			else{
+				$message .= "<tr>
+								<td><strong>Mode de livraison : courriel</strong></td>							
+							</tr>";
+			}
+
+
+			$message .="</tfoot>
 				</table>
 			</div>
 			<br />
@@ -129,7 +167,7 @@
 
 		 
 	$mailSent = true;
-	//session_destroy();
+	session_destroy();
 		 
 
 

@@ -1,7 +1,7 @@
 <!-- Formulaire resume_commande -->
 <section id="resume_commande">
 	<div class="col-md-6 col-md-offset-3 etape">
-		<div class="rond-etape">4</div>
+		<div class="rond-etape">5</div>
 		<h4>Merci d'avoir commander chez nous</h4>
 	</div>
 	<div class="row col-md-6 col-md-offset-3 bloc-confirmation" >

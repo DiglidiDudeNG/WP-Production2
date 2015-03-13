@@ -76,7 +76,6 @@
 		$messageErreurNoverif = "*Veuillez entrer un numéro de vérification valide";
 	}
 
-	echo($anneeCourante+10);
 
 
 
@@ -159,6 +158,7 @@
 		$spectacle_tvq 		= $_SESSION['spectacle_tvq'];
 		$spectacle_tps		= $_SESSION['spectacle_tps'];
 		$spectacle_gtotal 	= $_SESSION['spectacle_gtotal'] + $fraisLivraison;
+		$spectacle_gtotal	= number_format((float)$spectacle_gtotal, 2, '.', '');
 
 	}
 
