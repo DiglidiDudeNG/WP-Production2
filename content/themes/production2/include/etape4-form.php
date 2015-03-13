@@ -54,7 +54,7 @@
 							<td class="panier-item-description">
 								<h3 class="nom-spectacle"><?php echo $spectacle_titre ?><br>
 								<span class="date-spectacle"><?php echo $prestation_date ?> à <?php echo $prestation_heure?></span><br>
-								<span>Billets : <?php echo $nb_billets?> X</span></h3>
+								<span>Billets : <?php echo $nb_billets?></span></h3>
 								
 							</td>
 							<td class="panier-item-total">
