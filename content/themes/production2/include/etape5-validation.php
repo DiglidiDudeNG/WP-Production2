@@ -9,84 +9,80 @@
 
 		$val_etape_5 = true;
 		
+		// Récupération des infos du client
+		$courriel 	= $_SESSION['courriel'];
+		$nom 		= $_SESSION['nom'];
+		$prenom 	= $_SESSION['prenom'];
+		$adresse 	= $_SESSION['adresse'];
+		$ville 		= $_SESSION['ville'];
+		$codepostal = $_SESSION['codepostal'];
+		$province	= $_SESSION['province'];
+		$pays 		= $_SESSION['pays'];
+		$envoi 		= $_SESSION['envoi'];
+		
+		// Récupération des infos de livraison
+		$noml 			= $_SESSION['noml'];
+		$prenoml 		= $_SESSION['prenoml'];
+		$adressel 		= $_SESSION['adressel'];
+		$villel 		= $_SESSION['villel'];
+		$codepostall 	= $_SESSION['codepostall'];
+		$provincel		= $_SESSION['provincel'];
+		$paysl 			= $_SESSION['paysl'];
+
+		$modeDeLivraison = "Envoi postal";
+		$fraisLivraison	= "2.00";
+
+
+		// Récupération des infos du spectacle
+		$id_prestation 		= $_SESSION['id_prestation'];
+		$id_spectacle 		= $_SESSION['id_spectacle'];
+		$spectacle_titre 	= $_SESSION['spectacle_titre'];
+		$prestation_date 	= $_SESSION['prestation_date'];
+		$prestation_heure 	= $_SESSION['prestation_heure'];
+
+		// Récupération des infos de la commande
+		$nb_billets 		= $_SESSION['nb_billets'];
+		$spectacle_prix 	= $_SESSION['spectacle_prix'];
+		$sousTotal 			= $_SESSION['sousTotal'];
+		$spectacle_tvq 		= $_SESSION['spectacle_tvq'];
+		$spectacle_tps		= $_SESSION['spectacle_tps'];
+		$spectacle_gtotal 	= $_SESSION['spectacle_gtotal'] + $fraisLivraison;
+
+
+		
 		
 // _____________________ ENVVOIE DU COURRIEL ____________________  
 
 // Envoyer un courriel avec les infos mais pas de message pour nous 
 
 // une fois le bouton submit appuyé et validation correct envoyer courriel: 
-<?php
-	if(empty($messages)){ //s'il n'y a pas de message d'erreur à revoir selon la validation de JO
 	
-		$from = $_SESSION['courriel']; // courriel du client
-		$nom = $_SESSION['nom']; //nom du client
-		$subject1 = "Votre commande"; //sujet du courriel que le client reçoit
-		$message1 = "Bonjour ".$nom . ", 
-			Voici un résumé de votre commande: <br/> 
-			<h3>Informations client</h3>
-			<p>".<?php echo $_SESSION['courriel']?>."</p><!-- mettre les bonnes variables -->
-			<p>
-				".<?php echo $_SESSION['prenom']?> <?php echo $_SESSION['nom']?><br>
-				<?php echo $_SESSION['adresse']?><br>
-				<?php echo $_SESSION['ville']?>, <?php echo $_SESSION['province']?>, <?php echo $_SESSION['codepostal']?><br>
-				<?php echo $_SESSION['pays']?>
-			."</p>
+		$destinataire = $courriel; // courriel du client
+		$from = "kboisvert3@gmail.com";
+		$subject = "Votre commande"; //sujet du courriel que le client reçoit
+		
+		$message = "Bonjour ". $prenom. ", <br/> 
+			Voici un résumé de votre commande: <br/>"
+		?>	
+		<h3 style="margin-top: 0px">Informations client</h3>
+
 			
 					
 			____ <br/> 
 
-			Ceci est un mail automatique. Merci de ne pas y repondre."; 
-			
+	
+			Ceci est un courriel automatique. Merci de ne pas y repondre."; 
+	<?php		
 		$headers = "MIME-Version: 1.0\r\n"; 
 		$headers .= "Content-type: text/html; charset=utf-8\r\n";  
-		$headers .= "From: <karineboisvert@hotmail.com >" ; //moi 
+		$headers .= "From: <karineboisvert@hotmail.com >"; 
 
-		mail($from,$subject1,$message,$headers); //courriel envoyé au client
+		mail($destinataire,$subject,$message,$headers); //courriel envoyé au client
 
 		 
 	$mailSent = true;
+	session_destroy();
 		 
-	}
-		
-	 /*
-	 * Créer un custom post de type 'contact'  ??? me rappelle plus pourquoi
-	 */
-	$contact_post = array(
-		'post_title' => $nom . ' | ' . $from,
-		'post_content' => $message1,
-		'post_type' => 'contact',
-		'post_status' => 'publish'
-	);
-	//afficher le message à l'écran
-	if (wp_insert_post($contact_post)) echo 'Votre message a bien ete enregistre.<br>';
-	else echo 'Erreur d\'enregistrement du message';
-}
-?>
-	<?php if (!empty($_POST['messages'])): ?>
-		<?php foreach ($_POST['messages'] as $msg) : ?>
-		<?php echo $msg ?><br/>
-		<?php endforeach; ?>
-		<?php
-		endif;
-		unset($_POST['messages']);
-		?>
-		<br>
-	   <!--**************le formulaire**********-->   
-		<?php if (isset($mailSent) && $mailSent == true) { ?>
- 
-        <h1 class="post" >Merci, <?= $nom; ?></h1>
-        <p class="post" >Votre courriel a ete envoye avec succes. Vous recevrez une reponse sous peu.</p>
 
 
-	<?php } else { ?>
-		<?php if (isset($messages)) { ?>
-			<p class="post" >Une erreur est survenue lors de l'envoi du formulaire.</p>
-
-		<?php } ?>
-			
-			
-
-
-
-?>
 
